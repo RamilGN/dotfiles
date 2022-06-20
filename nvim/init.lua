@@ -2,12 +2,7 @@
 -- Пакетный менеджер
 -----------------------------------------------------------
 
--- Установка пакетного менеджера для плагинов
-local packer_install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  packer_bootstrap = vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_install_path})
-end
-
+-- Список плагинов
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim' -- Пакетный менеджер
     use 'EdenEast/nightfox.nvim' -- Тема
@@ -78,11 +73,6 @@ vim.keymap.set({ 'n', 'v' }, '"y', '"+y')
 vim.keymap.set('n', '"Y', '"+Y')
 vim.keymap.set('n', '"p', '"+p')
 vim.keymap.set('n', '"P', '"+P')
-
--- Редактирование текущей конфигурации
---map <leader>vl :vsp $MYVIMRC<CR>
---map <leader>vr :source $MYVIMRC<CR>
-
 -- Редактировние и применение исходного конфига
 vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
