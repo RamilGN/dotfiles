@@ -2,10 +2,22 @@
 -- Пакетный менеджер
 -----------------------------------------------------------
 
+<<<<<<< HEAD
 -- Список плагинов
+=======
+-- Установка пакетного менеджера для плагинов
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
+-- Плагины
+>>>>>>> 0f3c271 (Update init.lua and makefile)
 require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim' -- Пакетный менеджер
-    use 'EdenEast/nightfox.nvim' -- Тема
+  use 'wbthomason/packer.nvim' -- Пакетный менеджер
+  use 'EdenEast/nightfox.nvim' -- Тема
+  use { 'nvim-lualine/lualine.nvim',  requires = { 'kyazdani42/nvim-web-devicons', opt = true } } -- Нижняя строка состояния 
 end)
 
 -----------------------------------------------------------
@@ -86,3 +98,6 @@ vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
 
 -- nightfox - тема
 vim.cmd('colorscheme nightfox')
+
+-- lualine - строка состояния
+require('lualine').setup() 
