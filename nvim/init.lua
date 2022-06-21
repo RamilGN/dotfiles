@@ -2,9 +2,6 @@
 -- Пакетный менеджер
 -----------------------------------------------------------
 
-<<<<<<< HEAD
--- Список плагинов
-=======
 -- Установка пакетного менеджера для плагинов
 local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
@@ -13,7 +10,6 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 -- Плагины
->>>>>>> 0f3c271 (Update init.lua and makefile)
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Пакетный менеджер
   use 'EdenEast/nightfox.nvim' -- Тема
