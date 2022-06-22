@@ -60,6 +60,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- Основные хоткеи 
 -----------------------------------------------------------
 
+-- TODO: реализовать автоматическое переключение раскладки на `en` при входе в командный режим
+-- Переход в командный режим на русской раскладке
+vim.keymap.set('n', 'Ж', ':')
 -- Правильная работа с переносами слов 
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -96,4 +99,5 @@ vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
 vim.cmd('colorscheme nightfox')
 
 -- lualine - строка состояния
-require('lualine').setup() 
+require('lualine').setup()
+
