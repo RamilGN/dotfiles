@@ -14,16 +14,18 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Пакетный менеджер
   use 'EdenEast/nightfox.nvim' -- Тема
   use { 'nvim-lualine/lualine.nvim',  requires = { 'kyazdani42/nvim-web-devicons', opt = true } } -- Нижняя строка состояния 
+  use 'lukas-reineke/indent-blankline.nvim' -- Отображение отступов
 end)
 
 -----------------------------------------------------------
--- Основные настройки 
+-- Основные настройки
 -----------------------------------------------------------
 
 -- Работа хоткеев для русской раскладки
 vim.o.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz'
 -- Номера строк
 vim.o.number = true
+
 -- Автодополнение
 vim.o.completeopt = 'menu,menuone,noselect'
 -- Игнорируем регистр если в искомой строке нет заглавных букв
@@ -45,7 +47,6 @@ vim.o.updatetime = 250
 vim.o.signcolumn = 'yes'
 -- Учитывать смещение при поиске
 vim.o.cpoptions = 'n'
-
 -- Выделение для скопированного текста 
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -57,10 +58,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -----------------------------------------------------------
--- Основные хоткеи 
+-- Основные хоткеи
 -----------------------------------------------------------
 
--- TODO: реализовать автоматическое переключение раскладки на `en` при входе в командный режим
 -- Переход в командный режим на русской раскладке
 vim.keymap.set('n', 'Ж', ':')
 -- Правильная работа с переносами слов 
@@ -101,3 +101,15 @@ vim.cmd('colorscheme nightfox')
 -- lualine - строка состояния
 require('lualine').setup()
 
+-- indent_blankline - отображение отступов
+require("indent_blankline").setup {
+  char = '┊',
+}
+
+-----------------------------------------------------------
+-- TODO
+-----------------------------------------------------------
+
+-- Реализовать автоматическое переключение раскладки на `en` при входе в командный режим
+
+-- vim: ts=2 sts=2 sw=2 et
