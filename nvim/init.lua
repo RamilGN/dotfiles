@@ -5,9 +5,13 @@
 -- Plugins 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Package manager
+  -- UI
   use 'EdenEast/nightfox.nvim' -- Theme
   use { 'nvim-lualine/lualine.nvim',  requires = { 'kyazdani42/nvim-web-devicons', opt = true } } -- Lower statusline 
   use 'lukas-reineke/indent-blankline.nvim' -- Displaying indents
+  -- Other tweaks
+  use 'Pocco81/AutoSave.nvim' -- Autosaving
+  use 'folke/which-key.nvim' -- Popup with suggestions to complete a key binding
 end)
 
 -----------------------------------------------------------
@@ -71,11 +75,6 @@ vim.keymap.set('n', '<c-l>', '<c-w><right>')
 vim.keymap.set('n', '<c-h>', '<C-w><Left>')
 -- Turn off highlight after search 
 vim.keymap.set('n', '//', ':nohlsearch<CR>')
--- Yank/paste from sytem cliboard
-vim.keymap.set({ 'n', 'v' }, '"y', '"+y')
-vim.keymap.set('n', '"Y', '"+Y')
-vim.keymap.set('n', '"p', '"+p')
-vim.keymap.set('n', '"P', '"+P')
 -- Edit/source current config
 vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
@@ -97,6 +96,14 @@ require('lualine').setup()
 require('indent_blankline').setup {
   char = '┊',
 }
+
+-- autosave
+require('autosave').setup {
+  execution_message = ''
+}
+
+-- whichkey - popup with suggestions to complete a key binding
+require('which-key').setup()
 
 -----------------------------------------------------------
 -- TODO

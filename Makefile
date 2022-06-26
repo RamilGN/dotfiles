@@ -35,4 +35,4 @@ kitty-install:
 	sed -i 's/^Exec=kitty *$$/Exec=kitty --single-instance/g' ~/.local/share/applications/kitty.desktop
 
 
-# TODO: Make Packer to install in headless mode without errors
+# TODO: Make packer to install in headless mode without errors
