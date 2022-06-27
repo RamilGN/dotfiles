@@ -26,7 +26,7 @@ font-install:
 	cd nerd-fonts && git sparse-checkout add patched-fonts/FiraCode
 	./nerd-fonts/install.sh FiraCode
 
-kitty-install:
+kitty-configure:
 	rm -rf ~/.local/kitty.app || exit 0
 	rm -f ~/.local/share/applications/kitty.desktop || exit 0
 	rm -rf ~/.config/kitty || exit 0
