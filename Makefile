@@ -30,8 +30,6 @@ kitty-configure:
 	rm -rf ~/.local/kitty.app || exit 0
 	rm -f ~/.local/share/applications/kitty.desktop || exit 0
 	rm -rf ~/.config/kitty || exit 0
-	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
-	rm -rf ~/.config/kitty || exit 0
 	ln -snf $(PWD)/kitty ~/.config/kitty
 	sed -i 's/^Exec=kitty *$$/Exec=kitty --single-instance/g' ~/.local/share/applications/kitty.desktop
 
