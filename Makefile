@@ -1,5 +1,6 @@
 packages-install:
 	apt install software-properties-common -y
+	add-apt-repository -y ppa:git-core/ppa
 	add-apt-repository ppa:neovim-ppa/stable -y
 	add-apt-repository ppa:neovim-ppa/unstable -y
 	apt-get update -y
