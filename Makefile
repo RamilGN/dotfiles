@@ -4,6 +4,7 @@ packages-install:
 	add-apt-repository ppa:neovim-ppa/stable -y
 	add-apt-repository ppa:neovim-ppa/unstable -y
 	apt-get update -y
+	apt-get install kitty -y
 	apt-get install neovim -y
 	apt-get install git -y
 	apt-get install xclip -y
