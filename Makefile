@@ -31,6 +31,8 @@ kitty-configure:
 	rm -f ~/.local/share/applications/kitty.desktop || exit 0
 	rm -rf ~/.config/kitty || exit 0
 	ln -snf $(PWD)/kitty ~/.config/kitty
+	mkdir -p ~/.local/share/applications
+	cp /usr/share/applications/kitty.desktop ~/.local/share/applications
 	sed -i 's/^Exec=kitty *$$/Exec=kitty --single-instance/g' ~/.local/share/applications/kitty.desktop
 
 
