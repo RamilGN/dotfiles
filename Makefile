@@ -1,3 +1,5 @@
+PACKER_PATH=~/.local/share/nvim/site/pack/packer/start
+
 packages-install:
 	apt install software-properties-common -y
 	add-apt-repository -y ppa:git-core/ppa
@@ -9,7 +11,6 @@ packages-install:
 	apt-get install git -y
 	apt-get install xclip -y
 
-PACKER_PATH=~/.local/share/nvim/site/pack/packer/start
 nvim-configure:
 	rm -rf nvim/plugin || exit 0
 	rm -rf ~/.local/share/nvim || exit 0
