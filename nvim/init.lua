@@ -85,7 +85,8 @@ vim.keymap.set('n', '//', ':nohlsearch<CR>')
 -- Edit/source current config
 vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
-
+-- Repeat last command
+vim.keymap.set('n', '<leader>rec', '@:')
 -----------------------------------------------------------
 -- Plugins
 -----------------------------------------------------------
