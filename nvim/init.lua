@@ -48,8 +48,6 @@ vim.opt.cursorline = true
 vim.opt.updatetime = 250
 -- Sign clolum
 vim.opt.signcolumn = 'yes'
--- Consider offset when searching
-vim.opt.cpoptions = 'n'
 -- Highlight yanking text
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
