@@ -11,13 +11,14 @@ require('packer').startup(function(use)
   use 'lukas-reineke/indent-blankline.nvim' -- Displaying indents
   -- Git
   use 'lewis6991/gitsigns.nvim' -- Git decorations
-  -- Other tweaks
+  -- Other
   use 'Pocco81/AutoSave.nvim' -- Autosaving
   use 'folke/which-key.nvim' -- Popup with suggestions to complete a key binding
   use 'ntpeters/vim-better-whitespace' -- Highlight whitespaces
   use 'nmac427/guess-indent.nvim' -- Indentation style detection
-  use 'numToStr/Comment.nvim' -- TODO
+  use 'numToStr/Comment.nvim' -- Comment lines
 end)
+
 -----------------------------------------------------------
 -- General settings
 -----------------------------------------------------------
@@ -26,7 +27,6 @@ end)
 vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz'
 -- Line numbers
 vim.opt.number = true
-vim.opt.relativenumber = true
 -- Show some lines after cursor
 vim.opt.scrolloff = 5
 -- Autocomplete
@@ -93,6 +93,10 @@ vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
 -- packer - package manager
 -- Use command `:PackerSync` after changing any plugin configuration
 
+----------------------------
+-- UI
+----------------------------
+
 -- nightfox - theme
 vim.cmd('colorscheme nightfox')
 
@@ -103,6 +107,10 @@ require('lualine').setup()
 require('indent_blankline').setup {
   char = '┊',
 }
+
+----------------------------
+-- Git
+----------------------------
 
 -- gitsigns - git decorations
 require('gitsigns').setup {
@@ -115,6 +123,13 @@ require('gitsigns').setup {
   },
 }
 vim.keymap.set('n', '<leader>gd', ':Gitsigns diffthis<CR>')
+vim.keymap.set('n', '<leader>gh', ':Gitsigns preview_hunk<CR>')
+vim.keymap.set('n', '<leader>gn', ':Gitsigns next_hunk<CR>')
+vim.keymap.set('n', '<leader>gN', ':Gitsigns prev_hunk<CR>')
+
+----------------------------
+-- Other
+----------------------------
 
 -- autosave
 require('autosave').setup {
@@ -129,16 +144,15 @@ vim.g.better_whitespace_enabled = true
 vim.g.better_whitespace_ctermcolor = 'DarkRed'
 vim.g.better_whitespace_guicolor = 'DarkRed'
 
--- Indentation style detection
-require('guess-indent').setup()
-
--- TODO
+-- Comment - comment lines with shortcuts
 require('Comment').setup()
 
 -----------------------------------------------------------
 -- TODO
 -----------------------------------------------------------
 
--- Implement automatic switch to `en` layout when entering command mode
+-- 1) Repeat last shortcut map
+
+-- 2) Implement automatic switch to `en` layout when entering command mode
 
 -- vim: ts=2 sts=2 sw=2 et
