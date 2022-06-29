@@ -16,7 +16,7 @@ require('packer').startup(function(use)
   use 'folke/which-key.nvim' -- Popup with suggestions to complete a key binding
   use 'ntpeters/vim-better-whitespace' -- Highlight whitespaces
   use 'nmac427/guess-indent.nvim' -- Indentation style detection
-  use 'numToStr/Comment.nvim' -- Comment lines
+  use 'numToStr/Comment.nvim' -- Comment lines with shortcuts
 end)
 
 -----------------------------------------------------------
