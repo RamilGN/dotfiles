@@ -30,16 +30,12 @@ vim.opt.number = true
 -- Show some lines after cursor
 vim.opt.scrolloff = 5
 -- Autocomplete
-vim.opt.completeopt = 'menu,menuone,noselect'
+vim.opt.completeopt = 'menuone,noselect'
 -- Ignore case if there are no capital letters in the search string
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
--- Highlight search string
-vim.opt.hlsearch = true
 -- Undo after rebooting
 vim.opt.undofile = true
--- Auto indent
-vim.opt.autoindent = true
 -- Term colors
 vim.opt.termguicolors = true
 -- Highlight current line
@@ -74,17 +70,17 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 -- Move between windows
-vim.keymap.set('n', '<c-k>', '<c-w><up>')
-vim.keymap.set('n', '<c-j>', '<c-w><down>')
-vim.keymap.set('n', '<c-l>', '<c-w><right>')
-vim.keymap.set('n', '<c-h>', '<C-w><Left>')
+vim.keymap.set('n', '<C-k>', '<C-w><up>')
+vim.keymap.set('n', '<C-j>', '<C-w><down>')
+vim.keymap.set('n', '<C-l>', '<C-w><right>')
+vim.keymap.set('n', '<C-h>', '<C-w><Left>')
 -- Turn off highlight after search
 vim.keymap.set('n', '//', ':nohlsearch<CR>')
 -- Edit/source current config
 vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
 -- Repeat last command
-vim.keymap.set('n', '<leader>rec', '@:')
+vim.keymap.set('n', '<leader>re', '@:')
 -----------------------------------------------------------
 -- Plugins
 -----------------------------------------------------------
