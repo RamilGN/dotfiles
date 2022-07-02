@@ -18,6 +18,7 @@ oh-my-zsh-install:
 	sh -c "$$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 	rm ~/.zshrc || exit 0
 	ln -sf $(PWD)/zshrc/.zshrc ~/.zshrc
+	chsh -s $$(which zsh)
 
 font-install:
 	rm -rf nerd-fonts || exit 0
