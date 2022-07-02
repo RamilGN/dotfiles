@@ -10,7 +10,8 @@ packages-install:
 		  	   kitty   \
 			   neovim  \
 			   git	   \
-			   xclip
+			   xclip   \
+			   curl
 
 oh-my-zsh-install:
 	rm -rf ~/.oh-my-zsh || exit 0

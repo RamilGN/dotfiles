@@ -99,3 +99,10 @@ bindkey -v
 # Vim as default editor
 EDITOR=nvim
 VISUAL=nvim
+
+# Save PATH for sudo
+alias sudo='sudo -E env "PATH=$PATH"'
+
+
+# Language specific
+export PATH=$PATH:/usr/local/go/bin # go
