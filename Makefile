@@ -12,6 +12,7 @@ packages-install:
 			   git	   \
 			   xclip   \
 			   curl
+			   bat
 
 oh-my-zsh-install:
 	rm -rf ~/.oh-my-zsh || exit 0

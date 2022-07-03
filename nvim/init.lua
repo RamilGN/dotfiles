@@ -17,6 +17,7 @@ require('packer').startup(function(use)
   use 'ntpeters/vim-better-whitespace' -- Highlight whitespaces
   use 'nmac427/guess-indent.nvim' -- Indentation style detection
   use 'numToStr/Comment.nvim' -- Comment lines with shortcuts
+  use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } } -- File explorer
 end)
 
 -----------------------------------------------------------
@@ -29,6 +30,8 @@ vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGH
 vim.opt.number = true
 -- Show some lines after cursor
 vim.opt.scrolloff = 5
+-- Location of new vertical split
+vim.opt.splitright = true
 -- Autocomplete
 vim.opt.completeopt = 'menuone,noselect'
 -- Ignore case if there are no capital letters in the search string
@@ -141,6 +144,10 @@ vim.g.better_whitespace_guicolor = 'DarkRed'
 
 -- Comment - comment lines with shortcuts
 require('Comment').setup()
+
+-- nvim-tree - file explorer
+require('nvim-tree').setup()
+vim.keymap.set('n', '<leader><leader>', ':NvimTreeFindFileToggle<CR>')
 
 -----------------------------------------------------------
 -- TODO
