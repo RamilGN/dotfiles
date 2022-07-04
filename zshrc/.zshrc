@@ -16,6 +16,8 @@ bindkey -v
 EDITOR=nvim
 VISUAL=nvim
 
+export TERM=xterm-256color
+
 # GO
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
@@ -26,4 +28,3 @@ alias sudo='sudo -E env "PATH=$PATH"' # Save PATH for sudo
 alias b="batcat"
 alias v="nvim"
 alias zshcfg="nvim ~/.zshrc"
-
