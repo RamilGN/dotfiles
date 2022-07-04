@@ -32,8 +32,12 @@ alias v="nvim"
 alias zshcfg="nvim ~/.zshrc"
 
 # Job: InSales
-export LETSDEV_REPO=/home/ramil/insales/letsdev2
-
-alias letsdev=$LETSDEV_REPO/letsdev.rb
+LETSDEV_REPO=$HOME/insales/letsdev2
+if [ -d LETSDEV_REPO ]
+then
+  export LETSDEV_REPO
+  alias letsdev=$LETSDEV_REPO/letsdev.rb
+  alias insales='docker-compose exec -e COLUMNS="`tput cols`" -e LINES="`tput lines`" -u 1000 -w /home/app/code insales bash'
 . $LETSDEV_REPO/bash-completions
-alias insales='docker-compose exec -e COLUMNS="`tput cols`" -e LINES="`tput lines`" -u 1000 -w /home/app/code insales bash'
+fi
+
