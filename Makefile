@@ -11,7 +11,7 @@ packages-install:
 			   neovim  \
 			   git	   \
 			   xclip   \
-			   curl
+			   curl    \
 			   bat
 
 oh-my-zsh-install:
