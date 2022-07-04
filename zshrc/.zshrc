@@ -1,10 +1,11 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+
 # Theme
 ZSH_THEME="robbyrussell"
 
 # Plugins
-plugins=(git vi-mode)
+plugins=(git vi-mode asdf)
 
 # Oh-my-zsh
 source $ZSH/oh-my-zsh.sh
@@ -13,9 +14,10 @@ source $ZSH/oh-my-zsh.sh
 bindkey -v
 
 # Vim as default editor
-EDITOR=nvim
-VISUAL=nvim
+export EDITOR=nvim
+export VISUAL=nvim
 
+# For ssh
 export TERM=xterm-256color
 
 # GO
@@ -28,3 +30,10 @@ alias sudo='sudo -E env "PATH=$PATH"' # Save PATH for sudo
 alias b="batcat"
 alias v="nvim"
 alias zshcfg="nvim ~/.zshrc"
+
+# Job: InSales
+export LETSDEV_REPO=/home/ramil/insales/letsdev2
+
+alias letsdev=$LETSDEV_REPO/letsdev.rb
+. $LETSDEV_REPO/bash-completions
+alias insales='docker-compose exec -e COLUMNS="`tput cols`" -e LINES="`tput lines`" -u 1000 -w /home/app/code insales bash'
