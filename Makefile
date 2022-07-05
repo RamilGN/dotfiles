@@ -7,12 +7,24 @@ packages-install:
 	add-apt-repository ppa:neovim-ppa/unstable -y
 	apt-get update -y
 	apt-get install -y zsh     \
-		  	   kitty   \
 			   neovim  \
 			   git	   \
 			   xclip   \
 			   curl    \
 			   bat
+
+kitty-install:
+	rm -rf ~/.local/kitty.app || exit 0
+	rm -f ~/.local/share/applications/kitty.desktop || exit 0
+	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin installer=nightly launch=n
+	ln -sf ~/.local/kitty.app/bin/kitty ~/.local/bin/
+	rm -rf ~/.config/kitty || exit 0
+	ln -sf $(PWD)/kitty ~/.config/kitty
+	mkdir -p ~/.local/share/applications
+	cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+	cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications/
+	sed -i "s|Icon=kitty|Icon=$(PWD)/kitty/whiskers_256x256.png|g" ~/.local/share/applications/kitty*.desktop
+	sed -i "s|Exec=kitty|Exec=/home/$(USER)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
 
 oh-my-zsh-install:
 	rm -rf ~/.oh-my-zsh || exit 0
@@ -37,14 +49,5 @@ nvim-configure:
 	mkdir -p $(PACKER_PATH)
 	git clone --depth 1 https://github.com/wbthomason/packer.nvim $(PACKER_PATH)/packer.nvim
 	ln -snf $(PWD)/nvim ~/.config/nvim
-
-kitty-configure:
-	rm -rf ~/.local/kitty.app || exit 0
-	rm -f ~/.local/share/applications/kitty.desktop || exit 0
-	rm -rf ~/.config/kitty || exit 0
-	ln -snf $(PWD)/kitty ~/.config/kitty
-	mkdir -p ~/.local/share/applications
-	cp /usr/share/applications/kitty.desktop ~/.local/share/applications
-	sed -i 's/^Exec=kitty *$$/Exec=kitty --single-instance/g' ~/.local/share/applications/kitty.desktop
 
 # TODO: Make packer to install in headless mode without errors

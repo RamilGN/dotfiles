@@ -28,6 +28,8 @@ end)
 vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz'
 -- Line numbers
 vim.opt.number = true
+-- Use interactive zsh
+vim.opt.shell='zsh -i'
 -- Show some lines after cursor
 vim.opt.scrolloff = 5
 -- Location of new vertical split

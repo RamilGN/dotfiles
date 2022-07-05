@@ -17,9 +17,6 @@ bindkey -v
 export EDITOR=nvim
 export VISUAL=nvim
 
-# For ssh
-export TERM=xterm-256color
-
 # GO
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
@@ -39,5 +36,6 @@ then
   alias letsdev=$LETSDEV_REPO/letsdev.rb
   alias insales='docker-compose exec -e COLUMNS="`tput cols`" -e LINES="`tput lines`" -u 1000 -w /home/app/code insales bash'
 . $LETSDEV_REPO/bash-completions
+  alias tshssh="TERM=xterm-256color tsh ssh"
 fi
 
