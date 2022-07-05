@@ -33,7 +33,7 @@ alias zshcfg="nvim ~/.zshrc"
 
 # Job: InSales
 LETSDEV_REPO=$HOME/insales/letsdev2
-if [ -d LETSDEV_REPO ]
+if [ -d $LETSDEV_REPO ]
 then
   export LETSDEV_REPO
   alias letsdev=$LETSDEV_REPO/letsdev.rb
