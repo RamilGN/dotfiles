@@ -24,18 +24,20 @@ export PATH=$PATH:$GOPATH/bin
 
 # Aliases
 alias sudo='sudo -E env "PATH=$PATH"' # Save PATH for sudo
-alias b="batcat"
-alias v="nvim"
+alias bat="batcat"
 alias zshcfg="nvim ~/.zshrc"
 
-# Job: InSales
+# InSales
 LETSDEV_REPO=$HOME/insales/letsdev2
 if [ -d $LETSDEV_REPO ]
 then
   export LETSDEV_REPO
   alias letsdev=$LETSDEV_REPO/letsdev.rb
   alias insales='docker-compose exec -e COLUMNS="`tput cols`" -e LINES="`tput lines`" -u 1000 -w /home/app/code insales bash'
-. $LETSDEV_REPO/bash-completions
-  alias tshssh="TERM=xterm-256color tsh ssh"
+  . $LETSDEV_REPO/bash-completions
+
+  function tshssh {
+    TERM=xterm-256color tsh ssh -t $1 tmux new-session -As ramilg
+  }
 fi
 
