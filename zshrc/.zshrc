@@ -26,6 +26,9 @@ export PATH=$PATH:$GOPATH/bin
 alias sudo='sudo -E env "PATH=$PATH"' # Save PATH for sudo
 alias bat="batcat"
 alias zshcfg="nvim ~/.zshrc"
+alias trl="tree -LhaC 3"
+alias cdf="cd \$(find * -type d | fzf)"
+alias vif="nvim \$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')"
 
 # InSales
 LETSDEV_REPO=$HOME/insales/letsdev2
