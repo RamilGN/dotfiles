@@ -11,6 +11,9 @@ require('packer').startup(function(use)
   use 'lukas-reineke/indent-blankline.nvim' -- Displaying indents
   -- Git
   use 'lewis6991/gitsigns.nvim' -- Git decorations
+  -- Telescope
+  use { 'nvim-telescope/telescope.nvim', requires =  { 'nvim-lua/plenary.nvim' }  } -- Fuzzy finder over lists
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   -- Other
   use 'Pocco81/AutoSave.nvim' -- Autosaving
   use 'folke/which-key.nvim' -- Popup with suggestions to complete a key binding
@@ -133,11 +136,30 @@ require('gitsigns').setup {
     changedelete = { text = '~' },
   },
 }
-vim.keymap.set('n', '<leader>gd', ':Gitsigns diffthis<CR>')
-vim.keymap.set('n', '<leader>gh', ':Gitsigns preview_hunk<CR>')
-vim.keymap.set('n', '<leader>gr', ':Gitsigns reset_hunk<CR>')
-vim.keymap.set('n', '<leader>gn', ':Gitsigns next_hunk<CR>')
-vim.keymap.set('n', '<leader>gN', ':Gitsigns prev_hunk<CR>')
+vim.keymap.set('n', '<leader>gd', '<Cmd>Gitsigns diffthis<CR>')
+vim.keymap.set('n', '<leader>gh', '<Cmd>Gitsigns preview_hunk<CR>')
+vim.keymap.set('n', '<leader>gr', '<Cmd>Gitsigns reset_hunk<CR>')
+vim.keymap.set('n', '<leader>gn', '<Cmd>Gitsigns next_hunk<CR>')
+vim.keymap.set('n', '<leader>gN', '<Cmd>Gitsigns prev_hunk<CR>')
+
+----------------------------
+-- Telescope
+----------------------------
+
+-- telescope -- fuzzy finder over lists
+require('telescope').setup()
+require('telescope').load_extension('fzf')
+vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<cr>')
+vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<cr>')
+vim.keymap.set('n', '<leader>tb', '<Cmd>Telescope current_buffer_fuzzy_find<cr>')
+vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<cr>')
+vim.keymap.set('n', '<leader>ts', '<Cmd>Telescope grep_string<cr>')
+vim.keymap.set('n', '<leader>td', '<Cmd>Telescope diagnostics<cr>')
+vim.keymap.set('n', '<leader>tg', '<Cmd>Telescope git_commits<cr>')
+vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<cr>')
+vim.keymap.set('n', '<leader>to', '<Cmd>Telescope lsp_document_symbols<cr>')
+vim.keymap.set('n', '<leader>ta', '<Cmd>Telescope lsp_range_code_actions<cr>')
+vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<cr>')
 
 ----------------------------
 -- Other
