@@ -86,6 +86,12 @@ vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
 -- Repeat last command
 vim.keymap.set('n', '<leader>re', '@:')
+-- Yank/Paste system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')
+vim.keymap.set('n', '<leader>Y', '"+Y')
+vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')
+vim.keymap.set('n', '<leader>P', '"+P')
+
 -----------------------------------------------------------
 -- Plugins
 -----------------------------------------------------------
@@ -101,7 +107,12 @@ vim.keymap.set('n', '<leader>re', '@:')
 vim.cmd('colorscheme nightfox')
 
 -- lualine - lower statusline
-require('lualine').setup()
+require('lualine').setup {
+options = {
+    component_separators = '|',
+    section_separators = '',
+  },
+}
 
 -- indent_blankline - displaying indents
 require('indent_blankline').setup {
@@ -124,6 +135,7 @@ require('gitsigns').setup {
 }
 vim.keymap.set('n', '<leader>gd', ':Gitsigns diffthis<CR>')
 vim.keymap.set('n', '<leader>gh', ':Gitsigns preview_hunk<CR>')
+vim.keymap.set('n', '<leader>gr', ':Gitsigns reset_hunk<CR>')
 vim.keymap.set('n', '<leader>gn', ':Gitsigns next_hunk<CR>')
 vim.keymap.set('n', '<leader>gN', ':Gitsigns prev_hunk<CR>')
 
