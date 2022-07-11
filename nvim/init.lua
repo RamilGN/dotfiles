@@ -13,8 +13,13 @@ require('packer').startup(function(use)
   use 'lewis6991/gitsigns.nvim' -- Git decorations
   -- Telescope
   use { 'nvim-telescope/telescope.nvim', requires =  { 'nvim-lua/plenary.nvim' }  } -- Fuzzy finder over lists
-  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  -- Treesitter
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use { 'nvim-treesitter/nvim-treesitter-textobjects', requires =  { 'nvim-treesitter/nvim-treesitter' } }
+  use { 'andymass/vim-matchup', requires =  { 'nvim-treesitter/nvim-treesitter' } }
   -- Other
+  use 'windwp/nvim-autopairs' -- TODO
   use 'Pocco81/AutoSave.nvim' -- Autosaving
   use 'folke/which-key.nvim' -- Popup with suggestions to complete a key binding
   use 'ntpeters/vim-better-whitespace' -- Highlight whitespaces
@@ -32,7 +37,7 @@ vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGH
 -- Line numbers
 vim.opt.number = true
 -- Use interactive zsh
-vim.opt.shell='zsh -i'
+-- vim.opt.shell='zsh -i'
 -- Show some lines after cursor
 vim.opt.scrolloff = 5
 -- Location of new vertical split
@@ -83,8 +88,7 @@ vim.keymap.set('n', '<C-j>', '<C-w><down>')
 vim.keymap.set('n', '<C-l>', '<C-w><right>')
 vim.keymap.set('n', '<C-h>', '<C-w><Left>')
 -- Turn off highlight after search
-vim.keymap.set('n', '//', ':nohlsearch<CR>')
--- Edit/source current config
+vim.keymap.set('n', '//', ':nohlsearch<CR>') -- Edit/source current config
 vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
 -- Repeat last command
@@ -149,21 +153,62 @@ vim.keymap.set('n', '<leader>gN', '<Cmd>Gitsigns prev_hunk<CR>')
 -- telescope -- fuzzy finder over lists
 require('telescope').setup()
 require('telescope').load_extension('fzf')
-vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<cr>')
-vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<cr>')
-vim.keymap.set('n', '<leader>tb', '<Cmd>Telescope current_buffer_fuzzy_find<cr>')
-vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<cr>')
-vim.keymap.set('n', '<leader>ts', '<Cmd>Telescope grep_string<cr>')
-vim.keymap.set('n', '<leader>td', '<Cmd>Telescope diagnostics<cr>')
-vim.keymap.set('n', '<leader>tg', '<Cmd>Telescope git_commits<cr>')
-vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<cr>')
-vim.keymap.set('n', '<leader>to', '<Cmd>Telescope lsp_document_symbols<cr>')
-vim.keymap.set('n', '<leader>ta', '<Cmd>Telescope lsp_range_code_actions<cr>')
-vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<cr>')
+vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<CR>')
+vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<CR>')
+vim.keymap.set('n', '<leader>tb', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
+vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<CR>')
+vim.keymap.set('n', '<leader>ts', '<Cmd>Telescope grep_string<CR>')
+vim.keymap.set('n', '<leader>td', '<Cmd>Telescope diagnostics<CR>')
+vim.keymap.set('n', '<leader>tg', '<Cmd>Telescope git_commits<CR>')
+vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<CR>')
+vim.keymap.set('n', '<leader>to', '<Cmd>Telescope lsp_document_symbols<CR>')
+vim.keymap.set('n', '<leader>ta', '<Cmd>Telescope lsp_range_code_actions<CR>')
+vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
+
+----------------------------
+-- Treesitter
+----------------------------
+require('nvim-treesitter.configs').setup {
+  highlight = { enable = true },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = 'gnn',
+      node_incremental = 'grn',
+      scope_incremental = 'grc',
+      node_decremental = 'grm',
+    }
+  },
+  indent = {
+    enable = true,
+    disable = { 'ruby' }
+  },
+  -- TODO
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ['af'] = '@function.outer',
+        ['if'] = '@function.inner',
+        ['ac'] = '@class.outer',
+        ['ic'] = '@class.inner',
+      }
+    }
+  },
+  matchup = {
+     enable = true
+  }
+}
+vim.g.matchup_matchparen_deferred = 1
+-- TODO: WHEREAMI
 
 ----------------------------
 -- Other
 ----------------------------
+
+-- nvim-autopairs
+require('nvim-autopairs').setup()
 
 -- autosave
 require('autosave').setup {
@@ -178,11 +223,15 @@ vim.g.better_whitespace_enabled = true
 vim.g.better_whitespace_ctermcolor = 'DarkRed'
 vim.g.better_whitespace_guicolor = 'DarkRed'
 
+-- guess-indent - indentation style detection
+require('guess-indent').setup()
+
 -- Comment - comment lines with shortcuts
 require('Comment').setup()
 
 -- nvim-tree - file explorer
 require('nvim-tree').setup()
+
 vim.keymap.set('n', '<leader><leader>', ':NvimTreeFindFileToggle<CR>')
 
 -----------------------------------------------------------
