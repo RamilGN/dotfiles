@@ -196,6 +196,10 @@ require('packer').startup(function(use)
   use 'windwp/nvim-autopairs' -- TODO
   require('nvim-autopairs').setup()
 
+  -- ### Text editing
+  use 'tpope/vim-repeat' -- TODO
+  use 'tpope/vim-surround' -- TODO
+
   -- ### Autosaving
   use 'Pocco81/AutoSave.nvim'
   require('autosave').setup {
