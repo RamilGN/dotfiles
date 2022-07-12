@@ -59,8 +59,11 @@ vim.keymap.set('n', '<C-l>', '<C-w><right>')
 vim.keymap.set('n', '<C-h>', '<C-w><Left>')
 -- ## Turn off highlight after search
 vim.keymap.set('n', '//', ':nohlsearch<CR>')
-vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
+-- ## Add spaces below/under cursor
+vim.keymap.set('n', '[<leader>', 'm`o<Esc>``')
+vim.keymap.set('n', ']<leader>', 'm`O<Esc>``')
 -- ## Edit/source current config
+vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
 -- ## Repeat last command
 vim.keymap.set('n', '<leader>re', '@:')
@@ -144,7 +147,7 @@ require('packer').startup(function(use)
   -- require'telescope.builtin'.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } -- TODO
 
   ----------------------------
-  -- ## Treesitter --TODO
+  -- ## Treesitter -- TODO
   ----------------------------
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
