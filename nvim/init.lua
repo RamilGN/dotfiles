@@ -7,7 +7,7 @@ vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGH
 -- ## Line numbers
 vim.opt.number = true
 -- ## Use interactive zsh
-vim.opt.shell='zsh -i'
+vim.opt.shell = 'zsh -i'
 -- ## Show some lines after cursor
 vim.opt.scrolloff = 5
 -- ## Location of new vertical split
@@ -89,8 +89,8 @@ require('packer').startup(function(use)
   vim.cmd('colorscheme nightfox')
 
   -- ### Fancy lower statusline
-  use { 'nvim-lualine/lualine.nvim',  requires = { 'kyazdani42/nvim-web-devicons', opt = true  } }
-  require('lualine').setup{
+  use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
+  require('lualine').setup {
     options = {
       component_separators = '|',
       section_separators = '',
@@ -129,7 +129,7 @@ require('packer').startup(function(use)
   ----------------------------
 
   -- Fuzzy finder over lists with fzf extension
-  use { 'nvim-telescope/telescope.nvim', requires =  { 'nvim-lua/plenary.nvim' }  }
+  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   require('telescope').setup()
   require('telescope').load_extension('fzf')
@@ -151,8 +151,8 @@ require('packer').startup(function(use)
   ----------------------------
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  use { 'nvim-treesitter/nvim-treesitter-textobjects', requires =  { 'nvim-treesitter/nvim-treesitter' } }
-  use { 'andymass/vim-matchup', requires =  { 'nvim-treesitter/nvim-treesitter' } }
+  use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = { 'nvim-treesitter/nvim-treesitter' } }
+  use { 'andymass/vim-matchup', requires = { 'nvim-treesitter/nvim-treesitter' } }
   require('nvim-treesitter.configs').setup {
     highlight = { enable = true },
     incremental_selection = {
@@ -198,7 +198,7 @@ require('packer').startup(function(use)
   }
 
   -- Diagnositc mappings
-  local opts = { noremap=true, silent=true }
+  local opts = { noremap = true, silent = true }
   vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
@@ -207,7 +207,7 @@ require('packer').startup(function(use)
   -- General LSP setting
   local on_attach = function(client, bufnr)
     -- Mappings.
-    local bufopts =  { buffer=bufnr }
+    local bufopts = { buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -222,7 +222,7 @@ require('packer').startup(function(use)
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<leader>ff', vim.lsp.buf.formatting, bufopts)
+    vim.keymap.set('n', '<leader>ff', vim.lsp.buf.format, bufopts)
   end
 
   local lspconfig = require('lspconfig')
