@@ -185,7 +185,6 @@ require('packer').startup(function(use)
       enable = true
     }
   }
-  -- vim.g.matchup_matchparen_deferred = 1
   -- TODO: WHEREAMI
 
   ----------------------------
@@ -271,8 +270,8 @@ require('packer').startup(function(use)
   require('Comment').setup()
 
   -- ### File explorer
-  require('nvim-tree').setup()
   use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } } -- File explorer
+  require('nvim-tree').setup()
   vim.keymap.set('n', '<leader><leader>', ':NvimTreeFindFileToggle<CR>')
 end)
 
