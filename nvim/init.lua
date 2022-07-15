@@ -134,15 +134,15 @@ require('packer').startup(function(use)
   require('telescope').setup()
   require('telescope').load_extension('fzf')
   vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<CR>')
-  vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<CR>')
   vim.keymap.set('n', '<leader>tb', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
+  vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<CR>')
   vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<CR>')
   vim.keymap.set('n', '<leader>ts', '<Cmd>Telescope grep_string<CR>')
   vim.keymap.set('n', '<leader>td', '<Cmd>Telescope diagnostics<CR>')
   vim.keymap.set('n', '<leader>tg', '<Cmd>Telescope git_commits<CR>')
   vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<CR>')
   vim.keymap.set('n', '<leader>to', '<Cmd>Telescope lsp_document_symbols<CR>')
-  vim.keymap.set('n', '<leader>ta', '<Cmd>Telescope lsp_range_code_actions<CR>')
+  vim.keymap.set('n', '<leader>tw', '<Cmd>Telescope lsp_workspace_symbols<CR>')
   vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
   -- require'telescope.builtin'.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } -- TODO
 
@@ -206,7 +206,7 @@ require('packer').startup(function(use)
 
   -- General LSP setting
   local on_attach = function(client, bufnr)
-    -- Mappings.
+    -- Mappings
     local bufopts = { buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
@@ -226,7 +226,7 @@ require('packer').startup(function(use)
   end
 
   local lspconfig = require('lspconfig')
-  local servers = { 'sumneko_lua' }
+  local servers = { 'sumneko_lua', 'solargraph' }
   for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
       on_attach = on_attach
@@ -238,7 +238,7 @@ require('packer').startup(function(use)
   ----------------------------
 
   -- ### Autopairs
-  use 'windwp/nvim-autopairs' -- TODO
+  use 'windwp/nvim-autopairs'
   require('nvim-autopairs').setup()
 
   -- ### Text editing
@@ -282,5 +282,7 @@ end)
 -- 1) Repeat last shortcut map
 
 -- 2) Implement automatic switch to `en` layout when entering command mode
+
+-- 3) Endwise
 
 -- vim: ts=2 sts=2 sw=2 et
