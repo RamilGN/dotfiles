@@ -121,9 +121,8 @@ require('packer').startup(function(use)
   vim.keymap.set('n', '<leader>gd', '<Cmd>Gitsigns diffthis<CR>')
   vim.keymap.set('n', '<leader>gh', '<Cmd>Gitsigns preview_hunk<CR>')
   vim.keymap.set('n', '<leader>gr', '<Cmd>Gitsigns reset_hunk<CR>')
-  vim.keymap.set('n', '<leader>gn', '<Cmd>Gitsigns next_hunk<CR>')
-  vim.keymap.set('n', '<leader>gN', '<Cmd>Gitsigns prev_hunk<CR>')
-
+  vim.keymap.set('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
+  vim.keymap.set('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
   ----------------------------
   -- ## Telescope
   ----------------------------
@@ -168,7 +167,6 @@ require('packer').startup(function(use)
       enable = true,
       disable = { 'ruby' }
     },
-    -- TODO
     textobjects = {
       select = {
         enable = true,
@@ -179,13 +177,33 @@ require('packer').startup(function(use)
           ['ac'] = '@class.outer',
           ['ic'] = '@class.inner',
         }
-      }
+      },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        [']f'] = '@function.outer',
+        [']c'] = '@class.outer',
+      },
+      goto_next_end = {
+        [']F'] = '@function.outer',
+        [']C'] = '@class.outer',
+      },
+      goto_previous_start = {
+        ['[f'] = '@function.outer',
+        ['[c'] = '@class.outer',
+      },
+      goto_previous_end = {
+        ['[F'] = '@function.outer',
+        ['[C'] = '@class.outer',
+      },
     },
     matchup = {
       enable = true
     }
+   }
   }
-  -- TODO: WHEREAMI
+  vim.keymap.set('n', '<leader>m', '<Cmd>MatchupWhereAmI<CR>')
 
   ----------------------------
   -- ## LSP
@@ -193,6 +211,10 @@ require('packer').startup(function(use)
 
   use 'williamboman/nvim-lsp-installer'
   use 'neovim/nvim-lspconfig'
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'L3MON4D3/LuaSnip'
+
   require('nvim-lsp-installer').setup {
     automatic_installation = true
   }
@@ -205,7 +227,7 @@ require('packer').startup(function(use)
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
 
   -- General LSP setting
-  local on_attach = function(client, bufnr)
+  local on_attach = function(_, bufnr)
     -- Mappings
     local bufopts = { buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -222,14 +244,43 @@ require('packer').startup(function(use)
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<leader>ff', vim.lsp.buf.format, bufopts)
+    vim.keymap.set('n', '<leader>ff', function()
+      vim.lsp.buf.format({ async = true })
+    end, bufopts)
   end
 
+  -- Autocompletion
+  local luasnip = require('luasnip')
+  local cmp = require('cmp')
+  cmp.setup {
+    snippet = {
+      expand = function(args)
+        luasnip.lsp_expand(args.body)
+      end,
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-d>'] = cmp.mapping.scroll_docs(-2),
+      ['<C-f>'] = cmp.mapping.scroll_docs(2),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm { select = true }
+    }),
+    sources = {
+      { name = 'nvim_lsp' },
+      { name = 'luasnip' }
+    }
+  }
+
+  -- Autocompletion capabilities
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+  -- LSP servers
   local lspconfig = require('lspconfig')
   local servers = { 'sumneko_lua', 'solargraph' }
   for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
-      on_attach = on_attach
+      on_attach = on_attach,
+      capabilities = capabilities
     }
   end
 
@@ -283,6 +334,6 @@ end)
 
 -- 2) Implement automatic switch to `en` layout when entering command mode
 
--- 3) Endwise
+-- 3)vim.call('repeat#set', ']d')
 
 -- vim: ts=2 sts=2 sw=2 et
