@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- # General shortcuts
 -----------------------------------------------------------
 
--- ## Russian layout commnad mode
+-- ## Russian layout command mode
 vim.keymap.set('n', 'Ж', ':')
 -- ## Word wrapping
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -182,7 +182,7 @@ require('packer').startup(function(use)
     },
     indent = {
       enable = true,
-      disable = { 'ruby' }
+      disable = { 'ruby', 'go' }
     },
     textobjects = {
       select = {
@@ -287,6 +287,7 @@ require('packer').startup(function(use)
       ['<C-f>'] = cmp.mapping.scroll_docs(2),
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm {
+        behavior = cmp.ConfirmBehavior.Replace,
         select = true
       }
     }),
