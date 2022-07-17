@@ -123,6 +123,7 @@ require('packer').startup(function(use)
   vim.keymap.set('n', '<leader>gr', '<Cmd>Gitsigns reset_hunk<CR>')
   vim.keymap.set('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
   vim.keymap.set('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
+
   ----------------------------
   -- ## Telescope
   ----------------------------
@@ -130,7 +131,22 @@ require('packer').startup(function(use)
   -- Fuzzy finder over lists with fzf extension
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  require('telescope').setup()
+  require('telescope').setup {
+    pickers = {
+      buffers = {
+        show_all_buffers = true,
+        sort_lastused = true,
+        theme = 'dropdown',
+        previewer = false,
+        mappings = {
+          i = {
+            ['<C-d>'] = 'delete_buffer',
+          }
+        }
+      }
+    }
+  }
+
   require('telescope').load_extension('fzf')
   vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<CR>')
   vim.keymap.set('n', '<leader>tb', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
@@ -153,6 +169,7 @@ require('packer').startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = { 'nvim-treesitter/nvim-treesitter' } }
   use { 'andymass/vim-matchup', requires = { 'nvim-treesitter/nvim-treesitter' } }
   require('nvim-treesitter.configs').setup {
+    auto_install = true,
     highlight = { enable = true },
     incremental_selection = {
       enable = true,
@@ -180,7 +197,7 @@ require('packer').startup(function(use)
       },
     move = {
       enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
+      set_jumps = true,
       goto_next_start = {
         [']f'] = '@function.outer',
         [']c'] = '@class.outer',
@@ -216,7 +233,14 @@ require('packer').startup(function(use)
   use 'L3MON4D3/LuaSnip'
 
   require('nvim-lsp-installer').setup {
-    automatic_installation = true
+    automatic_installation = true,
+    ui = {
+      icons = {
+        server_installed = '✓',
+        server_pending = '➜',
+        server_uninstalled = '✗'
+      }
+    }
   }
 
   -- Diagnositc mappings
@@ -262,7 +286,9 @@ require('packer').startup(function(use)
       ['<C-d>'] = cmp.mapping.scroll_docs(-2),
       ['<C-f>'] = cmp.mapping.scroll_docs(2),
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm { select = true }
+      ['<CR>'] = cmp.mapping.confirm {
+        select = true
+      }
     }),
     sources = {
       { name = 'nvim_lsp' },
@@ -274,9 +300,9 @@ require('packer').startup(function(use)
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-  -- LSP servers
+  -- LSP servers TODO: 'yamlls'
   local lspconfig = require('lspconfig')
-  local servers = { 'sumneko_lua', 'solargraph' }
+  local servers = { 'sumneko_lua', 'solargraph', 'gopls' }
   for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
       on_attach = on_attach,
@@ -330,10 +356,13 @@ end)
 -- TODO
 -----------------------------------------------------------
 
--- 1) Repeat last shortcut map
 
--- 2) Implement automatic switch to `en` layout when entering command mode
+-- 1) Implement automatic switch to `en` layout when entering command mode
 
--- 3)vim.call('repeat#set', ']d')
+-- 2) vim.call('repeat#set', ']d')
+
+-- 3) Schema store
+
+-- 4) let g:do_filetype_lua = 1
 
 -- vim: ts=2 sts=2 sw=2 et
