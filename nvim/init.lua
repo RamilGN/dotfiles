@@ -76,16 +76,16 @@ vim.keymap.set('n', '<leader>P', '"+P')
 -----------------------------------------------------------
 
 function vim.getVisualSelection()
-	vim.cmd('noau normal! "vy"')
-	local text = vim.fn.getreg('v')
-	vim.fn.setreg('v', {})
+  vim.cmd('noau normal! "vy"')
+  local text = vim.fn.getreg('v')
+  vim.fn.setreg('v', {})
 
-	text = string.gsub(text, "\n", "")
-	if #text > 0 then
-		return text
-	else
-		return ''
-	end
+  text = string.gsub(text, "\n", "")
+  if #text > 0 then
+    return text
+  else
+    return ''
+  end
 end
 
 -----------------------------------------------------------
@@ -169,29 +169,30 @@ require('packer').startup(function(use)
 
   vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<CR>')
   vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<CR>')
-  vim.keymap.set('n', '<leader>td', '<Cmd>Telescope diagnostics<CR>')
   vim.keymap.set('n', '<leader>tg', '<Cmd>Telescope git_commits<CR>')
+  vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
+
+  vim.keymap.set('n', '<leader>td', '<Cmd>Telescope diagnostics<CR>')
   vim.keymap.set('n', '<leader>to', '<Cmd>Telescope lsp_document_symbols<CR>')
   vim.keymap.set('n', '<leader>tw', '<Cmd>Telescope lsp_workspace_symbols<CR>')
-  vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
-  vim.keymap.set('n', '<leader>ts', '<Cmd>Telescope grep_string<CR>')
+  vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<CR>')
 
   vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<CR>')
-  vim.keymap.set('v', '<leader>tl', function ()
-    	local text = vim.getVisualSelection()
-	    telescope.live_grep({ default_text = text })
-  end)
-
-  vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<CR>')
-  vim.keymap.set('v', '<leader>tl', function ()
-    	local text = vim.getVisualSelection()
-	    telescope.lsp_references({ default_text = text })
+  vim.keymap.set('v', '<leader>tl', function()
+    local text = vim.getVisualSelection()
+    telescope.live_grep({ default_text = text })
   end)
 
   vim.keymap.set('n', '<leader>tb', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
-  vim.keymap.set('v', '<leader>tl', function ()
-    	local text = vim.getVisualSelection()
-	    telescope.current_buffer_fuzzy_find({ default_text = text })
+  vim.keymap.set('v', '<leader>tb', function()
+    local text = vim.getVisualSelection()
+    telescope.current_buffer_fuzzy_find({ default_text = text })
+  end)
+
+  vim.keymap.set('n', '<leader>ts', '<Cmd>Telescope grep_string<CR>')
+  vim.keymap.set('v', '<leader>ts', function()
+    local text = vim.getVisualSelection()
+    telescope.grep_string({ default_text = text })
   end)
 
   ----------------------------
@@ -226,30 +227,30 @@ require('packer').startup(function(use)
           ['ic'] = '@class.inner',
         }
       },
-    move = {
-      enable = true,
-      set_jumps = true,
-      goto_next_start = {
-        [']f'] = '@function.outer',
-        [']c'] = '@class.outer',
+      move = {
+        enable = true,
+        set_jumps = true,
+        goto_next_start = {
+          [']f'] = '@function.outer',
+          [']c'] = '@class.outer',
+        },
+        goto_next_end = {
+          [']F'] = '@function.outer',
+          [']C'] = '@class.outer',
+        },
+        goto_previous_start = {
+          ['[f'] = '@function.outer',
+          ['[c'] = '@class.outer',
+        },
+        goto_previous_end = {
+          ['[F'] = '@function.outer',
+          ['[C'] = '@class.outer',
+        },
       },
-      goto_next_end = {
-        [']F'] = '@function.outer',
-        [']C'] = '@class.outer',
-      },
-      goto_previous_start = {
-        ['[f'] = '@function.outer',
-        ['[c'] = '@class.outer',
-      },
-      goto_previous_end = {
-        ['[F'] = '@function.outer',
-        ['[C'] = '@class.outer',
-      },
-    },
-    matchup = {
-      enable = true
+      matchup = {
+        enable = true
+      }
     }
-   }
   }
   vim.keymap.set('n', '<leader>m', '<Cmd>MatchupWhereAmI<CR>')
 
