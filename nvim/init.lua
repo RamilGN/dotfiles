@@ -6,8 +6,6 @@
 vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz'
 -- ## Line numbers
 vim.opt.number = true
--- ## Use interactive zsh
-vim.opt.shell = 'zsh -i'
 -- ## Show some lines after cursor
 vim.opt.scrolloff = 5
 -- ## Location of new vertical split
@@ -74,6 +72,23 @@ vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')
 vim.keymap.set('n', '<leader>P', '"+P')
 
 -----------------------------------------------------------
+-- # Helpers
+-----------------------------------------------------------
+
+function vim.getVisualSelection()
+	vim.cmd('noau normal! "vy"')
+	local text = vim.fn.getreg('v')
+	vim.fn.setreg('v', {})
+
+	text = string.gsub(text, "\n", "")
+	if #text > 0 then
+		return text
+	else
+		return ''
+	end
+end
+
+-----------------------------------------------------------
 -- # Plugins
 -----------------------------------------------------------
 
@@ -128,14 +143,15 @@ require('packer').startup(function(use)
   -- ## Telescope
   ----------------------------
 
-  -- Fuzzy finder over lists with fzf extension
+  -- # General settings
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   require('telescope').setup {
     pickers = {
       buffers = {
-        show_all_buffers = true,
-        sort_lastused = true,
+        sorting_strategy = 'ascending',
+        ignore_current_buffer = true,
+        sort_mru = true,
         theme = 'dropdown',
         previewer = false,
         mappings = {
@@ -147,22 +163,39 @@ require('packer').startup(function(use)
     }
   }
 
+  -- # Mappings
   require('telescope').load_extension('fzf')
+  local telescope = require('telescope.builtin')
+
   vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<CR>')
-  vim.keymap.set('n', '<leader>tb', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
   vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<CR>')
-  vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<CR>')
-  vim.keymap.set('n', '<leader>ts', '<Cmd>Telescope grep_string<CR>')
   vim.keymap.set('n', '<leader>td', '<Cmd>Telescope diagnostics<CR>')
   vim.keymap.set('n', '<leader>tg', '<Cmd>Telescope git_commits<CR>')
-  vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<CR>')
   vim.keymap.set('n', '<leader>to', '<Cmd>Telescope lsp_document_symbols<CR>')
   vim.keymap.set('n', '<leader>tw', '<Cmd>Telescope lsp_workspace_symbols<CR>')
   vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
-  -- require'telescope.builtin'.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } -- TODO
+  vim.keymap.set('n', '<leader>ts', '<Cmd>Telescope grep_string<CR>')
+
+  vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<CR>')
+  vim.keymap.set('v', '<leader>tl', function ()
+    	local text = vim.getVisualSelection()
+	    telescope.live_grep({ default_text = text })
+  end)
+
+  vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<CR>')
+  vim.keymap.set('v', '<leader>tl', function ()
+    	local text = vim.getVisualSelection()
+	    telescope.lsp_references({ default_text = text })
+  end)
+
+  vim.keymap.set('n', '<leader>tb', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
+  vim.keymap.set('v', '<leader>tl', function ()
+    	local text = vim.getVisualSelection()
+	    telescope.current_buffer_fuzzy_find({ default_text = text })
+  end)
 
   ----------------------------
-  -- ## Treesitter -- TODO
+  -- ## Treesitter
   ----------------------------
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
@@ -182,16 +215,14 @@ require('packer').startup(function(use)
     },
     indent = {
       enable = true,
-      disable = { 'ruby', 'go' }
+      disable = { 'ruby', 'go' } -- TODO
     },
     textobjects = {
       select = {
         enable = true,
         lookahead = true,
         keymaps = {
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
+          ['af'] = '@function.outer', ['if'] = '@function.inner', ['ac'] = '@class.outer',
           ['ic'] = '@class.inner',
         }
       },
@@ -350,7 +381,8 @@ require('packer').startup(function(use)
   -- ### File explorer
   use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } } -- File explorer
   require('nvim-tree').setup()
-  vim.keymap.set('n', '<leader><leader>', ':NvimTreeFindFileToggle<CR>')
+  vim.keymap.set('n', '<leader><leader>', ':NvimTreeToggle<CR>')
+  vim.keymap.set('n', '<C-n>', ':NvimTreeFindFile<CR>')
 end)
 
 -----------------------------------------------------------
