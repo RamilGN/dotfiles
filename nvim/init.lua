@@ -168,6 +168,7 @@ require('packer').startup(function(use)
   local telescope = require('telescope.builtin')
 
   vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<CR>')
+  vim.keymap.set('n', '<leader>tp', '<Cmd>Telescope resume<CR>')
   vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<CR>')
   vim.keymap.set('n', '<leader>tg', '<Cmd>Telescope git_commits<CR>')
   vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
@@ -262,6 +263,7 @@ require('packer').startup(function(use)
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
   use 'L3MON4D3/LuaSnip'
 
   require('nvim-lsp-installer').setup {
@@ -325,7 +327,8 @@ require('packer').startup(function(use)
     }),
     sources = {
       { name = 'nvim_lsp' },
-      { name = 'luasnip' }
+      { name = 'luasnip' },
+      { name = 'buffer' }
     }
   }
 
@@ -384,6 +387,13 @@ require('packer').startup(function(use)
   require('nvim-tree').setup()
   vim.keymap.set('n', '<leader><leader>', ':NvimTreeToggle<CR>')
   vim.keymap.set('n', '<C-n>', ':NvimTreeFindFile<CR>')
+
+  ----------------------------
+  -- ## Language specific plugins
+  ----------------------------
+
+  -- ### Ruby
+  use 'slim-template/vim-slim'
 end)
 
 -----------------------------------------------------------
@@ -396,7 +406,5 @@ end)
 -- 2) vim.call('repeat#set', ']d')
 
 -- 3) Schema store
-
--- 4) let g:do_filetype_lua = 1
 
 -- vim: ts=2 sts=2 sw=2 et
