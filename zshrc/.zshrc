@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH=$HOME/.oh-my-zsh
 
 # Theme
 ZSH_THEME="robbyrussell"
@@ -30,6 +30,9 @@ alias trl="tree -LhaC 3"
 alias cdf="cd \$(find * -type d | fzf)"
 alias vif="nvim \$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')"
 
+## Git
+alias gsai="git stash apply --index"
+
 # InSales
 LETSDEV_REPO=$HOME/insales/letsdev2
 if [ -d $LETSDEV_REPO ]
@@ -37,10 +40,10 @@ then
   export LETSDEV_REPO
   alias letsdev=$LETSDEV_REPO/letsdev.rb
   alias insales='docker-compose exec -e COLUMNS="`tput cols`" -e LINES="`tput lines`" -u 1000 -w /home/app/code insales bash'
+  alias 1c_synch="docker-compose exec -u 1000 -w /home/app/code 1c_sync bash -l"
   . $LETSDEV_REPO/bash-completions
 
   function tshssh {
     TERM=xterm-256color tsh ssh -t $1 tmux new-session -As ramilg
   }
 fi
-
