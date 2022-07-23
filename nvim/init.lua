@@ -95,9 +95,9 @@ end
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
-  ----------------------------
+  -----------------------------------------------------------
   -- ## UI
-  ----------------------------
+  -----------------------------------------------------------
 
   -- ### Theme
   use 'EdenEast/nightfox.nvim'
@@ -118,9 +118,9 @@ require('packer').startup(function(use)
     char = '┊',
   }
 
-  ----------------------------
+  -----------------------------------------------------------
   -- ## Git
-  ----------------------------
+  -----------------------------------------------------------
 
   -- ### Decorations
   use 'lewis6991/gitsigns.nvim'
@@ -139,9 +139,9 @@ require('packer').startup(function(use)
   vim.keymap.set('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
   vim.keymap.set('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
 
-  ----------------------------
+  -----------------------------------------------------------
   -- ## Telescope
-  ----------------------------
+  -----------------------------------------------------------
 
   -- # General settings
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
@@ -196,13 +196,12 @@ require('packer').startup(function(use)
     telescope.grep_string({ default_text = text })
   end)
 
-  ----------------------------
+  -----------------------------------------------------------
   -- ## Treesitter
-  ----------------------------
+  -----------------------------------------------------------
 
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = { 'nvim-treesitter/nvim-treesitter' } }
-  use { 'andymass/vim-matchup', requires = { 'nvim-treesitter/nvim-treesitter' } }
   require('nvim-treesitter.configs').setup {
     auto_install = true,
     highlight = { enable = true },
@@ -247,17 +246,13 @@ require('packer').startup(function(use)
           ['[F'] = '@function.outer',
           ['[C'] = '@class.outer',
         },
-      },
-      matchup = {
-        enable = true
       }
     }
   }
-  vim.keymap.set('n', '<leader>m', '<Cmd>MatchupWhereAmI<CR>')
 
-  ----------------------------
+  -----------------------------------------------------------
   -- ## LSP
-  ----------------------------
+  -----------------------------------------------------------
 
   use 'williamboman/nvim-lsp-installer'
   use 'neovim/nvim-lspconfig'
@@ -353,9 +348,9 @@ require('packer').startup(function(use)
     }
   end
 
-  ----------------------------
+  -----------------------------------------------------------
   -- ## Other
-  ----------------------------
+  -----------------------------------------------------------
 
   -- ### Autopairs
   use 'windwp/nvim-autopairs'
@@ -395,9 +390,9 @@ require('packer').startup(function(use)
   vim.keymap.set('n', '<leader><leader>', ':NvimTreeToggle<CR>')
   vim.keymap.set('n', '<C-n>', ':NvimTreeFindFile<CR>')
 
-  ----------------------------
+  -----------------------------------------------------------
   -- ## Language specific plugins
-  ----------------------------
+  -----------------------------------------------------------
 
   -- ### Ruby
   use 'slim-template/vim-slim'
