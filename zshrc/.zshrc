@@ -1,28 +1,31 @@
-# Path to your oh-my-zsh installation.
+# path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
-# Theme
+# theme
 ZSH_THEME="robbyrussell"
 
-# Plugins
+# plugins
 plugins=(git vi-mode asdf)
 
-# Oh-my-zsh
+# oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# Vim bindings
+# ls highlighting
+export LS_COLORS=$LS_COLORS:"ow=36:"
+
+# vim bindings
 bindkey -v
 
-# Vim as default editor
+# vim as default editor
 export EDITOR=nvim
 export VISUAL=nvim
 
-# GO
+# go
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
-# Aliases
+# aliases
 alias sudo='sudo -E env "PATH=$PATH"' # Save PATH for sudo
 alias bat="batcat"
 alias zshcfg="nvim ~/.zshrc"
@@ -30,10 +33,10 @@ alias trl="tree -LhaC 3"
 alias cdf="cd \$(find * -type d | fzf)"
 alias vif="nvim \$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')"
 
-## Git
+## git
 alias gsai="git stash apply --index"
 
-# InSales
+# insales
 LETSDEV_REPO=$HOME/insales/letsdev2
 if [ -d $LETSDEV_REPO ]
 then
