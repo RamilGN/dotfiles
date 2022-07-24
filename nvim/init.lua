@@ -1,5 +1,5 @@
 -----------------------------------------------------------
--- # General settings
+-- # Settings
 -----------------------------------------------------------
 
 -- ## Russian keyboard layout
@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -----------------------------------------------------------
--- # General shortcuts
+-- # Shortcuts
 -----------------------------------------------------------
 
 -- ## Russian layout command mode
@@ -72,10 +72,21 @@ vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')
 vim.keymap.set('n', '<leader>P', '"+P')
 
 -----------------------------------------------------------
+-- # Commands
+-----------------------------------------------------------
+
+-- ## Git
+
+-- ### Git log current file
+vim.cmd('command! -nargs=0 Glog silent! bd! COMMIT_EDITMSG | vnew COMMIT_EDITMSG | 0read ++enc=utf8 !git log -p --stat --follow #')
+-- ### Git log current file with range
+vim.cmd('command! -nargs=1 Glogr silent! bd! COMMIT_EDITMSG | vnew COMMIT_EDITMSG | 0read ++enc=utf8 !git log -p -L "<args>":#')
+
+-----------------------------------------------------------
 -- # Helpers
 -----------------------------------------------------------
 
-function vim.getVisualSelection()
+function vim.get_visual_selection()
   vim.cmd('noau normal! "vy"')
   local text = vim.fn.getreg('v')
   vim.fn.setreg('v', {})
@@ -143,7 +154,7 @@ require('packer').startup(function(use)
   -- ## Telescope
   -----------------------------------------------------------
 
-  -- # General settings
+  -- ### Settings
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   require('telescope').setup {
@@ -163,7 +174,7 @@ require('packer').startup(function(use)
     }
   }
 
-  -- # Mappings
+  -- ### Mappings
   require('telescope').load_extension('fzf')
   local telescope = require('telescope.builtin')
 
@@ -180,19 +191,19 @@ require('packer').startup(function(use)
 
   vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<CR>')
   vim.keymap.set('v', '<leader>tl', function()
-    local text = vim.getVisualSelection()
+    local text = vim.get_visual_selection()
     telescope.live_grep({ default_text = text })
   end)
 
   vim.keymap.set('n', '<leader>tb', '<Cmd>Telescope current_buffer_fuzzy_find<CR>')
   vim.keymap.set('v', '<leader>tb', function()
-    local text = vim.getVisualSelection()
+    local text = vim.get_visual_selection()
     telescope.current_buffer_fuzzy_find({ default_text = text })
   end)
 
   vim.keymap.set('n', '<leader>ts', '<Cmd>Telescope grep_string<CR>')
   vim.keymap.set('v', '<leader>ts', function()
-    local text = vim.getVisualSelection()
+    local text = vim.get_visual_selection()
     telescope.grep_string({ default_text = text })
   end)
 
@@ -272,22 +283,22 @@ require('packer').startup(function(use)
     }
   }
 
-  -- Diagnositc mappings
+  -- ### Diagnositc mappings
   local opts = { noremap = true, silent = true }
   vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
 
-  -- General LSP setting
+  -- ### General LSP setting
   local on_attach = function(_, bufnr)
-    -- Mappings
+    -- ### Mappings
     local bufopts = { buffer = bufnr }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>wl', function()
@@ -302,7 +313,7 @@ require('packer').startup(function(use)
     end, bufopts)
   end
 
-  -- Autocompletion
+  -- ### Autocompletion
   local luasnip = require('luasnip')
   local cmp = require('cmp')
   cmp.setup {
@@ -334,11 +345,11 @@ require('packer').startup(function(use)
     }
   }
 
-  -- Autocompletion capabilities
+  -- ### Autocompletion capabilities
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-  -- LSP servers TODO: 'yamlls'
+  -- ### LSP servers TODO: 'yamlls'
   local lspconfig = require('lspconfig')
   local servers = { 'sumneko_lua', 'solargraph', 'gopls' }
   for _, lsp in ipairs(servers) do
