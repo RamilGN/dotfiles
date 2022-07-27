@@ -249,6 +249,44 @@ require('packer').startup({
     -- ## Treesitter
     -----------------------------------------------------------
 
+    use {
+      'nvim-treesitter/nvim-treesitter-context',
+      requires = { 'nvim-treesitter/nvim-treesitter' },
+      config = function()
+        require('treesitter-context').setup({
+          patterns = {
+            default = {
+              'class',
+              'function',
+              'method',
+              'for',
+              'while',
+              'if',
+              'else',
+              'switch',
+              'case',
+            },
+            javascript = {
+              'object',
+              'pair',
+            },
+            ruby = {
+              'module',
+              'block'
+            },
+            yaml = {
+              'block_mapping_pair',
+              'block_sequence_item',
+            },
+            json = {
+              'object',
+              'pair',
+            },
+          },
+        })
+      end
+    }
+
     use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = { 'nvim-treesitter/nvim-treesitter' } }
 
     use {
