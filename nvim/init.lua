@@ -25,6 +25,10 @@ vim.opt.cursorline = true
 vim.opt.updatetime = 250
 -- ## Sign clolum
 vim.opt.signcolumn = 'yes'
+-- Foldings
+vim.o.foldenable = false
+vim.o.foldmethod = 'expr'
+vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 -- ## Highlight yanking text
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -36,7 +40,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -----------------------------------------------------------
--- # Shortcuts
+-- # Mappinngs
 -----------------------------------------------------------
 
 -- ## Russian layout command mode
@@ -249,6 +253,9 @@ require('packer').startup({
 
     use {
       'nvim-treesitter/nvim-treesitter',
+      run = function()
+        require('nvim-treesitter.install').update({ with_sync = true })
+      end,
       config = function()
         require('nvim-treesitter.configs').setup {
           auto_install = true,
@@ -263,8 +270,7 @@ require('packer').startup({
             }
           },
           indent = {
-            enable = true,
-            disable = { 'ruby', 'go' },
+            disable = true,
           },
           textobjects = {
             select = {
@@ -299,6 +305,7 @@ require('packer').startup({
         }
       end
     }
+
     -----------------------------------------------------------
     -- ## LSP
     -----------------------------------------------------------
@@ -350,11 +357,11 @@ require('packer').startup({
     }
 
     use {
-      { 'williamboman/nvim-lsp-installer' },
+      'williamboman/nvim-lsp-installer',
       {
         'neovim/nvim-lspconfig',
         config = function()
-          require('nvim-lsp-installer').setup {
+          lsp_installer = require('nvim-lsp-installer').setup {
             automatic_installation = true,
             ui = {
               icons = {
@@ -398,9 +405,10 @@ require('packer').startup({
           local capabilities = vim.lsp.protocol.make_client_capabilities()
           capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-          -- ### LSP servers TODO: 'yamlls'
+          -- ### LSP servers
           local lspconfig = require('lspconfig')
           local servers = { 'sumneko_lua', 'solargraph', 'gopls' }
+          -- local servers = { lsp_installer.get_installed_servers() }
           for _, lsp in ipairs(servers) do
             lspconfig[lsp].setup {
               on_attach = on_attach,
@@ -495,6 +503,7 @@ require('packer').startup({
     enable = true,
     display = {
       open_fn = require('packer.util').float,
+      log = { level = 'warn' },
     }
   }
 })
@@ -509,8 +518,10 @@ require('packer').startup({
 
 -- 3) Schema store
 
--- 4) Indents
+-- 4) Text editig vim-repeat, vim-surround
 
--- 5) Text editig vim-repeat, vim-surrond
+-- 5) LSP servers yaml, json
+
+-- 6) Vim repeat, surrond
 
 -- vim: ts=2 sts=2 sw=2 et
