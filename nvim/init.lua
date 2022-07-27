@@ -24,7 +24,7 @@ vim.opt.cursorline = true
 -- ## Decrease update time
 vim.opt.updatetime = 250
 -- ## Sign clolum
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = 'auto:2'
 -- Foldings
 vim.o.foldenable = false
 vim.o.foldmethod = 'expr'
@@ -356,6 +356,7 @@ require('packer').startup({
       end
     }
 
+    -- ### LSP config and installer
     use {
       'williamboman/nvim-lsp-installer',
       {
