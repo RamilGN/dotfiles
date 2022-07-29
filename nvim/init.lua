@@ -59,6 +59,10 @@ vim.keymap.set('n', '<C-k>', '<C-w><up>')
 vim.keymap.set('n', '<C-j>', '<C-w><down>')
 vim.keymap.set('n', '<C-l>', '<C-w><right>')
 vim.keymap.set('n', '<C-h>', '<C-w><Left>')
+-- ## Exit terminal mode
+vim.keymap.set('t', '<C-[>', '<C-\\><C-n>')
+-- ## Close current buffer
+vim.keymap.set('n', '<C-w>b', ':bd! %<CR>')
 -- ## Turn off highlight after search
 vim.keymap.set('n', '//', ':nohlsearch<CR>')
 -- ## Add spaces below/under cursor
@@ -82,9 +86,9 @@ vim.keymap.set('n', '<leader>P', '"+P')
 -- ## Git
 
 -- ### Git log current file
-vim.cmd('command! -nargs=0 Glog silent! bd! COMMIT_EDITMSG | vnew COMMIT_EDITMSG | 0read ++enc=utf8 !git log -p --stat --follow #')
+vim.cmd('command! -nargs=0 Glog vsplit term://git --no-pager log -p --stat --follow %')
 -- ### Git log current file with range
-vim.cmd('command! -nargs=1 Glogr silent! bd! COMMIT_EDITMSG | vnew COMMIT_EDITMSG | 0read ++enc=utf8 !git log -p -L "<args>":#')
+vim.cmd('command! -nargs=1 Glogr vsplit term://git --no-pager log -p -L <args>:%')
 
 -----------------------------------------------------------
 -- # Helpers
