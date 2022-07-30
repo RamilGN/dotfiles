@@ -212,6 +212,7 @@ require('packer').startup({
         vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<CR>')
         vim.keymap.set('n', '<leader>tp', '<Cmd>Telescope resume<CR>')
         vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<CR>')
+        vim.keymap.set('n', '<leader>tc', '<Cmd>Telescope oldfiles<CR>')
         vim.keymap.set('n', '<leader>tg', '<Cmd>Telescope git_commits<CR>')
         vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
 
@@ -398,13 +399,6 @@ require('packer').startup({
             { name = 'path' },
           }
         }
-
-        cmp.setup.cmdline('/', {
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = {
-            { name = 'buffer' }
-          }
-        })
       end
     }
 
@@ -439,7 +433,6 @@ require('packer').startup({
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
             vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
             vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-            -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
             vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
             vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
             vim.keymap.set('n', '<leader>wl', function()
