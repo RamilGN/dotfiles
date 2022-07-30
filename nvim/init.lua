@@ -11,7 +11,7 @@ vim.opt.scrolloff = 5
 -- ## Location of new vertical split
 vim.opt.splitright = true
 -- ## Autocomplete
-vim.opt.completeopt = 'menuone,noselect'
+vim.opt.completeopt = 'menu,menuone,noselect'
 -- ## Ignore case if there are no capital letters in the search string
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -356,6 +356,8 @@ require('packer').startup({
     use {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-path',
       'L3MON4D3/LuaSnip',
       requires = { 'hrsh7th/nvim-cmp' }
     }
@@ -366,6 +368,7 @@ require('packer').startup({
       config = function()
         local cmp = require('cmp')
         local luasnip = require('luasnip')
+
         cmp.setup {
           snippet = {
             expand = function(args)
@@ -392,9 +395,25 @@ require('packer').startup({
                   return vim.api.nvim_list_bufs()
                 end
               }
-            }
+            },
+            { name = 'path' },
           }
         }
+
+        cmp.setup.cmdline('/', {
+          mapping = cmp.mapping.preset.cmdline(),
+          sources = {
+            { name = 'buffer' }
+          }
+        })
+
+        cmp.setup.cmdline(':', {
+          mapping = cmp.mapping.preset.cmdline(),
+          sources = cmp.config.sources {
+            { name = 'path' },
+            { name = 'cmdline' }
+          }
+        })
       end
     }
 
