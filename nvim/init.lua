@@ -24,7 +24,7 @@ vim.opt.cursorline = true
 -- ## Decrease update time
 vim.opt.updatetime = 250
 -- ## Sign clolum
-vim.opt.signcolumn = 'auto:2'
+vim.opt.signcolumn = 'auto:1-2'
 -- Foldings
 vim.o.foldenable = false
 vim.o.foldmethod = 'expr'
@@ -356,7 +356,6 @@ require('packer').startup({
     use {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-path',
       'L3MON4D3/LuaSnip',
       requires = { 'hrsh7th/nvim-cmp' }
@@ -404,14 +403,6 @@ require('packer').startup({
           mapping = cmp.mapping.preset.cmdline(),
           sources = {
             { name = 'buffer' }
-          }
-        })
-
-        cmp.setup.cmdline(':', {
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = cmp.config.sources {
-            { name = 'path' },
-            { name = 'cmdline' }
           }
         })
       end
@@ -547,12 +538,24 @@ require('packer').startup({
         require('nvim-tree').setup()
         vim.keymap.set('n', '<leader><leader>', ':NvimTreeToggle<CR>')
         vim.keymap.set('n', '<C-n>', ':NvimTreeFindFile<CR>')
+        vim.cmd('hi NvimTreeWinSeparator guifg=bg')
       end
     }
 
     -- ### Text editing
     use { 'tpope/vim-repeat' } -- TODO
     use { 'tpope/vim-surround' } -- TODO
+
+    -- ### Find and replace across project
+    use {
+      'nvim-pack/nvim-spectre',
+      config = function()
+        require('spectre').setup()
+        vim.keymap.set('n', '<leader>S', function()
+          require('spectre').open()
+        end)
+      end
+    }
 
     -----------------------------------------------------------
     -- ## Language specific plugins
