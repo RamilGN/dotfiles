@@ -25,19 +25,10 @@ vim.opt.cursorline = true
 vim.opt.updatetime = 250
 -- ## Sign clolum
 vim.opt.signcolumn = 'auto:1-2'
--- Foldings
+-- ## Foldings
 vim.o.foldenable = false
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
--- ## Highlight yanking text
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
-})
 
 -----------------------------------------------------------
 -- # Mappinngs
@@ -72,7 +63,9 @@ vim.keymap.set('n', ']<leader>', 'm`O<Esc>``')
 vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
 -- ## Repeat last command
-vim.keymap.set('n', '<leader>re', '@:')
+vim.keymap.set('n', '<leader>r', '@:')
+-- ## Serach word without jumping
+vim.keymap.set('n', '#', ":let @/= '\\<'.expand('<cword>').'\\>' <bar> set hls <CR>", { silent = true })
 -- ## Yank/Paste system clipboard
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')
 vim.keymap.set('n', '<leader>Y', '"+Y')
@@ -89,6 +82,24 @@ vim.keymap.set('n', '<leader>P', '"+P')
 vim.cmd('command! -nargs=0 Glog vsplit term://git --no-pager log -p --stat --follow %')
 -- ### Git log current file with range
 vim.cmd('command! -nargs=1 Glogr vsplit term://git --no-pager log -p -L <args>:%')
+
+-----------------------------------------------------------
+-- # Autocmds
+-----------------------------------------------------------
+
+-- ## Highlight yanking text
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
+
+-- ## Turn off whitspace highlight
+vim.api.nvim_create_autocmd('TermOpen', {
+  callback = function()
+    vim.cmd('DisableWhitespace')
+  end
+})
 
 -----------------------------------------------------------
 -- # Helpers
@@ -570,16 +581,6 @@ require('packer').startup({
 -- TODO
 -----------------------------------------------------------
 
--- 1) Implement automatic switch to `en` layout when entering command mode
-
--- 2) vim.call('repeat#set', ']d')
-
--- 3) Schema store
-
--- 4) Text editig vim-repeat, vim-surround
-
--- 5) LSP servers yaml, json
-
--- 6) Vim repeat, surrond
+-- 1) LSP servers yaml, json - schema store
 
 -- vim: ts=2 sts=2 sw=2 et
