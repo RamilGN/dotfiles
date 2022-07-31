@@ -416,26 +416,16 @@ require('packer').startup({
     -- ### LSP config and installer
     use {
       'williamboman/nvim-lsp-installer',
+      'b0o/schemastore.nvim',
       {
         'neovim/nvim-lspconfig',
         config = function()
-          lsp_installer = require('nvim-lsp-installer').setup {
-            automatic_installation = true,
-            ui = {
-              icons = {
-                server_installed = '✓',
-                server_pending = '➜',
-                server_uninstalled = '✗'
-              }
-            }
-          }
-
           -- ### Diagnositc mappings
-          local opts = { noremap = true, silent = true }
-          vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
-          vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-          vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-          vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
+          local keymap_opts = { noremap = true, silent = true }
+          vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, keymap_opts)
+          vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, keymap_opts)
+          vim.keymap.set('n', ']d', vim.diagnostic.goto_next, keymap_opts)
+          vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, keymap_opts)
 
           -- ### Mappings
           local on_attach = function(_, bufnr)
@@ -462,15 +452,44 @@ require('packer').startup({
           local capabilities = vim.lsp.protocol.make_client_capabilities()
           capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-          -- ### LSP servers
-          local lspconfig = require('lspconfig')
-          local servers = { 'sumneko_lua', 'solargraph', 'gopls' }
-          -- local servers = { lsp_installer.get_installed_servers() }
-          for _, lsp in ipairs(servers) do
-            lspconfig[lsp].setup {
-              on_attach = on_attach,
-              capabilities = capabilities
+
+          -- ### LSP installer configuration
+          local lsp_installer = require('nvim-lsp-installer')
+          lsp_installer.setup {
+            automatic_installation = true,
+            ui = {
+              icons = {
+                server_installed = '✓',
+                server_pending = '➜',
+                server_uninstalled = '✗'
+              }
             }
+          }
+
+          -- ### Additional settings for certain LSP servers
+          local enhance_server_opts = {
+            ['jsonls'] = function(options)
+              options.settings = {
+                json = {
+                  schemas = require('schemastore').json.schemas(),
+                  validate = { enable = true },
+                },
+              }
+            end,
+          }
+
+          -- ### LSP servers configuration
+          local lspconfig = require('lspconfig')
+          local lsp_opts = {
+            on_attach = on_attach,
+            capabilities = capabilities,
+          }
+
+          for _, server in ipairs(lsp_installer.get_installed_servers()) do
+            if enhance_server_opts[server.name] then
+              enhance_server_opts[server.name](lsp_opts)
+            end
+            lspconfig[server.name].setup(lsp_opts)
           end
         end
       }
@@ -490,12 +509,10 @@ require('packer').startup({
 
     -- ### Autosaving
     use {
-      'Pocco81/AutoSave.nvim',
+      "Pocco81/auto-save.nvim",
       config = function()
-        require('autosave').setup {
-          execution_message = ''
-        }
-      end
+        require('auto-save').setup()
+      end,
     }
 
     -- ### Popup with suggestions to complete a key binding
@@ -547,8 +564,8 @@ require('packer').startup({
     }
 
     -- ### Text editing
-    use { 'tpope/vim-repeat' } -- TODO
-    use { 'tpope/vim-surround' } -- TODO
+    use { 'tpope/vim-repeat' }
+    use { 'tpope/vim-surround' }
 
     -- ### Find and replace across project
     use {
@@ -576,11 +593,5 @@ require('packer').startup({
     }
   }
 })
-
------------------------------------------------------------
--- TODO
------------------------------------------------------------
-
--- 1) LSP servers yaml, json - schema store
 
 -- vim: ts=2 sts=2 sw=2 et
