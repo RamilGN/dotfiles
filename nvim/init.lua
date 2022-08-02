@@ -63,7 +63,7 @@ vim.keymap.set('n', ']<leader>', 'm`O<Esc>``')
 vim.keymap.set('n', '<leader>vl', ':vsp $MYVIMRC<CR>')
 vim.keymap.set('n', '<leader>vs', ':source $MYVIMRC<CR>')
 -- ## Repeat last command
-vim.keymap.set('n', '<leader>r', '@:')
+vim.keymap.set('n', '<leader>re', '@:')
 -- ## Serach word without jumping
 vim.keymap.set('n', '#', ":let @/= '\\<'.expand('<cword>').'\\>' <bar> set hls <CR>", { silent = true })
 -- ## Yank/Paste system clipboard
