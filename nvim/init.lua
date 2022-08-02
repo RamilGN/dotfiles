@@ -448,11 +448,6 @@ require('packer').startup({
             end, bufopts)
           end
 
-          -- ### Autocompletion capabilities
-          local capabilities = vim.lsp.protocol.make_client_capabilities()
-          capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
-
           -- ### LSP installer configuration
           local lsp_installer = require('nvim-lsp-installer')
           lsp_installer.setup {
@@ -478,14 +473,17 @@ require('packer').startup({
             end,
           }
 
-          -- ### LSP servers configuration
-          local lspconfig = require('lspconfig')
-          local lsp_opts = {
-            on_attach = on_attach,
-            capabilities = capabilities,
-          }
+          -- ### Autocompletion capabilities
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
+          local lspconfig = require('lspconfig')
           for _, server in ipairs(lsp_installer.get_installed_servers()) do
+            -- ### LSP servers configuration
+            local lsp_opts = {
+              on_attach = on_attach,
+              capabilities = capabilities,
+            }
             if enhance_server_opts[server.name] then
               enhance_server_opts[server.name](lsp_opts)
             end
