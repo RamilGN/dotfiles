@@ -10,6 +10,7 @@ vim.opt.number = true
 vim.opt.scrolloff = 5
 -- ## Location of new vertical split
 vim.opt.splitright = true
+vim.opt.splitbelow = true
 -- ## Autocomplete
 vim.opt.completeopt = 'menu,menuone,noselect'
 -- ## Ignore case if there are no capital letters in the search string
@@ -21,14 +22,20 @@ vim.opt.undofile = true
 vim.opt.termguicolors = true
 -- ## Highlight current line
 vim.opt.cursorline = true
--- ## Decrease update time
+-- ## Faster completion
 vim.opt.updatetime = 250
 -- ## Sign clolum
 vim.opt.signcolumn = 'auto:1-2'
 -- ## Foldings
-vim.o.foldenable = false
-vim.o.foldmethod = 'expr'
-vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldenable = false
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+-- ## Swap file off
+vim.opt.swapfile = false
+-- ## Show trailing whitespaces, tabs
+vim.opt.list = true
+vim.opt.listchars:append('trail:•')
+vim.opt.listchars:append('tab:▸▸')
 
 -----------------------------------------------------------
 -- # Mappinngs
@@ -79,12 +86,22 @@ vim.keymap.set('n', '<leader>P', '"+P')
 -- ## Git
 
 -- ### Git log current file
-vim.cmd('command! -nargs=0 Glog vsplit term://git --no-pager log -p --stat --follow %')
+vim.api.nvim_create_user_command('Glog', 'vsplit term://git --no-pager log -p --stat --follow %', { nargs = 0 })
 -- ### Git log current file with range
-vim.cmd('command! -nargs=1 Glogr vsplit term://git --no-pager log -p -L <args>:%')
+vim.api.nvim_create_user_command('Glogr', 'vsplit term://git --no-pager log -p -L <args>:%', { nargs = 1 })
+-- ### Git log current file with range
+vim.api.nvim_create_user_command('Glogr', 'vsplit term://git --no-pager log -p -L <args>:%', { nargs = 1 })
+
+-- ## Trim trailing whitespaces
+vim.api.nvim_create_user_command(
+  'TrimTW', function()
+    local curpos = vim.api.nvim_win_get_cursor(0)
+    vim.cmd[[keeppatterns %s/\s\+$//e]]
+    vim.api.nvim_win_set_cursor(0, curpos)
+  end, { nargs = 0 })
 
 -----------------------------------------------------------
--- # Autocmds
+-- # Autocommands
 -----------------------------------------------------------
 
 -- ## Highlight yanking text
@@ -94,10 +111,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- ## Turn off whitspace highlight
-vim.api.nvim_create_autocmd('TermOpen', {
+-- ## Turn off commets auto-insert
+vim.api.nvim_create_autocmd('BufWinEnter', {
   callback = function()
-    vim.cmd('DisableWhitespace')
+    vim.opt.formatoptions:remove({ 'c', 'r', 'o' })
   end
 })
 
@@ -106,11 +123,11 @@ vim.api.nvim_create_autocmd('TermOpen', {
 -----------------------------------------------------------
 
 function vim.get_visual_selection()
-  vim.cmd('noau normal! "vy"')
+  vim.cmd[[noau normal! "vy"]]
   local text = vim.fn.getreg('v')
   vim.fn.setreg('v', {})
 
-  text = string.gsub(text, "\n", "")
+  text = string.gsub(text, '\n', '')
   if #text > 0 then
     return text
   else
@@ -122,7 +139,7 @@ end
 -- # Plugins
 -----------------------------------------------------------
 
-require('packer').startup({
+require('packer').startup {
   function(use)
     use { 'wbthomason/packer.nvim' }
 
@@ -132,9 +149,11 @@ require('packer').startup({
 
     -- ### Theme
     use {
-      'EdenEast/nightfox.nvim',
+      "catppuccin/nvim",
       config = function()
-        vim.cmd('colorscheme nightfox')
+        require("catppuccin").setup()
+        vim.g.catppuccin_flavour = 'macchiato'
+        vim.cmd[[colorscheme catppuccin]]
       end
     }
 
@@ -145,6 +164,7 @@ require('packer').startup({
       config = function()
         require('lualine').setup {
           options = {
+            theme = 'catppuccin',
             component_separators = '|',
             section_separators = '',
           }
@@ -507,9 +527,15 @@ require('packer').startup({
 
     -- ### Autosaving
     use {
-      "Pocco81/auto-save.nvim",
+      'Pocco81/auto-save.nvim',
       config = function()
-        require('auto-save').setup()
+        require('auto-save').setup {
+          execution_message = {
+            message = function()
+              return ''
+            end
+          }
+        }
       end,
     }
 
@@ -521,16 +547,6 @@ require('packer').startup({
           require('which-key').setup()
         end
       }
-    }
-
-    -- ### Hightlight trailing whitespaces
-    use {
-      'ntpeters/vim-better-whitespace',
-      config = function()
-        vim.g.better_whitespace_enabled = true
-        vim.g.better_whitespace_ctermcolor = 'DarkRed'
-        vim.g.better_whitespace_guicolor = 'DarkRed'
-      end
     }
 
     -- ### Indentation style detection
@@ -557,13 +573,16 @@ require('packer').startup({
         require('nvim-tree').setup()
         vim.keymap.set('n', '<leader><leader>', ':NvimTreeToggle<CR>')
         vim.keymap.set('n', '<C-n>', ':NvimTreeFindFile<CR>')
-        vim.cmd('hi NvimTreeWinSeparator guifg=bg')
       end
     }
 
     -- ### Text editing
-    use { 'tpope/vim-repeat' }
-    use { 'tpope/vim-surround' }
+    use {
+      'kylechui/nvim-surround',
+      config = function()
+        require('nvim-surround').setup()
+      end
+    }
 
     -- ### Find and replace across project
     use {
@@ -590,6 +609,6 @@ require('packer').startup({
       log = { level = 'warn' },
     }
   }
-})
+}
 
 -- vim: ts=2 sts=2 sw=2 et
