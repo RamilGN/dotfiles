@@ -96,7 +96,7 @@ vim.api.nvim_create_user_command('Glogr', 'vsplit term://git --no-pager log -p -
 vim.api.nvim_create_user_command(
   'TrimTW', function()
     local curpos = vim.api.nvim_win_get_cursor(0)
-    vim.cmd[[keeppatterns %s/\s\+$//e]]
+    vim.cmd [[keeppatterns %s/\s\+$//e]]
     vim.api.nvim_win_set_cursor(0, curpos)
   end, { nargs = 0 })
 
@@ -123,7 +123,7 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 -----------------------------------------------------------
 
 function vim.get_visual_selection()
-  vim.cmd[[noau normal! "vy"]]
+  vim.cmd [[noau normal! "vy"]]
   local text = vim.fn.getreg('v')
   vim.fn.setreg('v', {})
 
@@ -153,7 +153,7 @@ require('packer').startup {
       config = function()
         require("catppuccin").setup()
         vim.g.catppuccin_flavour = 'macchiato'
-        vim.cmd[[colorscheme catppuccin]]
+        vim.cmd [[colorscheme catppuccin]]
       end
     }
 
@@ -598,6 +598,14 @@ require('packer').startup {
     -----------------------------------------------------------
     -- ## Language specific plugins
     -----------------------------------------------------------
+
+    -- ### Markdown
+    use({
+      'iamcco/markdown-preview.nvim',
+      run = function()
+        vim.fn['mkdp#util#install']()
+      end,
+    })
 
     -- ### Ruby
     use { 'slim-template/vim-slim' }
