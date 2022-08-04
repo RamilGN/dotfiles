@@ -1,0 +1,10 @@
+[user]
+	name = RamilG
+	email = rami.gaggi@gmail.com
+[core]
+	editor = nvim
+	excludesfile = /home/rami-gaggi/dotfiles/git/.gitignore
+[init]
+	defaultBranch = main
+[pull]
+	ff = only

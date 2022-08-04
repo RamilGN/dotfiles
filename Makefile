@@ -77,3 +77,8 @@ asdf:
 	rm -f $(ASDFRC_PATH)
 	git clone git@github.com:asdf-vm/asdf.git $(ASDF_PATH)
 	ln -sf $(PWD)/.asdfrc $(ASDFRC_PATH)
+
+.PHONY: git
+git:
+	ln -sf $(PWD)/git/.gitconfig ~/.gitconfig
+	git config --global core.excludesfile $(PWD)/git/.gitignore
