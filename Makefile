@@ -1,3 +1,13 @@
+ASDFRC_PATH:=~/.asdfrc
+ASDF_PATH:=~/.asdf
+PACKER_PATH:=~/.local/share/nvim/site/pack/packer/start
+
+.PHONY: all
+all: packages-only kitty oh-my-zsh fonts nvim asdf
+
+.PHONY: packages-only
+packages-only: packages packages-after
+
 .PHONY: packages
 packages:
 	apt-get install software-properties-common -y
@@ -43,7 +53,7 @@ oh-my-zsh:
 	chsh -s $$(which zsh)
 
 .PHONY: font
-font:
+fonts:
 	rm -rf $(PWD)/nerd-fonts
 	rm -rf ~/.local/share/fonts/NerdFonts
 	git clone --filter=blob:none --sparse git@github.com:ryanoasis/nerd-fonts
@@ -51,7 +61,6 @@ font:
 	./nerd-fonts/install.sh FiraCode
 
 .PHONY: nvim
-PACKER_PATH=~/.local/share/nvim/site/pack/packer/start
 nvim:
 	rm -rf $(PWD)/nvim/plugin
 	rm -rf ~/.local/share/nvim
@@ -63,14 +72,8 @@ nvim:
 	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 .PHONY: asdf
-ASDF_PATH=~/.asdf
-ASDFRC_PATH=~/.asdfrc
 asdf:
 	rm -rf $(ASDF_PATH)
 	rm -f $(ASDFRC_PATH)
 	git clone git@github.com:asdf-vm/asdf.git $(ASDF_PATH)
 	ln -sf $(PWD)/.asdfrc $(ASDFRC_PATH)
-
-# TODO
-# CI
-# Make packer to install in headless mode without errors
