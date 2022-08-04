@@ -89,8 +89,6 @@ vim.keymap.set('n', '<leader>P', '"+P')
 vim.api.nvim_create_user_command('Glog', 'vsplit term://git --no-pager log -p --stat --follow %', { nargs = 0 })
 -- ### Git log current file with range
 vim.api.nvim_create_user_command('Glogr', 'vsplit term://git --no-pager log -p -L <args>:%', { nargs = 1 })
--- ### Git log current file with range
-vim.api.nvim_create_user_command('Glogr', 'vsplit term://git --no-pager log -p -L <args>:%', { nargs = 1 })
 
 -- ## Trim trailing whitespaces
 vim.api.nvim_create_user_command(
@@ -111,7 +109,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- ## Turn off commets auto-insert
+-- ## Turn off comments auto-insert
 vim.api.nvim_create_autocmd('BufWinEnter', {
   callback = function()
     vim.opt.formatoptions:remove({ 'c', 'r', 'o' })
