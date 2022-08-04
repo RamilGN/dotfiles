@@ -1,12 +1,36 @@
-# Configs
+## Requirements
+ - Ubuntu (or any debian-based distro)
+ - make
 
-## Troublehshooting
+## Installation
 
-### Solargraph can't load gems in project
+### Full
 
-Just use `GEM_HOME="$HOME/.local/share/nvim/lsp_servers/solargraph"
-GEM_PATH="$HOME/.local/share/nvim/lsp_servers/solargraph" bundle install` to install gems.
+1. Clone this repo
 
-## TODO
+```bash
+git clone git@github.com:RamiGaggi/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+```
 
-1) zsh suggestions
+2. Install
+
+```bash
+make all
+```
+
+### Partial
+
+1. Clone this repo
+
+```bash
+git clone git@github.com:RamiGaggi/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+```
+
+2. Install
+
+```bash
+make packages-only
+make fonts # kitty, oh-my-zsh, nvim, asdf
+```
