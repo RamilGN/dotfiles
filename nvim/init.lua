@@ -609,7 +609,7 @@ require('packer').startup {
     use { 'slim-template/vim-slim' }
   end,
   config = {
-    enable = true,
+    snapshot_path = require('packer.util').join_paths(vim.fn.getenv('HOME'), 'dotfiles', 'nvim'),
     display = {
       open_fn = require('packer.util').float,
       log = { level = 'warn' },
