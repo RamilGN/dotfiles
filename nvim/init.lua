@@ -284,44 +284,47 @@ require('packer').startup {
     -----------------------------------------------------------
 
     use {
-      'nvim-treesitter/nvim-treesitter-context',
-      requires = { 'nvim-treesitter/nvim-treesitter' },
-      config = function()
-        require('treesitter-context').setup({
-          patterns = {
-            default = {
-              'class',
-              'function',
-              'method',
-              'for',
-              'while',
-              'if',
-              'else',
-              'switch',
-              'case',
+      {
+        'nvim-treesitter/nvim-treesitter-context',
+        config = function()
+          require('treesitter-context').setup({
+            patterns = {
+              default = {
+                'class',
+                'function',
+                'method',
+                'for',
+                'while',
+                'if',
+                'else',
+                'switch',
+                'case',
+              },
+              javascript = {
+                'object',
+                'pair',
+              },
+              ruby = {
+                'module',
+                'block'
+              },
+              yaml = {
+                'block_mapping_pair',
+                'block_sequence_item',
+              },
+              json = {
+                'object',
+                'pair',
+              },
             },
-            javascript = {
-              'object',
-              'pair',
-            },
-            ruby = {
-              'module',
-              'block'
-            },
-            yaml = {
-              'block_mapping_pair',
-              'block_sequence_item',
-            },
-            json = {
-              'object',
-              'pair',
-            },
-          },
-        })
-      end
+          })
+        end
+      },
+      { 'RRethy/nvim-treesitter-endwise' },
+      { 'nvim-treesitter/nvim-treesitter-textobjects' },
+      requires = { 'nvim-treesitter/nvim-treesitter' }
     }
 
-    use { 'nvim-treesitter/nvim-treesitter-textobjects', requires = { 'nvim-treesitter/nvim-treesitter' } }
 
     use {
       'nvim-treesitter/nvim-treesitter',
@@ -372,7 +375,10 @@ require('packer').startup {
                 ['[F'] = '@function.outer',
                 ['[C'] = '@class.outer',
               },
-            }
+            },
+          },
+          endwise = {
+            enable = true
           }
         }
       end
@@ -387,6 +393,7 @@ require('packer').startup {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
       'L3MON4D3/LuaSnip',
       requires = { 'hrsh7th/nvim-cmp' }
     }
@@ -416,7 +423,6 @@ require('packer').startup {
           }),
           sources = {
             { name = 'nvim_lsp' },
-            { name = 'luasnip' },
             {
               name = 'buffer',
               option = {
@@ -428,6 +434,22 @@ require('packer').startup {
             { name = 'path' },
           }
         }
+
+        cmp.setup.cmdline(':', {
+          mapping = cmp.mapping.preset.cmdline(),
+          sources = cmp.config.sources {
+            { name = 'cmdline' },
+          },
+        })
+
+        for _, cmd_type in ipairs({ '/', '?', }) do
+          cmp.setup.cmdline(cmd_type, {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+              { name = 'buffer', max_item_count = 10 },
+            },
+          })
+        end
       end
     }
 
@@ -569,6 +591,8 @@ require('packer').startup {
       requires = { 'kyazdani42/nvim-web-devicons' },
       config = function()
         require('nvim-tree').setup()
+
+        -- #### Mappinngs
         vim.keymap.set('n', '<leader><leader>', ':NvimTreeToggle<CR>')
         vim.keymap.set('n', '<C-n>', ':NvimTreeFindFile<CR>')
       end
@@ -587,10 +611,22 @@ require('packer').startup {
       'nvim-pack/nvim-spectre',
       config = function()
         require('spectre').setup()
+
+        -- #### Mappinngs
         vim.keymap.set('n', '<leader>S', function()
           require('spectre').open()
         end)
       end
+    }
+
+    -- ### Undo tree
+    use {
+      setup = function()
+
+        -- #### Mappinngs
+        vim.keymap.set('n', '<leader>ut', ':UndotreeToggle<CR>')
+      end,
+      'mbbill/undotree'
     }
 
     -----------------------------------------------------------
