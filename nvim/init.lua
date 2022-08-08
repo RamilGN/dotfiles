@@ -36,6 +36,8 @@ vim.opt.swapfile = false
 vim.opt.list = true
 vim.opt.listchars:append('trail:•')
 vim.opt.listchars:append('tab:▸▸')
+-- ## Global statusline
+vim.opt.laststatus = 3
 
 -----------------------------------------------------------
 -- # Mappinngs
@@ -145,11 +147,19 @@ require('packer').startup {
     -- ## UI
     -----------------------------------------------------------
 
+    -- ### Icons
+    use {
+      'kyazdani42/nvim-web-devicons',
+      config = function()
+        require('nvim-web-devicons').setup()
+      end
+    }
+
     -- ### Theme
     use {
-      "catppuccin/nvim",
+      'catppuccin/nvim',
       config = function()
-        require("catppuccin").setup()
+        require('catppuccin').setup()
         vim.g.catppuccin_flavour = 'macchiato'
         vim.cmd [[colorscheme catppuccin]]
       end
@@ -162,10 +172,11 @@ require('packer').startup {
       config = function()
         require('lualine').setup {
           options = {
-            theme = 'catppuccin',
+            theme = 'nightfly',
             component_separators = '|',
             section_separators = '',
-          }
+          },
+          extensions = { 'nvim-tree' }
         }
       end
     }
@@ -242,7 +253,8 @@ require('packer').startup {
         vim.keymap.set('n', '<leader>tp', '<Cmd>Telescope resume<CR>')
         vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<CR>')
         vim.keymap.set('n', '<leader>tc', '<Cmd>Telescope oldfiles<CR>')
-        vim.keymap.set('n', '<leader>tg', '<Cmd>Telescope git_commits<CR>')
+        vim.keymap.set('n', '<leader>tgc', '<Cmd>Telescope git_commits<CR>')
+        vim.keymap.set('n', '<leader>tgs', '<Cmd>Telescope git_status<CR>')
         vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
 
         vim.keymap.set('n', '<leader>td', '<Cmd>Telescope diagnostics<CR>')
