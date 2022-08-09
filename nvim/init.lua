@@ -261,6 +261,7 @@ require('packer').startup {
         vim.keymap.set('n', '<leader>to', '<Cmd>Telescope lsp_document_symbols<CR>')
         vim.keymap.set('n', '<leader>tw', '<Cmd>Telescope lsp_workspace_symbols<CR>')
         vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<CR>')
+        vim.keymap.set('n', 'gd', '<Cmd>Telescope lsp_definitions<CR>')
 
         vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<CR>')
         vim.keymap.set('v', '<leader>tl', function()
@@ -482,10 +483,10 @@ require('packer').startup {
           -- ### Mappings
           local on_attach = function(_, bufnr)
             local bufopts = { buffer = bufnr }
+            -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
             vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-            vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
             vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+            vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
             vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
             vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
             vim.keymap.set('n', '<leader>wl', function()
