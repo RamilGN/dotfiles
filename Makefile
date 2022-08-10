@@ -17,12 +17,12 @@ packages:
 	apt-get update -y
 	apt-get install -y zsh     \
 			   neovim  \
-			   git	   \
+			   git     \
 			   xclip   \
 			   curl    \
-			   bat	   \
+			   bat     \
 			   fd-find \
-			   fzf 	   \
+			   fzf     \
 			   ripgrep
 
 .PHONY: packages-after

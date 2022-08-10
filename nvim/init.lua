@@ -3,7 +3,11 @@
 -----------------------------------------------------------
 
 -- ## Russian keyboard layout
-vim.opt.langmap = 'ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz'
+vim.opt.keymap = 'russian-jcukenwin'
+vim.opt.iminsert = 0
+vim.opt.imsearch = -1
+-- ## Spell dictionaries
+vim.opt.spelllang = { 'en_us', 'ru' }
 -- ## Line numbers
 vim.opt.number = true
 -- ## Show some lines after cursor
@@ -22,8 +26,8 @@ vim.opt.undofile = true
 vim.opt.termguicolors = true
 -- ## Highlight current line
 vim.opt.cursorline = true
--- ## Faster completion
-vim.opt.updatetime = 250
+-- ## Faster auto-completion and etc
+vim.opt.updatetime = 50
 -- ## Sign clolum
 vim.opt.signcolumn = 'auto:1-2'
 -- ## Foldings
@@ -34,22 +38,20 @@ vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.swapfile = false
 -- ## Show trailing whitespaces, tabs
 vim.opt.list = true
-vim.opt.listchars:append('trail:•')
-vim.opt.listchars:append('tab:▸▸')
+vim.opt.listchars = { tab = '▸▸', trail = '•', nbsp = '␣', extends = '…' }
 -- ## Global statusline
 vim.opt.laststatus = 3
+-- ## Title
+vim.opt.title = true
+vim.opt.titlestring = '%<%F'
 
 -----------------------------------------------------------
 -- # Mappinngs
 -----------------------------------------------------------
 
--- ## Russian layout command mode
-vim.keymap.set('n', 'Ж', ':')
 -- ## Word wrapping
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-vim.keymap.set('n', 'л', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'о', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 -- ## Space as <leader>
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = ' '
@@ -80,6 +82,8 @@ vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')
 vim.keymap.set('n', '<leader>Y', '"+Y')
 vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')
 vim.keymap.set('n', '<leader>P', '"+P')
+-- ## Switch layout
+vim.keymap.set('i', '<C-j>', '<C-^>')
 
 -----------------------------------------------------------
 -- # Commands
@@ -87,14 +91,30 @@ vim.keymap.set('n', '<leader>P', '"+P')
 
 -- ## Git
 
--- ### Git log current file
-vim.api.nvim_create_user_command('Glog', 'vsplit term://git --no-pager log -p --stat --follow %', { nargs = 0 })
--- ### Git log current file with range
-vim.api.nvim_create_user_command('Glogr', 'vsplit term://git --no-pager log -p -L <args>:%', { nargs = 1 })
+-- ### Git log current file with range(optional)
+vim.api.nvim_create_user_command(
+  'GitLog',
+ function(opts)
+    local range = opts.args
+    if range == '' then
+      vim.cmd([[vsplit term://git --no-pager log -p --stat --follow ]] .. [[%]])
+    else
+      vim.cmd([[vsplit term://git --no-pager log -p -L]] .. range .. [[:%]])
+    end
+  end,
+  { nargs = '?' }
+)
+
+-- ## Ruby
+
+-- ### Rails routes
+vim.api.nvim_create_user_command('RailsRoutes', 'vsplit term://bundle exec bin/rails routes -E', { nargs = 0 })
+
+-- ### Other
 
 -- ## Trim trailing whitespaces
 vim.api.nvim_create_user_command(
-  'TrimTW', function()
+  'TrimWhitespaces', function()
     local curpos = vim.api.nvim_win_get_cursor(0)
     vim.cmd [[keeppatterns %s/\s\+$//e]]
     vim.api.nvim_win_set_cursor(0, curpos)
@@ -115,6 +135,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.api.nvim_create_autocmd('BufWinEnter', {
   callback = function()
     vim.opt.formatoptions:remove({ 'c', 'r', 'o' })
+  end
+})
+
+-- Turn off input method outside insert mode
+vim.api.nvim_create_autocmd('InsertLeave', {
+  callback = function()
+    vim.opt.iminsert = 0
   end
 })
 
@@ -441,8 +468,9 @@ require('packer').startup {
               option = {
                 get_bufnrs = function()
                   return vim.api.nvim_list_bufs()
-                end
-              }
+                end,
+                keyword_pattern = [[\k\+]],
+              },
             },
             { name = 'path' },
           }
