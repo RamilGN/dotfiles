@@ -243,6 +243,7 @@ require('packer').startup {
         -- ## Mappings
         vim.keymap.set('n', '<leader>gd', '<Cmd>Gitsigns diffthis<CR>')
         vim.keymap.set('n', '<leader>gh', '<Cmd>Gitsigns preview_hunk<CR>')
+        vim.keymap.set('n', '<leader>gs', '<Cmd>Gitsigns stage_hunk<CR>')
         vim.keymap.set('n', '<leader>gr', '<Cmd>Gitsigns reset_hunk<CR>')
         vim.keymap.set('n', ']g', '<Cmd>Gitsigns next_hunk<CR>')
         vim.keymap.set('n', '[g', '<Cmd>Gitsigns prev_hunk<CR>')
@@ -504,6 +505,11 @@ require('packer').startup {
       {
         'neovim/nvim-lspconfig',
         config = function()
+          -- ### Turn off diagnostics errors near line
+          vim.diagnostic.config {
+            virtual_text = false,
+          }
+
           -- ### Diagnositc mappings
           local keymap_opts = { noremap = true, silent = true }
           vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, keymap_opts)
@@ -567,6 +573,7 @@ require('packer').startup {
             local lsp_opts = {
               on_attach = on_attach,
               capabilities = capabilities,
+              allow_incremental_sync = false, -- Fix hanging of diagnostics virtual text
             }
             if enhance_server_opts[server.name] then
               enhance_server_opts[server.name](lsp_opts)
