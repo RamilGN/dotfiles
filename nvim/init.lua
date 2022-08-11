@@ -29,7 +29,7 @@ vim.opt.cursorline = true
 -- ## Faster auto-completion and etc
 vim.opt.updatetime = 50
 -- ## Sign clolum
-vim.opt.signcolumn = 'auto:1-2'
+vim.opt.signcolumn = 'yes:2'
 -- ## Foldings
 vim.opt.foldenable = false
 vim.opt.foldmethod = 'expr'
@@ -41,9 +41,8 @@ vim.opt.list = true
 vim.opt.listchars = { tab = '▸▸', trail = '•', nbsp = '␣', extends = '…' }
 -- ## Global statusline
 vim.opt.laststatus = 3
--- ## Title
-vim.opt.title = true
-vim.opt.titlestring = '%<%F'
+-- ## Autowrite
+vim.opt.autowrite = true
 
 -----------------------------------------------------------
 -- # Mappinngs
@@ -94,7 +93,7 @@ vim.keymap.set('i', '<C-j>', '<C-^>')
 -- ### Git log current file with range(optional)
 vim.api.nvim_create_user_command(
   'GitLog',
- function(opts)
+  function(opts)
     local range = opts.args
     if range == '' then
       vim.cmd([[vsplit term://git --no-pager log -p --stat --follow ]] .. [[%]])
@@ -200,8 +199,12 @@ require('packer').startup {
         require('lualine').setup {
           options = {
             theme = 'nightfly',
-            component_separators = '|',
-            section_separators = '',
+            component_separators = {},
+            section_separators = {},
+          },
+          sections = {
+            lualine_c = { '%f' },
+            lualine_z = { '%l:%v' }
           },
           extensions = { 'nvim-tree' }
         }
@@ -595,7 +598,8 @@ require('packer').startup {
             message = function()
               return ''
             end
-          }
+          },
+          debounce_delay = 1000
         }
       end,
     }
