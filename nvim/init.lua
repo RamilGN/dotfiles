@@ -281,17 +281,22 @@ require('packer').startup {
 
         -- ### Mappings
         vim.keymap.set('n', '<leader>b', '<Cmd>Telescope buffers<CR>')
-        vim.keymap.set('n', '<leader>tp', '<Cmd>Telescope resume<CR>')
+        vim.keymap.set('n', '<leader>tt', '<Cmd>Telescope resume<CR>')
+        vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
+
         vim.keymap.set('n', '<leader>tf', '<Cmd>Telescope find_files<CR>')
         vim.keymap.set('n', '<leader>tc', '<Cmd>Telescope oldfiles<CR>')
+
         vim.keymap.set('n', '<leader>tgc', '<Cmd>Telescope git_commits<CR>')
+        vim.keymap.set('n', '<leader>tgx', '<Cmd>Telescope git_bcommits<CR>')
+        vim.keymap.set('n', '<leader>tgb', '<Cmd>Telescope git_branches<CR>')
         vim.keymap.set('n', '<leader>tgs', '<Cmd>Telescope git_status<CR>')
-        vim.keymap.set('n', '<leader>th', '<Cmd>Telescope help_tags<CR>')
+        vim.keymap.set('n', '<leader>tgh', '<Cmd>Telescope git_stash<CR>')
 
         vim.keymap.set('n', '<leader>td', '<Cmd>Telescope diagnostics<CR>')
         vim.keymap.set('n', '<leader>to', '<Cmd>Telescope lsp_document_symbols<CR>')
         vim.keymap.set('n', '<leader>tw', '<Cmd>Telescope lsp_workspace_symbols<CR>')
-        vim.keymap.set('n', '<leader>tr', '<Cmd>Telescope lsp_references<CR>')
+        vim.keymap.set('n', 'gr', '<Cmd>Telescope lsp_references<CR>')
         vim.keymap.set('n', 'gd', '<Cmd>Telescope lsp_definitions<CR>')
 
         vim.keymap.set('n', '<leader>tl', '<Cmd>Telescope live_grep<CR>')
@@ -396,10 +401,18 @@ require('packer').startup {
               enable = true,
               lookahead = true,
               keymaps = {
-                ['af'] = '@function.outer', ['if'] = '@function.inner', ['ac'] = '@class.outer',
+                ['af'] = '@function.outer',
+                ['if'] = '@function.inner',
+                ['ac'] = '@class.outer',
                 ['ic'] = '@class.inner',
-              }
+              },
+              selection_modes = {
+                ['@parameter.outer'] = 'v',
+                ['@function.outer'] = 'V',
+                ['@class.outer'] = '<C-v>',
+              },
             },
+
             move = {
               enable = true,
               set_jumps = true,
@@ -418,6 +431,14 @@ require('packer').startup {
               goto_previous_end = {
                 ['[F'] = '@function.outer',
                 ['[C'] = '@class.outer',
+              },
+            },
+            lsp_interop = {
+              enable = true,
+              border = 'none',
+              peek_definition_code = {
+                ['<leader>df'] = '@function.outer',
+                ['<leader>dF'] = '@class.outer',
               },
             },
           },
@@ -512,15 +533,13 @@ require('packer').startup {
 
           -- ### Diagnositc mappings
           local keymap_opts = { noremap = true, silent = true }
-          vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, keymap_opts)
+          vim.keymap.set('n', '<leader>dd', vim.diagnostic.open_float, keymap_opts)
           vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, keymap_opts)
           vim.keymap.set('n', ']d', vim.diagnostic.goto_next, keymap_opts)
-          vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, keymap_opts)
 
           -- ### Mappings
           local on_attach = function(_, bufnr)
             local bufopts = { buffer = bufnr }
-            -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
             vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
             vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
             vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -532,7 +551,6 @@ require('packer').startup {
             vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
             vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
             vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-            vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
             vim.keymap.set('n', '<leader>ff', function()
               vim.lsp.buf.format({ async = true })
             end, bufopts)
