@@ -520,9 +520,10 @@ require("packer").startup({
       end
     })
 
-    -- ### LSP config and installer
+    -- ### LSP config and package installer
     use({
-      "williamboman/nvim-lsp-installer",
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
       "b0o/schemastore.nvim",
       {
         "neovim/nvim-lspconfig",
@@ -557,18 +558,19 @@ require("packer").startup({
             end, bufopts)
           end
 
-          -- ### LSP installer configuration
-          local lsp_installer = require("nvim-lsp-installer")
-          lsp_installer.setup({
-            automatic_installation = true,
+          -- ### Package installer configuration
+          require("mason").setup({
             ui = {
               icons = {
-                server_installed = "✓",
-                server_pending = "➜",
-                server_uninstalled = "✗"
+                package_installed = "✓",
+                package_pending = "➜",
+                package_uninstalled = "✗"
               }
             }
           })
+          local mason_lsp_config = require("mason-lspconfig")
+          mason_lsp_config.setup()
+
 
           -- ### Additional settings for certain LSP servers
           local enhance_server_opts = {
@@ -586,18 +588,19 @@ require("packer").startup({
           local capabilities = vim.lsp.protocol.make_client_capabilities()
           capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
+          -- ### LSP servers configuration
+          local installed_servers = mason_lsp_config.get_installed_servers()
           local lspconfig = require("lspconfig")
-          for _, server in ipairs(lsp_installer.get_installed_servers()) do
-            -- ### LSP servers configuration
+          for _, server_name in ipairs(installed_servers) do
             local lsp_opts = {
               on_attach = on_attach,
               capabilities = capabilities,
               allow_incremental_sync = false, -- Fix hanging of diagnostics virtual text
             }
-            if enhance_server_opts[server.name] then
-              enhance_server_opts[server.name](lsp_opts)
+            if enhance_server_opts[server_name] then
+              enhance_server_opts[server_name](lsp_opts)
             end
-            lspconfig[server.name].setup(lsp_opts)
+            lspconfig[server_name].setup(lsp_opts)
           end
         end
       }
