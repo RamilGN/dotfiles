@@ -43,6 +43,11 @@ vim.opt.listchars = { tab = "▸▸", trail = "•", nbsp = "␣", extends = "�
 vim.opt.laststatus = 3
 -- ## Autowrite
 vim.opt.autowrite = true
+vim.opt.clipboard = "unnamedplus"
+-- ### Turn off diagnostics errors near line
+vim.diagnostic.config({
+  virtual_text = false
+})
 
 -----------------------------------------------------------
 -- # Mappinngs
@@ -76,11 +81,6 @@ vim.keymap.set("n", "<leader>vs", ":source $MYVIMRC<CR>")
 vim.keymap.set("n", "<leader>re", "@:")
 -- ## Serach word without jumping
 vim.keymap.set("n", "#", ":let @/= '\\<'.expand('<cword>').'\\>' <bar> set hls <CR>", { silent = true })
--- ## Yank/Paste system clipboard
-vim.keymap.set({ "n", "v" }, "<leader>y", '"+y')
-vim.keymap.set("n", "<leader>Y", '"+Y')
-vim.keymap.set({ "n", "v" }, "<leader>p", '"+p')
-vim.keymap.set("n", "<leader>P", '"+P')
 -- ## Replace selected text without yanking
 vim.keymap.set("v", "p", '"_dP')
 -- ## Switch layout
@@ -143,7 +143,7 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
     vim.highlight.on_yank()
-  end,
+  end
 })
 
 -- ## Turn off comments auto-insert
@@ -220,7 +220,7 @@ require("packer").startup({
           options = {
             theme = "nightfly",
             component_separators = {},
-            section_separators = {},
+            section_separators = {}
           },
           sections = {
             lualine_c = { "%f" },
@@ -237,7 +237,7 @@ require("packer").startup({
       config = function()
         require("indent_blankline").setup({
           char = "┊",
-          show_current_context = true,
+          show_current_context = true
         })
       end
     })
@@ -256,8 +256,8 @@ require("packer").startup({
             change = { text = "~" },
             delete = { text = "_" },
             topdelete = { text = "‾" },
-            changedelete = { text = "~" },
-          },
+            changedelete = { text = "~" }
+          }
         })
 
         -- ## Mappings
@@ -291,7 +291,7 @@ require("packer").startup({
               previewer = false,
               mappings = {
                 i = {
-                  ["<C-d>"] = "delete_buffer",
+                  ["<C-d>"] = "delete_buffer"
                 }
               }
             }
@@ -368,11 +368,11 @@ require("packer").startup({
                 "if",
                 "else",
                 "switch",
-                "case",
+                "case"
               },
               javascript = {
                 "object",
-                "pair",
+                "pair"
               },
               ruby = {
                 "module",
@@ -380,7 +380,7 @@ require("packer").startup({
               },
               yaml = {
                 "block_mapping_pair",
-                "block_sequence_item",
+                "block_sequence_item"
               },
               json = {
                 "object",
@@ -411,11 +411,11 @@ require("packer").startup({
               init_selection = "gnn",
               node_incremental = "grn",
               scope_incremental = "grc",
-              node_decremental = "grm",
+              node_decremental = "grm"
             }
           },
           indent = {
-            disable = true,
+            disable = true
           },
           textobjects = {
             select = {
@@ -425,43 +425,36 @@ require("packer").startup({
                 ["af"] = "@function.outer",
                 ["if"] = "@function.inner",
                 ["ac"] = "@class.outer",
-                ["ic"] = "@class.inner",
-              },
-              selection_modes = {
-                ["@parameter.outer"] = "v",
-                ["@function.outer"] = "V",
-                ["@class.outer"] = "<C-v>",
-              },
+                ["ic"] = "@class.inner"
+              }
             },
-
             move = {
               enable = true,
               set_jumps = true,
               goto_next_start = {
                 ["]f"] = "@function.outer",
-                ["]c"] = "@class.outer",
+                ["]c"] = "@class.outer"
               },
               goto_next_end = {
                 ["]F"] = "@function.outer",
-                ["]C"] = "@class.outer",
+                ["]C"] = "@class.outer"
               },
               goto_previous_start = {
                 ["[f"] = "@function.outer",
-                ["[c"] = "@class.outer",
+                ["[c"] = "@class.outer"
               },
               goto_previous_end = {
                 ["[F"] = "@function.outer",
-                ["[C"] = "@class.outer",
+                ["[C"] = "@class.outer"
               },
             },
             lsp_interop = {
               enable = true,
-              border = "none",
               peek_definition_code = {
                 ["<leader>df"] = "@function.outer",
-                ["<leader>dF"] = "@class.outer",
-              },
-            },
+                ["<leader>dF"] = "@class.outer"
+              }
+            }
           },
           endwise = {
             enable = true
@@ -471,10 +464,27 @@ require("packer").startup({
     })
 
     -----------------------------------------------------------
-    -- ## LSP
+    -- ## LSP, DAP, linter, formatters
     -----------------------------------------------------------
 
-    -- Prepare sources and snippet engine for autocompletion
+    -- ### Package manager
+    use({
+      "williamboman/mason.nvim",
+      config = function()
+        -- ### Package installer configuration
+        require("mason").setup({
+          ui = {
+            icons = {
+              package_installed = "✓",
+              package_pending = "➜",
+              package_uninstalled = "✗"
+            }
+          }
+        })
+      end
+    })
+
+    -- ### Prepare sources and snippet engine for autocompletion
     use({
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
@@ -515,44 +525,39 @@ require("packer").startup({
                 get_bufnrs = function()
                   return vim.api.nvim_list_bufs()
                 end,
-                keyword_pattern = [[\k\+]],
-              },
+                keyword_pattern = [[\k\+]]
+              }
             },
-            { name = "path" },
+            { name = "path" }
           }
         })
 
         cmp.setup.cmdline(":", {
           mapping = cmp.mapping.preset.cmdline(),
           sources = cmp.config.sources({
-            { name = "cmdline" },
-          }),
+            { name = "cmdline" }
+          })
         })
 
         for _, cmd_type in ipairs { "/", "?", } do
-          cmp.setup.cmdline(cmd_type, {
+          cmp.setup.cmdline(
+            cmd_type, {
             mapping = cmp.mapping.preset.cmdline(),
             sources = {
-              { name = "buffer", max_item_count = 10 },
-            },
+              { name = "buffer", max_item_count = 10 }
+            }
           })
         end
       end
     })
 
-    -- ### LSP config and package installer
+    -- ### LSP config
     use({
-      "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "b0o/schemastore.nvim",
       {
         "neovim/nvim-lspconfig",
         config = function()
-          -- ### Turn off diagnostics errors near line
-          vim.diagnostic.config({
-            virtual_text = false,
-          })
-
           -- ### Diagnositc mappings
           local keymap_opts = { noremap = true, silent = true }
           vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float, keymap_opts)
@@ -578,19 +583,15 @@ require("packer").startup({
             end, bufopts)
           end
 
-          -- ### Package installer configuration
-          require("mason").setup({
-            ui = {
-              icons = {
-                package_installed = "✓",
-                package_pending = "➜",
-                package_uninstalled = "✗"
-              }
-            }
-          })
+          -- ### Capabilities
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+
+          -- ### LSP servers configuration
           local mason_lsp_config = require("mason-lspconfig")
           mason_lsp_config.setup()
-
+          local installed_servers = mason_lsp_config.get_installed_servers()
+          local lspconfig = require("lspconfig")
 
           -- ### Additional settings for certain LSP servers
           local enhance_server_opts = {
@@ -598,24 +599,18 @@ require("packer").startup({
               options.settings = {
                 json = {
                   schemas = require("schemastore").json.schemas(),
-                  validate = { enable = true },
-                },
+                  validate = { enable = true }
+                }
               }
             end,
           }
 
-          -- ### Autocompletion capabilities
-          local capabilities = vim.lsp.protocol.make_client_capabilities()
-          capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-
-          -- ### LSP servers configuration
-          local installed_servers = mason_lsp_config.get_installed_servers()
-          local lspconfig = require("lspconfig")
+          -- Setup LSP
           for _, server_name in ipairs(installed_servers) do
             local lsp_opts = {
               on_attach = on_attach,
               capabilities = capabilities,
-              allow_incremental_sync = false, -- Fix hanging of diagnostics virtual text
+              allow_incremental_sync = false -- Fix hanging of diagnostics virtual text
             }
             if enhance_server_opts[server_name] then
               enhance_server_opts[server_name](lsp_opts)
@@ -745,7 +740,7 @@ require("packer").startup({
     snapshot_path = require("packer.util").join_paths(vim.fn.getenv("HOME"), "dotfiles", "nvim"),
     display = {
       open_fn = require("packer.util").float,
-      log = { level = "warn" },
+      log = { level = "warn" }
     }
   }
 })
