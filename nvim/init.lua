@@ -115,14 +115,7 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
   "RailsRoutes",
   function(opts)
-    local controller_name = ""
-    local is_argument_absent = opts.args == ""
-    if is_argument_absent then
-      controller_name = vim.get_WORD_under_cursor()
-    else
-      controller_name = opts.args
-    end
-
+    local controller_name = opts.args
     if controller_name == "" then
       vim.cmd([[vsplit term://bundle exec bin/rails routes -E]])
     else
