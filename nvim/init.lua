@@ -71,9 +71,12 @@ vim.keymap.set("t", "<C-[>", "<C-\\><C-n>")
 vim.keymap.set("n", "<C-w>b", ":bd! %<CR>")
 -- ## Turn off highlight after search
 vim.keymap.set("n", "//", ":nohlsearch<CR>")
--- ## Add spaces below/under cursor
-vim.keymap.set("n", "[<leader>", "m`o<Esc>``")
-vim.keymap.set("n", "]<leader>", "m`O<Esc>``")
+-- ## Add newline below/under cursor
+vim.keymap.set("n", "<CR>", "m`o<Esc>``")
+vim.keymap.set("n", "<S-CR>", "m`O<Esc>``")
+-- ## Add spaces before/after cursor
+vim.keymap.set("n", "[<leader>", "i<leader><Esc>")
+vim.keymap.set("n", "]<leader>", "a<leader><Esc>")
 -- ## Edit/source current config
 vim.keymap.set("n", "<leader>vl", ":vsp $MYVIMRC<CR>")
 vim.keymap.set("n", "<leader>vs", ":source $MYVIMRC<CR>")
@@ -237,7 +240,7 @@ require("packer").startup({
       config = function()
         require("indent_blankline").setup({
           char = "┊",
-          show_current_context = true
+          show_trailing_blankline_indent = false
         })
       end
     })
@@ -559,19 +562,26 @@ require("packer").startup({
           -- ### Mappings
           local on_attach = function(_, bufnr)
             local bufopts = { buffer = bufnr }
+            vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+
             vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
             vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-            vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+            vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
+
+
+            vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+            vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+            vim.keymap.set("v", "<leader>ca", function()
+              vim.lsp.buf.range_code_action()
+            end, bufopts)
+            vim.keymap.set("n", "<leader>ff", function()
+              vim.lsp.buf.format({ async = true })
+            end, bufopts)
+
             vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
             vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
             vim.keymap.set("n", "<leader>wl", function()
               print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-            end, bufopts)
-            vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
-            vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-            vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-            vim.keymap.set("n", "<leader>ff", function()
-              vim.lsp.buf.format({ async = true })
             end, bufopts)
           end
 
@@ -736,5 +746,3 @@ require("packer").startup({
     }
   }
 })
-
--- vim: ts=2 sts=2 sw=2 et
