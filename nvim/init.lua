@@ -48,6 +48,8 @@ vim.opt.clipboard = "unnamedplus"
 vim.diagnostic.config({
   virtual_text = false
 })
+-- ## Set maximum number of items in the popup menu
+vim.opt.pumheight = 10
 
 -----------------------------------------------------------
 -- # Mappinngs
@@ -504,8 +506,8 @@ require("packer").startup({
           },
           -- ### Mappings
           mapping = cmp.mapping.preset.insert({
-            ["<C-d>"] = cmp.mapping.scroll_docs(-2),
-            ["<C-f>"] = cmp.mapping.scroll_docs(2),
+            ["<C-u>"] = cmp.mapping.scroll_docs(-2),
+            ["<C-d>"] = cmp.mapping.scroll_docs(2),
             ["<C-e>"] = cmp.mapping.abort(),
             ["<CR>"] = cmp.mapping.confirm({
               behavior = cmp.ConfirmBehavior.Replace,
@@ -539,7 +541,7 @@ require("packer").startup({
             cmd_type, {
             mapping = cmp.mapping.preset.cmdline(),
             sources = {
-              { name = "buffer", max_item_count = 10 }
+              { name = "buffer" }
             }
           })
         end
