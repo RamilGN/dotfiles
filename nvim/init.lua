@@ -90,6 +90,8 @@ vim.keymap.set("n", "#", ":let @/= '\\<'.expand('<cword>').'\\>' <bar> set hls <
 vim.keymap.set("v", "p", '"_dP')
 -- ## Switch layout
 vim.keymap.set("i", "<C-j>", "<C-^>")
+-- ## Create a new tab
+vim.keymap.set("n", "<leader>ctn", ":$tabnew %<CR>")
 
 -----------------------------------------------------------
 -- # Commands
@@ -235,6 +237,25 @@ require("packer").startup({
         })
       end
     })
+
+    -- ### Tabline
+    use {
+      "alvarosevilla95/luatab.nvim",
+      requires = "kyazdani42/nvim-web-devicons",
+      config = function()
+        require("luatab").setup {
+          modified = function()
+            return ""
+          end,
+          windowCount = function(index)
+            return "[" .. index .. "]" .. " "
+          end,
+          devicon = function()
+            return ""
+          end
+        }
+      end
+    }
 
     -- ### Displaying indents
     use({
