@@ -91,7 +91,7 @@ vim.keymap.set("v", "p", '"_dP')
 -- ## Switch layout
 vim.keymap.set("i", "<C-j>", "<C-^>")
 -- ## Create a new tab
-vim.keymap.set("n", "<leader>ctn", ":$tabnew %<CR>")
+vim.keymap.set("n", "<leader>ct", ":$tabnew %<CR>")
 
 -----------------------------------------------------------
 -- # Commands
