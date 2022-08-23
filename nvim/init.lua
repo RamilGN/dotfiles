@@ -301,7 +301,6 @@ require("packer").startup({
     -- ## Telescope
     -----------------------------------------------------------
 
-    -- ### Fuzzy finder over lists
     use({
       "nvim-telescope/telescope.nvim",
       requires = { "nvim-lua/plenary.nvim" },
@@ -373,6 +372,14 @@ require("packer").startup({
       requires = { "nvim-telescope/telescope.nvim" },
       config = function()
         require("telescope").load_extension("fzf")
+      end
+    })
+
+    use({
+      "nvim-telescope/telescope-ui-select.nvim",
+      requires = { "nvim-telescope/telescope.nvim" },
+      config = function()
+        require("telescope").load_extension("ui-select")
       end
     })
 
