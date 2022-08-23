@@ -10,8 +10,9 @@ vim.opt.imsearch = -1
 vim.opt.spelllang = { "en_us", "ru" }
 -- ## Line numbers
 vim.opt.number = true
+vim.opt.relativenumber = true
 -- ## Show some lines after cursor
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 10
 -- ## Location of new vertical split
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -461,10 +462,18 @@ require("packer").startup({
                 ["]f"] = "@function.outer",
                 ["]c"] = "@class.outer"
               },
+              goto_next_end = {
+                ["]F"] = "@function.outer",
+                ["]C"] = "@class.outer",
+              },
               goto_previous_start = {
                 ["[f"] = "@function.outer",
                 ["[c"] = "@class.outer"
-              }
+              },
+              goto_previous_end = {
+                ["[F"] = "@function.outer",
+                ["[C"] = "@class.outer",
+              },
             },
             lsp_interop = {
               enable = true,
@@ -734,16 +743,6 @@ require("packer").startup({
           require("spectre").open_file_search()
         end)
       end
-    })
-
-    -- ### Undo tree
-    use({
-      setup = function()
-
-        -- #### Mappinngs
-        vim.keymap.set("n", "<leader>ut", ":UndotreeToggle<CR>")
-      end,
-      "mbbill/undotree"
     })
 
     -----------------------------------------------------------
