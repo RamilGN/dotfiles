@@ -47,6 +47,10 @@ then
   . $LETSDEV_REPO/bash-completions
 
   function tshssh {
+    TERM=xterm-256color tsh ssh $1
+  }
+
+  function tshssht {
     TERM=xterm-256color tsh ssh -t $1 tmux new-session -As ramilg
   }
 fi
