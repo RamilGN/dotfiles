@@ -51,6 +51,8 @@ vim.diagnostic.config({
 })
 -- ## Set maximum number of items in the popup menu
 vim.opt.pumheight = 10
+-- ## Scrollback lines for terminal buffer
+vim.opt.scrollback = 100000
 
 -----------------------------------------------------------
 -- # Mappinngs
@@ -89,10 +91,15 @@ vim.keymap.set("n", "<leader>re", "@:")
 vim.keymap.set("n", "#", ":let @/= '\\<'.expand('<cword>').'\\>' <bar> set hls <CR>", { silent = true })
 -- ## Replace selected text without yanking
 vim.keymap.set("v", "p", '"_dP')
+-- ## Change without yanking
+vim.keymap.set("n", "c", '"_c')
+vim.keymap.set("n", "C", '"_C')
 -- ## Switch layout
 vim.keymap.set("i", "<C-j>", "<C-^>")
 -- ## Create a new tab
 vim.keymap.set("n", "<leader>ct", ":$tabnew %<CR>")
+-- # Set spelling
+vim.keymap.set("n", "yos", ":set invspell<CR>")
 
 -----------------------------------------------------------
 -- # Commands
@@ -142,6 +149,18 @@ vim.api.nvim_create_user_command(
     vim.cmd [[keeppatterns %s/\s\+$//e]]
     vim.api.nvim_win_set_cursor(0, curpos)
   end, { nargs = 0 })
+
+-- ## Set color bar
+vim.api.nvim_create_user_command(
+  "SetColorColumn", function(opts)
+    local num = (opts.line2 - opts.line1)
+    local cw = num > 0 and tostring(num) or "120"
+    local current = vim.api.nvim_win_get_option(0, "colorcolumn")
+    local cval = current == "" and cw or ""
+    vim.opt.colorcolumn = cval
+  end, { nargs = 0, range = true })
+-- ### Mappings
+vim.keymap.set("n", "yoc", ":SetColorColumn<CR>")
 
 -----------------------------------------------------------
 -- # Autocommands
@@ -604,7 +623,7 @@ require("packer").startup({
             vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 
             vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-            vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+            vim.keymap.set("n", "gp", vim.lsp.buf.implementation, bufopts)
             vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
 
 
