@@ -234,7 +234,7 @@ require("packer").startup({
       config = function()
         require("catppuccin").setup()
         vim.g.catppuccin_flavour = "macchiato"
-        vim.cmd([[colorscheme catppuccin]])
+        vim.cmd([[silent! colorscheme catppuccin]])
       end
     })
 
@@ -391,14 +391,6 @@ require("packer").startup({
       requires = { "nvim-telescope/telescope.nvim" },
       config = function()
         require("telescope").load_extension("fzf")
-      end
-    })
-
-    use({
-      "nvim-telescope/telescope-ui-select.nvim",
-      requires = { "nvim-telescope/telescope.nvim" },
-      config = function()
-        require("telescope").load_extension("ui-select")
       end
     })
 
