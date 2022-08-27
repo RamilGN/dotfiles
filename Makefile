@@ -16,14 +16,14 @@ packages:
 	add-apt-repository ppa:neovim-ppa/unstable -y
 	apt-get update -y
 	apt-get install -y zsh     \
-			   neovim  \
-			   git     \
-			   xclip   \
-			   curl    \
-			   bat     \
-			   fd-find \
-			   fzf     \
-			   ripgrep
+	                   neovim  \
+	                   git     \
+	                   xclip   \
+	                   curl    \
+	                   bat     \
+	                   fd-find \
+	                   fzf     \
+	                   ripgrep
 
 .PHONY: packages-after
 packages-after:
