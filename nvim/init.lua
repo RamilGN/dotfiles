@@ -47,7 +47,8 @@ vim.opt.autowrite = true
 vim.opt.clipboard = "unnamedplus"
 -- ### Turn off diagnostics errors near line
 vim.diagnostic.config({
-  virtual_text = false
+  virtual_text = false,
+  update_in_insert = true,
 })
 -- ## Set maximum number of items in the popup menu
 vim.opt.pumheight = 10
