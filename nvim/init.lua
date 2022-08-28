@@ -616,12 +616,17 @@ require("packer").startup({
 
 
             vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+
             vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
             vim.keymap.set("v", "<leader>ca", function()
               vim.lsp.buf.range_code_action()
             end, bufopts)
+
             vim.keymap.set("n", "<leader>ff", function()
               vim.lsp.buf.format({ async = true })
+            end, bufopts)
+            vim.keymap.set("v", "<leader>ff", function()
+              vim.lsp.buf.range_formatting()
             end, bufopts)
 
             vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
@@ -658,7 +663,6 @@ require("packer").startup({
             local lsp_opts = {
               on_attach = on_attach,
               capabilities = capabilities,
-              allow_incremental_sync = false -- Fix hanging of diagnostics virtual text
             }
             if enhance_server_opts[server_name] then
               enhance_server_opts[server_name](lsp_opts)
@@ -667,6 +671,18 @@ require("packer").startup({
           end
         end
       }
+    })
+
+    use({
+      "jose-elias-alvarez/null-ls.nvim",
+      config = function()
+        local null_ls = require("null-ls")
+        require("null-ls").setup({
+          sources = {
+            null_ls.builtins.diagnostics.markdownlint
+          },
+        })
+      end
     })
 
     -----------------------------------------------------------
