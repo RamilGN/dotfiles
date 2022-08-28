@@ -204,10 +204,6 @@ function vim.get_visual_selection()
   end
 end
 
-function vim.get_WORD_under_cursor()
-  return vim.fn.expand("<cWORD>")
-end
-
 -----------------------------------------------------------
 -- # Plugins
 -----------------------------------------------------------
