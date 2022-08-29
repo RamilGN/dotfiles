@@ -153,13 +153,11 @@ vim.api.nvim_create_user_command(
 
 -- ## Set color bar
 vim.api.nvim_create_user_command(
-  "SetColorColumn", function(opts)
-    local num = (opts.line2 - opts.line1)
-    local cw = num > 0 and tostring(num) or "120"
+  "SetColorColumn", function()
     local current = vim.api.nvim_win_get_option(0, "colorcolumn")
-    local cval = current == "" and cw or ""
+    local cval = current == "" and "120" or ""
     vim.opt.colorcolumn = cval
-  end, { nargs = 0, range = true })
+  end, { nargs = "?", range = true })
 -- ### Mappings
 vim.keymap.set("n", "yoc", ":SetColorColumn<CR>")
 
@@ -326,16 +324,19 @@ require("packer").startup({
         telescope.setup({
           pickers = {
             buffers = {
+              theme = "dropdown",
               sorting_strategy = "ascending",
               ignore_current_buffer = true,
               sort_mru = true,
-              theme = "dropdown",
               previewer = false,
               mappings = {
                 i = {
                   ["<C-d>"] = "delete_buffer"
                 }
               }
+            },
+            lsp_workspace_symbols = {
+              symbol_width = 65,
             }
           }
         })
