@@ -688,8 +688,16 @@ require("packer").startup({
     })
 
     -----------------------------------------------------------
-    -- ## Other
+    -- ## Text editing
     -----------------------------------------------------------
+
+    -- ### Indentation style detection
+    use({
+      "nmac427/guess-indent.nvim",
+      config = function()
+        require("guess-indent").setup()
+      end
+    })
 
     -- ### Autopairs
     use({
@@ -698,6 +706,27 @@ require("packer").startup({
         require("nvim-autopairs").setup()
       end
     })
+
+    -- ### Surrounding
+    use({
+      "kylechui/nvim-surround",
+      config = function()
+        require("nvim-surround").setup()
+      end
+    })
+
+    -- ### Easy tables
+    use({
+      "dhruvasagar/vim-table-mode",
+      config = function()
+        vim.g.table_mode_corner = "|"
+        vim.g.table_mode_map_prefix = "<Leader>l"
+      end
+    })
+
+    -----------------------------------------------------------
+    -- ## Other
+    -----------------------------------------------------------
 
     -- ### Autosaving
     use({
@@ -724,14 +753,6 @@ require("packer").startup({
       }
     })
 
-    -- ### Indentation style detection
-    use({
-      "nmac427/guess-indent.nvim",
-      config = function()
-        require("guess-indent").setup()
-      end
-    })
-
     -- ### Comment lines with shortcuts
     use({
       "numToStr/Comment.nvim",
@@ -750,14 +771,6 @@ require("packer").startup({
         -- #### Mappinngs
         vim.keymap.set("n", "<leader><leader>", ":NvimTreeToggle<CR>")
         vim.keymap.set("n", "<C-n>", ":NvimTreeFindFile<CR>")
-      end
-    })
-
-    -- ### Text editing
-    use({
-      "kylechui/nvim-surround",
-      config = function()
-        require("nvim-surround").setup()
       end
     })
 

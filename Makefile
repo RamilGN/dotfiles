@@ -23,7 +23,8 @@ packages:
 	                   bat     \
 	                   fd-find \
 	                   fzf     \
-	                   ripgrep
+	                   ripgrep \
+	                   htop
 
 .PHONY: packages-after
 packages-after:
