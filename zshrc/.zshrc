@@ -32,6 +32,7 @@ alias zshcfg="nvim ~/.zshrc"
 alias trl="tree -LhaC 3"
 alias cdf="cd \$(find * -type d | fzf)"
 alias vif="nvim \$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')"
+alias vi='nvim --noplugin'
 
 ## git
 alias gsai="git stash apply --index"

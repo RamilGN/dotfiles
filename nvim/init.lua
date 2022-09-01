@@ -28,7 +28,7 @@ vim.opt.termguicolors = true
 -- ## Highlight current line
 vim.opt.cursorline = true
 -- ## Faster auto-completion and etc
-vim.opt.updatetime = 50
+vim.opt.updatetime = 150
 -- ## Sign clolum
 vim.opt.signcolumn = "yes:2"
 -- ## Foldings
@@ -721,6 +721,8 @@ require("packer").startup({
       config = function()
         vim.g.table_mode_corner = "|"
         vim.g.table_mode_map_prefix = "<Leader>l"
+        vim.g.table_mode_update_time = 250
+        vim.g.table_mode_auto_align = 1
       end
     })
 
