@@ -71,6 +71,9 @@ vim.keymap.set("n", "<C-k>", "<C-w><up>")
 vim.keymap.set("n", "<C-j>", "<C-w><down>")
 vim.keymap.set("n", "<C-l>", "<C-w><right>")
 vim.keymap.set("n", "<C-h>", "<C-w><Left>")
+-- ## Scrolling up/down
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
 -- ## Exit terminal mode
 vim.keymap.set("t", "<C-[>", "<C-\\><C-n>")
 -- ## Close current buffer
@@ -375,7 +378,10 @@ require("packer").startup({
           t.current_buffer_fuzzy_find({ default_text = text })
         end)
 
-        vim.keymap.set("n", "<leader>ts", "<Cmd>Telescope grep_string<CR>")
+        vim.keymap.set("n", "<leader>ts",
+          function()
+            require("telescope.builtin").grep_string({ search = vim.fn.input("> ") })
+          end)
         vim.keymap.set("v", "<leader>ts", function()
           local text = vim.get_visual_selection()
           t.grep_string({ default_text = text })
