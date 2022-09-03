@@ -74,6 +74,8 @@ vim.keymap.set("n", "<C-h>", "<C-w><Left>")
 -- ## Scrolling up/down
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "]b", "<Cmd>bnext<CR>")
+vim.keymap.set("n", "[b", "<Cmd>bprevious<CR>")
 -- ## Exit terminal mode
 vim.keymap.set("t", "<C-[>", "<C-\\><C-n>")
 -- ## Close current buffer
@@ -87,12 +89,12 @@ vim.keymap.set("n", "<S-CR>", "m`O<Esc>``")
 vim.keymap.set("n", "[<leader>", "i<leader><Esc>")
 vim.keymap.set("n", "]<leader>", "a<leader><Esc>")
 -- ## Edit/source current config
-vim.keymap.set("n", "<leader>vl", ":vsp $MYVIMRC<CR>")
-vim.keymap.set("n", "<leader>vs", ":source $MYVIMRC<CR>")
+vim.keymap.set("n", "<leader>vl", "<Cmd>vsp $MYVIMRC<CR>")
+vim.keymap.set("n", "<leader>vs", "<Cmd>source $MYVIMRC<CR>")
 -- ## Repeat last command
 vim.keymap.set("n", "<leader>re", "@:")
 -- ## Serach word without jumping
-vim.keymap.set("n", "#", ":let @/= '\\<'.expand('<cword>').'\\>' <bar> set hls <CR>", { silent = true })
+vim.keymap.set("n", "#", "<Cmd>let @/= '\\<'.expand('<cword>').'\\>' <bar> set hls <CR>", { silent = true })
 -- ## Replace selected text without yanking
 vim.keymap.set("v", "p", '"_dP')
 -- ## Change without yanking
@@ -101,9 +103,9 @@ vim.keymap.set("n", "C", '"_C')
 -- ## Switch layout
 vim.keymap.set("i", "<C-j>", "<C-^>")
 -- ## Create a new tab
-vim.keymap.set("n", "<leader>ct", ":$tabnew %<CR>")
+vim.keymap.set("n", "<leader>ct", "<Cmd>$tabnew %<CR>")
 -- # Set spelling
-vim.keymap.set("n", "yos", ":set invspell<CR>")
+vim.keymap.set("n", "yos", "<Cmd>set invspell<CR>")
 
 -----------------------------------------------------------
 -- # Commands
@@ -115,15 +117,17 @@ vim.keymap.set("n", "yos", ":set invspell<CR>")
 vim.api.nvim_create_user_command(
   "GitLog",
   function(opts)
-    local range = opts.args
+    local range = (opts.range == 0 and opts.args) or (opts.line1 .. [[,]] .. opts.line2)
     if range == "" then
       vim.cmd([[vsplit term://git --no-pager log -p --stat --follow ]] .. [[%]])
     else
       vim.cmd([[vsplit term://git --no-pager log -p -L]] .. range .. [[:%]])
     end
   end,
-  { nargs = "?" }
+  { nargs = "?", range = true }
 )
+vim.keymap.set("n", "<keymap>gl", "<Cmd>GitLog<CR>")
+vim.keymap.set("v", "<leader>gl", "<Cmd>'<,'>GitLog<CR>")
 
 -- ## Ruby
 
@@ -162,7 +166,7 @@ vim.api.nvim_create_user_command(
     vim.opt.colorcolumn = cval
   end, { nargs = "?", range = true })
 -- ### Mappings
-vim.keymap.set("n", "yoc", ":SetColorColumn<CR>")
+vim.keymap.set("n", "yoc", "<Cmd>SetColorColumn<CR>")
 
 -----------------------------------------------------------
 -- # Autocommands
@@ -309,6 +313,7 @@ require("packer").startup({
         vim.keymap.set("n", "<leader>gh", "<Cmd>Gitsigns preview_hunk<CR>")
         vim.keymap.set("n", "<leader>gs", "<Cmd>Gitsigns stage_hunk<CR>")
         vim.keymap.set("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>")
+        vim.keymap.set("n", "<leader>gb", "<Cmd>Gitsigns blame_line<CR>")
         vim.keymap.set("n", "]g", "<Cmd>Gitsigns next_hunk<CR>")
         vim.keymap.set("n", "[g", "<Cmd>Gitsigns prev_hunk<CR>")
       end
@@ -777,8 +782,8 @@ require("packer").startup({
         require("nvim-tree").setup()
 
         -- #### Mappinngs
-        vim.keymap.set("n", "<leader><leader>", ":NvimTreeToggle<CR>")
-        vim.keymap.set("n", "<C-n>", ":NvimTreeFindFile<CR>")
+        vim.keymap.set("n", "<leader><leader>", "<Cmd>NvimTreeToggle<CR>")
+        vim.keymap.set("n", "<C-n>", "<Cmd>NvimTreeFindFile<CR>")
       end
     })
 
