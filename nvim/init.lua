@@ -99,7 +99,9 @@ vim.keymap.set("n", "#", "<Cmd>let @/= '\\<'.expand('<cword>').'\\>' <bar> set h
 vim.keymap.set("v", "p", '"_dP')
 -- ## Change without yanking
 vim.keymap.set("n", "c", '"_c')
+vim.keymap.set("v", "c", '"_c')
 vim.keymap.set("n", "C", '"_C')
+vim.keymap.set("v", "C", '"_C')
 -- ## Switch layout
 vim.keymap.set("i", "<C-j>", "<C-^>")
 -- ## Create a new tab
@@ -329,7 +331,16 @@ require("packer").startup({
       config = function()
         -- ### Settings
         local telescope = require("telescope")
+        local actions = require("telescope.actions")
         telescope.setup({
+          defaults = {
+            mappings = {
+              i = {
+                ["<Esc>"] = actions.close,
+              },
+            },
+            dynamic_preview_title = true,
+          },
           pickers = {
             buffers = {
               theme = "dropdown",
@@ -339,12 +350,12 @@ require("packer").startup({
               previewer = false,
               mappings = {
                 i = {
-                  ["<C-d>"] = "delete_buffer"
+                  ["<C-d>"] = actions.delete_buffer
                 }
               }
             },
             lsp_workspace_symbols = {
-              symbol_width = 65,
+              symbol_width = 65
             }
           }
         })
@@ -457,6 +468,7 @@ require("packer").startup({
       end,
       config = function()
         require("nvim-treesitter.configs").setup({
+          ensure_installed = { "sql", "comment" },
           auto_install = true,
           highlight = { enable = true },
           incremental_selection = {
@@ -655,7 +667,24 @@ require("packer").startup({
 
           -- ### LSP servers configuration
           local mason_lsp_config = require("mason-lspconfig")
-          mason_lsp_config.setup()
+          mason_lsp_config.setup({
+            ensure_installed = {
+              "sumneko_lua",
+              "solargraph",
+              "gopls",
+              "sqlls",
+              "pylsp",
+              "pyright",
+              "dockerls",
+              "bashls",
+              "eslint",
+              "html",
+              "cssls",
+              "jsonls",
+              "yamlls",
+              "dockerls"
+            }
+          })
           local installed_servers = mason_lsp_config.get_installed_servers()
           local lspconfig = require("lspconfig")
 
@@ -731,7 +760,7 @@ require("packer").startup({
       "dhruvasagar/vim-table-mode",
       config = function()
         vim.g.table_mode_corner = "|"
-        vim.g.table_mode_map_prefix = "<Leader>l"
+        vim.g.table_mode_map_prefix = "<Leader><Bar>"
         vim.g.table_mode_update_time = 250
         vim.g.table_mode_auto_align = 1
       end
@@ -802,6 +831,53 @@ require("packer").startup({
         end)
       end
     })
+
+    -- ### Terminal management
+    use(
+      {
+        "akinsho/toggleterm.nvim", tag = "v2.*",
+        config = function()
+          local toggleterm = require("toggleterm")
+
+          toggleterm.setup {
+            size = function(term)
+              if term.direction == "horizontal" then
+                return 20
+              elseif term.direction == "vertical" then
+                return math.floor(vim.o.columns * 0.4)
+              end
+            end,
+            open_mapping = [[<C-\>]],
+            insert_mappings = true,
+            persist_size = false,
+            persist_mode = false,
+            direction = "float",
+            float_opts = {
+              border = "rounded",
+              winblend = 5
+            },
+          }
+
+          vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW",
+            function(opts)
+              toggleterm.send_lines_to_terminal("single_line", false, opts)
+            end,
+            { nargs = "?" }
+          )
+          -- visual_line
+          -- vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
+          --   function(opts)
+          --     toggleterm.send_lines_to_terminal("visual_selection", false, opts)
+          --   end,
+          --   { range = true, nargs = "?" }
+          -- )
+          vim.keymap.set("n", "<leader>rt", "<Cmd>1ToggleTerm direction=float<CR>")
+          -- ## REPL
+          vim.keymap.set("n", "<leader>rl", "<Cmd>2ToggleTerm direction=horizontal<CR>")
+          vim.keymap.set("n", "<C-s>", "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>")
+          -- vim.keymap.set("v", "<C-s>", "<Cmd>ToggleTermSendVisualSelectionNoTW 2<CR>")
+        end
+      })
 
     -----------------------------------------------------------
     -- ## Language specific plugins
