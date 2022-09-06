@@ -121,15 +121,31 @@ vim.api.nvim_create_user_command(
   function(opts)
     local range = (opts.range == 0 and opts.args) or (opts.line1 .. [[,]] .. opts.line2)
     if range == "" then
-      vim.cmd([[vsplit term://git --no-pager log -p --stat --follow ]] .. [[%]])
+      vim.cmd([[vsplit term://git --no-pager log -p --stat --pretty=full --follow ]] .. [[%]])
     else
-      vim.cmd([[vsplit term://git --no-pager log -p -L]] .. range .. [[:%]])
+      vim.cmd([[vsplit term://git --no-pager log -p --pretty=full -L]] .. range .. [[:%]])
     end
   end,
-  { nargs = "?", range = true }
+  { nargs = "?", count = true }
 )
-vim.keymap.set("n", "<keymap>gl", "<Cmd>GitLog<CR>")
+vim.keymap.set("n", "<leader>gl", "<Cmd>GitLog<CR>")
 vim.keymap.set("v", "<leader>gl", "<Cmd>'<,'>GitLog<CR>")
+
+-- ### Git show commit hash
+vim.api.nvim_create_user_command(
+  "GitShow",
+  function(opts)
+    local commit_hash = opts.args
+    if commit_hash == "" then
+      local cword = vim.fn.expand("<cword>")
+      vim.cmd([[vsplit term://git --no-pager show -p --stat --pretty=full ]] .. cword)
+    else
+      vim.cmd([[vsplit term://git --no-pager show -p --stat --pretty=full ]] .. commit_hash)
+    end
+  end,
+  { nargs = "?" }
+)
+vim.keymap.set("n", "<leader>gi", "<Cmd>GitShow<CR>")
 
 -- ## Ruby
 
@@ -342,6 +358,9 @@ require("packer").startup({
             dynamic_preview_title = true,
           },
           pickers = {
+            find_files = {
+              find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+            },
             buffers = {
               theme = "dropdown",
               sorting_strategy = "ascending",
@@ -588,6 +607,7 @@ require("packer").startup({
             {
               name = "buffer",
               option = {
+                -- TODO: ALERT LARGE FILES!!!
                 get_bufnrs = function()
                   return vim.api.nvim_list_bufs()
                 end,
