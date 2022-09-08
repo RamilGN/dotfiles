@@ -121,9 +121,9 @@ vim.api.nvim_create_user_command(
   function(opts)
     local range = (opts.range == 0 and opts.args) or (opts.line1 .. [[,]] .. opts.line2)
     if range == "" then
-      vim.cmd([[vsplit term://git --no-pager log -p --stat --pretty=full --follow ]] .. [[%]])
+      vim.cmd([[vsplit term://git --no-pager log -p --stat --follow ]] .. [[%]])
     else
-      vim.cmd([[vsplit term://git --no-pager log -p --pretty=full -L]] .. range .. [[:%]])
+      vim.cmd([[vsplit term://git --no-pager log -p -L]] .. range .. [[:%]])
     end
   end,
   { nargs = "?", count = true }
@@ -138,9 +138,9 @@ vim.api.nvim_create_user_command(
     local commit_hash = opts.args
     if commit_hash == "" then
       local cword = vim.fn.expand("<cword>")
-      vim.cmd([[vsplit term://git --no-pager show -p --stat --pretty=full ]] .. cword)
+      vim.cmd([[vsplit term://git --no-pager show -p --stat ]] .. cword)
     else
-      vim.cmd([[vsplit term://git --no-pager show -p --stat --pretty=full ]] .. commit_hash)
+      vim.cmd([[vsplit term://git --no-pager show -p --stat ]] .. commit_hash)
     end
   end,
   { nargs = "?" }
@@ -227,6 +227,13 @@ function vim.get_visual_selection()
     return ""
   end
 end
+
+-- TODO: LSP gd, gR, etc
+-- function vim.map_if_supports(method, modes, map, target)
+--   if client.supports_method(method) then
+--     vim.keymap.set()
+--   end
+-- end
 
 -----------------------------------------------------------
 -- # Plugins
@@ -397,9 +404,6 @@ require("packer").startup({
         vim.keymap.set("n", "<leader>td", "<Cmd>Telescope diagnostics<CR>")
         vim.keymap.set("n", "<leader>to", "<Cmd>Telescope lsp_document_symbols<CR>")
         vim.keymap.set("n", "<leader>tw", "<Cmd>Telescope lsp_workspace_symbols<CR>")
-
-        vim.keymap.set("n", "gr", "<Cmd>Telescope lsp_references<CR>")
-        vim.keymap.set("n", "gd", "<Cmd>Telescope lsp_definitions<CR>")
 
         vim.keymap.set("n", "<leader>tl", "<Cmd>Telescope live_grep<CR>")
         vim.keymap.set("v", "<leader>tl", function()
@@ -654,12 +658,12 @@ require("packer").startup({
           local on_attach = function(_, bufnr)
             local bufopts = { buffer = bufnr }
             vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-
+            vim.keymap.set("n", "gr", "<Cmd>Telescope lsp_references<CR>")
+            vim.keymap.set("n", "gd", "<Cmd>Telescope lsp_definitions<CR>")
             vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
             vim.keymap.set("n", "gp", vim.lsp.buf.implementation, bufopts)
+
             vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
-
-
             vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
 
             vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
@@ -892,7 +896,8 @@ require("packer").startup({
           --   { range = true, nargs = "?" }
           -- )
           vim.keymap.set("n", "<leader>rt", "<Cmd>1ToggleTerm direction=float<CR>")
-          -- ## REPL
+
+          -- ## TODO: REPL
           vim.keymap.set("n", "<leader>rl", "<Cmd>2ToggleTerm direction=horizontal<CR>")
           vim.keymap.set("n", "<C-s>", "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>")
           -- vim.keymap.set("v", "<C-s>", "<Cmd>ToggleTermSendVisualSelectionNoTW 2<CR>")
