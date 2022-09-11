@@ -126,7 +126,7 @@ vim.api.nvim_create_user_command(
       vim.cmd([[vsplit term://git --no-pager log -p -L]] .. range .. [[:%]])
     end
   end,
-  { nargs = "?", count = true }
+  { nargs = "?", range = true }
 )
 vim.keymap.set("n", "<leader>gl", "<Cmd>GitLog<CR>")
 vim.keymap.set("v", "<leader>gl", "<Cmd>'<,'>GitLog<CR>")
@@ -491,7 +491,7 @@ require("packer").startup({
       end,
       config = function()
         require("nvim-treesitter.configs").setup({
-          ensure_installed = { "sql", "comment" },
+          ensure_installed = { "sql", "comment", "embedded_template" },
           auto_install = true,
           highlight = { enable = true },
           incremental_selection = {
