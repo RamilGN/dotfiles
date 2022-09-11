@@ -103,7 +103,7 @@ vim.keymap.set("v", "c", '"_c')
 vim.keymap.set("n", "C", '"_C')
 vim.keymap.set("v", "C", '"_C')
 -- ## Switch layout
-vim.keymap.set("i", "<C-j>", "<C-^>")
+vim.keymap.set({ "c", "i" }, "<C-j>", "<C-^>")
 -- ## Create a new tab
 vim.keymap.set("n", "<leader>ct", "<Cmd>$tabnew %<CR>")
 -- # Set spelling
@@ -590,6 +590,23 @@ require("packer").startup({
         local cmp = require("cmp")
         local luasnip = require("luasnip")
 
+        local buffer_source = {
+          name = "buffer",
+          option = {
+            get_bufnrs = function()
+              local bufs = vim.api.nvim_list_bufs()
+              for i, buf in ipairs(bufs) do
+                local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+                if byte_size > 1024 * 512 then
+                  table.remove(bufs, i)
+                end
+              end
+              return bufs
+            end,
+            keyword_pattern = [[\k\+]]
+          }
+        }
+
         cmp.setup({
           snippet = {
             expand = function(args)
@@ -608,16 +625,7 @@ require("packer").startup({
           }),
           sources = {
             { name = "nvim_lsp" },
-            {
-              name = "buffer",
-              option = {
-                -- TODO: ALERT LARGE FILES!!!
-                get_bufnrs = function()
-                  return vim.api.nvim_list_bufs()
-                end,
-                keyword_pattern = [[\k\+]]
-              }
-            },
+            buffer_source,
             { name = "path" }
           }
         })
@@ -634,7 +642,7 @@ require("packer").startup({
             cmd_type, {
             mapping = cmp.mapping.preset.cmdline(),
             sources = {
-              { name = "buffer" }
+              buffer_source
             }
           })
         end
