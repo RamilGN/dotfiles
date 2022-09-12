@@ -491,8 +491,6 @@ require("packer").startup({
       end,
       config = function()
         require("nvim-treesitter.configs").setup({
-          ensure_installed = { "sql", "comment", "embedded_template" },
-          auto_install = true,
           highlight = { enable = true },
           incremental_selection = {
             enable = true,
