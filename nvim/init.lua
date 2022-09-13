@@ -28,7 +28,8 @@ vim.opt.termguicolors = true
 -- ## Highlight current line
 vim.opt.cursorline = true
 -- ## Faster auto-completion and etc
-vim.opt.updatetime = 150
+vim.opt.updatetime = 100
+vim.opt.timeoutlen = 500
 -- ## Sign clolum
 vim.opt.signcolumn = "yes:2"
 -- ## Foldings
@@ -40,11 +41,13 @@ vim.opt.swapfile = false
 -- ## Show trailing whitespaces, tabs
 vim.opt.list = true
 vim.opt.listchars = { tab = "▸▸", trail = "•", nbsp = "␣", extends = "…" }
+-- ## Tabs to spaces
+vim.opt.expandtab = true
 -- ## Global statusline
 vim.opt.laststatus = 3
 -- ## Autowrite
 vim.opt.autowrite = true
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamed,unnamedplus"
 -- ### Diagnositc
 vim.diagnostic.config({
   virtual_text = false,
@@ -506,6 +509,7 @@ require("packer").startup({
       },
       { "RRethy/nvim-treesitter-endwise" },
       { "nvim-treesitter/nvim-treesitter-textobjects" },
+      { "windwp/nvim-ts-autotag" },
       requires = { "nvim-treesitter/nvim-treesitter" }
     })
 
@@ -566,6 +570,9 @@ require("packer").startup({
             }
           },
           endwise = {
+            enable = true
+          },
+          autotag = {
             enable = true
           }
         })
