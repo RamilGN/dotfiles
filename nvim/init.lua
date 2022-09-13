@@ -45,7 +45,7 @@ vim.opt.laststatus = 3
 -- ## Autowrite
 vim.opt.autowrite = true
 vim.opt.clipboard = "unnamedplus"
--- ### Turn off diagnostics errors near line
+-- ### Diagnositc
 vim.diagnostic.config({
   virtual_text = false,
   update_in_insert = true,
@@ -215,6 +215,12 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 -- # Helpers
 -----------------------------------------------------------
 
+vim.g.max_byte_size = 1024 * 206
+
+function vim.get_buf_byte_size(bufnr)
+  return vim.api.nvim_buf_get_offset(bufnr, vim.api.nvim_buf_line_count(bufnr))
+end
+
 function vim.get_visual_selection()
   vim.cmd([[noau normal! "vy"]])
   local text = vim.fn.getreg("v")
@@ -344,6 +350,21 @@ require("packer").startup({
       end
     })
 
+    use {
+      "ruifm/gitlinker.nvim",
+      requires = "nvim-lua/plenary.nvim",
+      config = function()
+        require("gitlinker").setup({
+          opts = {
+            print_url = false,
+          },
+          callbacks = {
+            ["gitlab.insales.ru"] = require("gitlinker.hosts").get_gitlab_type_url
+          },
+        })
+      end
+    }
+
     -----------------------------------------------------------
     -- ## Telescope
     -----------------------------------------------------------
@@ -363,6 +384,11 @@ require("packer").startup({
               },
             },
             dynamic_preview_title = true,
+            preview = {
+              treesitter = {
+                disable = { "eruby" }
+              }
+            }
           },
           pickers = {
             find_files = {
@@ -491,19 +517,15 @@ require("packer").startup({
       end,
       config = function()
         require("nvim-treesitter.configs").setup({
-          highlight = { enable = true },
-          incremental_selection = {
+          ensure_installed = "all",
+          sync_install = false,
+          highlight = {
             enable = true,
-            keymaps = {
-              init_selection = "gnn",
-              node_incremental = "grn",
-              scope_incremental = "grc",
-              node_decremental = "grm"
-            }
+            disable = function(_, bufnr)
+              return vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
+            end,
           },
-          indent = {
-            disable = true
-          },
+          additional_vim_regex_highlighting = false,
           textobjects = {
             select = {
               enable = true,
@@ -594,8 +616,8 @@ require("packer").startup({
             get_bufnrs = function()
               local bufs = vim.api.nvim_list_bufs()
               for i, buf in ipairs(bufs) do
-                local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-                if byte_size > 1024 * 512 then
+                local byte_size = vim.get_buf_byte_size(buf)
+                if byte_size > vim.g.max_byte_size then
                   table.remove(bufs, i)
                 end
               end
@@ -810,6 +832,16 @@ require("packer").startup({
               return ""
             end
           },
+          condition = function(buf)
+            local utils = require("auto-save.utils.data")
+            local can_save = vim.fn.getbufvar(buf, "&modifiable") == 1
+                and utils.not_in(vim.fn.getbufvar(buf, "&filetype"), {})
+                and vim.get_buf_byte_size(buf) < vim.g.max_byte_size
+            if can_save then
+              return true
+            end
+            return false
+          end,
           debounce_delay = 1000
         })
       end,
