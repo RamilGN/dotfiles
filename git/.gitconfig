@@ -3,8 +3,12 @@
 	email = rami.gaggi@gmail.com
 [core]
 	editor = nvim
-	excludesfile = ~/dotfiles/git/.gitignore
+	excludesfile = /home/ramil/dotfiles/git/.gitignore
 [init]
 	defaultBranch = main
 [pull]
 	ff = only
+[merge]
+	ff = only
+[fetch]
+	prune = true

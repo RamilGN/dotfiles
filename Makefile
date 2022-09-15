@@ -1,6 +1,7 @@
 ASDFRC_PATH:=~/.asdfrc
 ASDF_PATH:=~/.asdf
 PACKER_PATH:=~/.local/share/nvim/site/pack/packer/start
+OH_MY_ZSH_CUSTOM_PLUGINS_PATH:=~/.oh-my-zsh/custom/plugins
 
 .PHONY: all
 all: packages-only kitty oh-my-zsh fonts nvim asdf
@@ -53,6 +54,11 @@ oh-my-zsh:
 	ln -sf $(PWD)/zshrc/.zshrc ~/.zshrc
 	chsh -s $$(which zsh)
 
+.PHONY: zsh-plugins
+zsh-plugins:
+	rm -rf $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/zsh-syntax-highlighting
+
 .PHONY: font
 fonts:
 	rm -rf $(PWD)/nerd-fonts
@@ -77,7 +83,7 @@ asdf:
 	rm -rf $(ASDF_PATH)
 	rm -f $(ASDFRC_PATH)
 	git clone git@github.com:asdf-vm/asdf.git $(ASDF_PATH)
-	ln -sf $(PWD)/.asdfrc $(ASDFRC_PATH)
+	ln -sf $(PWD)/asdf/.asdfrc $(ASDFRC_PATH)
 
 .PHONY: git
 git:
