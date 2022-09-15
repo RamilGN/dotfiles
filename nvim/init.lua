@@ -2,6 +2,8 @@
 -- # Settings
 -----------------------------------------------------------
 
+-- ## Mouse off
+vim.opt.mouse = nil
 -- ## Russian keyboard layout
 vim.opt.keymap = "russian-jcukenwin"
 vim.opt.iminsert = 0
@@ -221,7 +223,12 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 vim.g.max_byte_size = 1024 * 206
 
 function vim.get_buf_byte_size(bufnr)
-  return vim.api.nvim_buf_get_offset(bufnr, vim.api.nvim_buf_line_count(bufnr))
+  local success, lines = pcall(vim.api.nvim_buf_line_count, bufnr)
+  if success then
+    return vim.api.nvim_buf_get_offset(bufnr, lines)
+  else
+    return 0
+  end
 end
 
 function vim.get_visual_selection()
@@ -236,13 +243,6 @@ function vim.get_visual_selection()
     return ""
   end
 end
-
--- TODO: LSP gd, gR, etc
--- function vim.map_if_supports(method, modes, map, target)
---   if client.supports_method(method) then
---     vim.keymap.set()
---   end
--- end
 
 -----------------------------------------------------------
 -- # Plugins
@@ -927,25 +927,23 @@ require("packer").startup({
             },
           }
 
+          vim.keymap.set("n", "<leader>rt", "<Cmd>1ToggleTerm direction=float<CR>")
+
           vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW",
             function(opts)
               toggleterm.send_lines_to_terminal("single_line", false, opts)
             end,
             { nargs = "?" }
           )
-          -- visual_line
-          -- vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
-          --   function(opts)
-          --     toggleterm.send_lines_to_terminal("visual_selection", false, opts)
-          --   end,
-          --   { range = true, nargs = "?" }
-          -- )
-          vim.keymap.set("n", "<leader>rt", "<Cmd>1ToggleTerm direction=float<CR>")
-
-          -- ## TODO: REPL
-          vim.keymap.set("n", "<leader>rl", "<Cmd>2ToggleTerm direction=horizontal<CR>")
+          vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
+            function(opts)
+              toggleterm.send_lines_to_terminal("visual_selection", false, opts)
+            end,
+            { range = true, nargs = "?" }
+          )
+          vim.keymap.set("n", "<leader>rl", "<Cmd>2ToggleTerm direction=vertical<CR>")
           vim.keymap.set("n", "<C-s>", "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>")
-          -- vim.keymap.set("v", "<C-s>", "<Cmd>ToggleTermSendVisualSelectionNoTW 2<CR>")
+          vim.keymap.set("v", "<C-s>", "'<,'>ToggleTermSendVisualSelectionNoTW 2<CR>")
         end
       })
 
