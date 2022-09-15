@@ -36,6 +36,9 @@ alias vi='nvim --noplugin'
 
 ## git
 alias gsai="git stash apply --index"
+unalias gstl
+alias gstl="git stash list --date=local"
+alias ghf="gstu && gcm && gl && gcb"
 
 # insales
 LETSDEV_REPO=$HOME/insales/letsdev2
