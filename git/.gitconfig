@@ -10,5 +10,8 @@
 	ff = only
 [merge]
 	ff = only
+[push]
+	default = upstream
+	autoSetupRemote = true
 [fetch]
 	prune = true
