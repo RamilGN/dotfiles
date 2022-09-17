@@ -295,7 +295,7 @@ require("packer").startup({
     })
 
     -- ### Tabline
-    use {
+    use({
       "alvarosevilla95/luatab.nvim",
       requires = "kyazdani42/nvim-web-devicons",
       config = function()
@@ -311,7 +311,7 @@ require("packer").startup({
           end
         }
       end
-    }
+    })
 
     -- ### Displaying indents
     use({
@@ -323,6 +323,9 @@ require("packer").startup({
         })
       end
     })
+
+    -- ### Better ui select and etc.
+    use({ "stevearc/dressing.nvim" })
 
     -----------------------------------------------------------
     -- ## Git
@@ -831,7 +834,7 @@ require("packer").startup({
 
     -- ### Autosaving
     use({
-      "Pocco81/auto-save.nvim",
+      "RamiGaggi/auto-save.nvim",
       config = function()
         require("auto-save").setup({
           execution_message = {
@@ -943,7 +946,7 @@ require("packer").startup({
           )
           vim.keymap.set("n", "<leader>rl", "<Cmd>2ToggleTerm direction=vertical<CR>")
           vim.keymap.set("n", "<C-s>", "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>")
-          vim.keymap.set("v", "<C-s>", "'<,'>ToggleTermSendVisualSelectionNoTW 2<CR>")
+          vim.keymap.set("v", "<C-s>", ":ToggleTermSendVisualSelectionNoTW 2<CR>")
         end
       })
 
