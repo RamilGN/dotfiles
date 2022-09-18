@@ -98,6 +98,8 @@ vim.keymap.set("n", "<leader>vl", "<Cmd>vsp $MYVIMRC<CR>")
 vim.keymap.set("n", "<leader>vs", "<Cmd>source $MYVIMRC<CR>")
 -- ## Repeat last command
 vim.keymap.set("n", "<leader>re", "@:")
+-- ## Quit all
+vim.keymap.set("n", "ZA", "<Cmd>qa!<CR>")
 -- ## Serach word without jumping
 vim.keymap.set("n", "#", "<Cmd>let @/= '\\<'.expand('<cword>').'\\>' <bar> set hls <CR>", { silent = true })
 -- ## Replace selected text without yanking
@@ -325,7 +327,20 @@ require("packer").startup({
     })
 
     -- ### Better ui select and etc.
-    use({ "stevearc/dressing.nvim" })
+    use({
+      "stevearc/dressing.nvim",
+      config = function()
+        require("dressing").setup({
+          input = {
+            get_config = function()
+              if vim.api.nvim_buf_get_option(0, "filetype") == "NvimTree" then
+                return { min_width = 140 }
+              end
+            end
+          }
+        })
+      end
+    })
 
     -----------------------------------------------------------
     -- ## Git
@@ -880,7 +895,18 @@ require("packer").startup({
       "kyazdani42/nvim-tree.lua",
       requires = { "kyazdani42/nvim-web-devicons" },
       config = function()
-        require("nvim-tree").setup()
+        require("nvim-tree").setup({
+          view = {
+            signcolumn = "no",
+            centralize_selection = true,
+            relativenumber = true,
+            number = true
+          },
+          renderer = {
+            full_name = true,
+            indent_width = 1,
+          },
+        })
 
         -- #### Mappinngs
         vim.keymap.set("n", "<leader><leader>", "<Cmd>NvimTreeToggle<CR>")
