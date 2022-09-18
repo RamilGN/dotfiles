@@ -10,9 +10,6 @@ plugins=(git vi-mode asdf zsh-syntax-highlighting)
 # oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# ls highlighting
-export LS_COLORS=$LS_COLORS:"ow=36:"
-
 # vim bindings
 bindkey -v
 
@@ -36,9 +33,10 @@ alias vi='nvim --noplugin'
 
 ## git
 alias gsai="git stash apply --index"
+alias ghf="gstu && gcm && gl && gcb"
+
 unalias gstl
 alias gstl="git stash list --date=local"
-alias ghf="gstu && gcm && gl && gcb"
 
 # insales
 LETSDEV_REPO=$HOME/insales/letsdev2
