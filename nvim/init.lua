@@ -187,7 +187,14 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
   "SetColorColumn", function()
     local current = vim.api.nvim_win_get_option(0, "colorcolumn")
-    local cval = current == "" and "120" or ""
+    local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+    local value = "100"
+    if filetype == "markdown" then
+      value = "80"
+    elseif filetype == "ruby" then
+      value = "120"
+    end
+    local cval = current == "" and value or ""
     vim.opt.colorcolumn = cval
   end, { nargs = "?", range = true })
 -- ### Mappings
