@@ -36,7 +36,7 @@ alias gsai="git stash apply --index"
 alias ghf="gstu && gcm && gl && gcb"
 
 unalias gstl
-alias gstl="git stash list --date=local"
+alias gstl="git stash list --format='%gd{%ch}: %gs'"
 
 # insales
 LETSDEV_REPO=$HOME/insales/letsdev2
