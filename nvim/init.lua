@@ -346,6 +346,20 @@ require("packer").startup({
             end
           }
         })
+
+        vim.keymap.set("n", "z=", function()
+          local word = vim.fn.expand("<cword>")
+          local suggestions = vim.fn.spellsuggest(word)
+          vim.ui.select(suggestions, {},
+            vim.schedule_wrap(function(selected)
+              if selected then
+                vim.api.nvim_feedkeys("ciw" .. selected, "n", true)
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "n", true)
+              end
+            end)
+          )
+        end)
+
       end
     })
 
@@ -409,6 +423,7 @@ require("packer").startup({
             mappings = {
               i = {
                 ["<Esc>"] = actions.close,
+                ["<C-\\>"] = actions.close
               },
             },
             dynamic_preview_title = true,
@@ -442,31 +457,31 @@ require("packer").startup({
         local t = require("telescope.builtin")
 
         -- ### Mappings
-        vim.keymap.set("n", "<leader>b", "<Cmd>Telescope buffers<CR>")
+        vim.keymap.set("n", "<C-b>", "<Cmd>Telescope buffers<CR>") -- up
         vim.keymap.set("n", "<leader>tt", "<Cmd>Telescope resume<CR>")
         vim.keymap.set("n", "<leader>th", "<Cmd>Telescope help_tags<CR>")
 
-        vim.keymap.set("n", "<leader>tf", "<Cmd>Telescope find_files<CR>")
+        vim.keymap.set("n", "<C-f>", "<Cmd>Telescope find_files<CR>") -- up
         vim.keymap.set("n", "<leader>tc", "<Cmd>Telescope oldfiles<CR>")
 
         vim.keymap.set("n", "<leader>tgc", "<Cmd>Telescope git_commits<CR>")
         vim.keymap.set("n", "<leader>tgx", "<Cmd>Telescope git_bcommits<CR>")
         vim.keymap.set("n", "<leader>tgb", "<Cmd>Telescope git_branches<CR>")
-        vim.keymap.set("n", "<leader>tgs", "<Cmd>Telescope git_status<CR>")
+        vim.keymap.set("n", "<C-g>", "<Cmd>Telescope git_status<CR>") -- up
         vim.keymap.set("n", "<leader>tgh", "<Cmd>Telescope git_stash<CR>")
 
         vim.keymap.set("n", "<leader>td", "<Cmd>Telescope diagnostics<CR>")
         vim.keymap.set("n", "<leader>to", "<Cmd>Telescope lsp_document_symbols<CR>")
         vim.keymap.set("n", "<leader>tw", "<Cmd>Telescope lsp_workspace_symbols<CR>")
 
-        vim.keymap.set("n", "<leader>tl", "<Cmd>Telescope live_grep<CR>")
-        vim.keymap.set("v", "<leader>tl", function()
+        vim.keymap.set("n", "<C-l>", "<Cmd>Telescope live_grep<CR>")
+        vim.keymap.set("v", "<C-l>", function()
           local text = vim.get_visual_selection()
           t.live_grep({ default_text = text })
         end)
 
-        vim.keymap.set("n", "<leader>tb", "<Cmd>Telescope current_buffer_fuzzy_find<CR>")
-        vim.keymap.set("v", "<leader>tb", function()
+        vim.keymap.set("n", "<leader>b", "<Cmd>Telescope current_buffer_fuzzy_find<CR>")
+        vim.keymap.set("v", "<leader>b", function()
           local text = vim.get_visual_selection()
           t.current_buffer_fuzzy_find({ default_text = text })
         end)
