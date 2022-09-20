@@ -115,6 +115,11 @@ vim.keymap.set({ "c", "i" }, "<C-j>", "<C-^>")
 vim.keymap.set("n", "<leader>ct", "<Cmd>$tabnew %<CR>")
 -- # Set spelling
 vim.keymap.set("n", "yos", "<Cmd>set invspell<CR>")
+-- # Line textobject
+vim.keymap.set("v", "al", ":normal 0v$h<CR>")
+vim.keymap.set("o", "al", ":normal val<CR>")
+vim.keymap.set("v", "il", ":normal ^vg_<CR>")
+vim.keymap.set("o", "il", ":normal vil<CR>")
 
 -----------------------------------------------------------
 -- # Commands
@@ -474,8 +479,8 @@ require("packer").startup({
         vim.keymap.set("n", "<leader>to", "<Cmd>Telescope lsp_document_symbols<CR>")
         vim.keymap.set("n", "<leader>tw", "<Cmd>Telescope lsp_workspace_symbols<CR>")
 
-        vim.keymap.set("n", "<C-l>", "<Cmd>Telescope live_grep<CR>")
-        vim.keymap.set("v", "<C-l>", function()
+        vim.keymap.set("n", "<C-m>", "<Cmd>Telescope live_grep<CR>")
+        vim.keymap.set("v", "<C-m>", function()
           local text = vim.get_visual_selection()
           t.live_grep({ default_text = text })
         end)
