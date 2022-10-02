@@ -924,7 +924,6 @@ require("packer").startup({
       config = function()
         require("nvim-tree").setup({
           view = {
-            signcolumn = "no",
             centralize_selection = true,
             relativenumber = true,
             number = true
