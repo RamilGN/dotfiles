@@ -428,7 +428,8 @@ require("packer").startup({
             mappings = {
               i = {
                 ["<Esc>"] = actions.close,
-                ["<C-\\>"] = actions.close
+                ["<C-\\>"] = actions.close,
+                ["<C-j>"] = { "<C-^>", type = "command" }
               },
             },
             dynamic_preview_title = true,
