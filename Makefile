@@ -4,10 +4,13 @@ PACKER_PATH:=~/.local/share/nvim/site/pack/packer/start
 OH_MY_ZSH_CUSTOM_PLUGINS_PATH:=~/.oh-my-zsh/custom/plugins
 
 .PHONY: all
-all: packages-only kitty oh-my-zsh fonts nvim asdf
+all: packages-only kitty zsh fonts nvim asdf
 
 .PHONY: packages-only
 packages-only: packages packages-after
+
+.PHONY: zsh
+zsh: oh-my-zsh zsh zsh-plugins:
 
 .PHONY: packages
 packages:
