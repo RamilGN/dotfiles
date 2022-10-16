@@ -87,7 +87,7 @@ asdf:
 	rm -rf $(ASDF_PATH)
 	rm -f $(ASDFRC_PATH)
 	git clone git@github.com:asdf-vm/asdf.git $(ASDF_PATH)
-	ln -sf $(PWD)/asdf/.asdfrc $(ASDFRC_PATH)
+	ln -sf $(PWD)/asdfrc/.asdfrc $(ASDFRC_PATH)
 
 .PHONY: git
 git:

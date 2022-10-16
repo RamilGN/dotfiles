@@ -270,6 +270,14 @@ require("packer").startup({
     -- ## UI
     -----------------------------------------------------------
 
+    -- ## Colors
+    use({
+      "norcalli/nvim-colorizer.lua",
+      config = function()
+        require("colorizer").setup()
+      end
+    })
+
     -- ### Icons
     use({
       "kyazdani42/nvim-web-devicons",
@@ -280,11 +288,20 @@ require("packer").startup({
 
     -- ### Theme
     use({
-      "catppuccin/nvim",
+      "folke/tokyonight.nvim",
       config = function()
-        require("catppuccin").setup()
-        vim.g.catppuccin_flavour = "macchiato"
-        vim.cmd([[silent! colorscheme catppuccin]])
+        require("tokyonight").setup({
+          style = "storm",
+          on_highlights = function(hl, c)
+            hl.CursorLineNr = { fg = c.orange, bold = true }
+            hl.GitSignsAdd = { fg = c.green }
+            hl.GitSignsChange = { fg = c.yellow }
+            hl.GitSignsDelete = { fg = c.red }
+            hl.GitSignsDelete = { fg = c.red }
+            hl.WinSeparator = { bg = c.bg, fg = c.bg }
+          end
+        })
+        vim.cmd([[colorscheme tokyonight]])
       end
     })
 
@@ -295,7 +312,7 @@ require("packer").startup({
       config = function()
         require("lualine").setup({
           options = {
-            theme = "nightfly",
+            theme = "tokyonight",
             component_separators = {},
             section_separators = {}
           },
@@ -768,7 +785,7 @@ require("packer").startup({
 
           -- ### Capabilities
           local capabilities = vim.lsp.protocol.make_client_capabilities()
-          capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+          capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
           -- ### LSP servers configuration
           local mason_lsp_config = require("mason-lspconfig")
@@ -930,15 +947,15 @@ require("packer").startup({
             number = true
           },
           renderer = {
-            full_name = true,
-            indent_width = 1,
+            full_name = true
           },
         })
 
         -- #### Mappinngs
         vim.keymap.set("n", "<leader><leader>", "<Cmd>NvimTreeToggle<CR>")
         vim.keymap.set("n", "<C-n>", "<Cmd>NvimTreeFindFile<CR>")
-      end
+      end,
+      tag = "nightly"
     })
 
     -- ### Find and replace across project
