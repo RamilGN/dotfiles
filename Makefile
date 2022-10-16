@@ -10,7 +10,7 @@ all: packages-only kitty zsh fonts nvim asdf
 packages-only: packages packages-after
 
 .PHONY: zsh
-zsh: oh-my-zsh zsh zsh-plugins:
+zsh: oh-my-zsh zsh zsh-plugins
 
 .PHONY: packages
 packages:
@@ -36,7 +36,7 @@ packages-after:
 
 .PHONY: kitty
 kitty:
-	rm -f ~/.local/kitty.app
+	rm -rf ~/.local/kitty.app
 	rm -f ~/.local/share/applications/kitty.desktop
 	curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin installer=nightly launch=n
 	ln -sf ~/.local/kitty.app/bin/kitty ~/.local/bin
@@ -47,6 +47,7 @@ kitty:
 	cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications
 	sed -i "s|Icon=kitty|Icon=$(PWD)/kitty/whiskers_256x256.png|g" ~/.local/share/applications/kitty*.desktop
 	sed -i "s|Exec=kitty|Exec=/home/$(USER)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
+	sed -i "s|^Exec=/home/$(USER)/.local/kitty.app/bin/kitty|Exec=/home/$(USER)/.local/kitty.app/bin/kitty --start-as=fullscreen|g" ~/.local/share/applications/kitty.desktop
 
 .PHONY: oh-my-zsh
 oh-my-zsh:
