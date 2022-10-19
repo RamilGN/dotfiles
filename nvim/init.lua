@@ -294,10 +294,9 @@ require("packer").startup({
           style = "storm",
           on_highlights = function(hl, c)
             hl.CursorLineNr = { fg = c.orange, bold = true }
-            hl.GitSignsAdd = { fg = c.green }
+            hl.GitSignsAdd = { fg = c.teal }
             hl.GitSignsChange = { fg = c.yellow }
-            hl.GitSignsDelete = { fg = c.red }
-            hl.GitSignsDelete = { fg = c.red }
+            hl.GitSignsDelete = { fg = c.red1 }
             hl.WinSeparator = { bg = c.bg, fg = c.bg }
           end
         })
@@ -936,27 +935,37 @@ require("packer").startup({
     })
 
     -- ### File explorer
-    use({
-      "kyazdani42/nvim-tree.lua",
-      requires = { "kyazdani42/nvim-web-devicons" },
+    use {
+      "nvim-neo-tree/neo-tree.nvim",
+      branch = "v2.x",
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "kyazdani42/nvim-web-devicons",
+        "MunifTanjim/nui.nvim",
+      },
       config = function()
-        require("nvim-tree").setup({
-          view = {
-            centralize_selection = true,
-            relativenumber = true,
-            number = true
+        require("neo-tree").setup({
+          popup_border_style = "rounded",
+          filesystem = {
+            hijack_netrw_behavior = "open_default",
+            use_libuv_file_watcher = true,
           },
-          renderer = {
-            full_name = true
-          },
+          event_handlers = {
+            {
+              event = "neo_tree_buffer_enter",
+              handler = function()
+                vim.o.number = true
+                vim.o.relativenumber = true
+              end
+            }
+          }
         })
 
         -- #### Mappinngs
-        vim.keymap.set("n", "<leader><leader>", "<Cmd>NvimTreeToggle<CR>")
-        vim.keymap.set("n", "<C-n>", "<Cmd>NvimTreeFindFile<CR>")
-      end,
-      tag = "nightly"
-    })
+        vim.keymap.set("n", "<leader><leader>", ":Neotree toggle<CR>")
+        vim.keymap.set("n", "<C-n>", ":Neotree reveal<CR>")
+      end
+    }
 
     -- ### Find and replace across project
     use({
