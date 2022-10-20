@@ -270,22 +270,6 @@ require("packer").startup({
     -- ## UI
     -----------------------------------------------------------
 
-    -- ## Colors
-    use({
-      "norcalli/nvim-colorizer.lua",
-      config = function()
-        require("colorizer").setup()
-      end
-    })
-
-    -- ### Icons
-    use({
-      "kyazdani42/nvim-web-devicons",
-      config = function()
-        require("nvim-web-devicons").setup()
-      end
-    })
-
     -- ### Theme
     use({
       "folke/tokyonight.nvim",
@@ -301,6 +285,14 @@ require("packer").startup({
           end
         })
         vim.cmd([[colorscheme tokyonight]])
+      end
+    })
+
+    -- ### Icons
+    use({
+      "kyazdani42/nvim-web-devicons",
+      config = function()
+        require("nvim-web-devicons").setup()
       end
     })
 
@@ -351,6 +343,14 @@ require("packer").startup({
           char = "┊",
           show_trailing_blankline_indent = false
         })
+      end
+    })
+
+    -- ## Colors
+    use({
+      "norcalli/nvim-colorizer.lua",
+      config = function()
+        require("colorizer").setup()
       end
     })
 
@@ -945,6 +945,13 @@ require("packer").startup({
       },
       config = function()
         require("neo-tree").setup({
+          window = {
+            mappings = {
+              ["f"] = "fuzzy_finder",
+              ["F"] = "filter_on_submit",
+              ["/"] = "noop",
+            }
+          },
           popup_border_style = "rounded",
           filesystem = {
             hijack_netrw_behavior = "open_default",
@@ -958,7 +965,17 @@ require("packer").startup({
                 vim.o.relativenumber = true
               end
             }
-          }
+          },
+      default_component_configs = {
+        diagnostics = {
+          symbols = {
+            hint = "",
+            info = "",
+            warn = "",
+            error = "",
+          },
+        }
+      },
         })
 
         -- #### Mappinngs
