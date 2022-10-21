@@ -50,11 +50,15 @@ vim.opt.laststatus = 3
 -- ## Autowrite
 vim.opt.autowrite = true
 vim.opt.clipboard = "unnamed,unnamedplus"
--- ### Diagnositc
+-- ### Diagnositcs
 vim.diagnostic.config({
   virtual_text = false,
   update_in_insert = true,
 })
+vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
 -- ## Set maximum number of items in the popup menu
 vim.opt.pumheight = 10
 -- ## Scrollback lines for terminal buffer
@@ -966,16 +970,6 @@ require("packer").startup({
               end
             }
           },
-      default_component_configs = {
-        diagnostics = {
-          symbols = {
-            hint = "",
-            info = "",
-            warn = "",
-            error = "",
-          },
-        }
-      },
         })
 
         -- #### Mappinngs
