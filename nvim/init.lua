@@ -124,6 +124,11 @@ vim.keymap.set("v", "al", ":normal 0v$h<CR>")
 vim.keymap.set("o", "al", ":normal val<CR>")
 vim.keymap.set("v", "il", ":normal ^vg_<CR>")
 vim.keymap.set("o", "il", ":normal vil<CR>")
+-- Resize windows
+vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<CR>")
+vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<CR>")
+vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
+vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
 
 -----------------------------------------------------------
 -- # Commands
@@ -483,17 +488,19 @@ require("packer").startup({
         local t = require("telescope.builtin")
 
         -- ### Mappings
-        vim.keymap.set("n", "<C-b>", "<Cmd>Telescope buffers<CR>") -- up
-        vim.keymap.set("n", "<leader>tt", "<Cmd>Telescope resume<CR>")
-        vim.keymap.set("n", "<leader>th", "<Cmd>Telescope help_tags<CR>")
+        vim.keymap.set("n", "<leader>thh", "<Cmd>Telescope help_tags<CR>")
+        vim.keymap.set("n", "<leader>thm", "<Cmd>Telescope man_pages<CR>")
 
-        vim.keymap.set("n", "<C-f>", "<Cmd>Telescope find_files<CR>") -- up
+        vim.keymap.set("n", "<C-b>", "<Cmd>Telescope buffers<CR>")
+        vim.keymap.set("n", "<leader>tt", "<Cmd>Telescope resume<CR>")
+
+        vim.keymap.set("n", "<C-f>", "<Cmd>Telescope find_files<CR>")
         vim.keymap.set("n", "<leader>tc", "<Cmd>Telescope oldfiles<CR>")
 
         vim.keymap.set("n", "<leader>tgc", "<Cmd>Telescope git_commits<CR>")
         vim.keymap.set("n", "<leader>tgx", "<Cmd>Telescope git_bcommits<CR>")
         vim.keymap.set("n", "<leader>tgb", "<Cmd>Telescope git_branches<CR>")
-        vim.keymap.set("n", "<C-g>", "<Cmd>Telescope git_status<CR>") -- up
+        vim.keymap.set("n", "<C-g>", "<Cmd>Telescope git_status<CR>")
         vim.keymap.set("n", "<leader>tgh", "<Cmd>Telescope git_stash<CR>")
 
         vim.keymap.set("n", "<leader>td", "<Cmd>Telescope diagnostics<CR>")
@@ -512,9 +519,8 @@ require("packer").startup({
           t.current_buffer_fuzzy_find({ default_text = text })
         end)
 
-        vim.keymap.set("n", "<leader>ts",
-          function()
-            require("telescope.builtin").grep_string({ search = vim.fn.input("> ") })
+        vim.keymap.set("n", "<leader>ts", function()
+          require("telescope.builtin").grep_string({ search = vim.fn.input("> ") })
           end)
         vim.keymap.set("v", "<leader>ts", function()
           local text = vim.get_visual_selection()
@@ -960,16 +966,7 @@ require("packer").startup({
           filesystem = {
             hijack_netrw_behavior = "open_default",
             use_libuv_file_watcher = true,
-          },
-          event_handlers = {
-            {
-              event = "neo_tree_buffer_enter",
-              handler = function()
-                vim.o.number = true
-                vim.o.relativenumber = true
-              end
-            }
-          },
+          }
         })
 
         -- #### Mappinngs
