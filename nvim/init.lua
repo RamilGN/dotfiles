@@ -521,7 +521,7 @@ require("packer").startup({
 
         vim.keymap.set("n", "<leader>ts", function()
           require("telescope.builtin").grep_string({ search = vim.fn.input("> ") })
-          end)
+        end)
         vim.keymap.set("v", "<leader>ts", function()
           local text = vim.get_visual_selection()
           t.grep_string({ default_text = text })

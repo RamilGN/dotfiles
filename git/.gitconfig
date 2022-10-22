@@ -1,6 +1,6 @@
 [user]
 	name = RamilG
-	email = rami.gaggi@gmail.com
+	email = ramil@gadzhiev.me
 [core]
 	editor = nvim
 	excludesfile = /home/ramil/dotfiles/git/.gitignore
