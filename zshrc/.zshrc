@@ -1,10 +1,10 @@
-# path to your oh-my-zsh installation.
+# Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
-# theme
+# Theme
 ZSH_THEME="robbyrussell"
 
-# plugins
+# Plugins
 plugins=(
   asdf
   docker
@@ -15,22 +15,22 @@ plugins=(
   zsh-syntax-highlighting
 )
 
-# oh-my-zsh
+# Oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# vim bindings
+# Vim bindings
 bindkey -v
 
-# vim as default editor
+# Vim as default editor
 export EDITOR=nvim
 export VISUAL=nvim
 
-# go
+# Go
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
-# aliases
+# Aliases
 alias sudo='sudo -E env "PATH=$PATH"' # Save PATH for sudo
 alias bat="batcat"
 alias zshcfg="nvim ~/.zshrc"
@@ -39,14 +39,21 @@ alias cdf="cd \$(find * -type d | fzf)"
 alias vif="nvim \$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')"
 alias vi='nvim --noplugin'
 
-## git
+# Docker
+unalias dxcit
+function dxcit {
+  PROG=${1:-sh}
+  docker container exec -it $(dcls --format '{{.Names}}' | fzf) $PROG
+}
+
+## Git
 alias gsai="git stash apply --index"
 alias ghf="gstu && gcm && gl && gcb"
 
 unalias gstl
 alias gstl="git stash list --format='%gd{%ch}: %gs'"
 
-# insales
+# Insales
 LETSDEV_REPO=$HOME/insales/letsdev2
 if [ -d $LETSDEV_REPO ]
 then
