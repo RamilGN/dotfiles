@@ -32,6 +32,7 @@ export PATH=$PATH:$GOPATH/bin
 
 # Aliases
 alias sudo='sudo -E env "PATH=$PATH"' # Save PATH for sudo
+alias fzf='fzf --multi'
 alias bat="batcat"
 alias zshcfg="nvim ~/.zshrc"
 alias trl="tree -LhaC 3"
@@ -40,10 +41,45 @@ alias vif="nvim \$(fzf --preview 'bat --style=numbers --color=always --line-rang
 alias vi='nvim --noplugin'
 
 # Docker
+
+## Containers
+
+### List running
+unalias dcls
+function dcls {
+  CONTAINER=($(docker container ls | fzf))
+  CONTAINER_ID=$CONTAINER[1]
+  echo $CONTAINER_ID
+}
+
+### List all
+unalias dclsa
+function dclsa {
+  CONTAINER=($(docker container ls -a | fzf))
+  CONTAINER_ID=$CONTAINER[1]
+  echo $CONTAINER_ID
+}
+
+### Exec on any conatiner
 unalias dxcit
 function dxcit {
   PROG=${1:-sh}
-  docker container exec -it $(dcls --format '{{.Names}}' | fzf) $PROG
+  CONTAINER_ID=$(dclsa)
+  docker container exec -it $@ $CONTAINER_ID $PROG 2> /dev/null || (docker container start $CONTAINER_ID && docker container exec -it $@ $CONTAINER_ID $PROG)
+}
+
+### Start
+unalias dst
+function dst {
+  CONTAINER_ID=$(dclsa)
+  docker container start $@ $CONTAINER_ID
+}
+
+### Stop
+unalias dstp
+function dstp {
+  CONTAINER_ID=$(dcls)
+  docker container stop $@ $CONTAINER_ID
 }
 
 ## Git
