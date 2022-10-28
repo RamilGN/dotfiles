@@ -688,7 +688,10 @@ require("packer").startup({
       config = function()
         local cmp = require("cmp")
         local luasnip = require("luasnip")
-        -- local ex_filetypes = { "toggleterm" }
+        local ex_filetypes = {
+          ["toggleterm"] = true,
+          ["help"] = true
+        }
 
         local buffer_source = {
           name = "buffer",
@@ -697,8 +700,8 @@ require("packer").startup({
               local bufs = vim.api.nvim_list_bufs()
               for i, buf in ipairs(bufs) do
                 local byte_size = vim.get_buf_byte_size(buf)
-                -- local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
-                if byte_size > vim.g.max_byte_size then
+                local filetype = vim.api.nvim_buf_get_option(buf, "filetype")
+                if byte_size > vim.g.max_byte_size or ex_filetypes[filetype] then
                   table.remove(bufs, i)
                 end
               end
@@ -1050,9 +1053,6 @@ require("packer").startup({
         vim.fn["mkdp#util#install"]()
       end,
     })
-
-    -- ### Ruby
-    use({ "slim-template/vim-slim" })
   end,
   config = {
     snapshot_path = require("packer.util").join_paths(vim.fn.getenv("HOME"), "dotfiles", "nvim"),
