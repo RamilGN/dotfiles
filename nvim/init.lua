@@ -964,17 +964,17 @@ require("packer").startup({
       },
       config = function()
         require("neo-tree").setup({
-          window = {
-            mappings = {
-              ["f"] = "fuzzy_finder",
-              ["F"] = "filter_on_submit",
-              ["/"] = "noop",
-            }
-          },
           popup_border_style = "rounded",
           filesystem = {
             hijack_netrw_behavior = "open_default",
             use_libuv_file_watcher = true,
+            window = {
+              mappings = {
+                ["f"] = "fuzzy_finder",
+                ["F"] = "filter_on_submit",
+                ["/"] = "noop",
+              }
+            },
           }
         })
 
