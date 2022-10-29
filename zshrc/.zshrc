@@ -31,6 +31,8 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
 # Aliases
+alias nvimc="nvim -c 'Neotree' -c 'lua require([[telescope.builtin]]).oldfiles({only_cwd = true})'"
+alias vif="nvim \$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')"
 alias sudo='sudo -E env "PATH=$PATH"' # Save PATH for sudo
 alias fzf='fzf --multi'
 alias bat="batcat"
@@ -38,8 +40,6 @@ alias zshcfg="nvim ~/.zshrc"
 alias trl="tree -LhaC 3"
 alias cdfc="cd \$(find * -type d | fzf)"
 alias cdfh="cd \$(find ~ -type d | fzf)"
-alias vif="nvim \$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')"
-alias vi='nvim --noplugin'
 
 # Docker
 
@@ -83,12 +83,51 @@ function dstp {
   docker container stop $@ $CONTAINER_ID
 }
 
-## Git
-alias gsai="git stash apply --index"
-alias ghf="gstu && gcm && gl && gcb"
+# Git
+
+## Branch
+unalias gb
+function gb {
+  BRANCH=$(git branch | fzf)
+  echo $BRANCH | xargs
+}
+
+unalias gba
+function gba {
+  BRANCH=$(git branch -a | fzf)
+  echo $BRANCH | xargs | sed 's/remotes\/origin\///'
+}
+
+## Checkout
+unalias gco
+function gco {
+  BRANCH=$(gb)
+  git checkout $BRANCH
+}
+
+function gcoa {
+  BRANCH=$(gba)
+  git checkout $BRANCH
+}
+
+# Delete
+unalias gbd
+function gbd {
+  BRANCH=$(gb)
+  git branch -d $BRANCH
+}
+
+unalias gbD
+function gbD {
+  BRANCH=$(gb)
+  git branch -D $BRANCH
+}
 
 unalias gstl
 alias gstl="git stash list --format='%gd{%ch}: %gs'"
+
+alias gsai="git stash apply --index"
+alias ghf="gstu && gcm && gl && gcb"
 
 # Insales
 LETSDEV_REPO=$HOME/insales/letsdev2

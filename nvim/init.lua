@@ -2,6 +2,8 @@
 -- # Settings
 -----------------------------------------------------------
 
+-- Don't show commands
+vim.opt.showcmd = false
 -- ## Mouse off
 vim.opt.mouse = nil
 -- ## Russian keyboard layout
@@ -495,7 +497,9 @@ require("packer").startup({
         vim.keymap.set("n", "<leader>tt", "<Cmd>Telescope resume<CR>")
 
         vim.keymap.set("n", "<C-f>", "<Cmd>Telescope find_files<CR>")
-        vim.keymap.set("n", "<leader>tc", "<Cmd>Telescope oldfiles<CR>")
+        vim.keymap.set("n", "<leader>tc", function()
+          t.oldfiles({ only_cwd = true })
+        end)
 
         vim.keymap.set("n", "<leader>tgc", "<Cmd>Telescope git_commits<CR>")
         vim.keymap.set("n", "<leader>tgx", "<Cmd>Telescope git_bcommits<CR>")
