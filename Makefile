@@ -93,3 +93,9 @@ asdf:
 git:
 	ln -sf $(PWD)/git/.gitconfig ~/.gitconfig
 	git config --global core.excludesfile $(PWD)/git/.gitignore
+
+
+.PHONY: other-packages
+other-packages:
+	apt-get install -y vlc           \
+	                   transmission  \
