@@ -352,7 +352,12 @@ require("packer").startup({
       config = function()
         require("indent_blankline").setup({
           char = "┊",
-          show_trailing_blankline_indent = false
+          show_trailing_blankline_indent = false,
+          filetype_exclude = {
+            "help",
+            "packer",
+            "neo-tree"
+          }
         })
       end
     })
