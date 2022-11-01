@@ -144,9 +144,9 @@ vim.api.nvim_create_user_command(
   function(opts)
     local range = (opts.range == 0 and opts.args) or (opts.line1 .. [[,]] .. opts.line2)
     if range == "" then
-      vim.cmd([[vsplit term://git --no-pager log -p --stat --follow ]] .. [[%]])
+      vim.cmd([[vsplit term://git --no-pager log -p --stat --follow ]] .. [[%]] .. [[ && sleep 1]])
     else
-      vim.cmd([[vsplit term://git --no-pager log -p -L]] .. range .. [[:%]])
+      vim.cmd([[vsplit term://git --no-pager log -p -L]] .. range .. [[:%]] .. [[ && sleep 1]])
     end
   end,
   { nargs = "?", range = true }
@@ -161,9 +161,9 @@ vim.api.nvim_create_user_command(
     local commit_hash = opts.args
     if commit_hash == "" then
       local cword = vim.fn.expand("<cword>")
-      vim.cmd([[vsplit term://git --no-pager show -p --stat ]] .. cword)
+      vim.cmd([[vsplit term://git --no-pager show -p --stat ]] .. cword .. [[ && sleep 1]])
     else
-      vim.cmd([[vsplit term://git --no-pager show -p --stat ]] .. commit_hash)
+      vim.cmd([[vsplit term://git --no-pager show -p --stat ]] .. commit_hash .. [[ && sleep 1]])
     end
   end,
   { nargs = "?" }
@@ -181,9 +181,9 @@ vim.api.nvim_create_user_command(
   function(opts)
     local controller_name = opts.args
     if controller_name == "" then
-      vim.cmd([[vsplit term://bundle exec bin/rails routes -E]])
+      vim.cmd([[vsplit term://bundle exec bin/rails routes -E]] .. [[ && sleep 1]])
     else
-      vim.cmd([[vsplit term://bundle exec bin/rails routes -E -c=]] .. controller_name)
+      vim.cmd([[vsplit term://bundle exec bin/rails routes -E -c=]] .. controller_name [[ && sleep 1]])
     end
   end,
   { nargs = "?" }
