@@ -984,7 +984,7 @@ require("packer").startup({
                 ["/"] = "noop",
                 ["o"] = "system_open",
                 ["i"] = "run_command",
-                [""] = "run_command",
+                ["gy"] = "copy_path",
               }
             },
             commands = {
@@ -997,6 +997,11 @@ require("packer").startup({
                 local node = state.tree:get_node()
                 local path = node:get_id()
                 vim.api.nvim_input(": " .. path .. "<Home>")
+              end,
+              copy_path = function(state)
+                local node = state.tree:get_node()
+                local path = node:get_id()
+                vim.fn.setreg("+", path)
               end,
             },
           },
