@@ -489,6 +489,10 @@ require("packer").startup({
             },
             lsp_workspace_symbols = {
               symbol_width = 65
+            },
+            lsp_document_symbols = {
+              theme = "dropdown",
+              previewer = false
             }
           }
         })
@@ -513,7 +517,7 @@ require("packer").startup({
         vim.keymap.set("n", "<leader>tgh", "<Cmd>Telescope git_stash<CR>")
 
         vim.keymap.set("n", "<leader>td", "<Cmd>Telescope diagnostics<CR>")
-        vim.keymap.set("n", "<leader>to", "<Cmd>Telescope lsp_document_symbols<CR>")
+        vim.keymap.set("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>")
         vim.keymap.set("n", "<leader>tw", "<Cmd>Telescope lsp_workspace_symbols<CR>")
 
         vim.keymap.set("n", "<C-m>", "<Cmd>Telescope live_grep<CR>")
@@ -978,9 +982,24 @@ require("packer").startup({
                 ["f"] = "fuzzy_finder",
                 ["F"] = "filter_on_submit",
                 ["/"] = "noop",
+                ["o"] = "system_open",
+                ["i"] = "run_command",
+                [""] = "run_command",
               }
             },
-          }
+            commands = {
+              system_open = function(state)
+                local node = state.tree:get_node()
+                local path = node:get_id()
+                vim.api.nvim_command([[silent !xdg-open ]] .. path)
+              end,
+              run_command = function(state)
+                local node = state.tree:get_node()
+                local path = node:get_id()
+                vim.api.nvim_input(": " .. path .. "<Home>")
+              end,
+            },
+          },
         })
 
         -- #### Mappinngs
