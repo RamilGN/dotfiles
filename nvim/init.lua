@@ -1005,6 +1005,13 @@ require("packer").startup({
               end,
             },
           },
+          event_handlers = {
+            { event = "neo_tree_buffer_enter",
+              handler = function()
+                vim.o.number = true
+                vim.o.relativenumber = true
+              end },
+          }
         })
 
         -- #### Mappinngs
