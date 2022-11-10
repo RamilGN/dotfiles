@@ -152,7 +152,7 @@ vim.api.nvim_create_user_command(
   { nargs = "?", range = true }
 )
 vim.keymap.set("n", "<leader>gl", "<Cmd>GitLog<CR>")
-vim.keymap.set("v", "<leader>gl", "<Cmd>'<,'>GitLog<CR>")
+vim.keymap.set("v", "<leader>gl", ":GitLog<CR>")
 
 -- ### Git show commit hash
 vim.api.nvim_create_user_command(
@@ -169,25 +169,6 @@ vim.api.nvim_create_user_command(
   { nargs = "?" }
 )
 vim.keymap.set("n", "<leader>gi", "<Cmd>GitShow<CR>")
-
--- ## Ruby
-
--- ### Rails
-
--- #### Routes
-
-vim.api.nvim_create_user_command(
-  "RailsRoutes",
-  function(opts)
-    local controller_name = opts.args
-    if controller_name == "" then
-      vim.cmd([[vsplit term://bundle exec bin/rails routes -E]] .. [[ && sleep 1]])
-    else
-      vim.cmd([[vsplit term://bundle exec bin/rails routes -E -c=]] .. controller_name [[ && sleep 1]])
-    end
-  end,
-  { nargs = "?" }
-)
 
 -- ### Other
 
