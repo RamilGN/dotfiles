@@ -486,7 +486,6 @@ require("packer").startup({
         vim.keymap.set("n", "<C-b>", "<Cmd>Telescope buffers<CR>")
         vim.keymap.set("n", "<leader>tt", "<Cmd>Telescope resume<CR>")
 
-        vim.keymap.set("n", "<C-f>", "<Cmd>Telescope find_files<CR>")
         vim.keymap.set("n", "<leader>tc", function()
           t.oldfiles({ only_cwd = true })
         end)
@@ -500,6 +499,12 @@ require("packer").startup({
         vim.keymap.set("n", "<leader>td", "<Cmd>Telescope diagnostics<CR>")
         vim.keymap.set("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>")
         vim.keymap.set("n", "<leader>tw", "<Cmd>Telescope lsp_workspace_symbols<CR>")
+
+        vim.keymap.set("n", "<C-f>", "<Cmd>Telescope find_files<CR>")
+        vim.keymap.set("v", "<C-f>", function()
+          local text = vim.get_visual_selection()
+          t.find_files({ default_text = text })
+        end)
 
         vim.keymap.set("n", "<C-m>", "<Cmd>Telescope live_grep<CR>")
         vim.keymap.set("v", "<C-m>", function()
