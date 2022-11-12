@@ -66,6 +66,10 @@ vim.opt.pumheight = 10
 -- ## Scrollback lines for terminal buffer
 vim.opt.scrollback = 100000
 
+-- ## Globals
+vim.g.max_byte_size = 1024 * 206
+vim.g.home_dir = vim.fn.getenv("HOME")
+
 -----------------------------------------------------------
 -- # Mappinngs
 -----------------------------------------------------------
@@ -197,6 +201,9 @@ vim.api.nvim_create_user_command(
 -- ### Mappings
 vim.keymap.set("n", "yoc", "<Cmd>SetColorColumn<CR>")
 
+-- ### Private commands
+dofile(vim.g.home_dir .. "/private/commands/nvim.lua")
+
 -----------------------------------------------------------
 -- # Autocommands
 -----------------------------------------------------------
@@ -225,8 +232,6 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 -----------------------------------------------------------
 -- # Helpers
 -----------------------------------------------------------
-
-vim.g.max_byte_size = 1024 * 206
 
 function vim.get_buf_byte_size(bufnr)
   local success, lines = pcall(vim.api.nvim_buf_line_count, bufnr)
@@ -377,9 +382,11 @@ require("packer").startup({
             end)
           )
         end)
-
       end
     })
+
+    -- ## Autocompletion symbols
+    use({ "onsails/lspkind.nvim" })
 
     -----------------------------------------------------------
     -- ## Git
@@ -410,7 +417,7 @@ require("packer").startup({
       end
     })
 
-    use {
+    use({
       "ruifm/gitlinker.nvim",
       requires = "nvim-lua/plenary.nvim",
       config = function()
@@ -423,7 +430,7 @@ require("packer").startup({
           },
         })
       end
-    }
+    })
 
     -----------------------------------------------------------
     -- ## Telescope
@@ -674,6 +681,7 @@ require("packer").startup({
     -- ### Prepare sources and snippet engine for autocompletion
     use({
       "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lsp-document-symbol",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
@@ -728,8 +736,15 @@ require("packer").startup({
           }),
           sources = {
             { name = "nvim_lsp" },
+            { name = "nvim_lsp_document_symbol" },
             buffer_source,
             { name = "path" }
+          },
+          experimental = {
+            ghost_text = true,
+          },
+          formatting = {
+            format = require("lspkind").cmp_format(),
           }
         })
 
@@ -1081,7 +1096,7 @@ require("packer").startup({
     })
   end,
   config = {
-    snapshot_path = require("packer.util").join_paths(vim.fn.getenv("HOME"), "dotfiles", "nvim"),
+    snapshot_path = require("packer.util").join_paths(vim.g.home_dir, "dotfiles", "nvim"),
     display = {
       open_fn = require("packer.util").float,
       log = { level = "warn" }

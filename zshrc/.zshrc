@@ -84,50 +84,24 @@ function dstp {
 }
 
 # Git
+alias ghf="gstu && gcm && gl && gcb"
 
 ## Branch
-unalias gb
-function gb {
-  BRANCH=$(git branch | fzf)
-  echo $BRANCH | xargs
-}
+unalias gb; function gb { echo $(git branch | fzf) | xargs }
+unalias gba; function gba { echo $(git branch -a | fzf) | xargs | sed 's/remotes\/origin\///' }
 
-unalias gba
-function gba {
-  BRANCH=$(git branch -a | fzf)
-  echo $BRANCH | xargs | sed 's/remotes\/origin\///'
-}
+### Checkout
+unalias gco; function gco { if [ $# -eq 0 ]; then; BRANCH=$(gb); else; BRANCH=$1; fi; git checkout $BRANCH }
+function gcoa { if [ $# -eq 0 ]; then; BRANCH=$(gba); else; BRANCH=$1; fi; git checkout $BRANCH }
 
-## Checkout
-unalias gco
-function gco {
-  BRANCH=$(gb)
-  git checkout $BRANCH
-}
+### Delete
+unalias gbd; function gbd { BRANCH=$(gb); [ ! -z "$BRANCH" ]; git branch -d $BRANCH }
+unalias gbD; function gbD { BRANCH=$(gb); [ ! -z "$BRANCH" ]; git branch -D $BRANCH }
 
-function gcoa {
-  BRANCH=$(gba)
-  git checkout $BRANCH
-}
-
-# Delete
-unalias gbd
-function gbd {
-  BRANCH=$(gb)
-  git branch -d $BRANCH
-}
-
-unalias gbD
-function gbD {
-  BRANCH=$(gb)
-  git branch -D $BRANCH
-}
-
-unalias gstl
-alias gstl="git stash list --format='%gd{%ch}: %gs'"
-
-alias gsai="git stash apply --index"
-alias ghf="gstu && gcm && gl && gcb"
+## Stash
+unalias gstl; function gstl { echo $(git stash list --format='%gd{%ch}: %gs' | fzf) | sed 's/stash@{//' | sed 's/}{.*//' }
+unalias gstd; function gstd { STASH_INDEX=$(gstl); [ ! -z "$STASH_INDEX" ] && git stash drop $STASH_INDEX }
+function gsai { STASH_INDEX=$(gstl); [ ! -z "$STASH_INDEX" ] && git stash apply --index $STASH_INDEX }
 
 # Insales
 LETSDEV_REPO=$HOME/insales/letsdev2
