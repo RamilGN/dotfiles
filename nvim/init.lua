@@ -399,6 +399,7 @@ require("packer").startup({
         require("gitsigns").setup({
           signs = {
             add = { text = "+" },
+            untracked = { text = "+" },
             change = { text = "~" },
             delete = { text = "_" },
             topdelete = { text = "‾" },
