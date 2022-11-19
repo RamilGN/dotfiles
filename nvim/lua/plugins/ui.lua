@@ -1,4 +1,5 @@
 local M = {}
+
 function M.setup(use)
   use({
     "folke/tokyonight.nvim",
