@@ -1,17 +1,26 @@
 [user]
 	name = RamilG
 	email = ramil@gadzhiev.me
+
 [core]
 	editor = nvim
-	excludesfile = /home/ramil/dotfiles/git/.gitignore
+	excludesfile = ~/dotfiles/git/.gitignore
+
+[interactive]
+        diffFilter = delta --color-only
+
 [init]
 	defaultBranch = main
+
 [pull]
 	ff = only
+
 [merge]
 	ff = only
+
 [push]
 	default = upstream
 	autoSetupRemote = true
+
 [fetch]
 	prune = true
