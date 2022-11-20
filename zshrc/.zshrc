@@ -120,7 +120,7 @@ unalias gco; function gco {
   else
    BRANCH=$@
   fi
-  git checkout $BRANCH
+  [ ! -z "$BRANCH" ] && git checkout $BRANCH
 }
 ### Checkout all
 function gcoa {
