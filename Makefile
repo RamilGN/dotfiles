@@ -7,7 +7,7 @@ OH_MY_ZSH_CUSTOM_PLUGINS_PATH:=~/.oh-my-zsh/custom/plugins
 all: packages-only kitty zsh fonts nvim asdf
 
 .PHONY: packages-only
-packages-only: packages packages-after
+packages-only: packages deb-packages packages-after
 
 .PHONY: zsh
 zsh: oh-my-zsh zsh zsh-plugins
@@ -29,6 +29,10 @@ packages:
 	                   fzf     \
 	                   ripgrep \
 	                   htop
+
+.PHONY: packages
+deb-packages:
+	curl -L -o delta.deb https://github.com/dandavison/delta/releases/download/0.14.0/git-delta_0.14.0_amd64.deb && apt-get install ./delta.deb && rm delta.deb
 
 .PHONY: packages-after
 packages-after:
