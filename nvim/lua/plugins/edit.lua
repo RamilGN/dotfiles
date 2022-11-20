@@ -1,15 +1,7 @@
 local M = {}
 
 function M.setup(use)
-  -- ### Indentation style detection
-  use({
-    "nmac427/guess-indent.nvim",
-    config = function()
-      require("guess-indent").setup()
-    end
-  })
-
-  -- ### Autopairs
+  -- Autopairs
   use({
     "windwp/nvim-autopairs",
     config = function()
@@ -17,7 +9,7 @@ function M.setup(use)
     end
   })
 
-  -- ### Surrounding
+  -- Surrounding
   use({
     "kylechui/nvim-surround",
     config = function()
@@ -25,7 +17,7 @@ function M.setup(use)
     end
   })
 
-  -- ### Easy tables
+  -- Easy tables
   use({
     "dhruvasagar/vim-table-mode",
     config = function()

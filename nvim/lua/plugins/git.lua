@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup(use)
-  -- ## Git decorations and buffer integration
+  -- Git decorations and buffer integration
   use({
     "lewis6991/gitsigns.nvim",
     config = function()
@@ -16,7 +16,7 @@ function M.setup(use)
         }
       })
 
-      -- ## Mappings
+      -- Mappings
       vim.keymap.set("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>")
       vim.keymap.set("n", "<leader>gh", "<Cmd>Gitsigns preview_hunk<CR>")
       vim.keymap.set("n", "<leader>gs", "<Cmd>Gitsigns stage_hunk<CR>")
@@ -27,6 +27,7 @@ function M.setup(use)
     end
   })
 
+  -- Git links
   use({
     "ruifm/gitlinker.nvim",
     requires = "nvim-lua/plenary.nvim",

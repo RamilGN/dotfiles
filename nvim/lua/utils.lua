@@ -26,8 +26,13 @@ function M.get_visual_selection()
   end
 end
 
-function M.vterm(string)
-  cmd([[vsplit term://]] .. string .. [[ && sleep 1]])
+function M.vterm(command)
+  cmd([[vsplit term://]] .. command .. [[ && sleep 1]])
+end
+
+function M.gitdelta(command)
+    local delta = command .. [[ \| delta --paging=never]]
+    M.vterm(delta)
 end
 
 return M
