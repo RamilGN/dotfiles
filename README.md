@@ -12,7 +12,7 @@
 Clone this repo
 
 ```bash
-git clone git@github.com:RamiGaggi/dotfiles.git ~/dotfiles
+git clone git@github.com:RamilGN/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ```
 
@@ -27,7 +27,7 @@ make all
 Clone this repo
 
 ```bash
-git clone git@github.com:RamiGaggi/dotfiles.git ~/dotfiles
+git clone git@github.com:RamilGN/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ```
 

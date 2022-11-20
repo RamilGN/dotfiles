@@ -3,7 +3,7 @@ local M = {}
 function M.setup(use)
   -- ### Autosaving
   use({
-    "RamiGaggi/auto-save.nvim",
+    "RamilGN/auto-save.nvim",
     config = function()
       local utils = require("utils")
       require("auto-save").setup({
