@@ -21,7 +21,7 @@ vim.keymap.set("n", "//", ":nohlsearch<CR>")
 vim.keymap.set("n", "<CR>", "m`o<Esc>``")
 vim.keymap.set("n", "<S-CR>", "m`O<Esc>``")
 -- ## Edit/source current config
-vim.keymap.set("n", "<leader>vl", "<Cmd>vsp $MYVIMRC<CR>")
+vim.keymap.set("n", "<leader>vl", "<Cmd>vsp ~/dotfiles/nvim<CR>")
 vim.keymap.set("n", "<leader>vs", "<Cmd>source $MYVIMRC<CR>")
 -- ## Repeat last command
 vim.keymap.set("n", "<leader>re", "@:")
@@ -34,7 +34,6 @@ vim.keymap.set("v", "p", '"_dP')
 -- ## Change without yanking
 vim.keymap.set("n", "c", '"_c')
 vim.keymap.set("v", "c", '"_c')
-
 vim.keymap.set("n", "C", '"_C')
 vim.keymap.set("v", "C", '"_C')
 -- ## Switch layout
@@ -53,17 +52,18 @@ vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<CR>")
 vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<CR>")
 vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
 vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
--- ## Spaces
+
+-- Spaces
 vim.keymap.set("n", "[<leader>", "i<leader><Esc>")
 vim.keymap.set("n", "]<leader>", "a<leader><Esc>")
--- ## Buffers
+-- Buffers
 vim.keymap.set("n", "]b", "<Cmd>bnext<CR>")
 vim.keymap.set("n", "[b", "<Cmd>bprevious<CR>")
--- ## Quickfix
+-- Quickfix
 vim.keymap.set("n", "]q", "<Cmd>cnext<CR>")
 vim.keymap.set("n", "[q", "<Cmd>cprevious<CR>")
 
-
+-- Git
 vim.keymap.set("n", "<leader>gl", "<Cmd>GitLog<CR>")
 vim.keymap.set("v", "<leader>gl", ":GitLog<CR>")
 vim.keymap.set("n", "<leader>gi", "<Cmd>GitShow<CR>")

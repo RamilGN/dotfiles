@@ -4,13 +4,13 @@ local g = vim.g
 local opt = vim.opt
 
 -- Standard
-opt.mouse = "a" -- Mouse on
+opt.mouse = nil -- Mouse off
 opt.completeopt = "menu,menuone,noselect" -- Autocomplete
 opt.ignorecase = true -- Ignore case when searching
 opt.smartcase = true -- Ignore case when searching if there is no capital letter
 opt.keymap = "russian-jcukenwin" -- RU keyboard layout
 opt.iminsert = 0 -- EN layout default in insert
-opt.imsearch = 0 -- EN layout default in search
+opt.imsearch = -1 -- EN layout default in search
 opt.spelllang = { "en_us", "ru" } -- Spell dictionaries
 opt.number = true -- Line numbers
 opt.relativenumber = true -- Relative numbers
@@ -46,8 +46,8 @@ opt.formatoptions = opt.formatoptions - "c" - "r" - "o" -- Don't continue commen
 
 -- Diagnositc
 diagnostic.config({
-  virtual_text = false, -- Don't show diagnostics near line
-  update_in_insert = true -- Update diagnostics in insert mode
+    virtual_text = false, -- Don't show diagnostics near line
+    update_in_insert = true -- Update diagnostics in insert mode
 })
 -- Diagnositc signs
 fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
