@@ -1,5 +1,4 @@
 local utils = require("utils")
-
 local api = vim.api
 local cmd = vim.cmd
 local command = vim.api.nvim_create_user_command

@@ -93,13 +93,6 @@ function M.setup(use)
               ["[C"] = "@class.outer",
             },
           },
-          lsp_interop = {
-            enable = true,
-            peek_definition_code = {
-              ["<leader>df"] = "@function.outer",
-              ["<leader>dF"] = "@class.outer"
-            }
-          }
         },
         endwise = {
           enable = true
