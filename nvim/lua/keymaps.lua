@@ -1,71 +1,117 @@
--- ## Word wrapping
-vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
--- ## Space as <leader>
-vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
--- ## Move between windows
-vim.keymap.set("n", "<C-k>", "<C-w><up>")
-vim.keymap.set("n", "<C-j>", "<C-w><down>")
-vim.keymap.set("n", "<C-l>", "<C-w><right>")
-vim.keymap.set("n", "<C-h>", "<C-w><Left>")
--- ## Scrolling up/down
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
--- ## Exit terminal mode
-vim.keymap.set("t", "<C-[>", "<C-\\><C-n>")
--- ## Close current buffer
-vim.keymap.set("n", "<C-w>b", ":bd! %<CR>")
--- ## Turn off highlight after search
-vim.keymap.set("n", "//", ":nohlsearch<CR>")
--- ## Add newline below/under cursor
-vim.keymap.set("n", "<CR>", "m`o<Esc>``")
-vim.keymap.set("n", "<S-CR>", "m`O<Esc>``")
--- ## Edit/source current config
-vim.keymap.set("n", "<leader>vl", "<Cmd>vsp ~/dotfiles/nvim<CR>")
-vim.keymap.set("n", "<leader>vs", "<Cmd>source $MYVIMRC<CR>")
--- ## Repeat last command
-vim.keymap.set("n", "<leader>re", "@:")
--- ## Quit all
-vim.keymap.set("n", "ZA", "<Cmd>qa!<CR>")
--- ## Serach word without jumping
-vim.keymap.set("n", "#", ":let @/= '\\<'.expand('<cword>').'\\>' | set hls <CR>", { silent = true })
--- ## Replace selected text without yanking
-vim.keymap.set("v", "p", '"_dP')
+local vks = vim.keymap.set
+local wk = require("which-key");
+
 -- ## Change without yanking
-vim.keymap.set("n", "c", '"_c')
-vim.keymap.set("v", "c", '"_c')
-vim.keymap.set("n", "C", '"_C')
-vim.keymap.set("v", "C", '"_C')
--- ## Switch layout
-vim.keymap.set({ "c", "i" }, "<C-j>", "<C-^>")
+vks("n", "c", '"_c')
+vks("n", "C", '"_C')
+-- ## Repeat last command
+vks("n", "<leader>re", "@:")
+-- ## Edit/source current config
+vks("n", "<leader>vl", "<Cmd>vsp ~/dotfiles/nvim<CR>")
+vks("n", "<leader>vs", "<Cmd>source $MYVIMRC<CR>")
+-- ## Quit all
+vks("n", "ZA", "<Cmd>qa!<CR>")
 -- ## Create a new tab
-vim.keymap.set("n", "<leader>ct", "<Cmd>$tabnew %<CR>")
--- # Set spelling
-vim.keymap.set("n", "yos", "<Cmd>set invspell<CR>")
+vks("n", "<leader>ct", "<Cmd>$tabnew %<CR>")
+local n_keymaps = {
+    ["#"] = { ":let @/= '\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
+
+    ["//"] = { ":nohlsearch<CR>", "Turn off highlight" },
+
+    ["k"] = { "v:count == 0 ? 'gk' : 'k'", "Up lines wrap", expr = true },
+    ["j"] = { "v:count == 0 ? 'gj' : 'j'", "Down lines wrap", expr = true },
+
+    ["<CR>"] = { "m`o<Esc>``", "Insert space below cursor" },
+    ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
+
+    ["<C-k>"] = { "<C-w><Up>", "Go to upper window" },
+    ["<C-j>"] = { "<C-w><down>", "Go to bottom window" },
+    ["<C-l>"] = { "<C-w><right>", "Go to right window" },
+    ["<C-h>"] = { "<C-w><Left>", "Go to left window" },
+
+    ["<C-Up>"] = { "<Cmd>resize -2<CR>", "Resize horiz-" },
+    ["<C-Down>"] = { "<Cmd>resize +2<CR>", "Resize horiz+" },
+    ["<C-Left>"] = { "<Cmd>vertical resize -2<CR>", "Resize vert-" },
+    ["<C-Right>"] = { "<Cmd>vertical resize +2<CR>", "Resize vert+" },
+
+    ["C-w"] = {
+        name = "+window",
+        ["b"] = { ":bd! %<CR>", "Close current buffer" },
+    },
+
+    ["yo"] = {
+        name = "+setoption",
+        ["s"] = { "<Cmd>set invspell<CR>", "Set spelling" },
+        ["c"] = { "<Cmd>SetColorColumn<CR>", "Set vert limit bar" }
+    },
+
+    ["["] = {
+        name = "+prevaction",
+        ["b"] = { "<Cmd>bprev<CR>", "Next buffer" },
+        ["g"] = { "<Cmd>Gitsigns prev_hunk<CR>", "Git prev hunk" },
+        ["q"] = { "<Cmd>cprev<CR>", "Prev item in qf" },
+        ["<leader>"] = { "i<leader><Esc>", "Insert space after cursor" },
+    },
+    ["]"] = {
+        name = "+nextaction",
+        ["b"] = { "<Cmd>bnext<CR>", "Previous buffer" },
+        ["g"] = { "<Cmd>Gitsigns next_hunk<CR>", "Git next hunk" },
+        ["q"] = { "<Cmd>cnext<CR>", "Next item in qf" },
+        ["<leader>"] = { "a<leader><Esc>", "Insert space under cursor" },
+    },
+
+    ["<leader>"] = {
+        name = "+SPC",
+        ["g"] = {
+            name = "+git",
+            ["l"] = { "<Cmd>GitLog<CR>", "Git log" },
+            ["i"] = { "<Cmd>GitShow<CR>", "Git show" }
+        }
+    }
+}
+
+
 -- # Line textobject
-vim.keymap.set("v", "al", ":normal 0v$h<CR>")
-vim.keymap.set("o", "al", ":normal val<CR>")
-vim.keymap.set("v", "il", ":normal ^vg_<CR>")
-vim.keymap.set("o", "il", ":normal vil<CR>")
--- Resize windows
-vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<CR>")
-vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<CR>")
-vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
-vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
+vks("v", "il", ":normal ^vg_<CR>")
+vks("v", "al", ":normal 0v$h<CR>")
+-- ## Change without yanking
+vks("v", "C", '"_C')
+vks("v", "c", '"_c')
+local v_keymaps = {
+    ["p"] = { [["_dP]], "Replace without yanking" },
 
--- Spaces
-vim.keymap.set("n", "[<leader>", "i<leader><Esc>")
-vim.keymap.set("n", "]<leader>", "a<leader><Esc>")
--- Buffers
-vim.keymap.set("n", "]b", "<Cmd>bnext<CR>")
-vim.keymap.set("n", "[b", "<Cmd>bprevious<CR>")
--- Quickfix
-vim.keymap.set("n", "]q", "<Cmd>cnext<CR>")
-vim.keymap.set("n", "[q", "<Cmd>cprevious<CR>")
+    ["<leader>"] = {
+        name = "+SPC",
+        ["g"] = {
+            name = "+git",
+            ["l"] = { ":GitLog<CR>", "Git log selected" }
+        }
+    }
+}
 
--- Git
-vim.keymap.set("n", "<leader>gl", "<Cmd>GitLog<CR>")
-vim.keymap.set("v", "<leader>gl", ":GitLog<CR>")
-vim.keymap.set("n", "<leader>gi", "<Cmd>GitShow<CR>")
+-- ## Switch layout
+vks({ "c", "i" }, "<C-j>", "<C-^>")
+local i_keymaps = {}
 
-vim.keymap.set("n", "yoc", "<Cmd>SetColorColumn<CR>")
+-- ## Exit terminal mode
+vks("t", "<C-[>", "<C-\\><C-n>")
+local t_keymaps = {}
+
+
+-- ## Switch layout
+vks({ "c", "i" }, "<C-j>", "<C-^>")
+local c_keymaps = {}
+
+
+-- # Line textobject
+vks("o", "il", ":normal vil<CR>")
+vks("o", "al", ":normal val<CR>")
+local o_keymaps = {}
+
+
+wk.register(n_keymaps, { mode = "n" })
+wk.register(v_keymaps, { mode = "v" })
+wk.register(i_keymaps, { mode = "i" })
+wk.register(t_keymaps, { mode = "t" })
+wk.register(c_keymaps, { mode = "c" })
+wk.register(c_keymaps, { mode = "o" })

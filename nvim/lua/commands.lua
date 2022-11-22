@@ -12,9 +12,9 @@ command(
     function(opts)
         local range = (opts.range == 0 and opts.args) or (opts.line1 .. [[,]] .. opts.line2)
         if range == "" then
-            utils.gitdelta([[git --no-pager log -p --stat --follow ]] .. [[%]])
+            utils.gitdelta([[log -p --stat --follow ]] .. [[%]])
         else
-            utils.gitdelta([[git --no-pager log -p -L]] .. range .. [[:%]])
+            utils.gitdelta([[log -p -L]] .. range .. [[:%]])
         end
     end,
     { nargs = "?", range = true }
@@ -28,9 +28,9 @@ command(
         if commit_hash == "" then
             local cword = fn.expand("<cword>")
             utils.closewin()
-            utils.gitdelta([[git --no-pager show -p --stat ]] .. cword)
+            utils.gitdelta([[show -p --stat ]] .. cword)
         else
-            utils.gitdelta([[git --no-pager show -p --stat ]] .. commit_hash)
+            utils.gitdelta([[show -p --stat ]] .. commit_hash)
         end
     end,
     { nargs = "?" }

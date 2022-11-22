@@ -35,7 +35,7 @@ function M.closewin()
 end
 
 function M.gitdelta(command)
-    local delta = command .. [[ \| delta --paging=never]]
+    local delta = [[git --no-pager ]] .. command .. [[ \| delta --paging=never]]
     M.vterm(delta)
 end
 
