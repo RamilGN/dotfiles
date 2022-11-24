@@ -1,4 +1,6 @@
 local wk = require("which-key")
+local utils = require("utils")
+local t = require("telescope.builtin")
 
 local n_keymaps = {
     ["#"] = { ":let @/= '\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
@@ -18,6 +20,10 @@ local n_keymaps = {
 
     ["<CR>"] = { "m`o<Esc>``", "Insert space below cursor" },
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
+
+    -- Fast shortucts
+    ["<C-f>"] = { "<Cmd>Telescope find_files<CR>", "Find files" },
+    ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Buffers" },
 
     ["<C-k>"] = { "<C-w><Up>", "Go to upper window" },
     ["<C-j>"] = { "<C-w><down>", "Go to bottom window" },
@@ -92,8 +98,14 @@ local n_keymaps = {
             name = "+telescope",
             ["h"] = {
                 name = "+help",
-                ["h"] = "<Cmd>Telescope help_tags",
-                ["c"] = "<Cmd>Telescope commands"
+                ["c"] = { "<Cmd>Telescope commands<CR>", "Commands" },
+                ["h"] = { "<Cmd>Telescope help_tags<CR>", "Help pages" },
+                ["k"] = { "<Cmd>Telescope keymaps<CR>", "Key maps" },
+                ["m"] = { "<Cmd>Telescope man_pages<CR>", "Man pages" },
+                ["f"] = { "<Cmd>Telescope filetypes<CR>", "File Types" },
+                ["t"] = { "<Cmd>Telescope builtin<CR>", "Telescope" },
+                ["s"] = { "<cmd>:Telescope highlights<cr>", "Search Highlight Groups" },
+                ["o"] = { "<Cmd>Telescope vim_options<CR>", "Options" },
             }
         }
     }
@@ -110,6 +122,8 @@ local v_keymaps = {
     ["<"]  = { "<gv", "Indent left" },
     [">"]  = { ">gv", "Indent right" },
 
+    ["<C-f>"] = { function() t.find_files({ default_text = utils.get_visual_selection() }) end, "WOW" },
+
     ["<leader>"] = {
         name = "+SPC",
         ["g"] = {
@@ -125,7 +139,7 @@ local i_keymaps = {
 }
 
 local t_keymaps = {
-    ["C-["] = { "<C-\\><C-n>", "Switch layout" },
+    ["<C-[>"] = { "<C-\\><C-n>", "Switch layout" },
 }
 
 local c_keymaps = {
