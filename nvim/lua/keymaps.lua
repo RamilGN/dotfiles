@@ -1,25 +1,20 @@
-local vks = vim.keymap.set
-local wk = require("which-key");
+local wk = require("which-key")
 
--- ## Change without yanking
-vks("n", "c", '"_c')
-vks("n", "C", '"_C')
--- ## Repeat last command
-vks("n", "<leader>re", "@:")
--- ## Edit/source current config
-vks("n", "<leader>vl", "<Cmd>vsp ~/dotfiles/nvim<CR>")
-vks("n", "<leader>vs", "<Cmd>source $MYVIMRC<CR>")
--- ## Quit all
-vks("n", "ZA", "<Cmd>qa!<CR>")
--- ## Create a new tab
-vks("n", "<leader>ct", "<Cmd>$tabnew %<CR>")
 local n_keymaps = {
     ["#"] = { ":let @/= '\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
 
     ["//"] = { ":nohlsearch<CR>", "Turn off highlight" },
 
+    ["c"] = { [["_c]], "Change without yanking" },
+    ["C"] = { [["_C]], "Change without yanking" },
+
     ["k"] = { "v:count == 0 ? 'gk' : 'k'", "Up lines wrap", expr = true },
     ["j"] = { "v:count == 0 ? 'gj' : 'j'", "Down lines wrap", expr = true },
+
+    ["Z"] = {
+        name = "+quit",
+        ["A"] = { "<Cmd>qa!<CR>", "Force quit all" },
+    },
 
     ["<CR>"] = { "m`o<Esc>``", "Insert space below cursor" },
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
@@ -62,51 +57,86 @@ local n_keymaps = {
 
     ["<leader>"] = {
         name = "+SPC",
+
+        ["c"] = {
+            name = "+create",
+            ["t"] = { "<Cmd>$tabnew %<CR>", "Create tab for current buffer" }
+        },
+
         ["g"] = {
             name = "+git",
+            ["b"] = { "<Cmd>Gitsigns blame_line<CR>", "Git blame_line" },
+            ["d"] = { "<Cmd>Gitsigns diffthis<CR>", "Git diff" },
+            ["h"] = { "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk" },
+            ["i"] = { "<Cmd>GitShow<CR>", "Git show" },
             ["l"] = { "<Cmd>GitLog<CR>", "Git log" },
-            ["i"] = { "<Cmd>GitShow<CR>", "Git show" }
+            ["v"] = { "<Cmd>Gitsigns stage_hunk<CR>", "Git select hunk" },
+            ["r"] = { "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk" },
+            ["s"] = { "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk" },
+            ["u"] = { "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk" },
+            ["y"] = { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" }
+        },
+
+        ["v"] = {
+            name = "+files",
+            ["p"] = { "<Cmd>vsp ~/private/nvim/init.lua<CR>", "" },
+            ["s"] = { "<Cmd>source $MYVIMRC<CR>", "Source vim config" },
+        },
+
+        ["r"] = {
+            name = "+?",
+            ["e"] = { "@:", "Repeat last command" }
+        },
+
+        ["t"] = {
+            name = "+telescope",
+            ["h"] = {
+                name = "+help",
+                ["h"] = "<Cmd>Telescope help_tags",
+                ["c"] = "<Cmd>Telescope commands"
+            }
         }
     }
 }
 
-
--- # Line textobject
-vks("v", "il", ":normal ^vg_<CR>")
-vks("v", "al", ":normal 0v$h<CR>")
--- ## Change without yanking
-vks("v", "C", '"_C')
-vks("v", "c", '"_c')
 local v_keymaps = {
     ["p"] = { [["_dP]], "Replace without yanking" },
+
+    ["c"] = { [["_c]], "Change without yanking" },
+    ["C"] = { [["_C]], "Change without yanking" },
+
+    ["il"] = { ":normal ^vg_<CR>", "Line textobject" },
+    ["al"] = { ":normal 0v$h<CR>", "Line textobject" },
+    ["<"]  = { "<gv", "Indent left" },
+    [">"]  = { ">gv", "Indent right" },
 
     ["<leader>"] = {
         name = "+SPC",
         ["g"] = {
             name = "+git",
-            ["l"] = { ":GitLog<CR>", "Git log selected" }
+            ["l"] = { ":GitLog<CR>", "Git log selected" },
+            ["y"] = { function() require "gitlinker".get_buf_range_url("v") end, "Git copy link" }
         }
     }
 }
 
--- ## Switch layout
-vks({ "c", "i" }, "<C-j>", "<C-^>")
-local i_keymaps = {}
+local i_keymaps = {
+    ["C-j"] = { "<C-^>", "Switch layout" },
+}
 
--- ## Exit terminal mode
-vks("t", "<C-[>", "<C-\\><C-n>")
-local t_keymaps = {}
-
-
--- ## Switch layout
-vks({ "c", "i" }, "<C-j>", "<C-^>")
-local c_keymaps = {}
+local t_keymaps = {
+    ["C-["] = { "<C-\\><C-n>", "Switch layout" },
+}
 
 
--- # Line textobject
-vks("o", "il", ":normal vil<CR>")
-vks("o", "al", ":normal val<CR>")
-local o_keymaps = {}
+local c_keymaps = {
+    ["C-j"] = { "<C-^>", "Switch layout" },
+}
+
+local o_keymaps = {
+    ["il"] = { ":normal vil", "Line textobject" },
+    ["al"] = { ":normal val", "Line textobject" },
+}
 
 
 wk.register(n_keymaps, { mode = "n" })
@@ -114,4 +144,4 @@ wk.register(v_keymaps, { mode = "v" })
 wk.register(i_keymaps, { mode = "i" })
 wk.register(t_keymaps, { mode = "t" })
 wk.register(c_keymaps, { mode = "c" })
-wk.register(c_keymaps, { mode = "o" })
+wk.register(o_keymaps, { mode = "o" })
