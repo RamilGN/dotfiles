@@ -121,16 +121,15 @@ local v_keymaps = {
 }
 
 local i_keymaps = {
-    ["C-j"] = { "<C-^>", "Switch layout" },
+    ["<C-j>"] = { "<C-^>", "Switch layout" },
 }
 
 local t_keymaps = {
     ["C-["] = { "<C-\\><C-n>", "Switch layout" },
 }
 
-
 local c_keymaps = {
-    ["C-j"] = { "<C-^>", "Switch layout" },
+    ["<C-j>"] = { "<C-^>", "Switch layout" },
 }
 
 local o_keymaps = {
