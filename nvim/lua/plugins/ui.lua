@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup(use)
-
+    -- Theme
     use({
         "folke/tokyonight.nvim",
         config = function()
@@ -19,7 +19,7 @@ function M.setup(use)
         end
     })
 
-    -- Icons
+    -- Displaying icons
     use({
         "kyazdani42/nvim-web-devicons",
         config = function()
@@ -47,7 +47,7 @@ function M.setup(use)
         end
     })
 
-    -- Tabline
+    -- Fancy tabs
     use({
         "alvarosevilla95/luatab.nvim",
         requires = "kyazdani42/nvim-web-devicons",
@@ -82,7 +82,7 @@ function M.setup(use)
         end
     })
 
-    -- Colors
+    -- Displaying colors
     use({
         "norcalli/nvim-colorizer.lua",
         config = function()
@@ -90,7 +90,7 @@ function M.setup(use)
         end
     })
 
-    -- Better ui select and etc.
+    -- Better select ui
     use({
         "stevearc/dressing.nvim",
         config = function()

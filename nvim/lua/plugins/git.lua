@@ -15,13 +15,6 @@ function M.setup(use)
                     changedelete = { text = "~" }
                 }
             })
-
-            -- Mappings
-            -- vim.keymap.set("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>")
-            -- vim.keymap.set("n", "<leader>gh", "<Cmd>Gitsigns preview_hunk<CR>")
-            -- vim.keymap.set("n", "<leader>gs", "<Cmd>Gitsigns stage_hunk<CR>")
-            -- vim.keymap.set("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>")
-            -- vim.keymap.set("n", "<leader>gb", "<Cmd>Gitsigns blame_line<CR>")
         end
     })
 
