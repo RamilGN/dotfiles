@@ -1,11 +1,9 @@
 local M = {}
 
 function M.setup(use)
-    -- ### Package manager
     use({
         "williamboman/mason.nvim",
         config = function()
-            -- ### Package installer configuration
             require("mason").setup({
                 ui = {
                     icons = {
@@ -18,7 +16,6 @@ function M.setup(use)
         end
     })
 
-    -- ### Prepare sources and snippet engine for autocompletion
     use({
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-nvim-lsp-document-symbol",
@@ -29,30 +26,25 @@ function M.setup(use)
         requires = { "hrsh7th/nvim-cmp" }
     })
 
-    -- ### Autocompletion
     use({
         "hrsh7th/nvim-cmp",
         config = function()
-            -- local utils = require("utils")
+            local utils = require("utils")
             local cmp = require("cmp")
             local cmp_buffer = require("cmp_buffer")
             local luasnip = require("luasnip")
-            -- local ex_filetypes = {
-            --     ["toggleterm"] = true,
-            -- }
+
             local buffer_source = {
                 name = "buffer",
                 option = {
                     get_bufnrs = function()
                         local bufs = {}
                         for _, win in ipairs(vim.api.nvim_list_wins()) do
-                            bufs[vim.api.nvim_win_get_buf(win)] = true
-                            -- local byte_size = utils.get_buf_byte_size(win)
-                            -- local filetype = vim.api.nvim_buf_get_option(win, "filetype")
-                            -- or ex_filetypes[filetype]
-                            -- if byte_size > vim.g.max_byte_size then
-                            --     table.remove(bufs, i)
-                            -- end
+                            local buf = vim.api.nvim_win_get_buf(win)
+                            local byte_size = utils.get_buf_byte_size(buf)
+                            if byte_size < vim.g.max_byte_size then
+                                bufs[buf] = true
+                            end
                         end
                         return vim.tbl_keys(bufs)
                     end,
@@ -66,13 +58,11 @@ function M.setup(use)
                         luasnip.lsp_expand(args.body)
                     end,
                 },
-                -- ### Mappings
                 mapping = cmp.mapping.preset.insert({
                     ["<C-u>"] = cmp.mapping.scroll_docs(-2),
                     ["<C-d>"] = cmp.mapping.scroll_docs(2),
                     ["<C-e>"] = cmp.mapping.abort(),
                     ["<CR>"] = cmp.mapping.confirm({
-                        -- behavior = cmp.ConfirmBehavior.Replace,
                         select = true
                     })
                 }),
@@ -115,20 +105,17 @@ function M.setup(use)
         end
     })
 
-    -- ### LSP config
     use({
         "williamboman/mason-lspconfig.nvim",
         "b0o/schemastore.nvim",
         {
             "neovim/nvim-lspconfig",
             config = function()
-                -- ### Diagnositc mappings
                 local keymap_opts = { noremap = true, silent = true }
                 vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float, keymap_opts)
                 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
                 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, keymap_opts)
 
-                -- ### Mappings
                 local on_attach = function(_, bufnr)
                     local bufopts = { buffer = bufnr }
                     vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
@@ -159,11 +146,9 @@ function M.setup(use)
                     end, bufopts)
                 end
 
-                -- ### Capabilities
                 local capabilities = vim.lsp.protocol.make_client_capabilities()
                 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-                -- ### LSP servers configuration
                 local mason_lsp_config = require("mason-lspconfig")
                 mason_lsp_config.setup({
                     ensure_installed = {
@@ -186,7 +171,6 @@ function M.setup(use)
                 local installed_servers = mason_lsp_config.get_installed_servers()
                 local lspconfig = require("lspconfig")
 
-                -- ### Additional settings for certain LSP servers
                 local enhance_server_opts = {
                     ["jsonls"] = function(options)
                         options.settings = {
@@ -198,7 +182,6 @@ function M.setup(use)
                     end,
                 }
 
-                -- Setup LSP
                 for _, server_name in ipairs(installed_servers) do
                     local lsp_opts = {
                         on_attach = on_attach,

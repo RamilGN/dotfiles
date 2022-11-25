@@ -76,10 +76,11 @@ local n_keymaps = {
             ["h"] = { "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk" },
             ["i"] = { "<Cmd>GitShow<CR>", "Git show" },
             ["l"] = { "<Cmd>GitLog<CR>", "Git log" },
-            ["v"] = { "<Cmd>Gitsigns stage_hunk<CR>", "Git select hunk" },
+            ["v"] = { "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk" },
             ["r"] = { "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk" },
             ["s"] = { "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk" },
             ["u"] = { "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk" },
+            ["x"] = { "<Cmd>Gitsigns reset_buffer<CR>", "Git reset hunk" },
             ["y"] = { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" }
         },
 
@@ -93,21 +94,18 @@ local n_keymaps = {
             name = "+?",
             ["e"] = { "@:", "Repeat last command" }
         },
-
-        ["t"] = {
-            name = "+telescope",
-            ["h"] = {
-                name = "+help",
-                ["c"] = { "<Cmd>Telescope commands<CR>", "Commands" },
-                ["h"] = { "<Cmd>Telescope help_tags<CR>", "Help pages" },
-                ["k"] = { "<Cmd>Telescope keymaps<CR>", "Key maps" },
-                ["m"] = { "<Cmd>Telescope man_pages<CR>", "Man pages" },
-                ["f"] = { "<Cmd>Telescope filetypes<CR>", "File Types" },
-                ["t"] = { "<Cmd>Telescope builtin<CR>", "Telescope" },
-                ["s"] = { "<cmd>:Telescope highlights<cr>", "Search Highlight Groups" },
-                ["o"] = { "<Cmd>Telescope vim_options<CR>", "Options" },
-            }
-        }
+        ["h"] = {
+            name = "+help",
+            ["c"] = { "<Cmd>Telescope commands<CR>", "Commands" },
+            ["h"] = { "<Cmd>Telescope help_tags<CR>", "Help pages" },
+            ["k"] = { "<Cmd>Telescope keymaps<CR>", "Key maps" },
+            ["m"] = { "<Cmd>Telescope man_pages<CR>", "Man pages" },
+            ["f"] = { "<Cmd>Telescope filetypes<CR>", "File Types" },
+            ["t"] = { "<Cmd>Telescope builtin<CR>", "Telescope" },
+            ["s"] = { "<Cmd>Telescope highlights<cr>", "Search Highlight Groups" },
+            ["o"] = { "<Cmd>Telescope vim_options<CR>", "Options" },
+            ["p"] = { "<Cmd>PackerCompile<CR>", "Packer compile" },
+        },
     }
 }
 
