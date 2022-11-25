@@ -63,7 +63,7 @@ function M.setup(use)
             vim.keymap.set("n", "<leader>tgc", "<Cmd>Telescope git_commits<CR>")
             vim.keymap.set("n", "<leader>tgx", "<Cmd>Telescope git_bcommits<CR>")
             vim.keymap.set("n", "<leader>tgb", "<Cmd>Telescope git_branches<CR>")
-            -- vim.keymap.set("n", "<C-g>", "<Cmd>Telescope git_status<CR>")
+            vim.keymap.set("n", "<C-g>", "<Cmd>Telescope git_status<CR>")
             vim.keymap.set("n", "<leader>tgh", "<Cmd>Telescope git_stash<CR>")
 
             vim.keymap.set("n", "<leader>td", "<Cmd>Telescope diagnostics<CR>")
