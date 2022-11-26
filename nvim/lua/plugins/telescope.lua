@@ -51,11 +51,7 @@ function M.setup(use)
             local t = require("telescope.builtin")
             local utils = require("utils")
 
-            -- ### Mappings
-
-            -- vim.keymap.set("n", "<C-b>", "<Cmd>Telescope buffers<CR>")
             vim.keymap.set("n", "<leader>tt", "<Cmd>Telescope resume<CR>")
-
             vim.keymap.set("n", "<leader>tc", function()
                 t.oldfiles({ only_cwd = true })
             end)
@@ -63,15 +59,10 @@ function M.setup(use)
             vim.keymap.set("n", "<leader>tgc", "<Cmd>Telescope git_commits<CR>")
             vim.keymap.set("n", "<leader>tgx", "<Cmd>Telescope git_bcommits<CR>")
             vim.keymap.set("n", "<leader>tgb", "<Cmd>Telescope git_branches<CR>")
-            vim.keymap.set("n", "<C-g>", "<Cmd>Telescope git_status<CR>")
             vim.keymap.set("n", "<leader>tgh", "<Cmd>Telescope git_stash<CR>")
-
             vim.keymap.set("n", "<leader>td", "<Cmd>Telescope diagnostics<CR>")
             vim.keymap.set("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>")
             vim.keymap.set("n", "<leader>tw", "<Cmd>Telescope lsp_workspace_symbols<CR>")
-
-            -- vim.keymap.set("n", "<C-f>", "<Cmd>Telescope find_files<CR>")
-            -- vim.keymap.set("v", "<C-f>", function() t.find_files({ default_text = utils.get_visual_selection() }) end)
 
             vim.keymap.set("n", "<C-m>", "<Cmd>Telescope live_grep<CR>")
             vim.keymap.set("v", "<C-m>", function()

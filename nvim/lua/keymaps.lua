@@ -2,6 +2,11 @@ local wk = require("which-key")
 local utils = require("utils")
 local t = require("telescope.builtin")
 
+vim.keymap.set("n", "<leader>rt", "<Cmd>1ToggleTerm direction=float<CR>")
+vim.keymap.set("n", "<leader>rl", "<Cmd>2ToggleTerm direction=vertical<CR>")
+vim.keymap.set("n", "<C-s>", "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>")
+vim.keymap.set("v", "<C-s>", ":ToggleTermSendVisualSelectionNoTW 2<CR>")
+
 local n_keymaps = {
     ["#"] = { ":let @/= '\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
 
@@ -22,8 +27,10 @@ local n_keymaps = {
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
 
     -- Fast shortucts
+    ["<C-n>"] = { function() t.find_files({ default_text = utils.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-f>"] = { "<Cmd>Telescope find_files<CR>", "Find files" },
-    ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Buffers" },
+    ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
+    ["<C-g>"] = { "<Cmd>Telescope git_status<CR>", "Git status" },
 
     ["<C-k>"] = { "<C-w><Up>", "Go to upper window" },
     ["<C-j>"] = { "<C-w><down>", "Go to bottom window" },
@@ -63,6 +70,8 @@ local n_keymaps = {
 
     ["<leader>"] = {
         name = "+SPC",
+        ["<leader>"] = { "<Cmd>NeoTreeRevealToggle<CR>", "Open file explorer" },
+
 
         ["c"] = {
             name = "+create",
@@ -80,7 +89,7 @@ local n_keymaps = {
             ["r"] = { "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk" },
             ["s"] = { "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk" },
             ["u"] = { "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk" },
-            ["x"] = { "<Cmd>Gitsigns reset_buffer<CR>", "Git reset hunk" },
+            ["x"] = { "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer" },
             ["y"] = { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" }
         },
 
@@ -120,7 +129,7 @@ local v_keymaps = {
     ["<"]  = { "<gv", "Indent left" },
     [">"]  = { ">gv", "Indent right" },
 
-    ["<C-f>"] = { function() t.find_files({ default_text = utils.get_visual_selection() }) end, "WOW" },
+    ["<C-f>"] = { function() t.find_files({ default_text = utils.get_visual_selection() }) end, "Find files" },
 
     ["<leader>"] = {
         name = "+SPC",

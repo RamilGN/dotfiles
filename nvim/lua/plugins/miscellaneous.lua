@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup(use)
-    -- ### Autosaving
+    -- Autosaving
     use({
         "RamilGN/auto-save.nvim",
         config = function()
@@ -27,7 +27,7 @@ function M.setup(use)
         end,
     })
 
-    -- ### Popup with suggestions to complete a key binding
+    -- Popup with suggestions to complete a key binding
     use({
         "folke/which-key.nvim",
         config = {
@@ -37,7 +37,7 @@ function M.setup(use)
         }
     })
 
-    -- ### File explorer
+    -- File explorer
     use {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
@@ -88,15 +88,10 @@ function M.setup(use)
                         end },
                 }
             })
-
-            -- #### Mappinngs
-            vim.keymap.set("n", "<leader><leader>", ":Neotree toggle<CR>")
-            vim.keymap.set("n", "<C-n>", ":Neotree reveal<CR>")
         end
     }
 
-
-    -- ### Terminal management
+    -- Terminal management
     use(
         {
             "akinsho/toggleterm.nvim", tag = "v2.*",
@@ -121,24 +116,6 @@ function M.setup(use)
                         winblend = 5
                     },
                 }
-
-                vim.keymap.set("n", "<leader>rt", "<Cmd>1ToggleTerm direction=float<CR>")
-
-                vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW",
-                    function(opts)
-                        toggleterm.send_lines_to_terminal("single_line", false, opts)
-                    end,
-                    { nargs = "?" }
-                )
-                vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
-                    function(opts)
-                        toggleterm.send_lines_to_terminal("visual_selection", false, opts)
-                    end,
-                    { range = true, nargs = "?" }
-                )
-                vim.keymap.set("n", "<leader>rl", "<Cmd>2ToggleTerm direction=vertical<CR>")
-                vim.keymap.set("n", "<C-s>", "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>")
-                vim.keymap.set("v", "<C-s>", ":ToggleTermSendVisualSelectionNoTW 2<CR>")
             end
         })
 

@@ -26,6 +26,15 @@ function M.get_visual_selection()
     end
 end
 
+function M.get_cur_buf_rel_path()
+    return vim.fn.expand('%')
+end
+
+function M.get_cur_buf_dir_rel_path()
+    local path = M.get_cur_buf_rel_path()
+    return path:gsub("/[^/]*$", "")
+end
+
 function M.vterm(command)
     cmd([[vsplit term://]] .. command .. [[ && sleep 1]])
 end

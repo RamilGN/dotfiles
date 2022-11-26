@@ -21,3 +21,4 @@ api.nvim_create_autocmd("BufReadPost", {
         vim.keymap.set("n", "<CR>", "<CR>", { buffer = true })
     end
 })
+

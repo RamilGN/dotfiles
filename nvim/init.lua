@@ -1,6 +1,6 @@
 require("options")
+require("plugins")
 require("keymaps")
 require("autocommands")
 require("commands")
-require("plugins")
 require("private")

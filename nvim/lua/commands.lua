@@ -1,4 +1,5 @@
 local utils = require("utils")
+local toggleterm = require("toggleterm")
 local api = vim.api
 local cmd = vim.cmd
 local command = vim.api.nvim_create_user_command
@@ -61,4 +62,18 @@ command(
         opt.colorcolumn = cval
     end,
     { nargs = "?", range = true }
+)
+
+-- ToggleTerm commands
+command("ToggleTermSendCurrentLineNoTW",
+    function(opts)
+        toggleterm.send_lines_to_terminal("single_line", false, opts)
+    end,
+    { nargs = "?" }
+)
+command("ToggleTermSendVisualSelectionNoTW",
+    function(opts)
+        toggleterm.send_lines_to_terminal("visual_selection", false, opts)
+    end,
+    { range = true, nargs = "?" }
 )
