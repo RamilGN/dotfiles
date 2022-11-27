@@ -4,8 +4,6 @@ local spectre = require("spectre")
 local utils = require("utils")
 local cmd = vim.cmd
 
-
-
 local n_keymaps = {
     ["#"] = { ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
 
@@ -23,6 +21,9 @@ local n_keymaps = {
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
 
     -- Fast shortucts
+    ["<C-m>"] = { "<Cmd>Telescope resume<CR>", "Telescope resume" },
+    ["<C-s>"] = { "<Cmd>Telescope live_grep<CR>", "Live grep" },
+    ["<C-q>"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "Live grep" },
     ["<C-n>"] = { function() t.find_files({ default_text = utils.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-f>"] = { "<Cmd>Telescope find_files<CR>", "Find files" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
@@ -82,6 +83,26 @@ local n_keymaps = {
 
         ["s"] = {
             name = "+search",
+            ["o"] = { function() t.oldfiles({ only_cwd = true }) end, "Search recent files" },
+            ["b"] = { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Search buffer" },
+            ["s"] = { function()
+                vim.ui.input(
+                    "Grep string",
+                    function(input)
+                        if not input then
+                            return
+                        end
+                        require("telescope.builtin").grep_string({ search = input })
+                    end)
+            end,
+                "Search string"
+            },
+        },
+
+        ["l"] = {
+            name = "+LSP",
+            ["d"] = { "<Cmd>Telescope diagnostics<CR>", "LSP Diagnostics" },
+            ["o"] = { "<Cmd>Telescope lsp_workspace_symbols<CR>", "LSP workspace symbols" }
         },
 
         ["e"] = {
@@ -122,9 +143,15 @@ local n_keymaps = {
             ["r"] = { "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk" },
             ["R"] = { "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer" },
             ["s"] = { "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk" },
+            ["S"] = { "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer" },
             ["u"] = { "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk" },
-            ["y"] = { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" }
-            ["x"] = {""}
+            ["y"] = { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" },
+            ["o"] = {
+                name = "+open",
+                ["s"] = { "<Cmd>Telescope git_stash<CR>", "Git stash" },
+                ["c"] = { "<Cmd>Telescope git_commits<CR>", "Git commits" },
+                ["b"] = { "<Cmd>Telescope git_branches<CR>", "Git branches" },
+            }
         },
 
     }
@@ -146,12 +173,27 @@ local v_keymaps = {
     ["<"]  = { "<gv", "Indent left" },
     [">"]  = { ">gv", "Indent right" },
 
+    -- Fast shortcuts
+    ["<C-s>"] = { function() t.live_grep({ default_text = utils.get_visual_selection() }) end, "Live grep" },
     ["<C-f>"] = { function() t.find_files({ default_text = utils.get_visual_selection() }) end, "Find files" },
     ["<C-1>"] = { ":ToggleTermSendVisualSelectionNoTW 1<CR>", "Send visual selection to term 1" },
     ["<C-2>"] = { ":ToggleTermSendVisualSelectionNoTW 2<CR>", "Send visual selection to term 2" },
 
     ["<leader>"] = {
         name = "+SPC",
+
+        ["s"] = {
+            name  = "+search",
+            ["s"] = {
+                function() t.grep_string({ default_text = utils.get_visual_selection() }) end,
+                "Search string"
+            },
+            ["b"] = {
+                function() t.current_buffer_fuzzy_find({ default_text = utils.get_visual_selection() }) end,
+                "Search buffer"
+            }
+        },
+
         ["g"] = {
             name = "+git",
             ["l"] = { ":GitLog<CR>", "Git log selected" },

@@ -56,41 +56,6 @@ function M.setup(use)
                     }
                 }
             })
-            local t = require("telescope.builtin")
-            local utils = require("utils")
-
-            vim.keymap.set("n", "<leader>tt", "<Cmd>Telescope resume<CR>")
-            vim.keymap.set("n", "<leader>tc", function()
-                t.oldfiles({ only_cwd = true })
-            end)
-
-            vim.keymap.set("n", "<leader>tgh", "<Cmd>Telescope git_stash<CR>")
-            vim.keymap.set("n", "<leader>tgc", "<Cmd>Telescope git_commits<CR>")
-            vim.keymap.set("n", "<leader>tgx", "<Cmd>Telescope git_bcommits<CR>")
-            vim.keymap.set("n", "<leader>tgb", "<Cmd>Telescope git_branches<CR>")
-            vim.keymap.set("n", "<leader>td", "<Cmd>Telescope diagnostics<CR>")
-            vim.keymap.set("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>")
-            vim.keymap.set("n", "<leader>tw", "<Cmd>Telescope lsp_workspace_symbols<CR>")
-
-            vim.keymap.set("n", "<C-m>", "<Cmd>Telescope live_grep<CR>")
-            vim.keymap.set("v", "<C-m>", function()
-                local text = utils.get_visual_selection()
-                t.live_grep({ default_text = text })
-            end)
-
-            vim.keymap.set("n", "<leader>b", "<Cmd>Telescope current_buffer_fuzzy_find<CR>")
-            vim.keymap.set("v", "<leader>b", function()
-                local text = utils.get_visual_selection()
-                t.current_buffer_fuzzy_find({ default_text = text })
-            end)
-
-            vim.keymap.set("n", "<leader>ts", function()
-                require("telescope.builtin").grep_string({ search = vim.fn.input("> ") })
-            end)
-            vim.keymap.set("v", "<leader>ts", function()
-                local text = utils.get_visual_selection()
-                t.grep_string({ default_text = text })
-            end)
         end,
         requires = { "nvim-lua/plenary.nvim" },
     })
