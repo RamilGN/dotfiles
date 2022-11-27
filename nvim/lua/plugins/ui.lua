@@ -30,7 +30,6 @@ function M.setup(use)
     -- Fancy lower statusline
     use({
         "nvim-lualine/lualine.nvim",
-        requires = { "kyazdani42/nvim-web-devicons", opt = true },
         config = function()
             require("lualine").setup({
                 options = {
@@ -44,13 +43,13 @@ function M.setup(use)
                 },
                 extensions = { "nvim-tree" }
             })
-        end
+        end,
+        requires = { "kyazdani42/nvim-web-devicons" },
     })
 
     -- Fancy tabs
     use({
         "alvarosevilla95/luatab.nvim",
-        requires = "kyazdani42/nvim-web-devicons",
         config = function()
             require("luatab").setup {
                 modified = function()
@@ -63,7 +62,8 @@ function M.setup(use)
                     return ""
                 end
             }
-        end
+        end,
+        requires = { "kyazdani42/nvim-web-devicons" },
     })
 
     -- Displaying indents

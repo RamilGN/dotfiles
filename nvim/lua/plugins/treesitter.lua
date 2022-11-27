@@ -1,54 +1,57 @@
 local M = {}
 
 function M.setup(use)
-    use({
+    -- Treesitter extensions
+    use(
         {
-            "nvim-treesitter/nvim-treesitter-context",
-            config = function()
-                require("treesitter-context").setup({
-                    patterns = {
-                        default = {
-                            "class",
-                            "function",
-                            "method",
-                            "for",
-                            "while",
-                            "if",
-                            "else",
-                            "switch",
-                            "case"
+            { "nvim-treesitter/nvim-treesitter-context",
+                config = function()
+                    require("treesitter-context").setup({
+                        patterns = {
+                            default = {
+                                "class",
+                                "function",
+                                "method",
+                                "for",
+                                "while",
+                                "if",
+                                "else",
+                                "switch",
+                                "case"
+                            },
+                            javascript = {
+                                "object",
+                                "pair"
+                            },
+                            ruby = {
+                                "module",
+                                "block"
+                            },
+                            yaml = {
+                                "block_mapping_pair",
+                                "block_sequence_item"
+                            },
+                            json = {
+                                "object",
+                                "pair",
+                            },
                         },
-                        javascript = {
-                            "object",
-                            "pair"
-                        },
-                        ruby = {
-                            "module",
-                            "block"
-                        },
-                        yaml = {
-                            "block_mapping_pair",
-                            "block_sequence_item"
-                        },
-                        json = {
-                            "object",
-                            "pair",
-                        },
-                    },
-                })
-            end
-        },
-        { "RRethy/nvim-treesitter-endwise" },
-        { "nvim-treesitter/nvim-treesitter-textobjects" },
-        { "windwp/nvim-ts-autotag" },
-        requires = { "nvim-treesitter/nvim-treesitter" }
-    })
+                    })
+                end
+            },
+            { "RRethy/nvim-treesitter-endwise" },
+            { "nvim-treesitter/nvim-treesitter-textobjects" },
+            { "windwp/nvim-ts-autotag" },
+            requires = { "nvim-treesitter/nvim-treesitter" }
+        }
+    )
 
-
+    -- Treesitter
     use({
         "nvim-treesitter/nvim-treesitter",
         run = function()
-            require("nvim-treesitter.install").update({ with_sync = true })
+            local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
+            ts_update()
         end,
         config = function()
             require("nvim-treesitter.configs").setup({

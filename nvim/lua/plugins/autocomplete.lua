@@ -1,6 +1,7 @@
 local M = {}
 
 function M.setup(use)
+    -- Autocomplete extensions
     use({
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-nvim-lsp-document-symbol",
@@ -8,8 +9,10 @@ function M.setup(use)
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
         "L3MON4D3/LuaSnip",
+        requires = { "hrsh7th/nvim-cmp" }
     })
 
+    -- Autocomplete engine
     use({
         "hrsh7th/nvim-cmp",
         config = function()

@@ -1,9 +1,17 @@
 local M = {}
 
 function M.setup(use)
+    -- Telescope extesions
+    use({
+        "nvim-telescope/telescope-fzf-native.nvim",
+        run = "make",
+        requires = { "nvim-telescope/telescope.nvim" },
+        config = function() require("telescope").load_extension("fzf") end
+    })
+
+    -- Telescope
     use({
         "nvim-telescope/telescope.nvim",
-        requires = { "nvim-lua/plenary.nvim" },
         config = function()
             local telescope = require("telescope")
             local actions = require("telescope.actions")
@@ -56,10 +64,10 @@ function M.setup(use)
                 t.oldfiles({ only_cwd = true })
             end)
 
+            vim.keymap.set("n", "<leader>tgh", "<Cmd>Telescope git_stash<CR>")
             vim.keymap.set("n", "<leader>tgc", "<Cmd>Telescope git_commits<CR>")
             vim.keymap.set("n", "<leader>tgx", "<Cmd>Telescope git_bcommits<CR>")
             vim.keymap.set("n", "<leader>tgb", "<Cmd>Telescope git_branches<CR>")
-            vim.keymap.set("n", "<leader>tgh", "<Cmd>Telescope git_stash<CR>")
             vim.keymap.set("n", "<leader>td", "<Cmd>Telescope diagnostics<CR>")
             vim.keymap.set("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>")
             vim.keymap.set("n", "<leader>tw", "<Cmd>Telescope lsp_workspace_symbols<CR>")
@@ -83,16 +91,8 @@ function M.setup(use)
                 local text = utils.get_visual_selection()
                 t.grep_string({ default_text = text })
             end)
-        end
-    })
-
-    use({
-        "nvim-telescope/telescope-fzf-native.nvim",
-        run = "make",
-        requires = { "nvim-telescope/telescope.nvim" },
-        config = function()
-            require("telescope").load_extension("fzf")
-        end
+        end,
+        requires = { "nvim-lua/plenary.nvim" },
     })
 end
 

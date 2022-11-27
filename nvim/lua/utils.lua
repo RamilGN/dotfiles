@@ -27,7 +27,7 @@ function M.get_visual_selection()
 end
 
 function M.get_cur_buf_rel_path()
-    return vim.fn.expand('%')
+    return fn.expand("%")
 end
 
 function M.get_cur_buf_dir_rel_path()

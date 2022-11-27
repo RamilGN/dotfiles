@@ -1,14 +1,13 @@
 local wk = require("which-key")
-local utils = require("utils")
 local t = require("telescope.builtin")
+local spectre = require("spectre")
+local utils = require("utils")
+local cmd = vim.cmd
 
-vim.keymap.set("n", "<leader>rt", "<Cmd>1ToggleTerm direction=float<CR>")
-vim.keymap.set("n", "<leader>rl", "<Cmd>2ToggleTerm direction=vertical<CR>")
-vim.keymap.set("n", "<C-s>", "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>")
-vim.keymap.set("v", "<C-s>", ":ToggleTermSendVisualSelectionNoTW 2<CR>")
+
 
 local n_keymaps = {
-    ["#"] = { ":let @/= '\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
+    ["#"] = { ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
 
     ["//"] = { ":nohlsearch<CR>", "Turn off highlight" },
 
@@ -18,10 +17,7 @@ local n_keymaps = {
     ["k"] = { "v:count == 0 ? 'gk' : 'k'", "Up lines wrap", expr = true },
     ["j"] = { "v:count == 0 ? 'gj' : 'j'", "Down lines wrap", expr = true },
 
-    ["Z"] = {
-        name = "+quit",
-        ["A"] = { "<Cmd>qa!<CR>", "Force quit all" },
-    },
+    ["ZA"] = { "<Cmd>qa!<CR>", "Force quit all" },
 
     ["<CR>"] = { "m`o<Esc>``", "Insert space below cursor" },
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
@@ -31,6 +27,8 @@ local n_keymaps = {
     ["<C-f>"] = { "<Cmd>Telescope find_files<CR>", "Find files" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
     ["<C-g>"] = { "<Cmd>Telescope git_status<CR>", "Git status" },
+    ["<C-1>"] = { "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>", "Send line to term 1" },
+    ["<C-2>"] = { "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>", "Send line to term 2" },
 
     ["<C-k>"] = { "<C-w><Up>", "Go to upper window" },
     ["<C-j>"] = { "<C-w><down>", "Go to bottom window" },
@@ -72,37 +70,34 @@ local n_keymaps = {
         name = "+SPC",
         ["<leader>"] = { "<Cmd>NeoTreeRevealToggle<CR>", "Open file explorer" },
 
+        ["r"] = {
+            name = "+repeat",
+            ["e"] = { "@:", "Repeat last command" }
+        },
 
         ["c"] = {
             name = "+create",
             ["t"] = { "<Cmd>$tabnew %<CR>", "Create tab for current buffer" }
         },
 
-        ["g"] = {
-            name = "+git",
-            ["b"] = { "<Cmd>Gitsigns blame_line<CR>", "Git blame_line" },
-            ["d"] = { "<Cmd>Gitsigns diffthis<CR>", "Git diff" },
-            ["h"] = { "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk" },
-            ["i"] = { "<Cmd>GitShow<CR>", "Git show" },
-            ["l"] = { "<Cmd>GitLog<CR>", "Git log" },
-            ["v"] = { "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk" },
-            ["r"] = { "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk" },
-            ["s"] = { "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk" },
-            ["u"] = { "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk" },
-            ["x"] = { "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer" },
-            ["y"] = { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" }
+        ["s"] = {
+            name = "+search",
         },
 
-        ["v"] = {
-            name = "+files",
-            ["p"] = { "<Cmd>vsp ~/private/nvim/init.lua<CR>", "" },
-            ["s"] = { "<Cmd>source $MYVIMRC<CR>", "Source vim config" },
+        ["e"] = {
+            name = "+edit",
+            ["s"] = { function() spectre.open_file_search() end, "Search and replace" },
+            ["S"] = { function() spectre.open() end, "Search and replace" },
         },
 
-        ["r"] = {
-            name = "+?",
-            ["e"] = { "@:", "Repeat last command" }
+        ["o"] = {
+            name = "+open",
+            ["1"] = { "<Cmd>1ToggleTerm direction=float<CR>", "Toggle term1" },
+            ["2"] = { "<Cmd>2ToggleTerm direction=vertical<CR>", "Toggle term2" },
+            ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
+            ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" }
         },
+
         ["h"] = {
             name = "+help",
             ["c"] = { "<Cmd>Telescope commands<CR>", "Commands" },
@@ -115,10 +110,32 @@ local n_keymaps = {
             ["o"] = { "<Cmd>Telescope vim_options<CR>", "Options" },
             ["p"] = { "<Cmd>PackerCompile<CR>", "Packer compile" },
         },
+
+        ["g"] = {
+            name = "+git",
+            ["b"] = { "<Cmd>Gitsigns blame_line<CR>", "Git blame_line" },
+            ["d"] = { "<Cmd>Gitsigns diffthis<CR>", "Git diff" },
+            ["h"] = { "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk" },
+            ["i"] = { "<Cmd>GitShow<CR>", "Git show" },
+            ["l"] = { "<Cmd>GitLog<CR>", "Git log" },
+            ["v"] = { "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk" },
+            ["r"] = { "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk" },
+            ["R"] = { "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer" },
+            ["s"] = { "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk" },
+            ["u"] = { "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk" },
+            ["y"] = { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" }
+            ["x"] = {""}
+        },
+
     }
 }
 
 local v_keymaps = {
+    ["#"] = {
+        function() cmd([[let @/="]] .. utils.get_visual_selection() .. [["]] .. [[ | set hls]]) end,
+        "Search word without jumping"
+    },
+
     ["p"] = { [["_dP]], "Replace without yanking" },
 
     ["c"] = { [["_c]], "Change without yanking" },
@@ -130,6 +147,8 @@ local v_keymaps = {
     [">"]  = { ">gv", "Indent right" },
 
     ["<C-f>"] = { function() t.find_files({ default_text = utils.get_visual_selection() }) end, "Find files" },
+    ["<C-1>"] = { ":ToggleTermSendVisualSelectionNoTW 1<CR>", "Send visual selection to term 1" },
+    ["<C-2>"] = { ":ToggleTermSendVisualSelectionNoTW 2<CR>", "Send visual selection to term 2" },
 
     ["<leader>"] = {
         name = "+SPC",
@@ -154,8 +173,8 @@ local c_keymaps = {
 }
 
 local o_keymaps = {
-    ["il"] = { ":normal vil", "Line textobject" },
-    ["al"] = { ":normal val", "Line textobject" },
+    ["il"] = { ":normal vil<CR>", "Line textobject" },
+    ["al"] = { ":normal val<CR>", "Line textobject" },
 }
 
 
