@@ -66,11 +66,6 @@ function M.setup(use)
                 formatting = {
                     format = require("lspkind").cmp_format(),
                 },
-                sorting = {
-                    comparators = {
-                        function(...) return cmp_buffer:compare_locality(...) end,
-                    }
-                }
             })
 
             cmp.setup.cmdline(":", {

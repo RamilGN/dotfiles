@@ -4,6 +4,10 @@ local spectre = require("spectre")
 local utils = require("utils")
 local cmd = vim.cmd
 
+vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float)
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+
 local n_keymaps = {
     ["#"] = { ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
 
@@ -218,7 +222,6 @@ local o_keymaps = {
     ["il"] = { ":normal vil<CR>", "Line textobject" },
     ["al"] = { ":normal val<CR>", "Line textobject" },
 }
-
 
 wk.register(n_keymaps, { mode = "n" })
 wk.register(v_keymaps, { mode = "v" })
