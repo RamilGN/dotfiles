@@ -4,7 +4,6 @@ function M.setup(use)
     -- Autocomplete extensions
     use({
         "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-nvim-lsp-document-symbol",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "hrsh7th/cmp-cmdline",
@@ -18,7 +17,6 @@ function M.setup(use)
         config = function()
             local utils = require("utils")
             local cmp = require("cmp")
-            local cmp_buffer = require("cmp_buffer")
             local luasnip = require("luasnip")
 
             local buffer_source = {
@@ -32,6 +30,15 @@ function M.setup(use)
                             if byte_size < vim.g.max_byte_size then
                                 bufs[buf] = true
                             end
+                        end
+                        local prev_buf = vim.fn.bufnr("#")
+                        if prev_buf == -1 then
+                            return vim.tbl_keys(bufs)
+                        end
+
+                        local prev_buf_byte_size = utils.get_buf_byte_size(prev_buf)
+                        if prev_buf_byte_size < vim.g.max_byte_size then
+                            bufs[prev_buf] = true
                         end
                         return vim.tbl_keys(bufs)
                     end,
@@ -56,7 +63,6 @@ function M.setup(use)
                 sources = {
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
-                    { name = "nvim_lsp_document_symbol" },
                     buffer_source,
                     { name = "path" }
                 },

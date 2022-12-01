@@ -73,8 +73,7 @@ function M.setup(use)
                             }
                         end,
                     }
-
-                    local cpb = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+                    local cpb = require("cmp_nvim_lsp").default_capabilities()
                     local lspconfig = require("lspconfig")
                     for _, server_name in ipairs(mason_lsp_config.get_installed_servers()) do
                         local lsp_opts = {
