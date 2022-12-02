@@ -4,10 +4,6 @@ local spectre = require("spectre")
 local utils = require("utils")
 local cmd = vim.cmd
 
-vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-
 local n_keymaps = {
     ["#"] = { ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
 
@@ -58,16 +54,19 @@ local n_keymaps = {
 
     ["["] = {
         name = "+prevaction",
-        ["b"] = { "<Cmd>bprev<CR>", "Next buffer" },
-        ["g"] = { "<Cmd>Gitsigns prev_hunk<CR>", "Git prev hunk" },
+        ["b"] = { "<Cmd>bprev<CR>", "Prev buffer" },
+        ["d"] = { vim.diagnostic.goto_prev, "Prev diagnostic" },
+        ["g"] = { "<Cmd>Gitsigns prev_hunk<CR>", "Prev Git hunk" },
         ["q"] = { "<Cmd>cprev<CR>", "Prev item in qf" },
         ["<leader>"] = { "i<leader><Esc>", "Insert space after cursor" },
     },
     ["]"] = {
         name = "+nextaction",
-        ["b"] = { "<Cmd>bnext<CR>", "Previous buffer" },
-        ["g"] = { "<Cmd>Gitsigns next_hunk<CR>", "Git next hunk" },
+        ["b"] = { "<Cmd>bnext<CR>", "Next buffer" },
+        ["d"] = { vim.diagnostic.goto_next, "Next diagnostic" },
+        ["g"] = { "<Cmd>Gitsigns next_hunk<CR>", "Next git hunk" },
         ["q"] = { "<Cmd>cnext<CR>", "Next item in qf" },
+
         ["<leader>"] = { "a<leader><Esc>", "Insert space under cursor" },
     },
 
@@ -83,6 +82,12 @@ local n_keymaps = {
         ["c"] = {
             name = "+create",
             ["t"] = { "<Cmd>$tabnew %<CR>", "Create tab for current buffer" }
+        },
+
+        ["d"] = {
+            name = "+diagnostic",
+            ["d"] = { "<Cmd>Telescope diagnostics<CR>", "Diagnostic" },
+            ["f"] = { vim.diagnostic.open_float, "Open diagnostic float window" }
         },
 
         ["s"] = {
@@ -103,12 +108,6 @@ local n_keymaps = {
             },
         },
 
-        ["l"] = {
-            name = "+LSP",
-            ["d"] = { "<Cmd>Telescope diagnostics<CR>", "LSP Diagnostics" },
-            ["o"] = { "<Cmd>Telescope lsp_workspace_symbols<CR>", "LSP workspace symbols" }
-        },
-
         ["e"] = {
             name = "+edit",
             ["s"] = { function() spectre.open_file_search() end, "Search and replace" },
@@ -120,7 +119,7 @@ local n_keymaps = {
             ["1"] = { "<Cmd>1ToggleTerm direction=float<CR>", "Toggle term1" },
             ["2"] = { "<Cmd>2ToggleTerm direction=vertical<CR>", "Toggle term2" },
             ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
-            ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" }
+            ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
         },
 
         ["h"] = {

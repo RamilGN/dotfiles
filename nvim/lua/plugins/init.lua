@@ -1,5 +1,6 @@
 require("packer").startup({
     function(use)
+        -- Package manager
         use({ "wbthomason/packer.nvim" })
 
         require("plugins.ui").setup(use)
@@ -13,7 +14,6 @@ require("packer").startup({
     end,
 
     config = {
-        snapshot_path = require("packer.util").join_paths(vim.g.home_dir, "dotfiles", "nvim"),
         display = {
             open_fn = require("packer.util").float,
             log = { level = "warn" }

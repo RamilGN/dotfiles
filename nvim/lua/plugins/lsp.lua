@@ -1,5 +1,43 @@
 local M = {}
 
+-- function M.on_attach(bufnr)
+--     local wk = require("which-key")
+--     local bufopts = { buffer = bufnr }
+--
+--     vim.keymap.set("n", "gr", "<Cmd>Telescope lsp_references<CR>")
+--     vim.keymap.set("n", "gd", "<Cmd>Telescope lsp_definitions<CR>")
+--     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+--     vim.keymap.set("n", "gp", vim.lsp.buf.implementation, bufopts)
+--     vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
+--     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+--     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+--     vim.keymap.set("v", "<leader>ca", function() vim.lsp.buf.range_code_action() end, bufopts)
+--     vim.keymap.set("n", "<leader>ff", function() vim.lsp.buf.format({ async = true }) end, bufopts)
+--     vim.keymap.set("v", "<leader>ff", function() vim.lsp.buf.range_formatting() end, bufopts)
+--     vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
+--     vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
+--     vim.keymap.set("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
+--
+--     n_keymaps = {
+--         ["K"] = { vim.lsp.buf.hover, bufopts },
+--
+--         ["g"] = {
+--             ["d"] = { "Telescope lsp_definitions", "Go to defenition" }
+--         },
+--
+--         ["<leader>"] = {
+--             name = "+SPC",
+--
+--             ["l"] = {
+--                 name = "+LSP",
+--                 ["w"] = { "<Cmd>Telescope lsp_workspace_symbols<CR>", "LSP workspace symbols" },
+--                 ["d"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "LSP workspace symbols" }
+--             },
+--
+--         }
+--     }
+-- end
+
 function M.setup(use)
     use(
         {
