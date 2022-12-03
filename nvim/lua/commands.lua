@@ -50,18 +50,9 @@ command(
 command(
     "SetColorColumn",
     function()
-        local current = api.nvim_win_get_option(0, "colorcolumn")
-        local filetype = api.nvim_buf_get_option(0, "filetype")
-        local value = "100"
-        if filetype == "markdown" then
-            value = "80"
-        elseif filetype == "ruby" then
-            value = "120"
-        end
-        local cval = current == "" and value or ""
-        opt.colorcolumn = cval
+        opt.colorcolumn = tostring(vim.v.count)
     end,
-    { nargs = "?", range = true }
+    { nargs = "?", count = true }
 )
 
 -- ToggleTerm commands

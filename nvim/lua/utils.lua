@@ -36,7 +36,7 @@ function M.get_cur_buf_dir_rel_path()
 end
 
 function M.vterm(command)
-    cmd([[vsplit term://]] .. command .. [[ && sleep 1]])
+    cmd([[vsplit term://]] .. command .. [[ && sleep 0.1]])
 end
 
 function M.closewin()
