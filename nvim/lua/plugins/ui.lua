@@ -8,7 +8,12 @@ function M.setup(use)
         config = function()
             local dashboard = require("alpha.themes.dashboard")
 
-            dashboard.section.header.val = {
+            local plugins = #vim.tbl_keys(packer_plugins)
+            local v = vim.version()
+            local datetime = os.date " %d-%m-%Y   %H:%M:%S"
+            local res = string.format(" %d   v%d.%d.%d %s", plugins, v.major, v.minor, v.patch, datetime)
+
+            local header = {
                 "                                                     ",
                 "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
                 "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
@@ -20,19 +25,44 @@ function M.setup(use)
             }
 
             dashboard.section.buttons.val = {
-                dashboard.button("e", "  New file", "<Cmd>enew | startinsert<CR>"),
-                dashboard.button("f", "  Find files", "<Cmd>Telescope find_files<CR>"),
-                dashboard.button("r", "  Recent files", "<Cmd>Telescope old_files cwd_only=true<CR>"),
-                dashboard.button("g", "  Git status", "<Cmd>Telescope git_status<CR>"),
-                dashboard.button("q", "  Quit NVIM", ":qa!<CR>"),
             }
 
-            local handle = io.popen('fortune')
-            local fortune = handle:read("*a")
-            handle:close()
-            dashboard.section.footer.val = fortune
+            local fortune = require("alpha.fortune")()
+            -- dashboard.section.footer.val = fortune
 
-            require("alpha").setup(dashboard.config)
+            require("alpha").setup({
+                layout = {
+                    { type = "padding", val = 2 },
+                    {
+                        type = "text",
+                        val = header,
+                        opts = { hl = "AlphaHeaderLabel", position = "center" },
+                    },
+                    { type = "padding", val = 1 },
+                    {
+                        type = "text",
+                        val = res,
+                        opts = { position = "center" },
+                    },
+                    { type = "padding", val = 2 },
+                    {
+                        type = "group",
+                        val = {
+                            dashboard.button("e", "  New file", "<Cmd>enew | startinsert<CR>"),
+                            dashboard.button("f", "  Find files", "<Cmd>Telescope find_files<CR>"),
+                            dashboard.button("r", "  Recent files", "<Cmd>Telescope oldfiles cwd_only=true<CR>"),
+                            dashboard.button("g", "  Git status", "<Cmd>Telescope git_status<CR>"),
+                            dashboard.button("q", "  Quit", ":qa!<CR>"),
+                        },
+                        opts = { spacing = 0 },
+                    },
+                    {
+                        type = "text",
+                        val = require("alpha.fortune")(),
+                        opts = { position = "center" },
+                    },
+                }
+            })
         end
     }
 
