@@ -1,43 +1,5 @@
 local M = {}
 
--- function M.on_attach(bufnr)
---     local wk = require("which-key")
---     local bufopts = { buffer = bufnr }
---
---     vim.keymap.set("n", "gr", "<Cmd>Telescope lsp_references<CR>")
---     vim.keymap.set("n", "gd", "<Cmd>Telescope lsp_definitions<CR>")
---     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
---     vim.keymap.set("n", "gp", vim.lsp.buf.implementation, bufopts)
---     vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
---     vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
---     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
---     vim.keymap.set("v", "<leader>ca", function() vim.lsp.buf.range_code_action() end, bufopts)
---     vim.keymap.set("n", "<leader>ff", function() vim.lsp.buf.format({ async = true }) end, bufopts)
---     vim.keymap.set("v", "<leader>ff", function() vim.lsp.buf.range_formatting() end, bufopts)
---     vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
---     vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
---     vim.keymap.set("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
---
---     n_keymaps = {
---         ["K"] = { vim.lsp.buf.hover, bufopts },
---
---         ["g"] = {
---             ["d"] = { "Telescope lsp_definitions", "Go to defenition" }
---         },
---
---         ["<leader>"] = {
---             name = "+SPC",
---
---             ["l"] = {
---                 name = "+LSP",
---                 ["w"] = { "<Cmd>Telescope lsp_workspace_symbols<CR>", "LSP workspace symbols" },
---                 ["d"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "LSP workspace symbols" }
---             },
---
---         }
---     }
--- end
-
 function M.setup(use)
     use(
         {
@@ -60,28 +22,87 @@ function M.setup(use)
             {
                 "neovim/nvim-lspconfig",
                 config = function()
-                    local on_attach = function(_, bufnr)
-                        local bufopts = { buffer = bufnr }
-                        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-                        vim.keymap.set("n", "gr", "<Cmd>Telescope lsp_references<CR>")
-                        vim.keymap.set("n", "gd", "<Cmd>Telescope lsp_definitions<CR>")
-                        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-                        vim.keymap.set("n", "gp", vim.lsp.buf.implementation, bufopts)
+                    local wk = require("which-key")
+                    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+                    local lspconfig = require("lspconfig")
+                    local schemastore = require("schemastore")
+                    local mason_lsp_config = require("mason-lspconfig")
 
-                        vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, bufopts)
-                        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-                        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-                        vim.keymap.set("v", "<leader>ca", function() vim.lsp.buf.range_code_action() end, bufopts)
-                        vim.keymap.set("n", "<leader>ff", function() vim.lsp.buf.format({ async = true }) end, bufopts)
-                        vim.keymap.set("v", "<leader>ff", function() vim.lsp.buf.range_formatting() end, bufopts)
-                        vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-                        vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-                        vim.keymap.set("n", "<leader>wl",
-                            function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
+                    local additional_opts = {
+                        ["jsonls"] = function(options)
+                            options.settings = {
+                                json = {
+                                    schemas = schemastore.json.schemas(),
+                                    validate = { enable = true }
+                                }
+                            }
+                        end,
+                    }
+
+                    local on_attach = function(_, bufnr)
+
+                        local keymaps = {
+                            buffer = bufnr,
+                            ["["] = {
+                                name = "+prevaction",
+                                ["d"] = { vim.diagnostic.goto_prev, "Prev diagnostic" },
+                            },
+                            ["]"] = {
+                                name = "+nextaction",
+                                ["d"] = { vim.diagnostic.goto_next, "Next diagnostic" },
+                            },
+
+                            ["K"] = { vim.lsp.buf.hover, "Hover" },
+
+                            -- Fast shortcuts
+                            ["<C-q>"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "Live grep" },
+
+                            ["g"] = {
+                                ["d"] = { "Telescope lsp_definitions", "Go to defenition" },
+                                ["D"] = { "<cmd>Telescope lsp_declarations<CR>", "Go to declaration" },
+                                ["r"] = { "Telescope lsp_definitions", "Show references" },
+                                ["I"] = { "<cmd>Telescope lsp_implementations<CR>", "Go to Implementation" },
+                                ["t"] = { "<cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition" },
+                            },
+
+                            ["<leader>"] = {
+                                name = "+SPC",
+                                ["l"] = {
+                                    name = "+LSP",
+                                    ["l"] = {
+                                        ["i"] = { "<Cmd>LspInfo<CR>", "Lsp info" },
+                                        ["r"] = { "<Cmd>LspRestart<CR>", "Lsp restart" },
+                                        ["a"] = { "<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Add Folder" },
+                                        ["d"] = { "<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Folder" },
+                                        ["l"] = { "<Cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List Folders" },
+                                    },
+                                    ["r"] = { vim.lsp.buf.rename, "Rename" },
+                                    ["a"] = {
+                                        { vim.lsp.buf.code_action, "Code actions" },
+                                        { "<Cmd>lua vim.lsp.buf.code_action()<CR>", "Code actions", mode = "v" },
+                                    },
+                                    ["d"] = { vim.diagnostic.open_float, "Open diagnostic float window" },
+                                    ["D"] = { "<Cmd>Telescope diagnostics<CR>", "Diagnostic" },
+                                    ["f"] = {
+                                        {
+                                            function() vim.lsp.buf.format({ async = true }) end,
+                                            "Format",
+                                        },
+                                        {
+                                            function() vim.lsp.buf.format({ async = true }) end,
+                                            "Range format",
+                                            mode = "v",
+                                        }
+                                    },
+                                    ["w"] = { "<Cmd>Telescope lsp_workspace_symbols<CR>", "Workspace symbols" },
+                                },
+
+                            }
+                        }
+
+                        wk.register(keymaps)
                     end
 
-
-                    local mason_lsp_config = require("mason-lspconfig")
                     mason_lsp_config.setup({
                         ensure_installed = {
                             "sumneko_lua",
@@ -101,28 +122,18 @@ function M.setup(use)
                         }
                     })
 
-                    local enhance_server_opts = {
-                        ["jsonls"] = function(options)
-                            options.settings = {
-                                json = {
-                                    schemas = require("schemastore").json.schemas(),
-                                    validate = { enable = true }
-                                }
-                            }
-                        end,
-                    }
-                    local cpb = require("cmp_nvim_lsp").default_capabilities()
-                    local lspconfig = require("lspconfig")
+
                     for _, server_name in ipairs(mason_lsp_config.get_installed_servers()) do
                         local lsp_opts = {
                             on_attach = on_attach,
-                            capabilities = cpb,
+                            capabilities = capabilities,
                         }
-                        if enhance_server_opts[server_name] then
-                            enhance_server_opts[server_name](lsp_opts)
+                        if additional_opts[server_name] then
+                            additional_opts[server_name](lsp_opts)
                         end
                         lspconfig[server_name].setup(lsp_opts)
                     end
+
                 end
             }
         })

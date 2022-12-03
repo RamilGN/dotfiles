@@ -24,7 +24,6 @@ local n_keymaps = {
     -- Fast shortucts
     ["<C-m>"] = { "<Cmd>Telescope resume<CR>", "Telescope resume" },
     ["<C-s>"] = { "<Cmd>Telescope live_grep<CR>", "Live grep" },
-    ["<C-q>"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "Live grep" },
     ["<C-n>"] = { function() t.find_files({ default_text = utils.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-f>"] = { "<Cmd>Telescope find_files<CR>", "Find files" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
@@ -56,7 +55,6 @@ local n_keymaps = {
     ["["] = {
         name = "+prevaction",
         ["b"] = { "<Cmd>bprev<CR>", "Prev buffer" },
-        ["d"] = { vim.diagnostic.goto_prev, "Prev diagnostic" },
         ["g"] = { "<Cmd>Gitsigns prev_hunk<CR>", "Prev Git hunk" },
         ["q"] = { "<Cmd>cprev<CR>", "Prev item in qf" },
         ["<leader>"] = { "i<leader><Esc>", "Insert space after cursor" },
@@ -64,10 +62,8 @@ local n_keymaps = {
     ["]"] = {
         name = "+nextaction",
         ["b"] = { "<Cmd>bnext<CR>", "Next buffer" },
-        ["d"] = { vim.diagnostic.goto_next, "Next diagnostic" },
         ["g"] = { "<Cmd>Gitsigns next_hunk<CR>", "Next git hunk" },
         ["q"] = { "<Cmd>cnext<CR>", "Next item in qf" },
-
         ["<leader>"] = { "a<leader><Esc>", "Insert space under cursor" },
     },
 
@@ -83,12 +79,6 @@ local n_keymaps = {
         ["c"] = {
             name = "+create",
             ["t"] = { "<Cmd>$tabnew %<CR>", "Create tab for current buffer" }
-        },
-
-        ["d"] = {
-            name = "+diagnostic",
-            ["d"] = { "<Cmd>Telescope diagnostics<CR>", "Diagnostic" },
-            ["f"] = { vim.diagnostic.open_float, "Open diagnostic float window" }
         },
 
         ["s"] = {
