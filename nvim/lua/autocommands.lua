@@ -1,3 +1,4 @@
+local opt = vim.opt
 local api = vim.api
 local cmd = vim.cmd
 
@@ -37,10 +38,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Default behavior for `Enter` in qf
 local qf = vim.api.nvim_create_augroup("Quickfix", { clear = true })
-api.nvim_create_autocmd("BufReadPost", {
+api.nvim_create_autocmd("BufEnter", {
     callback = function()
         vim.keymap.set("n", "<CR>", "<CR>", { buffer = true })
     end,
     pattern = { "quickfix" },
     group = qf
+})
+
+-- Git 72 char rule
+local gclc = vim.api.nvim_create_augroup("GitColorcolumn", { clear = true })
+api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        opt.colorcolumn = "72"
+    end,
+    pattern = { "COMMIT_EDITMSG" },
+    group = gclc
 })

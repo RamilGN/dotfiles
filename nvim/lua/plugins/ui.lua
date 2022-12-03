@@ -1,6 +1,41 @@
 local M = {}
 
 function M.setup(use)
+    -- Dashboard
+    use {
+        "goolord/alpha-nvim",
+        requires = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            local dashboard = require("alpha.themes.dashboard")
+
+            dashboard.section.header.val = {
+                "                                                     ",
+                "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+                "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+                "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+                "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+                "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+                "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+                "                                                     ",
+            }
+
+            dashboard.section.buttons.val = {
+                dashboard.button("e", "  New file", "<Cmd>enew | startinsert<CR>"),
+                dashboard.button("f", "  Find files", "<Cmd>Telescope find_files<CR>"),
+                dashboard.button("r", "  Recent files", "<Cmd>Telescope old_files cwd_only=true<CR>"),
+                dashboard.button("g", "  Git status", "<Cmd>Telescope git_status<CR>"),
+                dashboard.button("q", "  Quit NVIM", ":qa!<CR>"),
+            }
+
+            local handle = io.popen('fortune')
+            local fortune = handle:read("*a")
+            handle:close()
+            dashboard.section.footer.val = fortune
+
+            require("alpha").setup(dashboard.config)
+        end
+    }
+
     -- Theme
     use({
         "folke/tokyonight.nvim",

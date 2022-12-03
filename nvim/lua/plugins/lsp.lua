@@ -58,11 +58,11 @@ function M.setup(use)
                             ["<C-q>"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "Live grep" },
 
                             ["g"] = {
-                                ["d"] = { "Telescope lsp_definitions", "Go to defenition" },
-                                ["D"] = { "<cmd>Telescope lsp_declarations<CR>", "Go to declaration" },
-                                ["r"] = { "Telescope lsp_definitions", "Show references" },
-                                ["I"] = { "<cmd>Telescope lsp_implementations<CR>", "Go to Implementation" },
-                                ["t"] = { "<cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition" },
+                                ["d"] = { "<Cmd>Telescope lsp_definitions<CR>", "Go to defenition" },
+                                ["D"] = { "<Cmd>Telescope lsp_declarations<CR>", "Go to declaration" },
+                                ["r"] = { "<Cmd>Telescope lsp_definitions<CR>", "Show references" },
+                                ["I"] = { "<Cmd>Telescope lsp_implementations<CR>", "Go to Implementation" },
+                                ["t"] = { "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition" },
                             },
 
                             ["<leader>"] = {
