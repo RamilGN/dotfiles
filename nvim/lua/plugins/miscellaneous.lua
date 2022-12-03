@@ -1,32 +1,6 @@
 local M = {}
 
 function M.setup(use)
-    -- Autosaving
-    use({
-        "RamilGN/auto-save.nvim",
-        config = function()
-            local utils = require("utils")
-            require("auto-save").setup({
-                execution_message = {
-                    message = function()
-                        return ""
-                    end
-                },
-                condition = function(buf)
-                    local autils = require("auto-save.utils.data")
-                    local can_save = vim.fn.getbufvar(buf, "&modifiable") == 1
-                        and autils.not_in(vim.fn.getbufvar(buf, "&filetype"), {})
-                        and utils.get_buf_byte_size(buf) < vim.g.max_byte_size
-                    if can_save then
-                        return true
-                    end
-                    return false
-                end,
-                debounce_delay = 1000
-            })
-        end,
-    })
-
     -- Popup with suggestions to complete a key binding
     use({
         "folke/which-key.nvim",

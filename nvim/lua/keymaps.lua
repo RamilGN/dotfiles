@@ -16,6 +16,7 @@ local n_keymaps = {
     ["j"] = { "v:count == 0 ? 'gj' : 'j'", "Down lines wrap", expr = true },
 
     ["ZA"] = { "<Cmd>qa!<CR>", "Force quit all" },
+    ["ZS"] = { "<Cmd>wall!<CR>", "Force save all" },
 
     ["<CR>"] = { "m`o<Esc>``", "Insert space below cursor" },
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
