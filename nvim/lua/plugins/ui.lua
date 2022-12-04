@@ -7,12 +7,11 @@ function M.setup(use)
         requires = { "nvim-tree/nvim-web-devicons" },
         config = function()
             local dashboard = require("alpha.themes.dashboard")
+            local fortune = require("alpha.fortune")()
 
             local plugins = #vim.tbl_keys(packer_plugins)
             local v = vim.version()
-            local datetime = os.date " %d-%m-%Y   %H:%M:%S"
-            local res = string.format(" %d   v%d.%d.%d %s", plugins, v.major, v.minor, v.patch, datetime)
-
+            local info = string.format(" %d v%d.%d.%d", plugins, v.major, v.minor, v.patch)
             local header = {
                 "                                                     ",
                 "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
@@ -23,46 +22,40 @@ function M.setup(use)
                 "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
                 "                                                     ",
             }
+            dashboard.section.header.val = header
+            dashboard.section.footer.val = fortune
 
-            dashboard.section.buttons.val = {
-            }
-
-            local fortune = require("alpha.fortune")()
-            -- dashboard.section.footer.val = fortune
-
-            require("alpha").setup({
+            local config = {
                 layout = {
                     { type = "padding", val = 2 },
-                    {
-                        type = "text",
-                        val = header,
-                        opts = { hl = "AlphaHeaderLabel", position = "center" },
-                    },
-                    { type = "padding", val = 1 },
-                    {
-                        type = "text",
-                        val = res,
-                        opts = { position = "center" },
-                    },
+                    dashboard.section.header,
+                    { type = "text", val = info, opts = { position = "center" } },
                     { type = "padding", val = 2 },
                     {
                         type = "group",
                         val = {
-                            dashboard.button("e", "  New file", "<Cmd>enew | startinsert<CR>"),
-                            dashboard.button("f", "  Find files", "<Cmd>Telescope find_files<CR>"),
+                            dashboard.button("n", "  New file", "<Cmd>enew | startinsert<CR>"),
+                            dashboard.button("s", "  Search word", "<Cmd>Telescope live_grep<CR>"),
+                            dashboard.button("f", "  Find files", "<Cmd>Telescope find_files<CR>"),
                             dashboard.button("r", "  Recent files", "<Cmd>Telescope oldfiles cwd_only=true<CR>"),
-                            dashboard.button("g", "  Git status", "<Cmd>Telescope git_status<CR>"),
+                            dashboard.button("g", "  Git status", "<Cmd>silent! Telescope git_status<CR>"),
+                            dashboard.button("p", "  Private", "<Cmd>Telescope find_files cwd=~/private<CR>"),
+                            dashboard.button("c", "  Configuration", "<Cmd>silent! Telescope find_files cwd=~/dotfiles<CR>"),
+                            dashboard.button("u", "  Update plugins", "<Cmd>PackerSync<CR>"),
                             dashboard.button("q", "  Quit", ":qa!<CR>"),
                         },
-                        opts = { spacing = 0 },
+                        opts = { spacing = 1 },
                     },
-                    {
-                        type = "text",
-                        val = require("alpha.fortune")(),
-                        opts = { position = "center" },
-                    },
-                }
-            })
+
+                    { type = "padding", val = 1 },
+                    dashboard.section.footer,
+                },
+                opts = {
+                    margin = 5,
+                },
+            }
+
+            require("alpha").setup(config)
         end
     }
 

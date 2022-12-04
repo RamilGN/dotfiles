@@ -48,4 +48,13 @@ function M.gitdelta(command)
     M.vterm(delta)
 end
 
+function M.check_git()
+    vim.cmd([[silent! !git rev-parse]])
+    if vim.v.shell_error == 0 then
+        return true
+    else
+        return false
+    end
+end
+
 return M
