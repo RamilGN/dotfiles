@@ -78,6 +78,7 @@ local keymaps = {
     ["["] = {
         name = "+prevaction",
         ["b"] = { "<Cmd>bprev<CR>", "Prev buffer" },
+        ["t"] = { "<Cmd>tabprevious<CR>", "Next tab" },
         ["g"] = { "<Cmd>Gitsigns prev_hunk<CR>", "Prev Git hunk" },
         ["q"] = { "<Cmd>cprev<CR>", "Prev item in qf" },
         ["<leader>"] = { "i<leader><Esc>", "Insert space after cursor" },
@@ -85,6 +86,7 @@ local keymaps = {
     ["]"] = {
         name = "+nextaction",
         ["b"] = { "<Cmd>bnext<CR>", "Next buffer" },
+        ["t"] = { "<Cmd>tabnext<CR>", "Next tab" },
         ["g"] = { "<Cmd>Gitsigns next_hunk<CR>", "Next git hunk" },
         ["q"] = { "<Cmd>cnext<CR>", "Next item in qf" },
         ["<leader>"] = { "a<leader><Esc>", "Insert space under cursor" },
@@ -107,11 +109,6 @@ local keymaps = {
         ["r"] = {
             name = "+repeat",
             ["e"] = { "@:", "Repeat last command" }
-        },
-
-        ["c"] = {
-            name = "+create",
-            ["t"] = { "<Cmd>$tabnew %<CR>", "Create tab for current buffer" }
         },
 
         ["s"] = {
@@ -146,10 +143,12 @@ local keymaps = {
 
         ["o"] = {
             name = "+open",
+            ["a"] = { "<Cmd>$tabnew | Alpha<CR>", "Open dashboard" },
             ["1"] = { "<Cmd>1ToggleTerm direction=float<CR>", "Toggle term1" },
             ["2"] = { "<Cmd>2ToggleTerm direction=vertical<CR>", "Toggle term2" },
             ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
             ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
+            ["t"] = { "<Cmd>$tabnew %<CR>", "Open tab for current buffer" },
         },
 
         ["h"] = {
