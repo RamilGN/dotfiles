@@ -26,13 +26,13 @@ function M.get_visual_selection()
     end
 end
 
-function M.get_cur_buf_rel_path()
-    return fn.expand("%")
-end
-
 function M.get_cur_buf_dir_rel_path()
-    local path = M.get_cur_buf_rel_path()
-    return path:gsub("/[^/]*$", "")
+    local pwd = vim.cmd("pwd")
+    pwd = fn.fnamemodify(pwd, ":h")
+    if pwd == "." then
+        return ""
+    end
+    return pwd
 end
 
 function M.vterm(command)
