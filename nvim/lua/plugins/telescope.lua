@@ -34,6 +34,18 @@ function M.setup(use)
                 pickers = {
                     find_files = {
                         find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+                        mappings = {
+                            i = {
+                                ["<C-.>"] = function(prompt_bufnr)
+                                    local selection = require("telescope.actions.state").get_selected_entry()
+                                    local file = vim.fn.fnamemodify(selection.path, ":p")
+                                    local dir = vim.fn.fnamemodify(selection.path, ":p:h")
+                                    require("telescope.actions").close(prompt_bufnr)
+                                    vim.cmd([[silent tcd ]] .. dir)
+                                    vim.cmd([[e ]] .. file)
+                                end
+                            }
+                        }
                     },
                     buffers = {
                         theme = "dropdown",

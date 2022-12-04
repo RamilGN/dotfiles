@@ -27,7 +27,7 @@ function M.setup(use)
 
             local config = {
                 layout = {
-                    { type = "padding", val = 2 },
+                    { type = "padding", val = 10 },
                     dashboard.section.header,
                     { type = "text", val = info, opts = { position = "center" } },
                     { type = "padding", val = 2 },
@@ -38,13 +38,14 @@ function M.setup(use)
                             dashboard.button("s", "  Search word", "<Cmd>Telescope live_grep<CR>"),
                             dashboard.button("f", "  Find files", "<Cmd>Telescope find_files<CR>"),
                             dashboard.button("r", "  Recent files", "<Cmd>Telescope oldfiles cwd_only=true<CR>"),
+                            dashboard.button("a", "  All files", "<Cmd>Telescope find_files cwd=~<CR>"),
                             dashboard.button("g", "  Git status", "<Cmd>silent! Telescope git_status<CR>"),
                             dashboard.button("p", "  Private", "<Cmd>Telescope find_files cwd=~/private<CR>"),
                             dashboard.button("c", "  Configuration", "<Cmd>silent! Telescope find_files cwd=~/dotfiles<CR>"),
                             dashboard.button("u", "  Update plugins", "<Cmd>PackerSync<CR>"),
                             dashboard.button("q", "  Quit", ":qa!<CR>"),
                         },
-                        opts = { spacing = 1 },
+                        opts = { spacing = 0 },
                     },
 
                     { type = "padding", val = 1 },
