@@ -27,12 +27,11 @@ function M.get_visual_selection()
 end
 
 function M.get_cur_buf_dir_rel_path()
-    local pwd = vim.cmd("pwd")
-    pwd = fn.fnamemodify(pwd, ":h")
-    if pwd == "." then
+    local path = vim.fn.expand('%:p:.:h')
+    if path == "." then
         return ""
     end
-    return pwd
+    return path
 end
 
 function M.vterm(command)

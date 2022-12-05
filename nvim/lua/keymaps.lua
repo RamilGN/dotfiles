@@ -47,7 +47,7 @@ local keymaps = {
     },
     ["<C-2>"] = {
         { "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>", "Send line to term 2" },
-        { ":ToggleTermSendVisualSelectionNoTW 2<CR>", "Send visual selection to term 2" }
+        { ":ToggleTermSendVisualSelectionNoTW 2<CR>", "Send visual selection to term 2", mode = "v" }
     },
     ["<C-[>"] = { "<C-\\><C-n>", "Normal mode", mode = "t" },
 
@@ -149,6 +149,9 @@ local keymaps = {
             ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
             ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
             ["t"] = { "<Cmd>$tabnew %<CR>", "Open tab for current buffer" },
+            ["c"] = { "<Cmd>Telescope find_files cwd=~/dotfiles<CR>", "Open configs" },
+            ["p"] = { "<Cmd>Telescope find_files cwd=~/private<CR>", "Open private" },
+            ["n"] = { "<Cmd>NeoTreeReveal<CR>", "Open file in tree" },
         },
 
         ["h"] = {

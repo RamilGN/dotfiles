@@ -60,7 +60,7 @@ function M.setup(use)
                             ["g"] = {
                                 ["d"] = { "<Cmd>Telescope lsp_definitions<CR>", "Go to defenition" },
                                 ["D"] = { "<Cmd>Telescope lsp_declarations<CR>", "Go to declaration" },
-                                ["r"] = { "<Cmd>Telescope lsp_definitions<CR>", "Show references" },
+                                ["r"] = { "<Cmd>Telescope lsp_references<CR>", "Show references" },
                                 ["I"] = { "<Cmd>Telescope lsp_implementations<CR>", "Go to Implementation" },
                                 ["T"] = { "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition" },
                             },

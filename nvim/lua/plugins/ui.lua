@@ -41,7 +41,7 @@ function M.setup(use)
                             dashboard.button("a", "  All files", "<Cmd>Telescope find_files cwd=~<CR>"),
                             dashboard.button("g", "  Git status", "<Cmd>silent! Telescope git_status<CR>"),
                             dashboard.button("p", "  Private", "<Cmd>Telescope find_files cwd=~/private<CR>"),
-                            dashboard.button("c", "  Configuration", "<Cmd>silent! Telescope find_files cwd=~/dotfiles<CR>"),
+                            dashboard.button("c", "  Configuration", "<Cmd>Telescope find_files cwd=~/dotfiles<CR>"),
                             dashboard.button("u", "  Update plugins", "<Cmd>PackerSync<CR>"),
                             dashboard.button("q", "  Quit", ":qa!<CR>"),
                         },
