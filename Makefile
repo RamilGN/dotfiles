@@ -51,7 +51,6 @@ kitty:
 	cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications
 	sed -i "s|Icon=kitty|Icon=$(PWD)/kitty/whiskers_256x256.png|g" ~/.local/share/applications/kitty*.desktop
 	sed -i "s|Exec=kitty|Exec=/home/$(USER)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
-	sed -i "s|^Exec=/home/$(USER)/.local/kitty.app/bin/kitty|Exec=/home/$(USER)/.local/kitty.app/bin/kitty --start-as=fullscreen|g" ~/.local/share/applications/kitty.desktop
 
 .PHONY: oh-my-zsh
 oh-my-zsh:
