@@ -45,6 +45,8 @@ alias cdfh="cd \$(find ~ -type d | fzf)"
 
 ## Containers
 
+alias dka="docker kill \$(docker ps -q)"
+
 ### List running
 unalias dcls
 function dcls {
