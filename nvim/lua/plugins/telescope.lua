@@ -15,8 +15,16 @@ function M.setup(use)
                 config = function()
                     local telescope = require("telescope")
                     local actions = require("telescope.actions")
+                    local telescope_config = require("telescope.config")
+
+                    local vimgrep_arguments = { table.unpack(telescope_config.values.vimgrep_arguments) }
+                    table.insert(vimgrep_arguments, "--hidden")
+                    table.insert(vimgrep_arguments, "--glob")
+                    table.insert(vimgrep_arguments, "!**/.git/*")
+
                     telescope.setup({
                         defaults = {
+                            vimgrep_arguments = vimgrep_arguments,
                             mappings = {
                                 i = {
                                     ["<Esc>"] = actions.close,
@@ -36,7 +44,7 @@ function M.setup(use)
                                 find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
                                 mappings = {
                                     i = {
-                                        ["<C-.>"] = function(prompt_bufnr)
+                                        ["<C-f>"] = function(prompt_bufnr)
                                             local selection = require("telescope.actions.state").get_selected_entry()
                                             local file = vim.fn.fnamemodify(selection.path, ":p")
                                             local dir = vim.fn.fnamemodify(selection.path, ":p:h")

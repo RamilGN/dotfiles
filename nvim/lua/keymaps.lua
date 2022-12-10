@@ -165,6 +165,16 @@ local keymaps = {
             ["s"] = { "<Cmd>Telescope highlights<cr>", "Search Highlight Groups" },
             ["o"] = { "<Cmd>Telescope vim_options<CR>", "Options" },
             ["p"] = { "<Cmd>PackerCompile<CR>", "Packer compile" },
+            ["w"] = {
+                name = "+web",
+                ["m"] = { "<Cmd>Telescope live_grep cwd=~/private/help/mdn/files/en-us/web<CR>", "MDN" },
+                ["c"] = { "<Cmd>Telescope find_files cwd=~/private/help/mdn/files/en-us/web/http/status<CR>", "Codes" },
+            },
+            ["r"] = {
+                name = "+rails",
+                ["r"] = { "<Cmd>Telescope live_grep cwd=~/private/help/rails<CR>", "All" },
+                ["g"] = { "<Cmd>Telescope live_grep cwd=~/private/help/rails/guides<CR>", "Guides" },
+            },
         },
 
         ["g"] = {
