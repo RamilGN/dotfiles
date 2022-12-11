@@ -22,9 +22,9 @@ function dclsa {
 ## Exec on any conatiner
 unalias dxcit
 function dxcit {
-  PROG=${1:-sh}
+  PROG=${@:-sh}
   CONTAINER_ID=$(dclsa)
-  docker container exec -it $CONTAINER_ID $PROG 2> /dev/null || (docker container start $CONTAINER_ID && docker container exec -it $@ $CONTAINER_ID $PROG)
+  docker container exec -it $CONTAINER_ID sh -c $PROG 2> /dev/null || (docker container start $CONTAINER_ID && docker container exec -it $@ $CONTAINER_ID $PROG)
 }
 
 ## Start
