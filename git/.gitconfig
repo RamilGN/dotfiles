@@ -1,10 +1,10 @@
 [user]
-	name = RamilG
-	email = ramil@gadzhiev.me
+    name = RamilG
+    email = ramil@gadzhiev.me
 
 [core]
-	editor = nvim
-	excludesfile = ~/dotfiles/git/.gitignore
+    editor = nvim
+    excludesfile = ~/dotfiles/git/.gitignore
     pager = delta
 
 [interactive]
@@ -15,18 +15,18 @@
     light = false
 
 [init]
-	defaultBranch = main
+    defaultBranch = main
 
 [pull]
-	ff = only
+    ff = only
 
 [merge]
     conflictstyle = diff3
-	ff = only
+    ff = only
 
 [push]
-	default = upstream
-	autoSetupRemote = true
+    default = upstream
+    autoSetupRemote = true
 
 [fetch]
-	prune = true
+    prune = true
