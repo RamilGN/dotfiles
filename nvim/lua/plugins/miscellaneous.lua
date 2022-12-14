@@ -85,10 +85,6 @@ function M.setup(use)
                     persist_size = false,
                     persist_mode = false,
                     direction = "float",
-                    float_opts = {
-                        border = "rounded",
-                        winblend = 5
-                    },
                 }
             end
         })

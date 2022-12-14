@@ -1,3 +1,4 @@
+alias ssh='TERM=xterm-256color ssh'
 alias fzf='fzf --multi'
 alias nvimc="nvim -c 'Neotree' -c 'lua require([[telescope.builtin]]).oldfiles({only_cwd = true})'"
 alias vif="nvim \$(fzf --preview 'bat --style=numbers --color=always --line-range :500 {}')"
