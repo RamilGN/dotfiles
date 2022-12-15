@@ -7,11 +7,12 @@ function M.setup(use)
         config = function()
             require("gitsigns").setup({
                 signs = {
-                    change       = { text = "│" },
-                    changedelete = { text = "│" },
-                    delete       = { text = "_" },
-                    topdelete    = { text = "‾" },
-                    untracked    = { text = "┆" },
+                    add          = { hl = "GitSignsAdd", text = "│" },
+                    untracked    = { hl = "GitSignsAdd", text = "┆" },
+                    change       = { hl = "GitSignsChange", text = "│" },
+                    changedelete = { hl = "GitSignsChange", text = "│" },
+                    delete       = { hl = "GitSignsDelete", text = "│" },
+                    topdelete    = { hl = "GitSignsDelete", text = "│" },
                 }
             })
         end

@@ -164,7 +164,11 @@ local keymaps = {
             ["t"] = { "<Cmd>Telescope builtin<CR>", "Telescope" },
             ["s"] = { "<Cmd>Telescope highlights<cr>", "Search Highlight Groups" },
             ["o"] = { "<Cmd>Telescope vim_options<CR>", "Options" },
-            ["p"] = { "<Cmd>PackerCompile<CR>", "Packer compile" },
+            ["p"] = {
+                name = "+packages",
+                ["s"] = { "<Cmd>source $MYVIMRC<CR>", "Source vim config" },
+                ["p"] = { "<Cmd>PackerCompile<CR>", "Packer compile" }
+            },
             ["w"] = {
                 name = "+web",
                 ["m"] = { "<Cmd>Telescope live_grep cwd=~/private/help/mdn/files/en-us/web<CR>", "MDN" },
