@@ -43,15 +43,6 @@ function M.setup(use)
 
                         local keymaps = {
                             buffer = bufnr,
-                            ["["] = {
-                                name = "+prevaction",
-                                ["d"] = { vim.diagnostic.goto_prev, "Prev diagnostic" },
-                            },
-                            ["]"] = {
-                                name = "+nextaction",
-                                ["d"] = { vim.diagnostic.goto_next, "Next diagnostic" },
-                            },
-
                             ["K"] = { vim.lsp.buf.hover, "Hover" },
 
                             -- Fast shortcuts

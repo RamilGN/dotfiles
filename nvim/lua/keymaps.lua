@@ -78,6 +78,7 @@ local keymaps = {
     ["["] = {
         name = "+prevaction",
         ["b"] = { "<Cmd>bprev<CR>", "Prev buffer" },
+        ["d"] = { vim.diagnostic.goto_prev, "Prev diagnostic" },
         ["t"] = { "<Cmd>tabprevious<CR>", "Next tab" },
         ["g"] = { "<Cmd>Gitsigns prev_hunk<CR>", "Prev Git hunk" },
         ["q"] = { "<Cmd>cprev<CR>", "Prev item in qf" },
@@ -86,6 +87,7 @@ local keymaps = {
     ["]"] = {
         name = "+nextaction",
         ["b"] = { "<Cmd>bnext<CR>", "Next buffer" },
+        ["d"] = { vim.diagnostic.goto_next, "Next diagnostic" },
         ["t"] = { "<Cmd>tabnext<CR>", "Next tab" },
         ["g"] = { "<Cmd>Gitsigns next_hunk<CR>", "Next git hunk" },
         ["q"] = { "<Cmd>cnext<CR>", "Next item in qf" },
@@ -164,21 +166,13 @@ local keymaps = {
             ["t"] = { "<Cmd>Telescope builtin<CR>", "Telescope" },
             ["s"] = { "<Cmd>Telescope highlights<cr>", "Search Highlight Groups" },
             ["o"] = { "<Cmd>Telescope vim_options<CR>", "Options" },
-            ["p"] = {
-                name = "+packages",
-                ["s"] = { "<Cmd>source $MYVIMRC<CR>", "Source vim config" },
-                ["p"] = { "<Cmd>PackerCompile<CR>", "Packer compile" }
-            },
-            ["w"] = {
-                name = "+web",
-                ["m"] = { "<Cmd>Telescope live_grep cwd=~/private/help/mdn/files/en-us/web<CR>", "MDN" },
-                ["c"] = { "<Cmd>Telescope find_files cwd=~/private/help/mdn/files/en-us/web/http/status<CR>", "Codes" },
-            },
-            ["r"] = {
-                name = "+rails",
-                ["r"] = { "<Cmd>Telescope live_grep cwd=~/private/help/rails<CR>", "All" },
-                ["g"] = { "<Cmd>Telescope live_grep cwd=~/private/help/rails/guides<CR>", "Guides" },
-            },
+        },
+
+        ["p"] = {
+            name = "+packages",
+            ["s"] = { "<Cmd>source $MYVIMRC<CR>", "Source vim config" },
+            ["u"] = { "<Cmd>PackerSync<CR>", "Packer synch" },
+            ["c"] = { "<Cmd>PackerCompile<CR>", "Packer compile" }
         },
 
         ["g"] = {
