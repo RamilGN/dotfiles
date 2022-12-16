@@ -1,5 +1,5 @@
 local load_private = function()
-    dofile(vim.g.home_dir .. "/private/nvim/init.lua")
+    dofile(vim.g.home_dir .. "/private/nvim.lua")
 end
 
 local status, res = pcall(load_private)
