@@ -109,8 +109,9 @@ local keymaps = {
         ["<leader>"] = { "<Cmd>NeoTreeRevealToggle<CR>", "Open file explorer" },
 
         ["r"] = {
-            name = "+repeat",
-            ["e"] = { "@:", "Repeat last command" }
+            name = "+run",
+            ["e"] = { "<Cmd>@:<CR>", "Last command" },
+            ["r"] = { "<Cmd>RunCurrentFile<CR>", "Run current file" }
         },
 
         ["s"] = {
