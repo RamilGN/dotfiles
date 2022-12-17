@@ -7,7 +7,6 @@ local command = vim.api.nvim_create_user_command
 local fn = vim.fn
 local opt = vim.opt
 
-
 local exec = {
     filetype = {
         ["lua"] = function(opts)
@@ -17,7 +16,7 @@ local exec = {
             utils.vterm("ruby " .. opts.current_buffer)
         end,
         ["go"] = function(opts)
-            utils.vterm("go " .. opts.current_buffer)
+            utils.vterm("go run " .. opts.current_buffer)
         end,
         ["python"] = function(opts)
             utils.vterm("python3 " .. opts.current_buffer)

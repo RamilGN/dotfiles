@@ -23,7 +23,8 @@ function M.setup(use)
                 "neovim/nvim-lspconfig",
                 config = function()
                     local wk = require("which-key")
-                    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+                    local capabilities = vim.lsp.protocol.make_client_capabilities()
+                    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
                     local lspconfig = require("lspconfig")
                     local schemastore = require("schemastore")
                     local mason_lsp_config = require("mason-lspconfig")
@@ -114,11 +115,11 @@ function M.setup(use)
                     })
 
 
+                    local lsp_opts = {
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                    }
                     for _, server_name in ipairs(mason_lsp_config.get_installed_servers()) do
-                        local lsp_opts = {
-                            on_attach = on_attach,
-                            capabilities = capabilities,
-                        }
                         if additional_opts[server_name] then
                             additional_opts[server_name](lsp_opts)
                         end

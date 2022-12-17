@@ -180,6 +180,14 @@ function M.setup(use)
 
     -- Autocompletion symbols
     use({ "onsails/lspkind.nvim" })
+
+    -- LSP status
+    use({
+        "j-hui/fidget.nvim",
+        config = function()
+            require('fidget').setup()
+        end
+    })
 end
 
 return M

@@ -1,6 +1,9 @@
 local M = {}
 
 function M.setup(use)
+    -- Indents
+    use({ "tpope/vim-sleuth" })
+
     -- Autopairs
     use({
         "windwp/nvim-autopairs",
