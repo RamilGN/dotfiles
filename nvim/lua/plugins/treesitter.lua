@@ -65,10 +65,12 @@ function M.setup(use)
                                 enable = true,
                                 lookahead = true,
                                 keymaps = {
+                                    ["aa"] = "@parameter.outer",
+                                    ["ia"] = "@parameter.inner",
                                     ["af"] = "@function.outer",
                                     ["if"] = "@function.inner",
                                     ["ac"] = "@class.outer",
-                                    ["ic"] = "@class.inner"
+                                    ["ic"] = "@class.inner",
                                 }
                             },
                             move = {
@@ -89,8 +91,17 @@ function M.setup(use)
                                 goto_previous_end = {
                                     ["[F"] = "@function.outer",
                                     ["[C"] = "@class.outer",
-                                },
+                                }
                             },
+                            swap = {
+                                enable = true,
+                                swap_next = {
+                                    ["]a"] = "@parameter.inner",
+                                },
+                                swap_previous = {
+                                    ["[a"] = "@parameter.inner",
+                                }
+                            }
                         },
                         endwise = {
                             enable = true

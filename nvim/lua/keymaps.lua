@@ -38,6 +38,10 @@ local keymaps = {
         { "<Cmd>Telescope find_files<CR>", "Find files" },
         { function() t.find_files({ default_text = utils.get_visual_selection() }) end, "Find files", mode = "v" },
     },
+    ["<C-/>"] = {
+        { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Search buffer" },
+        { function() t.current_buffer_fuzzy_find({ default_text = utils.get_visual_selection() }) end, "Search buffer", mode = "v" },
+    },
     ["<C-n>"] = { function() t.find_files({ default_text = utils.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
     ["<C-g>"] = { "<Cmd>Telescope git_status<CR>", "Git status" },
@@ -117,10 +121,6 @@ local keymaps = {
         ["s"] = {
             name = "+search",
             ["o"] = { function() t.oldfiles({ only_cwd = true }) end, "Search recent files" },
-            ["b"] = {
-                { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Search buffer" },
-                { function() t.current_buffer_fuzzy_find({ default_text = utils.get_visual_selection() }) end, "Search buffer", mode = "v" },
-            },
             ["s"] = {
                 { function()
                     vim.ui.input(
