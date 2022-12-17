@@ -1,0 +1,23 @@
+snippet frozen
+	# frozen_string_literal: true
+
+snippet !bench
+	def bench(&block)
+	  require 'benchmark'
+	  require 'json'
+
+	  GC.disable
+	  memory_before = %x|ps -o rss= -p #{Process.pid}|.to_i / 1024.0
+	  gc_stat_before = GC.stat
+	  time = Benchmark.realtime(&block)
+
+	  gc_stat_after = GC.stat
+	  puts gc_stat_after
+	  memory_after = %x|ps -o rss= -p #{Process.pid}|.to_i / 1024.0
+
+	  puts({RUBY_VERSION => {
+		  time: time.round(2),
+		  gc_count: gc_stat_after[:count] - gc_stat_before[:count],
+		  memory: "#{memory_after - memory_before} MB"}}.to_json)
+	  GC.enable
+	end
