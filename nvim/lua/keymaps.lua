@@ -115,7 +115,7 @@ local keymaps = {
         ["r"] = {
             name = "+run",
             ["e"] = { "<Cmd>@:<CR>", "Last command" },
-            ["r"] = { "<Cmd>RunCurrentFile<CR>", "Run current file" }
+            ["u"] = { "<Cmd>RunCurrentFile<CR>", "Run current file" }
         },
 
         ["s"] = {

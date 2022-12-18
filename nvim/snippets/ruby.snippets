@@ -1,23 +1,36 @@
 snippet frozen
-	# frozen_string_literal: true
+  # frozen_string_literal: true
+
+snippet !arv
+  ActiveRecord::Base.logger = Logger.new \$stdout; ActiveRecord.verbose_query_logs = true
 
 snippet !bench
-	def bench(&block)
-	  require 'benchmark'
-	  require 'json'
+  def bench(no_gc: true, &block)
+    require 'benchmark'
+    GC.start
+    GC.disable if no_gc
 
-	  GC.disable
-	  memory_before = %x|ps -o rss= -p #{Process.pid}|.to_i / 1024.0
-	  gc_stat_before = GC.stat
-	  time = Benchmark.realtime(&block)
+    memory_before = \`ps -o rss= -p #{Process.pid}\`.to_f
+    gc_stat_before = GC.stat
+    time = Benchmark.realtime(&block)
+    puts('BEFORE')
+    puts(ObjectSpace.count_objects)
+    GC.start(full_mark: true, immediate_sweep: true, immediate_mark: false) unless no_gc
+    puts("\n")
 
-	  gc_stat_after = GC.stat
-	  puts gc_stat_after
-	  memory_after = %x|ps -o rss= -p #{Process.pid}|.to_i / 1024.0
+    gc_stat_after = GC.stat
+    memory_after = \`ps -o rss= -p #{Process.pid}\`.to_f
+    h = {
+      ruby_version: RUBY_VERSION,
+      time: time.round(2),
+      gc_count: gc_stat_after[:count] - gc_stat_before[:count],
+      memory: "#{(memory_after - memory_before) / 1024} MB"
+    }
+    puts('AFTER')
+    puts(ObjectSpace.count_objects)
+    puts(h)
+    puts("\n")
 
-	  puts({RUBY_VERSION => {
-		  time: time.round(2),
-		  gc_count: gc_stat_after[:count] - gc_stat_before[:count],
-		  memory: "#{memory_after - memory_before} MB"}}.to_json)
-	  GC.enable
-	end
+    GC.enable
+    h
+  end

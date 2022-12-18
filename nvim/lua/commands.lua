@@ -1,11 +1,77 @@
 local utils = require("utils")
 local toggleterm = require("toggleterm")
 
-local api = vim.api
-local cmd = vim.cmd
-local command = vim.api.nvim_create_user_command
-local fn = vim.fn
-local opt = vim.opt
+-- Git log
+vim.api.nvim_create_user_command(
+    "GitLog",
+    function(opts)
+        local range = (opts.range == 0 and opts.args) or (opts.line1 .. [[,]] .. opts.line2)
+        if range == "" then
+            utils.gitdelta([[log -p --stat --follow ]] .. [[%]])
+        else
+            utils.gitdelta([[log -p -L]] .. range .. [[:%]])
+        end
+    end,
+    { nargs = "?", range = true }
+)
+
+-- Git log global
+vim.api.nvim_create_user_command(
+    "GitLogG",
+    function()
+        utils.gitdelta([[log -p --stat]])
+    end,
+    { nargs = "?" }
+)
+
+-- Git show
+vim.api.nvim_create_user_command(
+    "GitShow",
+    function(opts)
+        local commit_hash = opts.args
+        if commit_hash == "" then
+            local cword = vim.fn.expand("<cword>")
+            utils.closewin()
+            utils.gitdelta([[show -p --stat ]] .. cword)
+        else
+            utils.gitdelta([[show -p --stat ]] .. commit_hash)
+        end
+    end,
+    { nargs = "?" }
+)
+
+-- Trim trailing whitespaces
+vim.api.nvim_create_user_command(
+    "TrimWhitespaces", function()
+        local curpos = vim.api.nvim_win_get_cursor(0)
+        vim.cmd([[keeppatterns %s/\s\+$//e]])
+        vim.api.nvim_win_set_cursor(0, curpos)
+    end,
+    { nargs = 0 }
+)
+
+-- Set color bar
+vim.api.nvim_create_user_command(
+    "SetColorColumn",
+    function()
+        vim.opt.colorcolumn = tostring(vim.v.count)
+    end,
+    { nargs = "?", count = true }
+)
+
+-- ToggleTerm commands
+vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW",
+    function(opts)
+        toggleterm.send_lines_to_terminal("single_line", false, opts)
+    end,
+    { nargs = "?" }
+)
+vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
+    function(opts)
+        toggleterm.send_lines_to_terminal("visual_selection", false, opts)
+    end,
+    { range = true, nargs = "?" }
+)
 
 local exec = {
     filetype = {
@@ -32,83 +98,11 @@ local exec = {
     },
 }
 
--- Git log
-command(
-    "GitLog",
-    function(opts)
-        local range = (opts.range == 0 and opts.args) or (opts.line1 .. [[,]] .. opts.line2)
-        if range == "" then
-            utils.gitdelta([[log -p --stat --follow ]] .. [[%]])
-        else
-            utils.gitdelta([[log -p -L]] .. range .. [[:%]])
-        end
-    end,
-    { nargs = "?", range = true }
-)
-
--- Git log global
-command(
-    "GitLogG",
-    function()
-        utils.gitdelta([[log -p --stat]])
-    end,
-    { nargs = "?" }
-)
-
--- Git show
-command(
-    "GitShow",
-    function(opts)
-        local commit_hash = opts.args
-        if commit_hash == "" then
-            local cword = fn.expand("<cword>")
-            utils.closewin()
-            utils.gitdelta([[show -p --stat ]] .. cword)
-        else
-            utils.gitdelta([[show -p --stat ]] .. commit_hash)
-        end
-    end,
-    { nargs = "?" }
-)
-
--- Trim trailing whitespaces
-command(
-    "TrimWhitespaces", function()
-        local curpos = api.nvim_win_get_cursor(0)
-        cmd([[keeppatterns %s/\s\+$//e]])
-        api.nvim_win_set_cursor(0, curpos)
-    end,
-    { nargs = 0 }
-)
-
--- Set color bar
-command(
-    "SetColorColumn",
-    function()
-        opt.colorcolumn = tostring(vim.v.count)
-    end,
-    { nargs = "?", count = true }
-)
-
--- ToggleTerm commands
-command("ToggleTermSendCurrentLineNoTW",
-    function(opts)
-        toggleterm.send_lines_to_terminal("single_line", false, opts)
-    end,
-    { nargs = "?" }
-)
-command("ToggleTermSendVisualSelectionNoTW",
-    function(opts)
-        toggleterm.send_lines_to_terminal("visual_selection", false, opts)
-    end,
-    { range = true, nargs = "?" }
-)
-
 -- Run file
-command("RunCurrentFile",
+vim.api.nvim_create_user_command("RunCurrentFile",
     function()
         local current_buffer = vim.fn.expand("%:p")
-        local filetype = api.nvim_buf_get_option(0, "filetype")
+        local filetype = vim.api.nvim_buf_get_option(0, "filetype")
         local opts = {
             current_buffer = current_buffer,
             filetype = filetype,
@@ -126,6 +120,38 @@ command("RunCurrentFile",
             fexec(opts)
         else
             print("Can't find exec for this file - " .. current_buffer)
+        end
+    end,
+    { nargs = "?" }
+)
+
+-- Run rspec for current file
+vim.api.nvim_create_user_command(
+    "InsalesRspec",
+    function(opts)
+        local line = opts.fargs[1]
+        local path = vim.fn.expand("%:p:.")
+
+        if line then
+            utils.vterm([[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
+        else
+            utils.vterm([[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path)
+        end
+    end,
+    { nargs = "?" }
+)
+
+-- Run rspec for current file
+vim.api.nvim_create_user_command(
+    "SynchRspec",
+    function(opts)
+        local line = opts.fargs[1]
+        local path = vim.fn.expand("%:p:.:h")
+
+        if line then
+            utils.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
+        else
+            utils.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path)
         end
     end,
     { nargs = "?" }

@@ -4,6 +4,10 @@ local fn = vim.fn
 
 local M = {}
 
+function M.set_run_keymap(func, desc)
+    vim.keymap.set("n", "<leader>ru", func, { desc = desc })
+end
+
 function M.get_buf_byte_size(bufnr)
     local success, lines = pcall(api.nvim_buf_line_count, bufnr)
     if success then
