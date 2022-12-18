@@ -26,6 +26,16 @@ api.nvim_create_autocmd("InsertLeave", {
     group = input
 })
 
+-- ## Turn off commets auto-insert
+local formatoptions = vim.api.nvim_create_augroup("Formatoptions", { clear = true })
+api.nvim_create_autocmd('BufWinEnter', {
+  callback = function()
+    vim.opt.formatoptions:remove({ 'c', 'r', 'o' })
+  end,
+  pattern = "*",
+  group = formatoptions
+})
+
 -- Highlight yanking text
 local yhlgroup = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {

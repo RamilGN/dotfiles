@@ -46,6 +46,15 @@ command(
     { nargs = "?", range = true }
 )
 
+-- Git log global
+command(
+    "GitLogG",
+    function()
+        utils.gitdelta([[log -p --stat]])
+    end,
+    { nargs = "?" }
+)
+
 -- Git show
 command(
     "GitShow",

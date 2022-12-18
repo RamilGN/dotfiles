@@ -179,6 +179,7 @@ local keymaps = {
         ["g"] = {
             name = "+git",
             ["l"] = { ":GitLog<CR>", "Git log", mode = { "n", "v" } },
+            ["L"] = { ":GitLogG<CR>", "Git log global" },
             ["y"] = {
                 { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" },
                 { function() require "gitlinker".get_buf_range_url("v") end, "Git copy link" },
