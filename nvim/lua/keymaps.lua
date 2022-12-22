@@ -68,7 +68,7 @@ local keymaps = {
     ["<C-Left>"] = { "<Cmd>vertical resize -2<CR>", "Resize vert-" },
     ["<C-Right>"] = { "<Cmd>vertical resize +2<CR>", "Resize vert+" },
 
-    ["C-w"] = {
+    ["<C-w>"] = {
         name = "+window",
         ["b"] = { ":bd! %<CR>", "Close current buffer" },
     },
@@ -197,7 +197,8 @@ local keymaps = {
             ["o"] = {
                 name = "+open",
                 ["s"] = { "<Cmd>Telescope git_stash<CR>", "Git stash" },
-                ["c"] = { "<Cmd>Telescope git_commits<CR>", "Git commits" },
+                ["c"] = { "<Cmd>Telescope git_bcommits<CR>", "Git commits" },
+                ["C"] = { "<Cmd>Telescope git_commits<CR>", "Git commits" },
                 ["b"] = { "<Cmd>Telescope git_branches<CR>", "Git branches" },
             }
         },
