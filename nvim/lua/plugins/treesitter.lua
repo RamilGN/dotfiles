@@ -55,8 +55,8 @@ function M.setup(use)
                         highlight = {
                             enable = true,
                             disable = function(_, bufnr)
-                                local utils = require("utils")
-                                return utils.get_buf_byte_size(bufnr) > vim.g.max_byte_size
+                                local f = require("functions")
+                                return f.get_buf_byte_size(bufnr) > vim.g.max_byte_size
                             end,
                         },
                         additional_vim_regex_highlighting = false,

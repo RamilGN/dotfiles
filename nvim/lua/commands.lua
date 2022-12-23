@@ -1,4 +1,4 @@
-local utils = require("utils")
+local f = require("functions")
 local toggleterm = require("toggleterm")
 
 -- Git log
@@ -7,9 +7,9 @@ vim.api.nvim_create_user_command(
     function(opts)
         local range = (opts.range == 0 and opts.args) or (opts.line1 .. [[,]] .. opts.line2)
         if range == "" then
-            utils.gitdelta([[log -p --stat --follow ]] .. [[%]])
+            f.git.delta([[log -p --stat --follow ]] .. [[%]])
         else
-            utils.gitdelta([[log -p -L]] .. range .. [[:%]])
+            f.git.delta([[log -p -L]] .. range .. [[:%]])
         end
     end,
     { nargs = "?", range = true }
@@ -19,7 +19,7 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
     "GitLogG",
     function()
-        utils.gitdelta([[log -p --stat]])
+        f.gitdelta([[log -p --stat]])
     end,
     { nargs = "?" }
 )
@@ -31,10 +31,10 @@ vim.api.nvim_create_user_command(
         local commit_hash = opts.args
         if commit_hash == "" then
             local cword = vim.fn.expand("<cword>")
-            utils.closewin()
-            utils.gitdelta([[show -p --stat ]] .. cword)
+            f.closewin()
+            f.git.delta([[show -p --stat ]] .. cword)
         else
-            utils.gitdelta([[show -p --stat ]] .. commit_hash)
+            f.git.delta([[show -p --stat ]] .. commit_hash)
         end
     end,
     { nargs = "?" }
@@ -76,16 +76,16 @@ vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
 local exec = {
     filetype = {
         ["lua"] = function(opts)
-            utils.vterm("lua " .. opts.current_buffer)
+            f.vterm("lua " .. opts.current_buffer)
         end,
         ["ruby"] = function(opts)
-            utils.vterm("ruby " .. opts.current_buffer)
+            f.vterm("ruby " .. opts.current_buffer)
         end,
         ["go"] = function(opts)
-            utils.vterm("go run " .. opts.current_buffer)
+            f.vterm("go run " .. opts.current_buffer)
         end,
         ["python"] = function(opts)
-            utils.vterm("python3 " .. opts.current_buffer)
+            f.vterm("python3 " .. opts.current_buffer)
         end
     },
     path = {
@@ -133,9 +133,9 @@ vim.api.nvim_create_user_command(
         local path = vim.fn.expand("%:p:.")
 
         if line then
-            utils.vterm([[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
+            f.vterm([[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
         else
-            utils.vterm([[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path)
+            f.vterm([[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path)
         end
     end,
     { nargs = "?" }
@@ -149,9 +149,9 @@ vim.api.nvim_create_user_command(
         local path = vim.fn.expand("%:p:.:h")
 
         if line then
-            utils.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
+            f.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
         else
-            utils.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path)
+            f.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path)
         end
     end,
     { nargs = "?" }

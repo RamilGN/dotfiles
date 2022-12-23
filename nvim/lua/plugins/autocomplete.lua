@@ -14,7 +14,7 @@ function M.setup(use)
             {
                 "hrsh7th/nvim-cmp",
                 config = function()
-                    local utils = require("utils")
+                    local f = require("functions")
                     local cmp = require("cmp")
                     local luasnip = require("luasnip")
 
@@ -28,7 +28,7 @@ function M.setup(use)
                                 local bufs = {}
                                 for _, win in ipairs(vim.api.nvim_list_wins()) do
                                     local buf = vim.api.nvim_win_get_buf(win)
-                                    local byte_size = utils.get_buf_byte_size(buf)
+                                    local byte_size = f.get_buf_byte_size(buf)
                                     if byte_size < vim.g.max_byte_size then
                                         bufs[buf] = true
                                     end
@@ -38,7 +38,7 @@ function M.setup(use)
                                     return vim.tbl_keys(bufs)
                                 end
 
-                                local prev_buf_byte_size = utils.get_buf_byte_size(prev_buf)
+                                local prev_buf_byte_size = f.get_buf_byte_size(prev_buf)
                                 if prev_buf_byte_size < vim.g.max_byte_size then
                                     bufs[prev_buf] = true
                                 end

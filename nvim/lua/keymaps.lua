@@ -1,13 +1,13 @@
 local wk = require("which-key")
 local t = require("telescope.builtin")
 local spectre = require("spectre")
-local utils = require("utils")
+local f = require("functions")
 local cmd = vim.cmd
 
 local keymaps = {
     ["#"] = {
         { ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
-        { function() cmd([[let @/="]] .. utils.get_visual_selection() .. [["]] .. [[ | set hls]]) end, "Search word without jumping", mode = "v" }
+        { function() cmd([[let @/="]] .. f.get_visual_selection() .. [["]] .. [[ | set hls]]) end, "Search word without jumping", mode = "v" }
     },
 
     ["//"] = { ":nohlsearch<CR>", "Turn off highlight" },
@@ -32,17 +32,17 @@ local keymaps = {
     ["<C-m>"] = { "<Cmd>Telescope resume<CR>", "Telescope resume" },
     ["<C-s>"] = {
         { "<Cmd>Telescope live_grep<CR>", "Live grep" },
-        { function() t.live_grep({ default_text = utils.get_visual_selection() }) end, "Live grep", mode = "v" },
+        { function() t.live_grep({ default_text = f.get_visual_selection() }) end, "Live grep", mode = "v" },
     },
     ["<C-f>"] = {
         { "<Cmd>Telescope find_files<CR>", "Find files" },
-        { function() t.find_files({ default_text = utils.get_visual_selection() }) end, "Find files", mode = "v" },
+        { function() t.find_files({ default_text = f.get_visual_selection() }) end, "Find files", mode = "v" },
     },
     ["<C-/>"] = {
         { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Search buffer" },
-        { function() t.current_buffer_fuzzy_find({ default_text = utils.get_visual_selection() }) end, "Search buffer", mode = "v" },
+        { function() t.current_buffer_fuzzy_find({ default_text = f.get_visual_selection() }) end, "Search buffer", mode = "v" },
     },
-    ["<C-n>"] = { function() t.find_files({ default_text = utils.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
+    ["<C-n>"] = { function() t.find_files({ default_text = f.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
     ["<C-g>"] = { "<Cmd>Telescope git_status<CR>", "Git status" },
     ["<C-1>"] = {
@@ -134,7 +134,7 @@ local keymaps = {
                 end,
                     "Search string"
                 },
-                { function() t.grep_string({ default_text = utils.get_visual_selection() }) end, "Search string", mode = "v" },
+                { function() t.grep_string({ default_text = f.get_visual_selection() }) end, "Search string", mode = "v" },
             }
         },
 
