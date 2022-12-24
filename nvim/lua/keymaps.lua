@@ -75,7 +75,7 @@ local keymaps = {
 
     ["yo"] = {
         name = "+setoption",
-        ["s"] = { "<Cmd>set invspell<CR>", "Set spelling" },
+        ["s"] = { "<Cmd>setlocal invspell<CR>", "Set spelling" },
         ["c"] = { "<Cmd>SetColorColumn<CR>", "Set vert limit bar" }
     },
 
@@ -200,7 +200,14 @@ local keymaps = {
                 ["c"] = { "<Cmd>Telescope git_bcommits<CR>", "Git commits" },
                 ["C"] = { "<Cmd>Telescope git_commits<CR>", "Git commits" },
                 ["b"] = { "<Cmd>Telescope git_branches<CR>", "Git branches" },
-            }
+            },
+
+            -- Aliases
+            ["a"] = {
+                name = "+add",
+                ["i"] = { function() f.vterm([[git add -i]]) end, "Git interactive staging" },
+                ["pa"] = { function() f.vterm([[git add --patch]]) end, "Git add patch" }
+            },
         },
 
     }

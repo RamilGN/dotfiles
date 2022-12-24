@@ -86,6 +86,11 @@ local exec = {
         end,
         ["python"] = function(opts)
             f.vterm("python3 " .. opts.current_buffer)
+        end,
+        ["c"] = function(opts)
+            local curb = opts.current_buffer
+            local cmpf = curb .. ".out"
+            f.vterm([[clang ]] .. curb .. [[ -o ]] .. cmpf .. [[ && ]] .. cmpf)
         end
     },
     path = {
