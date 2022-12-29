@@ -73,6 +73,41 @@ vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
     { range = true, nargs = "?" }
 )
 
+-- Run rspec for current file
+vim.api.nvim_create_user_command(
+    "InsalesRspec",
+    function(opts)
+        local line = opts.fargs[1]
+        local path = vim.fn.expand("%:p:.")
+        local command = nil
+
+        if line then
+            command = [[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line
+        else
+            command = [[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path
+        end
+
+        f.vterm(command)
+    end,
+    { nargs = "?" }
+)
+
+-- Run rspec for current file
+vim.api.nvim_create_user_command(
+    "SynchRspec",
+    function(opts)
+        local line = opts.fargs[1]
+        local path = vim.fn.expand("%:p:.:h")
+
+        if line then
+            f.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
+        else
+            f.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path)
+        end
+    end,
+    { nargs = "?" }
+)
+
 local exec = {
     filetype = {
         ["lua"] = function(opts)
@@ -125,38 +160,6 @@ vim.api.nvim_create_user_command("RunCurrentFile",
             fexec(opts)
         else
             print("Can't find exec for this file - " .. current_buffer)
-        end
-    end,
-    { nargs = "?" }
-)
-
--- Run rspec for current file
-vim.api.nvim_create_user_command(
-    "InsalesRspec",
-    function(opts)
-        local line = opts.fargs[1]
-        local path = vim.fn.expand("%:p:.")
-
-        if line then
-            f.vterm([[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
-        else
-            f.vterm([[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path)
-        end
-    end,
-    { nargs = "?" }
-)
-
--- Run rspec for current file
-vim.api.nvim_create_user_command(
-    "SynchRspec",
-    function(opts)
-        local line = opts.fargs[1]
-        local path = vim.fn.expand("%:p:.:h")
-
-        if line then
-            f.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
-        else
-            f.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path)
         end
     end,
     { nargs = "?" }
