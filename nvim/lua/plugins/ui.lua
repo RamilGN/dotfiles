@@ -72,6 +72,7 @@ function M.setup(use)
                     hl.GitSignsChange = { fg = c.yellow }
                     hl.GitSignsDelete = { fg = c.red1 }
                     hl.WinSeparator = { bg = c.bg, fg = c.bg }
+                    hl.IndentBlanklineContextChar = { fg = "#606c9f" }
                 end
             })
             vim.cmd([[colorscheme tokyonight]])
@@ -132,11 +133,33 @@ function M.setup(use)
             require("indent_blankline").setup({
                 char = "┊",
                 show_trailing_blankline_indent = false,
+                show_current_context = true,
                 filetype_exclude = {
                     "help",
                     "packer",
                     "neo-tree"
-                }
+                },
+                context_patterns = {
+                    "class",
+                    "return",
+                    "function",
+                    "method",
+                    "^if",
+                    "^while",
+                    "^for",
+                    "^object",
+                    "^table",
+                    "block",
+                    "arguments",
+                    "if_statement",
+                    "else_clause",
+                    "jsx_element",
+                    "jsx_self_closing_element",
+                    "try_statement",
+                    "catch_clause",
+                    "import_statement",
+                    "operation_type",
+                },
             })
         end
     })
