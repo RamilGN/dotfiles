@@ -56,7 +56,7 @@ function M.setup(use)
                             enable = true,
                             disable = function(_, bufnr)
                                 local f = require("functions")
-                                return f.get_buf_byte_size(bufnr) > vim.g.max_byte_size
+                                return f.vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
                             end,
                         },
                         additional_vim_regex_highlighting = false,

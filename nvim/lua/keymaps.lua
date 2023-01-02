@@ -2,12 +2,11 @@ local wk = require("which-key")
 local t = require("telescope.builtin")
 local spectre = require("spectre")
 local f = require("functions")
-local cmd = vim.cmd
 
 local keymaps = {
     ["#"] = {
         { ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", "Search word without jumping" },
-        { function() cmd([[let @/="]] .. f.get_visual_selection() .. [["]] .. [[ | set hls]]) end, "Search word without jumping", mode = "v" }
+        { function() vim.cmd([[let @/="]] .. f.vim.get_visual_selection() .. [["]] .. [[ | set hls]]) end, "Search word without jumping", mode = "v" }
     },
 
     ["//"] = { ":nohlsearch<CR>", "Turn off highlight" },
@@ -32,17 +31,17 @@ local keymaps = {
     ["<C-m>"] = { "<Cmd>Telescope resume<CR>", "Telescope resume" },
     ["<C-s>"] = {
         { "<Cmd>Telescope live_grep<CR>", "Live grep" },
-        { function() t.live_grep({ default_text = f.get_visual_selection() }) end, "Live grep", mode = "v" },
+        { function() t.live_grep({ default_text = f.vim.get_visual_selection() }) end, "Live grep", mode = "v" },
     },
     ["<C-f>"] = {
         { "<Cmd>Telescope find_files<CR>", "Find files" },
-        { function() t.find_files({ default_text = f.get_visual_selection() }) end, "Find files", mode = "v" },
+        { function() t.find_files({ default_text = f.vim.get_visual_selection() }) end, "Find files", mode = "v" },
     },
     ["<C-/>"] = {
         { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Search buffer" },
-        { function() t.current_buffer_fuzzy_find({ default_text = f.get_visual_selection() }) end, "Search buffer", mode = "v" },
+        { function() t.current_buffer_fuzzy_find({ default_text = f.vim.get_visual_selection() }) end, "Search buffer", mode = "v" },
     },
-    ["<C-n>"] = { function() t.find_files({ default_text = f.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
+    ["<C-n>"] = { function() t.find_files({ default_text = f.vim.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
     ["<C-g>"] = { "<Cmd>Telescope git_status<CR>", "Git status" },
     ["<C-1>"] = {
@@ -118,8 +117,23 @@ local keymaps = {
             ["u"] = { "<Cmd>RunCurrentFile<CR>", "Run current file" }
         },
 
-        ["s"] = {
-            name = "+search",
+        ["e"] = {
+            name = "+edit",
+            ["s"] = { function() spectre.open() end, "Search and replace" },
+            ["S"] = { function() spectre.open_file_search() end, "Search and replace current file" },
+        },
+
+        ["o"] = {
+            name = "+open",
+            ["a"] = { "<Cmd>$tabnew | Alpha<CR>", "Open dashboard" },
+            ["c"] = { "<Cmd>Telescope find_files cwd=~/dotfiles<CR>", "Open configs" },
+            ["p"] = { "<Cmd>Telescope find_files cwd=~/private<CR>", "Open private" },
+            ["1"] = { "<Cmd>1ToggleTerm direction=float<CR>", "Toggle term1" },
+            ["2"] = { "<Cmd>2ToggleTerm direction=vertical<CR>", "Toggle term2" },
+            ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
+            ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
+            ["t"] = { "<Cmd>$tabnew %<CR>", "Open tab for current buffer" },
+            ["n"] = { "<Cmd>NeoTreeReveal<CR>", "Open file in tree" },
             ["o"] = { function() t.oldfiles({ only_cwd = true }) end, "Search recent files" },
             ["s"] = {
                 { function()
@@ -134,27 +148,8 @@ local keymaps = {
                 end,
                     "Search string"
                 },
-                { function() t.grep_string({ default_text = f.get_visual_selection() }) end, "Search string", mode = "v" },
+                { function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end, "Search string", mode = "v" },
             }
-        },
-
-        ["e"] = {
-            name = "+edit",
-            ["s"] = { function() spectre.open_file_search() end, "Search and replace" },
-            ["S"] = { function() spectre.open() end, "Search and replace" },
-        },
-
-        ["o"] = {
-            name = "+open",
-            ["a"] = { "<Cmd>$tabnew | Alpha<CR>", "Open dashboard" },
-            ["1"] = { "<Cmd>1ToggleTerm direction=float<CR>", "Toggle term1" },
-            ["2"] = { "<Cmd>2ToggleTerm direction=vertical<CR>", "Toggle term2" },
-            ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
-            ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
-            ["t"] = { "<Cmd>$tabnew %<CR>", "Open tab for current buffer" },
-            ["c"] = { "<Cmd>Telescope find_files cwd=~/dotfiles<CR>", "Open configs" },
-            ["p"] = { "<Cmd>Telescope find_files cwd=~/private<CR>", "Open private" },
-            ["n"] = { "<Cmd>NeoTreeReveal<CR>", "Open file in tree" },
         },
 
         ["h"] = {
@@ -205,8 +200,8 @@ local keymaps = {
             -- Aliases
             ["a"] = {
                 name = "+add",
-                ["i"] = { function() f.vterm([[git add -i]]) end, "Git interactive staging" },
-                ["pa"] = { function() f.vterm([[git add --patch]]) end, "Git add patch" }
+                ["i"] = { function() f.vim.vterm([[git add -i]]) end, "Git interactive staging" },
+                ["pa"] = { function() f.vim.vterm([[git add --patch]]) end, "Git add patch" }
             },
         },
 

@@ -9,7 +9,6 @@ function M.setup(use)
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-cmdline" },
             { "L3MON4D3/LuaSnip" },
-            -- { "rafamadriz/friendly-snippets" },
             { "saadparwaiz1/cmp_luasnip" },
             {
                 "hrsh7th/nvim-cmp",
@@ -28,7 +27,7 @@ function M.setup(use)
                                 local bufs = {}
                                 for _, win in ipairs(vim.api.nvim_list_wins()) do
                                     local buf = vim.api.nvim_win_get_buf(win)
-                                    local byte_size = f.get_buf_byte_size(buf)
+                                    local byte_size = f.vim.get_buf_byte_size(buf)
                                     if byte_size < vim.g.max_byte_size then
                                         bufs[buf] = true
                                     end
@@ -38,7 +37,7 @@ function M.setup(use)
                                     return vim.tbl_keys(bufs)
                                 end
 
-                                local prev_buf_byte_size = f.get_buf_byte_size(prev_buf)
+                                local prev_buf_byte_size = f.vim.get_buf_byte_size(prev_buf)
                                 if prev_buf_byte_size < vim.g.max_byte_size then
                                     bufs[prev_buf] = true
                                 end
@@ -59,7 +58,8 @@ function M.setup(use)
                             ["<C-d>"] = cmp.mapping.scroll_docs(2),
                             ["<C-e>"] = cmp.mapping.abort(),
                             ["<CR>"] = cmp.mapping.confirm({
-                                select = true
+                                select = true,
+                                behavior = cmp.ConfirmBehavior.Replace
                             })
                         }),
                         sources = {

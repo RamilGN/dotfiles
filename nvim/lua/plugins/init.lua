@@ -10,7 +10,7 @@ require("packer").startup({
         require("plugins.treesitter").setup(use)
         require("plugins.edit").setup(use)
         require("plugins.lsp").setup(use)
-        require("plugins.miscellaneous").setup(use)
+        require("plugins.misc").setup(use)
     end,
 
     config = {

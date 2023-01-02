@@ -31,7 +31,7 @@ vim.api.nvim_create_user_command(
         local commit_hash = opts.args
         if commit_hash == "" then
             local cword = vim.fn.expand("<cword>")
-            f.closewin()
+            f.vim.closewin()
             f.git.delta([[show -p --stat ]] .. cword)
         else
             f.git.delta([[show -p --stat ]] .. commit_hash)
@@ -87,7 +87,7 @@ vim.api.nvim_create_user_command(
             command = [[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path
         end
 
-        f.vterm(command)
+        f.vim.vterm(command)
     end,
     { nargs = "?" }
 )
@@ -100,9 +100,9 @@ vim.api.nvim_create_user_command(
         local path = vim.fn.expand("%:p:.:h")
 
         if line then
-            f.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
+            f.vim.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
         else
-            f.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path)
+            f.vim.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path)
         end
     end,
     { nargs = "?" }
@@ -111,21 +111,21 @@ vim.api.nvim_create_user_command(
 local exec = {
     filetype = {
         ["lua"] = function(opts)
-            f.vterm("lua " .. opts.current_buffer)
+            f.vim.vterm("lua " .. opts.current_buffer)
         end,
         ["ruby"] = function(opts)
-            f.vterm("ruby " .. opts.current_buffer)
+            f.vim.vterm("ruby " .. opts.current_buffer)
         end,
         ["go"] = function(opts)
-            f.vterm("go run " .. opts.current_buffer)
+            f.vim.vterm("go run " .. opts.current_buffer)
         end,
         ["python"] = function(opts)
-            f.vterm("python3 " .. opts.current_buffer)
+            f.vim.vterm("python3 " .. opts.current_buffer)
         end,
         ["c"] = function(opts)
             local curb = opts.current_buffer
             local cmpf = curb .. ".out"
-            f.vterm([[clang ]] .. curb .. [[ -o ]] .. cmpf .. [[ && ]] .. cmpf)
+            f.vim.vterm([[clang ]] .. curb .. [[ -o ]] .. cmpf .. [[ && ]] .. cmpf)
         end
     },
     path = {
