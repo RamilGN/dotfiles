@@ -43,7 +43,7 @@ M.vim = {
 M.git = {
     delta = function(command)
         local delta = [[git --no-pager ]] .. command .. [[ \| delta --paging=never]]
-        M.vterm(delta)
+        M.vim.vterm(delta)
     end,
 
     check = function()

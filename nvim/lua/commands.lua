@@ -19,7 +19,7 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
     "GitLogG",
     function()
-        f.gitdelta([[log -p --stat]])
+        f.git.delta([[log -p --stat]])
     end,
     { nargs = "?" }
 )
