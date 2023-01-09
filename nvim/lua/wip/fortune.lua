@@ -1,6 +1,8 @@
 local M = {}
 
 M.fortune_list = {
+    { "Hard work beats talent when talent doesn’t work hard." },
+
     {
         "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
         "",

@@ -117,7 +117,13 @@ local exec = {
             f.vim.vterm("ruby " .. opts.current_buffer)
         end,
         ["go"] = function(opts)
-            f.vim.vterm("go run " .. opts.current_buffer)
+            local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
+            if prefix then
+                local src = prefix .. ".go"
+                f.vim.vterm("go test " .. src .. " " .. opts.current_buffer)
+            else
+                f.vim.vterm("go run " .. opts.current_buffer)
+            end
         end,
         ["python"] = function(opts)
             f.vim.vterm("python3 " .. opts.current_buffer)
