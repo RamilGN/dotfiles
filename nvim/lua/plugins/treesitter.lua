@@ -50,6 +50,15 @@ function M.setup(use)
                 end,
                 config = function()
                     require("nvim-treesitter.configs").setup({
+                        incremental_selection = {
+                            enable = true,
+                            keymaps = {
+                                init_selection = "grr",
+                                node_incremental = "grn",
+                                scope_incremental = "grc",
+                                node_decremental = "grm",
+                            },
+                        },
                         ensure_installed = "all",
                         sync_install = false,
                         highlight = {
@@ -67,10 +76,15 @@ function M.setup(use)
                                 keymaps = {
                                     ["aa"] = "@parameter.outer",
                                     ["ia"] = "@parameter.inner",
+
                                     ["af"] = "@function.outer",
                                     ["if"] = "@function.inner",
+
                                     ["ac"] = "@class.outer",
                                     ["ic"] = "@class.inner",
+
+                                    ["ar"] = "@block.outer",
+                                    ["ir"] = "@block.inner",
                                 }
                             },
                             move = {

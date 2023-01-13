@@ -80,7 +80,7 @@ local keymaps = {
 
     ["["] = {
         name = "+prevaction",
-        ["b"] = { "<Cmd>bprev<CR>", "Prev buffer" },
+        ["b"] = { "<C-^>", "Last buffer" },
         ["d"] = { vim.diagnostic.goto_prev, "Prev diagnostic" },
         ["t"] = { "<Cmd>tabprevious<CR>", "Next tab" },
         ["g"] = { "<Cmd>Gitsigns prev_hunk<CR>", "Prev Git hunk" },
