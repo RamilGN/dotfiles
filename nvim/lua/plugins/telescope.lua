@@ -60,7 +60,6 @@ function M.setup(use)
                                 sorting_strategy = "ascending",
                                 ignore_current_buffer = true,
                                 sort_mru = true,
-                                previewer = false,
                                 mappings = {
                                     i = {
                                         ["<C-d>"] = actions.delete_buffer
@@ -72,7 +71,6 @@ function M.setup(use)
                             },
                             lsp_document_symbols = {
                                 theme = "dropdown",
-                                previewer = false
                             }
                         }
                     })

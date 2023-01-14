@@ -29,16 +29,6 @@ function M.setup(use)
                     local schemastore = require("schemastore")
                     local mason_lsp_config = require("mason-lspconfig")
 
-                    local additional_opts = {
-                        ["jsonls"] = function(options)
-                            options.settings = {
-                                json = {
-                                    schemas = schemastore.json.schemas(),
-                                    validate = { enable = true }
-                                }
-                            }
-                        end,
-                    }
 
                     local on_attach = function(_, bufnr)
 
@@ -114,14 +104,23 @@ function M.setup(use)
                         }
                     })
 
-
                     local lsp_opts = {
                         on_attach = on_attach,
                         capabilities = capabilities,
                     }
+                    local server_opts = {
+                        ["jsonls"] = function(options)
+                            options.settings = {
+                                json = {
+                                    schemas = schemastore.json.schemas(),
+                                    validate = { enable = true }
+                                }
+                            }
+                        end,
+                    }
                     for _, server_name in ipairs(mason_lsp_config.get_installed_servers()) do
-                        if additional_opts[server_name] then
-                            additional_opts[server_name](lsp_opts)
+                        if server_opts[server_name] then
+                            server_opts[server_name](lsp_opts)
                         end
                         lspconfig[server_name].setup(lsp_opts)
                     end

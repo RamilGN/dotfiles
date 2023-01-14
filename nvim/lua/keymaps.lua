@@ -1,6 +1,7 @@
 local wk = require("which-key")
 local t = require("telescope.builtin")
 local spectre = require("spectre")
+local ls = require("luasnip")
 local f = require("functions")
 
 local keymaps = {
@@ -36,6 +37,13 @@ local keymaps = {
     ["<C-f>"] = {
         { "<Cmd>Telescope find_files<CR>", "Find files" },
         { function() t.find_files({ default_text = f.vim.get_visual_selection() }) end, "Find files", mode = "v" },
+        { function()
+            if ls.expand_or_jumpable() then
+                ls.expand_or_jump()
+            end
+        end,
+            "Next snippet item",
+            mode = { "i", "s" }, silent = true },
     },
     ["<C-/>"] = {
         { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Search buffer" },
@@ -43,7 +51,11 @@ local keymaps = {
     },
     ["<C-n>"] = { function() t.find_files({ default_text = f.vim.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
-    ["<C-g>"] = { "<Cmd>Telescope git_status<CR>", "Git status" },
+    ["<C-g>"] = {
+        { "<Cmd>Telescope git_status<CR>", "Git status" },
+        { function() if ls.choice_activate() then ls.change_choice(1) end end, "Cycle through nodes", mode = { "i", "s" } },
+    },
+    ["<C-d>"] = { function() if ls.jumpable(-1) then ls.jump(-1) end end, "Prev snippet item", mode = { "i", "s" } },
     ["<C-1>"] = {
         { "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>", "Send line to term 1" },
         { ":ToggleTermSendVisualSelectionNoTW 1<CR>", "Send visual selection to term 1", mode = "v" },
@@ -82,7 +94,7 @@ local keymaps = {
         name = "+prevaction",
         ["b"] = { "<C-^>", "Last buffer" },
         ["d"] = { vim.diagnostic.goto_prev, "Prev diagnostic" },
-        ["t"] = { "<Cmd>tabprevious<CR>", "Next tab" },
+        ["t"] = { "<Cmd>tabprevious<CR>", "Prev tab" },
         ["g"] = { "<Cmd>Gitsigns prev_hunk<CR>", "Prev Git hunk" },
         ["q"] = { "<Cmd>cprev<CR>", "Prev item in qf" },
         ["<leader>"] = { "i<leader><Esc>", "Insert space after cursor" },

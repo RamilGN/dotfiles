@@ -4,6 +4,7 @@ require("packer").startup({
         use({ "wbthomason/packer.nvim" })
 
         require("plugins.ui").setup(use)
+        require("plugins.snippet").setup(use)
         require("plugins.autocomplete").setup(use)
         require("plugins.git").setup(use)
         require("plugins.telescope").setup(use)
