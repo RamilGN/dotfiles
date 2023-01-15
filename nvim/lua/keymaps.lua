@@ -51,10 +51,7 @@ local keymaps = {
     },
     ["<C-n>"] = { function() t.find_files({ default_text = f.vim.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
-    ["<C-g>"] = {
-        { "<Cmd>Telescope git_status<CR>", "Git status" },
-        { function() if ls.choice_activate() then ls.change_choice(1) end end, "Cycle through nodes", mode = { "i", "s" } },
-    },
+    ["<C-g>"] = { "<Cmd>Telescope git_status<CR>", "Git status" },
     ["<C-d>"] = { function() if ls.jumpable(-1) then ls.jump(-1) end end, "Prev snippet item", mode = { "i", "s" } },
     ["<C-1>"] = {
         { "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>", "Send line to term 1" },
