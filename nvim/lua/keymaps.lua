@@ -126,11 +126,8 @@ local keymaps = {
             ["u"] = { "<Cmd>RunCurrentFile<CR>", "Run current file" }
         },
 
-        ["e"] = {
-            name = "+edit",
-            ["s"] = { function() spectre.open() end, "Search and replace" },
-            ["S"] = { function() spectre.open_file_search() end, "Search and replace current file" },
-        },
+        ["s"] = { function() spectre.open() end, "Search and replace" },
+        ["S"] = { function() spectre.open_file_search() end, "Search and replace current file" },
 
         ["o"] = {
             name = "+open",
