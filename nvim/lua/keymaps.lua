@@ -118,7 +118,7 @@ local keymaps = {
 
     ["<leader>"] = {
         name = "+SPC",
-        ["<leader>"] = { "<Cmd>NeoTreeRevealToggle<CR>", "Open file explorer" },
+        ["<leader>"] = { "<Cmd>NeoTreeFloatToggle<CR>", "Open file explorer" },
 
         ["r"] = {
             name = "+run",

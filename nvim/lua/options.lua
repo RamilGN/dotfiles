@@ -54,7 +54,6 @@ vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSig
 vim.g.max_byte_size = 1024 * 206 -- Using for plugin and other constraints
 vim.g.home_dir = vim.fn.getenv("HOME") -- Home directory
 vim.g.mapleader = " " -- Reset leader keymap
-vim.g.maplocalleader = "<Space>"
 
 -- Disable some builtin vim plugins
 vim.g.loaded_2html_plugin = 1
