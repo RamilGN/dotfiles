@@ -22,11 +22,13 @@ function M.setup(use)
         },
         config = function()
             require("neo-tree").setup({
+                log_level = "warn",
                 popup_border_style = "rounded",
                 filesystem = {
                     hijack_netrw_behavior = "open_default",
                     use_libuv_file_watcher = true,
                     window = {
+                        position = "current",
                         mappings = {
                             ["f"] = "fuzzy_finder",
                             ["F"] = "filter_on_submit",
@@ -53,6 +55,16 @@ function M.setup(use)
                             local path = node:get_id()
                             vim.fn.setreg("+", path)
                         end,
+                    },
+                },
+                event_handlers = {
+                    { event = "neo_tree_buffer_enter",
+                        handler = function()
+                            vim.opt_local.signcolumn = "no"
+                            vim.opt_local.cursorlineopt = "number,line"
+                            vim.opt_local.number = true
+                            vim.opt_local.relativenumber = true
+                        end
                     },
                 }
             })
