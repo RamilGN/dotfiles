@@ -1,8 +1,5 @@
-require("options")
+require("config")
 require("plugins")
-require("keymaps")
-require("autocommands")
-require("commands")
 
 -- WIP
 -- require("wip.fortune")
