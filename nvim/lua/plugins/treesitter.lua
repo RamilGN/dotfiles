@@ -53,7 +53,7 @@ function M.setup(use)
                         incremental_selection = {
                             enable = true,
                             keymaps = {
-                                init_selection = "grr",
+                                init_selection = "grv",
                                 node_incremental = "grn",
                                 scope_incremental = "grc",
                                 node_decremental = "grm",

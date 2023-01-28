@@ -24,6 +24,7 @@ function M.setup(use)
             require("neo-tree").setup({
                 log_level = "warn",
                 popup_border_style = "rounded",
+
                 filesystem = {
                     hijack_netrw_behavior = "open_default",
                     use_libuv_file_watcher = true,
@@ -32,9 +33,12 @@ function M.setup(use)
                         mappings = {
                             ["f"] = "fuzzy_finder",
                             ["F"] = "filter_on_submit",
+                            ["l"] = "open",
                             ["o"] = "system_open",
                             ["i"] = "run_command",
                             ["gy"] = "copy_path",
+
+                            ["<CR>"] = "noop",
                             ["/"] = "noop",
                             ["<space>"] = "noop",
                         }
@@ -83,7 +87,7 @@ function M.setup(use)
                         if term.direction == "horizontal" then
                             return 20
                         elseif term.direction == "vertical" then
-                            return math.floor(vim.o.columns * 0.4)
+                            return math.floor(vim.o.columns * 0.5)
                         end
                     end,
                     open_mapping = [[<C-\>]],
@@ -91,6 +95,7 @@ function M.setup(use)
                     persist_size = false,
                     persist_mode = false,
                     direction = "float",
+                    auto_scroll = true
                 }
             end
         })

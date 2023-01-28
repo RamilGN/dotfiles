@@ -6,7 +6,7 @@ vim.opt.smartcase = true -- Ignore case when searching if there is no capital le
 vim.opt.keymap = "russian-jcukenwin" -- RU keyboard layout
 vim.opt.iminsert = 0 -- EN layout default in insert
 vim.opt.imsearch = -1 -- EN layout default in search
-vim.opt.spelllang = { "en_us", "ru" } -- Spell dictionaries
+vim.opt.spelllang = { "en", "ru" } -- Spell dictionaries
 vim.opt.number = true -- Line numbers
 vim.opt.relativenumber = true -- Relative numbers
 vim.opt.scrolloff = 10 -- Show some lines after cursor
@@ -16,7 +16,7 @@ vim.opt.splitright = true -- Vertical split right
 vim.opt.termguicolors = true -- Term colors
 vim.opt.undofile = true -- Undo after rebooting
 vim.opt.cursorline = true -- Highlight current line
-vim.opt.updatetime = 1000 -- Faster auto-completion and etc...
+vim.opt.updatetime = 500 -- Faster auto-completion and etc...
 vim.opt.timeoutlen = 350 -- Faster shortcuts
 vim.opt.signcolumn = "yes:2" -- Sign column
 vim.opt.swapfile = false -- Swap file off
@@ -26,29 +26,15 @@ vim.opt.smartindent = true -- Smart indent
 vim.opt.wrap = true -- Wrap lines
 vim.opt.laststatus = 3 -- Global statusline
 vim.opt.autowriteall = true -- Autowrite
-vim.opt.clipboard = "unnamed,unnamedplus" -- System clipboard
+vim.opt.clipboard = "unnamedplus" -- System clipboard
+vim.opt.undolevels = 10000
 vim.opt.pumheight = 12 -- Set maximum number of items in the pop-up menu
 vim.opt.pumblend = 17 -- Transparency for pop-up window
 vim.opt.scrollback = 100000 -- Scrollback lines for terminal buffer
 vim.opt.expandtab = true -- Tabs to spaces
 vim.opt.tabstop = 4 -- Number of spaces that tab counts for
 vim.opt.shiftwidth = 4 -- Tabs width
-vim.opt.softtabstop = 4 -- Tabs width while performing editing
 vim.opt.shiftround = true -- Round to shiftwidth
--- vim.opt.foldenable = false
--- vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-
--- Diagnositc
-vim.diagnostic.config({
-    virtual_text = false, -- Don't show diagnostics near line
-    update_in_insert = true -- Update diagnostics in insert mode
-})
--- Diagnositc signs
-vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
 
 -- Globals
 vim.g.max_byte_size = 1024 * 206 -- Using for plugin and other constraints
