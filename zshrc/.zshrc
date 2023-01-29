@@ -1,7 +1,7 @@
 sources=(
   'oh-my-zsh'
   'aliases'
-  'other'
+  'misc'
   'languages'
   'docker'
   'git'

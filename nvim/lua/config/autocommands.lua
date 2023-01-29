@@ -1,11 +1,19 @@
+local f = require("functions")
+
 -- Autosave
 local autosave = vim.api.nvim_create_augroup("Autosave", { clear = true })
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
     callback = function()
         local curbuf = vim.api.nvim_get_current_buf()
+
         if not vim.api.nvim_buf_get_option(curbuf, "modified") then
             return
         end
+
+        if f.vim.get_buf_byte_size(curbuf) > vim.g.max_byte_size then
+            return
+        end
+
         vim.cmd([[silent! update]])
     end,
     pattern = "*",

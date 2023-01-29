@@ -24,19 +24,19 @@ unalias dxcit
 function dxcit {
   PROG=${@:-sh}
   CONTAINER_ID=$(dclsa)
-  docker container exec -it $CONTAINER_ID sh -c $PROG 2> /dev/null || (docker container start $CONTAINER_ID && docker container exec -it $@ $CONTAINER_ID $PROG)
+  docker container exec -it $CONTAINER_ID sh -c $PROG 2> /dev/null || (docker container start $CONTAINER_ID && docker container exec -it $CONTAINER_ID $PROG)
 }
 
 ## Start
 unalias dst
 function dst {
   CONTAINER_ID=$(dclsa)
-  docker container start $@ $CONTAINER_ID
+  docker container start $CONTAINER_ID
 }
 
 ## Stop
 unalias dstp
 function dstp {
   CONTAINER_ID=$(dcls)
-  docker container stop $@ $CONTAINER_ID
+  docker container stop $CONTAINER_ID
 }

@@ -22,10 +22,6 @@ function M.setup(use)
             {
                 "neovim/nvim-lspconfig",
                 diagnostics = {
-                    underline = true,
-                    update_in_insert = false,
-                    virtual_text = { spacing = 4, prefix = "●" },
-                    severity_sort = true,
                 },
                 config = function()
                     local wk = require("which-key")
@@ -40,6 +36,14 @@ function M.setup(use)
                     vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
                     vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
                     vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
+
+                    -- Diagnositcs opts
+                    vim.diagnostic.config({
+                        virtual_text = false,
+                        update_in_insert = true,
+                        underline = true,
+                        severity_sort = true
+                    })
 
 
                     local on_attach = function(_, bufnr)

@@ -12,68 +12,40 @@ function M.setup(use)
     })
 
     -- File explorer
-    use {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v2.x",
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "kyazdani42/nvim-web-devicons",
-            "MunifTanjim/nui.nvim",
-        },
+    use({
+        "nvim-tree/nvim-tree.lua",
+        requires = { "nvim-tree/nvim-web-devicons" },
+        tag = "nightly",
         config = function()
-            require("neo-tree").setup({
-                log_level = "warn",
-                popup_border_style = "rounded",
+            require("nvim-tree").setup({
+                view = {
+                    number = true,
+                    relativenumber = true,
+                    signcolumn = "yes",
+                    mappings = {
+                        list = {
+                            { key = "<CR>", action = "edit_in_place" },
+                            { key = "]d", action = "next_diag_item" },
+                            { key = "[d", action = "prev_diag_item" },
+                            { key = "]g", action = "next_git_item" },
+                            { key = "[g", action = "prev_git_item" },
 
-                filesystem = {
-                    hijack_netrw_behavior = "open_default",
-                    use_libuv_file_watcher = true,
-                    window = {
-                        position = "current",
-                        mappings = {
-                            ["f"] = "fuzzy_finder",
-                            ["F"] = "filter_on_submit",
-                            ["l"] = "open",
-                            ["o"] = "system_open",
-                            ["i"] = "run_command",
-                            ["gy"] = "copy_path",
-
-                            ["<CR>"] = "noop",
-                            ["/"] = "noop",
-                            ["<space>"] = "noop",
+                            { key = "<C-e>", action = "" },
+                            { key = "[c", action = "" },
+                            { key = "]c", action = "" },
+                            { key = "]e", action = "" },
+                            { key = "[e", action = "" },
                         }
-                    },
-                    commands = {
-                        system_open = function(state)
-                            local node = state.tree:get_node()
-                            local path = node:get_id()
-                            vim.api.nvim_command([[silent !xdg-open ]] .. path)
-                        end,
-                        run_command = function(state)
-                            local node = state.tree:get_node()
-                            local path = node:get_id()
-                            vim.api.nvim_input(": " .. path .. "<Home>")
-                        end,
-                        copy_path = function(state)
-                            local node = state.tree:get_node()
-                            local path = node:get_id()
-                            vim.fn.setreg("+", path)
-                        end,
-                    },
+                    }
                 },
-                event_handlers = {
-                    { event = "neo_tree_buffer_enter",
-                        handler = function()
-                            vim.opt_local.signcolumn = "no"
-                            vim.opt_local.cursorlineopt = "number,line"
-                            vim.opt_local.number = true
-                            vim.opt_local.relativenumber = true
-                        end
-                    },
-                }
+                actions = {
+                    open_file = {
+                        quit_on_open = true
+                    }
+                },
             })
         end
-    }
+    })
 
     -- Terminal management
     use(

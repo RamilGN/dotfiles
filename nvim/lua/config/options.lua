@@ -10,7 +10,6 @@ vim.opt.spelllang = { "en", "ru" } -- Spell dictionaries
 vim.opt.number = true -- Line numbers
 vim.opt.relativenumber = true -- Relative numbers
 vim.opt.scrolloff = 10 -- Show some lines after cursor
-vim.opt.showcmd = false -- Don't show commands/keypresses
 vim.opt.splitbelow = true -- Horizontal split below
 vim.opt.splitright = true -- Vertical split right
 vim.opt.termguicolors = true -- Term colors
@@ -37,9 +36,11 @@ vim.opt.shiftwidth = 4 -- Tabs width
 vim.opt.shiftround = true -- Round to shiftwidth
 
 -- Globals
-vim.g.max_byte_size = 1024 * 206 -- Using for plugin and other constraints
+vim.g.max_byte_size = 1024 * 512 -- Using for plugin and other constraints
 vim.g.home_dir = vim.fn.getenv("HOME") -- Home directory
-vim.g.mapleader = " " -- Reset leader keymap
+-- Reset leader keymap
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- Disable some builtin vim plugins
 vim.g.loaded_2html_plugin = 1
