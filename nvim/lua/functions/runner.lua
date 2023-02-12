@@ -1,4 +1,5 @@
 local v = require("functions.vim")
+local r = require("functions.ruby")
 
 local M = {}
 
@@ -28,23 +29,24 @@ local exec = {
             v.vterm([[clang ]] .. curb .. [[ -o ]] .. cmpf .. [[ && ]] .. cmpf)
         end
     },
-
     path = {
-        ["insales/insales/spec"] = function(_)
-            vim.cmd([[InsalesRspec]])
+        ["insales/insales/spec"] = function(opts)
+            local spec = r.get_cur_spec(opts.cmd_args)
+            r.insales_rspec(spec)
         end,
-        ["insales/1c_synch/spec"] = function(_)
-            vim.cmd([[SynchRspec]])
+        ["insales/1c_synch/spec"] = function(opts)
+            local spec = r.get_cur_spec(opts.cmd_args)
+            r.sync1c_rspec(spec)
         end
     },
 }
 
-M.cmd = function()
+M.cmd = function(cmd_args)
     local current_buffer = vim.fn.expand("%:p")
     local filetype = vim.api.nvim_buf_get_option(0, "filetype")
     local opts = {
         current_buffer = current_buffer,
-        filetype = filetype,
+        cmd_args = cmd_args
     }
 
     for path, func in pairs(exec.path) do

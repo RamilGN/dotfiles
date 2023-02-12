@@ -29,7 +29,7 @@ function M.setup(use)
                 layout = {
                     { type = "padding", val = 10 },
                     dashboard.section.header,
-                    { type = "text", val = info, opts = { position = "center" } },
+                    { type = "text",    val = info, opts = { position = "center" } },
                     { type = "padding", val = 2 },
                     {
                         type = "group",
@@ -62,20 +62,28 @@ function M.setup(use)
 
     -- Theme
     use({
-        "folke/tokyonight.nvim",
+        "rebelot/kanagawa.nvim",
         config = function()
-            require("tokyonight").setup({
-                style = "storm",
-                on_highlights = function(hl, c)
-                    hl.CursorLineNr = { fg = c.orange, bold = true }
-                    hl.GitSignsAdd = { fg = c.teal }
-                    hl.GitSignsChange = { fg = c.yellow }
-                    hl.GitSignsDelete = { fg = c.red1 }
-                    hl.WinSeparator = { bg = c.bg, fg = c.bg }
-                    hl.IndentBlanklineContextChar = { fg = "#606c9f" }
-                end
+            require("kanagawa").setup({
+                undercurl = true,
+                commentStyle = { italic = true },
+                functionStyle = {},
+                keywordStyle = { italic = true },
+                statementStyle = { bold = true },
+                typeStyle = {},
+                variablebuiltinStyle = { italic = true },
+                specialReturn = true,
+                specialException = true,
+                transparent = true,
+                dimInactive = false,
+                globalStatus = false,
+                terminalColors = true,
+                colors = {},
+                overrides = {
+                    Pmenu = { blend = 17 }
+                },
             })
-            vim.cmd([[colorscheme tokyonight]])
+            vim.cmd("colorscheme kanagawa")
         end
     })
 
@@ -93,7 +101,7 @@ function M.setup(use)
         config = function()
             require("lualine").setup({
                 options = {
-                    theme = "tokyonight",
+                    theme = "kanagawa",
                     component_separators = {},
                     section_separators = {}
                 },

@@ -1,7 +1,8 @@
 return {
     vim = require("functions.vim"),
     git = require("functions.git"),
-    exec = require("functions.exec"),
+    runner = require("functions.runner"),
     ntree = require("functions.ntree"),
-    trans = require("functions.trans")
+    trans = require("functions.trans"),
+    ruby = require("functions.ruby")
 }

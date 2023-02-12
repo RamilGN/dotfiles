@@ -23,11 +23,7 @@ M.get_visual_selection = function()
 end
 
 M.get_cur_buf_rel_path = function()
-    local path = vim.fn.expand("%:p:.:h")
-    if path == "." then
-        return ""
-    end
-    return path .. [[/]]
+    vim.fn.expand("%:p:.")
 end
 
 M.get_cur_buf_dir_rel_path = function()

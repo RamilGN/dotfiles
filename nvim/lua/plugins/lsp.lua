@@ -104,6 +104,7 @@ function M.setup(use)
                     mason_lsp_config.setup({
                         ensure_installed = {
                             "solargraph",
+                            "emmet_ls",
                             "gopls",
                             "sqlls",
                             "pylsp",

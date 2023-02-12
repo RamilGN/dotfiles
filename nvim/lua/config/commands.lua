@@ -38,8 +38,8 @@ vim.api.nvim_create_user_command("GitShow",
 )
 
 -- Trim trailing whitespaces
-vim.api.nvim_create_user_command(
-    "TrimWhitespaces", function()
+vim.api.nvim_create_user_command("TrimWhitespaces",
+    function()
         local curpos = vim.api.nvim_win_get_cursor(0)
         vim.cmd([[keeppatterns %s/\s\+$//e]])
         vim.api.nvim_win_set_cursor(0, curpos)
@@ -55,6 +55,7 @@ vim.api.nvim_create_user_command("SetColorColumn",
     { nargs = "?", count = true }
 )
 
+-- TODO: move to functions
 -- ToggleTerm commands
 vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW",
     function(opts)
@@ -69,42 +70,8 @@ vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
     { range = true, nargs = "?" }
 )
 
--- Run rspec for current file
-vim.api.nvim_create_user_command( "InsalesRspec",
-    function(opts)
-        local line = opts.fargs[1]
-        local path = vim.fn.expand("%:p:.")
-        local command = nil
-
-        if line then
-            command = [[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line
-        else
-            command = [[docker exec -it -w /home/app/code insales_insales_1]] .. [[ bundle exec rspec ]] .. path
-        end
-
-        f.vim.vterm(command)
-    end,
-    { nargs = "?" }
-)
-
--- Run rspec for current file
-vim.api.nvim_create_user_command("SynchRspec",
-    function(opts)
-        local line = opts.fargs[1]
-        local path = vim.fn.expand("%:p:.:h")
-
-        if line then
-            f.vim.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path .. [[:]] .. line)
-        else
-            f.vim.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1]] .. [[ bundle exec rspec ]] .. path)
-        end
-    end,
-    { nargs = "?" }
-)
-
-vim.api.nvim_create_user_command("RunCurrentFile",
-    function()
-        f.exec.cmd()
-    end,
+-- Run current file
+vim.api.nvim_create_user_command("Run",
+    function(opts) f.runner.cmd(opts) end,
     { nargs = "*", range = true }
 )

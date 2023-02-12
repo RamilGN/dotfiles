@@ -138,13 +138,13 @@ local keymaps = {
                 { function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end, "Search string", mode = "v" },
             },
             ["o"] = { function() t.oldfiles({ only_cwd = true }) end, "Search recent files" },
-            ["t"] = { f.trans.translate, "Translate string" },
+            ["t"] = { f.trans.input, "Translate string" },
         },
 
         ["r"] = {
             name = "+run",
             ["e"] = { "<Cmd>@:<CR>", "Last command" },
-            ["u"] = { "<Cmd>RunCurrentFile<CR>", "Run current file" }
+            ["u"] = { "<Cmd>Run<CR>", "Run current file" }
         },
 
         ["s"] = { function() spectre.open() end, "Search and replace" },
