@@ -40,7 +40,7 @@ function M.setup(use)
                     -- Diagnositcs opts
                     vim.diagnostic.config({
                         virtual_text = false,
-                        update_in_insert = true,
+                        update_in_insert = false,
                         underline = true,
                         severity_sort = true
                     })
@@ -64,9 +64,9 @@ function M.setup(use)
                             },
 
                             ["<leader>"] = {
-                                name = "+SPC",
+                                name = "+spc",
                                 ["l"] = {
-                                    name = "+LSP",
+                                    name = "+lsp/action",
                                     ["l"] = {
                                         ["i"] = { "<Cmd>LspInfo<CR>", "Lsp info" },
                                         ["r"] = { "<Cmd>LspRestart<CR>", "Lsp restart" },
@@ -79,8 +79,6 @@ function M.setup(use)
                                         { vim.lsp.buf.code_action, "Code actions" },
                                         { "<Cmd>lua vim.lsp.buf.code_action()<CR>", "Code actions", mode = "v" },
                                     },
-                                    ["d"] = { vim.diagnostic.open_float, "Open diagnostic float window" },
-                                    ["D"] = { "<Cmd>Telescope diagnostics<CR>", "Diagnostic" },
                                     ["f"] = {
                                         {
                                             function() vim.lsp.buf.format({ async = true }) end,

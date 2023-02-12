@@ -150,6 +150,13 @@ local keymaps = {
         ["s"] = { function() spectre.open() end, "Search and replace" },
         ["S"] = { function() spectre.open_file_search() end, "Search and replace current file" },
 
+        ["l"] = {
+            name = "+lsp/action",
+            ["n"] = { ":Neogen<CR>", "Annotate" },
+            ["d"] = { vim.diagnostic.open_float, "Open diagnostic float window" },
+            ["D"] = { "<Cmd>Telescope diagnostics<CR>", "Diagnostic" },
+        },
+
         ["o"] = {
             name = "+open/toggle",
             ["a"] = { "<Cmd>$tabnew | Alpha<CR>", "Open dashboard in tab" },
@@ -175,7 +182,7 @@ local keymaps = {
         },
 
         ["p"] = {
-            name = "+packages",
+            name = "+package",
             ["s"] = { "<Cmd>source $MYVIMRC<CR>", "Source vim config" },
             ["u"] = { "<Cmd>PackerSync<CR>", "Packer synch" },
             ["c"] = { "<Cmd>PackerCompile<CR>", "Packer compile" }

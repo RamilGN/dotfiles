@@ -99,6 +99,17 @@ function M.setup(use)
     use({
         "nvim-lualine/lualine.nvim",
         config = function()
+            local function diff_source()
+                local gitsigns = vim.b.gitsigns_status_dict
+                if gitsigns then
+                    return {
+                        added = gitsigns.added,
+                        modified = gitsigns.changed,
+                        removed = gitsigns.removed
+                    }
+                end
+            end
+
             require("lualine").setup({
                 options = {
                     theme = "kanagawa",
@@ -106,10 +117,11 @@ function M.setup(use)
                     section_separators = {}
                 },
                 sections = {
+                    lualine_b = { { "diff", source = diff_source } },
                     lualine_c = { "%f" },
                     lualine_z = { "%l:%v" }
                 },
-                extensions = { "nvim-tree" }
+                extensions = { "nvim-tree", "quickfix" }
             })
         end,
         requires = { "kyazdani42/nvim-web-devicons" },
