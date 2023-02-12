@@ -1,0 +1,46 @@
+AllCops:
+  NewCops: enable
+
+# Useless
+Layout/LineLength:
+  Enabled: false
+
+# {
+#   "foo"    => "bar",
+#   "foobar" => "foobar"
+# }
+Layout/HashAlignment:
+  EnforcedHashRocketStyle:
+    - key
+    - table
+  EnforcedColonStyle:
+    - key
+    - table
+
+# Consistency
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# Consistency
+# Style/HashSyntax:
+#   EnforcedStyle: hash_rockets
+
+# Consistency
+# Style/BlockDelimiters:
+#   EnforcedStyle: always_braces
+
+# Consistency
+Style/Lambda:
+  EnforcedStyle: literal
+
+# I want to do this `left, right = 0, s.length`
+Style/ParallelAssignment:
+  Enabled: false
+
+# Do not reallocate memory for literal strings
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always_true
+
+# Just no
+Style/NegatedIf:
+  Enabled: false

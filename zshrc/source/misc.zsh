@@ -6,6 +6,7 @@ alias zshcfg="nvim ~/dotfiles/zshrc/"
 alias trl="tree -LhaC 3"
 alias cdfc="cd \$(find * -type d | fzf)"
 alias cdfh="cd \$(find ~ -type d | fzf)"
+alias a="\$(alias | fzf)"
 
 # Vim bindings
 bindkey -v

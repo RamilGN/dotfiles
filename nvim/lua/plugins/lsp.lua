@@ -103,7 +103,6 @@ function M.setup(use)
 
                     mason_lsp_config.setup({
                         ensure_installed = {
-                            "sumneko_lua",
                             "solargraph",
                             "gopls",
                             "sqlls",
@@ -133,6 +132,13 @@ function M.setup(use)
                                 }
                             }
                         end,
+                        ["solargraph"] = function(options)
+                            options.settings = {
+                                solargraph = {
+                                    completion = false
+                                }
+                            }
+                        end
                     }
                     for _, server_name in ipairs(mason_lsp_config.get_installed_servers()) do
                         if server_opts[server_name] then

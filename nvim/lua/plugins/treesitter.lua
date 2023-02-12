@@ -42,6 +42,13 @@ function M.setup(use)
             { "RRethy/nvim-treesitter-endwise" },
             { "nvim-treesitter/nvim-treesitter-textobjects" },
             { "windwp/nvim-ts-autotag" },
+            { "danymat/neogen",
+                config = function()
+                    require("neogen").setup({
+                        snippet_engine = "luasnip",
+                    })
+                end
+            },
             {
                 "nvim-treesitter/nvim-treesitter",
                 run = function()

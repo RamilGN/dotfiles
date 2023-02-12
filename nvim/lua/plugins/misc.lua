@@ -43,6 +43,9 @@ function M.setup(use)
                         quit_on_open = true
                     }
                 },
+                live_filter = {
+                    prefix = "> "
+                }
             })
         end
     })

@@ -120,27 +120,8 @@ local keymaps = {
         name = "+SPC",
         ["<leader>"] = { f.ntree.toggle, "Open file explorer" },
 
-        ["r"] = {
-            name = "+run",
-            ["e"] = { "<Cmd>@:<CR>", "Last command" },
-            ["u"] = { "<Cmd>RunCurrentFile<CR>", "Run current file" }
-        },
-
-        ["s"] = { function() spectre.open() end, "Search and replace" },
-        ["S"] = { function() spectre.open_file_search() end, "Search and replace current file" },
-
-        ["o"] = {
-            name = "+open",
-            ["a"] = { "<Cmd>$tabnew | Alpha<CR>", "Open dashboard" },
-            ["c"] = { "<Cmd>Telescope find_files cwd=~/dotfiles<CR>", "Open configs" },
-            ["p"] = { "<Cmd>Telescope find_files cwd=~/private<CR>", "Open private" },
-            ["1"] = { "<Cmd>1ToggleTerm direction=float<CR>", "Toggle term1" },
-            ["2"] = { "<Cmd>2ToggleTerm direction=vertical<CR>", "Toggle term2" },
-            ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
-            ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
-            ["t"] = { "<Cmd>$tabnew %<CR>", "Open tab for current buffer" },
-            ["n"] = { "<Cmd>NeoTreeReveal<CR>", "Open file in tree" },
-            ["o"] = { function() t.oldfiles({ only_cwd = true }) end, "Search recent files" },
+        ["m"] = {
+            name = "+misc",
             ["s"] = {
                 { function()
                     vim.ui.input(
@@ -152,10 +133,33 @@ local keymaps = {
                             require("telescope.builtin").grep_string({ search = input })
                         end)
                 end,
-                    "Search string"
+                    "Grep string"
                 },
                 { function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end, "Search string", mode = "v" },
-            }
+            },
+            ["o"] = { function() t.oldfiles({ only_cwd = true }) end, "Search recent files" },
+            ["t"] = { f.trans.translate, "Translate string" },
+        },
+
+        ["r"] = {
+            name = "+run",
+            ["e"] = { "<Cmd>@:<CR>", "Last command" },
+            ["u"] = { "<Cmd>RunCurrentFile<CR>", "Run current file" }
+        },
+
+        ["s"] = { function() spectre.open() end, "Search and replace" },
+        ["S"] = { function() spectre.open_file_search() end, "Search and replace current file" },
+
+        ["o"] = {
+            name = "+open/toggle",
+            ["a"] = { "<Cmd>$tabnew | Alpha<CR>", "Open dashboard in tab" },
+            ["c"] = { "<Cmd>Telescope find_files cwd=~/dotfiles<CR>", "Open configs dir" },
+            ["p"] = { "<Cmd>Telescope find_files cwd=~/private<CR>", "Open private dir" },
+            ["1"] = { "<Cmd>1ToggleTerm direction=float<CR>", "Toggle term1" },
+            ["2"] = { "<Cmd>2ToggleTerm direction=vertical<CR>", "Toggle term2" },
+            ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
+            ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
+            ["t"] = { "<Cmd>$tabnew %<CR>", "Open tab for current buffer" },
         },
 
         ["h"] = {
@@ -208,6 +212,16 @@ local keymaps = {
                 name = "+add",
                 ["i"] = { function() f.vim.vterm([[git add -i]]) end, "Git interactive staging" },
                 ["pa"] = { function() f.vim.vterm([[git add --patch]]) end, "Git add patch" }
+            },
+
+            ["c"] = {
+                name = "+commit",
+                ["n"] = { function() f.vim.vterm([[git commit -v --no-edit --amend]]) end, "Git commit amend no-edit" },
+            },
+
+            ["p"] = {
+                name = "+push",
+                ["f"] = { function() f.vim.vterm([[git push -v --force-with-lease]]) end, "Force push" },
             },
         },
 

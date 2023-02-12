@@ -28,7 +28,8 @@ packages:
 	                   fd-find \
 	                   fzf     \
 	                   ripgrep \
-	                   htop
+	                   htop \
+					   trnslate-shell
 
 .PHONY: packages
 deb-packages:

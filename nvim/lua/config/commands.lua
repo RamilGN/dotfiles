@@ -2,8 +2,7 @@ local f = require("functions")
 local toggleterm = require("toggleterm")
 
 -- Git log
-vim.api.nvim_create_user_command(
-    "GitLog",
+vim.api.nvim_create_user_command("GitLog",
     function(opts)
         local range = (opts.range == 0 and opts.args) or (opts.line1 .. [[,]] .. opts.line2)
         if range == "" then
@@ -16,8 +15,7 @@ vim.api.nvim_create_user_command(
 )
 
 -- Git log global
-vim.api.nvim_create_user_command(
-    "GitLogG",
+vim.api.nvim_create_user_command("GitLogG",
     function()
         f.git.delta([[log -p --stat]])
     end,
@@ -25,8 +23,7 @@ vim.api.nvim_create_user_command(
 )
 
 -- Git show
-vim.api.nvim_create_user_command(
-    "GitShow",
+vim.api.nvim_create_user_command("GitShow",
     function(opts)
         local commit_hash = opts.args
         if commit_hash == "" then
@@ -51,8 +48,7 @@ vim.api.nvim_create_user_command(
 )
 
 -- Set color bar
-vim.api.nvim_create_user_command(
-    "SetColorColumn",
+vim.api.nvim_create_user_command("SetColorColumn",
     function()
         vim.opt.colorcolumn = tostring(vim.v.count)
     end,
@@ -74,8 +70,7 @@ vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
 )
 
 -- Run rspec for current file
-vim.api.nvim_create_user_command(
-    "InsalesRspec",
+vim.api.nvim_create_user_command( "InsalesRspec",
     function(opts)
         local line = opts.fargs[1]
         local path = vim.fn.expand("%:p:.")
@@ -93,8 +88,7 @@ vim.api.nvim_create_user_command(
 )
 
 -- Run rspec for current file
-vim.api.nvim_create_user_command(
-    "SynchRspec",
+vim.api.nvim_create_user_command("SynchRspec",
     function(opts)
         local line = opts.fargs[1]
         local path = vim.fn.expand("%:p:.:h")
@@ -108,4 +102,9 @@ vim.api.nvim_create_user_command(
     { nargs = "?" }
 )
 
-vim.api.nvim_create_user_command("RunCurrentFile", f.exec.cmd, { nargs = 0 })
+vim.api.nvim_create_user_command("RunCurrentFile",
+    function()
+        f.exec.cmd()
+    end,
+    { nargs = "*", range = true }
+)
