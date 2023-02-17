@@ -137,7 +137,6 @@ local keymaps = {
                 },
                 { function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end, "Search string", mode = "v" },
             },
-            ["o"] = { function() t.oldfiles({ only_cwd = true }) end, "Search recent files" },
             ["t"] = { f.trans.input, "Translate string" },
         },
 
@@ -167,6 +166,7 @@ local keymaps = {
             ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
             ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
             ["t"] = { "<Cmd>$tabnew %<CR>", "Open tab for current buffer" },
+            ["r"] = { function() t.oldfiles({ only_cwd = true }) end, "Open recent files" },
         },
 
         ["h"] = {

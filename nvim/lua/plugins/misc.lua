@@ -24,17 +24,17 @@ function M.setup(use)
                     signcolumn = "yes",
                     mappings = {
                         list = {
-                            { key = "<CR>", action = "edit_in_place" },
-                            { key = "]d", action = "next_diag_item" },
-                            { key = "[d", action = "prev_diag_item" },
-                            { key = "]g", action = "next_git_item" },
-                            { key = "[g", action = "prev_git_item" },
+                            { key = "<CR>",  action = "edit_in_place" },
+                            { key = "]d",    action = "next_diag_item" },
+                            { key = "[d",    action = "prev_diag_item" },
+                            { key = "]g",    action = "next_git_item" },
+                            { key = "[g",    action = "prev_git_item" },
 
                             { key = "<C-e>", action = "" },
-                            { key = "[c", action = "" },
-                            { key = "]c", action = "" },
-                            { key = "]e", action = "" },
-                            { key = "[e", action = "" },
+                            { key = "[c",    action = "" },
+                            { key = "]c",    action = "" },
+                            { key = "]e",    action = "" },
+                            { key = "[e",    action = "" },
                         }
                     }
                 },
@@ -53,7 +53,8 @@ function M.setup(use)
     -- Terminal management
     use(
         {
-            "akinsho/toggleterm.nvim", tag = "v2.*",
+            "akinsho/toggleterm.nvim",
+            tag = "v2.*",
             config = function()
                 local toggleterm = require("toggleterm")
 

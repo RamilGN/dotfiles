@@ -102,6 +102,7 @@ function M.setup(use)
                     mason_lsp_config.setup({
                         ensure_installed = {
                             "solargraph",
+                            "lua_ls",
                             "emmet_ls",
                             "gopls",
                             "sqlls",
@@ -109,7 +110,7 @@ function M.setup(use)
                             "pyright",
                             "dockerls",
                             "bashls",
-                            "eslint",
+                            "tsserver",
                             "html",
                             "cssls",
                             "jsonls",

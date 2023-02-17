@@ -1,5 +1,19 @@
 local M = {}
 
+M.closewin = function()
+    vim.cmd([[q]])
+end
+
+M.curwin = function()
+    local cw = vim.api.nvim_get_current_win()
+    return {
+        id = cw,
+        back = function()
+            vim.api.nvim_set_current_win(cw)
+        end
+    }
+end
+
 M.get_buf_byte_size = function(bufnr)
     local success, lines = pcall(vim.api.nvim_buf_line_count, bufnr)
     if success then
@@ -35,11 +49,9 @@ M.get_cur_buf_dir_rel_path = function()
 end
 
 M.vterm = function(command)
+    local curwin = M.curwin()
     vim.cmd([[vsplit term://]] .. command .. [[ && sleep 0.1]])
-end
-
-M.closewin = function()
-    vim.cmd([[q]])
+    curwin.back()
 end
 
 return M
