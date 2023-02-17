@@ -6,11 +6,9 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
     callback = function()
         local curbuf = vim.api.nvim_get_current_buf()
 
-        if not vim.api.nvim_buf_get_option(curbuf, "modified") then
-            return
-        end
-
-        if f.vim.get_buf_byte_size(curbuf) > vim.g.max_byte_size then
+        if not vim.api.nvim_buf_get_option(curbuf, "modified") or
+            vim.fn.getbufvar(curbuf, "&modifiable") == 0 or
+            f.vim.get_buf_byte_size(curbuf) > vim.g.max_byte_size then
             return
         end
 
@@ -48,4 +46,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
     pattern = "*",
     group = yhlgroup,
+})
+
+-- Trim trailing whitespaces
+local trimspaces = vim.api.nvim_create_augroup("TrimWhitespaces", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = trimspaces,
+    pattern = "*",
+    command = [[%s/\s\+$//e]],
 })

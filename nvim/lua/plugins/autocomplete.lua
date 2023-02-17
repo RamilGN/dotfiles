@@ -60,8 +60,8 @@ function M.setup(use)
                             })
                         }),
                         sources = {
-                            { name = "nvim_lsp" },
                             { name = "luasnip" },
+                            { name = "nvim_lsp" },
                             buffer_source,
                             { name = "path" }
                         },

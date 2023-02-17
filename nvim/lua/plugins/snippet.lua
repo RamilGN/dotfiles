@@ -1,16 +1,12 @@
 local M = {}
 
 function M.setup(use)
+    use({ "rafamadriz/friendly-snippets" })
+
     use({
         "L3MON4D3/LuaSnip",
         config = function()
-            local ls = require("luasnip")
-
-            ls.config.set_config {
-                history = false,
-                updateevents = "TextChanged,TextChangedI",
-                enable_autosnippets = true
-            }
+            require("luasnip.loaders.from_vscode").lazy_load()
         end
     })
 end

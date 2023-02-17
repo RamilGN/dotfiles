@@ -49,9 +49,7 @@ M.get_cur_buf_dir_rel_path = function()
 end
 
 M.vterm = function(command)
-    local curwin = M.curwin()
     vim.cmd([[vsplit term://]] .. command .. [[ && sleep 0.1]])
-    curwin.back()
 end
 
 return M
