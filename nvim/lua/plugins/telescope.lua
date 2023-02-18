@@ -41,7 +41,7 @@ function M.setup(use)
                         },
                         pickers = {
                             find_files = {
-                                find_command = { "rg", "--files", "--hidden", "-g", "!.git" },
+                                hidden = true,
                                 mappings = {
                                     i = {
                                         ["<C-f>"] = function(prompt_bufnr)

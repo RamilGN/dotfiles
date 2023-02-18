@@ -138,12 +138,13 @@ local keymaps = {
                 { function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end, "Search string", mode = "v" },
             },
             ["t"] = { f.trans.input, "Translate string" },
+            ["u"] = { "<Cmd>UndotreeToggle<CR>", "Undo tree" },
         },
 
         ["r"] = {
             name = "+run",
             ["e"] = { "<Cmd>@:<CR>", "Last command" },
-            ["u"] = { "<Cmd>Run<CR>", "Run current file" }
+            ["u"] = { ":Run<CR>", "Run current file", mode = { "n", "v" } }
         },
 
         ["s"] = { function() spectre.open() end, "Search and replace" },
@@ -190,8 +191,6 @@ local keymaps = {
 
         ["g"] = {
             name = "+git",
-            ["l"] = { ":GitLog<CR>", "Git log", mode = { "n", "v" } },
-            ["L"] = { ":GitLogG<CR>", "Git log global" },
             ["y"] = {
                 { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" },
                 { function() require "gitlinker".get_buf_range_url("v") end, "Git copy link" },
@@ -199,7 +198,6 @@ local keymaps = {
             ["b"] = { "<Cmd>Gitsigns blame_line<CR>", "Git blame_line" },
             ["d"] = { "<Cmd>Gitsigns diffthis<CR>", "Git diff" },
             ["h"] = { "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk" },
-            ["i"] = { "<Cmd>GitShow<CR>", "Git show" },
             ["v"] = { "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk" },
             ["r"] = { "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk" },
             ["R"] = { "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer" },
@@ -209,26 +207,32 @@ local keymaps = {
             ["o"] = {
                 name = "+open",
                 ["s"] = { "<Cmd>Telescope git_stash<CR>", "Git stash" },
-                ["c"] = { "<Cmd>Telescope git_bcommits<CR>", "Git commits" },
-                ["C"] = { "<Cmd>Telescope git_commits<CR>", "Git commits" },
+                ["c"] = { "<Cmd>Telescope git_commits<CR>", "Git commits" },
+                ["C"] = { "<Cmd>Telescope git_bcommits<CR>", "Git commits" },
                 ["b"] = { "<Cmd>Telescope git_branches<CR>", "Git branches" },
             },
 
             -- Aliases
+            ["l"] = { ":GitLog<CR>", "Git log", mode = { "n", "v" } },
+            ["L"] = { ":GitLogG<CR>", "Git log global" },
+            ["i"] = { "<Cmd>GitShow<CR>", "Git show" },
+
             ["a"] = {
                 name = "+add",
-                ["i"] = { function() f.vim.vterm([[git add -i]]) end, "Git interactive staging" },
-                ["pa"] = { function() f.vim.vterm([[git add --patch]]) end, "Git add patch" }
+                ["a"] = { "<Cmd>vert G add -v --patch<CR>", "Git add patch" },
+                ["i"] = { "<Cmd>vert G stage -v -i --patch<CR>", "Git interactive staging" },
             },
 
             ["c"] = {
                 name = "+commit",
-                ["n"] = { function() f.vim.vterm([[git commit -v --no-edit --amend]]) end, "Git commit amend no-edit" },
+                ["c"] = { "<Cmd>vert G commit -v<CR>", "Git commit" },
+                ["n"] = { "<Cmd>G commit -v --amend --no-edit<CR>", "Git commit amend no-edit" },
             },
 
             ["p"] = {
                 name = "+push",
-                ["f"] = { function() f.vim.vterm([[git push -v --force-with-lease]]) end, "Force push" },
+                ["p"] = { "<Cmd>G push -v<CR>", "Push" },
+                ["f"] = { "<Cmd>G push -v --force-with-lease<CR>", "Force push" },
             },
         },
 

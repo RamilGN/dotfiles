@@ -52,4 +52,8 @@ M.vterm = function(command)
     vim.cmd([[vsplit term://]] .. command .. [[ && sleep 0.1]])
 end
 
+M.keys = function(keys)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), "n", true)
+end
+
 return M

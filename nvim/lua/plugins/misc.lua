@@ -83,6 +83,15 @@ function M.setup(use)
             vim.fn["mkdp#util#install"]()
         end,
     })
+
+    -- Undo tree
+    use({
+        "mbbill/undotree",
+        config = function()
+            vim.g.undotree_DiffAutoOpen = 0
+            vim.g.undotree_SplitWidth = math.floor(vim.o.columns * 0.2)
+        end
+    })
 end
 
 return M

@@ -33,6 +33,9 @@ function M.setup(use)
             })
         end
     })
+
+    -- Useful commands
+    use({ "tpope/vim-fugitive" })
 end
 
 return M

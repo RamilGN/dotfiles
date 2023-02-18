@@ -60,7 +60,7 @@ vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
     { range = true, nargs = "?" }
 )
 
--- Run current file
+-- Run in vterm
 vim.api.nvim_create_user_command("V",
     function(opts) f.vim.vterm(opts.fargs[1]) end,
     { nargs = 1 }
