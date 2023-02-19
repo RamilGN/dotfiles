@@ -1,10 +1,18 @@
 local f = require("functions")
 
+Autocommands = {
+    last_save = 0
+}
+
 -- Autosave
 local autosave = vim.api.nvim_create_augroup("Autosave", { clear = true })
 vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
     callback = function()
         local curbuf = vim.api.nvim_get_current_buf()
+        local curtime = os.time()
+        if curtime - Autocommands.last_save <= 1 then
+            return
+        end
 
         if not vim.api.nvim_buf_get_option(curbuf, "modified") or
             vim.fn.getbufvar(curbuf, "&modifiable") == 0 or
@@ -13,6 +21,7 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
         end
 
         vim.cmd([[silent! update]])
+        Autocommands.last_save = curtime
     end,
     pattern = "*",
     group = autosave

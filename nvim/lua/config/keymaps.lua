@@ -220,7 +220,7 @@ local keymaps = {
             ["a"] = {
                 name = "+add",
                 ["a"] = { "<Cmd>vert G add -v --patch<CR>", "Git add patch" },
-                ["i"] = { "<Cmd>vert G stage -v -i --patch<CR>", "Git interactive staging" },
+                ["i"] = { "<Cmd>vert G stage -i<CR>", "Git interactive staging" },
             },
 
             ["c"] = {
@@ -230,12 +230,12 @@ local keymaps = {
             },
 
             ["p"] = {
-                name = "+push",
+                name = "+push/pull",
                 ["p"] = { "<Cmd>G push -v<CR>", "Push" },
                 ["f"] = { "<Cmd>G push -v --force-with-lease<CR>", "Force push" },
-            },
-        },
-
+                ["l"] = { "<Cmd>G pull -v<CR>", "Git pull" },
+            }
+        }
     }
 }
 

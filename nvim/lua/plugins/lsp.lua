@@ -45,16 +45,12 @@ function M.setup(use)
                         severity_sort = true
                     })
 
-
                     local on_attach = function(_, bufnr)
-
                         local keymaps = {
                             buffer = bufnr,
                             ["K"] = { vim.lsp.buf.hover, "Hover" },
-
                             -- Fast shortcuts
                             ["<C-q>"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "Live grep" },
-
                             ["g"] = {
                                 ["d"] = { "<Cmd>Telescope lsp_definitions<CR>", "Go to defenition" },
                                 ["D"] = { "<Cmd>Telescope lsp_declarations<CR>", "Go to declaration" },
@@ -62,7 +58,6 @@ function M.setup(use)
                                 ["I"] = { "<Cmd>Telescope lsp_implementations<CR>", "Go to Implementation" },
                                 ["T"] = { "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition" },
                             },
-
                             ["<leader>"] = {
                                 name = "+spc",
                                 ["l"] = {
@@ -76,7 +71,7 @@ function M.setup(use)
                                     },
                                     ["r"] = { vim.lsp.buf.rename, "Rename" },
                                     ["a"] = {
-                                        { vim.lsp.buf.code_action, "Code actions" },
+                                        { vim.lsp.buf.code_action,                  "Code actions" },
                                         { "<Cmd>lua vim.lsp.buf.code_action()<CR>", "Code actions", mode = "v" },
                                     },
                                     ["f"] = {
@@ -132,21 +127,15 @@ function M.setup(use)
                                 }
                             }
                         end,
-                        ["solargraph"] = function(options)
-                            options.settings = {
-                                solargraph = {
-                                    completion = false
-                                }
-                            }
-                        end
                     }
+
+                    require("wip.ruby").setup()
                     for _, server_name in ipairs(mason_lsp_config.get_installed_servers()) do
                         if server_opts[server_name] then
                             server_opts[server_name](lsp_opts)
                         end
                         lspconfig[server_name].setup(lsp_opts)
                     end
-
                 end
             }
         })
