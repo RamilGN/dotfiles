@@ -2,14 +2,14 @@ return {
     -- Dashboard
     {
         "goolord/alpha-nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        dependencies = { { "nvim-tree/nvim-web-devicons" } },
         config = function()
             local dashboard = require("alpha.themes.dashboard")
             local fortune = require("alpha.fortune")()
+            local plugins = require("lazy.stats").stats().count
 
-            -- local plugins = #vim.tbl_keys(packer_plugins)
             local v = vim.version()
-            local info = string.format(" v%d.%d.%d", v.major, v.minor, v.patch)
+            local info = string.format(" %d v%d.%d.%d", plugins, v.major, v.minor, v.patch)
             local header = {
                 "                                                     ",
                 "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
@@ -207,12 +207,12 @@ return {
                 local word = vim.fn.expand("<cword>")
                 local suggestions = vim.fn.spellsuggest(word)
                 vim.ui.select(suggestions, {},
-                vim.schedule_wrap(function(selected)
-                    if selected then
-                        vim.api.nvim_feedkeys("ciw" .. selected, "n", true)
-                        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "n", true)
-                    end
-                end)
+                    vim.schedule_wrap(function(selected)
+                        if selected then
+                            vim.api.nvim_feedkeys("ciw" .. selected, "n", true)
+                            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "n", true)
+                        end
+                    end)
                 )
             end)
         end
