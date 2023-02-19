@@ -1,17 +1,15 @@
-local M = {}
-
-function M.setup(use)
+return {
     -- Dashboard
-    use {
+    {
         "goolord/alpha-nvim",
-        requires = { "nvim-tree/nvim-web-devicons" },
+        dependencies = { "nvim-tree/nvim-web-devicons" },
         config = function()
             local dashboard = require("alpha.themes.dashboard")
             local fortune = require("alpha.fortune")()
 
-            local plugins = #vim.tbl_keys(packer_plugins)
+            -- local plugins = #vim.tbl_keys(packer_plugins)
             local v = vim.version()
-            local info = string.format(" %d v%d.%d.%d", plugins, v.major, v.minor, v.patch)
+            local info = string.format(" v%d.%d.%d", v.major, v.minor, v.patch)
             local header = {
                 "                                                     ",
                 "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
@@ -58,10 +56,10 @@ function M.setup(use)
 
             require("alpha").setup(config)
         end
-    }
+    },
 
     -- Theme
-    use({
+    {
         "rebelot/kanagawa.nvim",
         config = function()
             require("kanagawa").setup({
@@ -85,18 +83,18 @@ function M.setup(use)
             })
             vim.cmd("colorscheme kanagawa")
         end
-    })
+    },
 
     -- Displaying icons
-    use({
-        "kyazdani42/nvim-web-devicons",
+    {
+        "nvim-tree/nvim-web-devicons",
         config = function()
             require("nvim-web-devicons").setup()
         end
-    })
+    },
 
     -- Fancy lower statusline
-    use({
+    {
         "nvim-lualine/lualine.nvim",
         config = function()
             local function diff_source()
@@ -124,11 +122,11 @@ function M.setup(use)
                 extensions = { "nvim-tree", "quickfix" }
             })
         end,
-        requires = { "kyazdani42/nvim-web-devicons" },
-    })
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
 
     -- Fancy tabs
-    use({
+    {
         "alvarosevilla95/luatab.nvim",
         config = function()
             require("luatab").setup {
@@ -143,15 +141,14 @@ function M.setup(use)
                 end
             }
         end,
-        requires = { "kyazdani42/nvim-web-devicons" },
-    })
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
 
     -- Displaying indents
-    use({
+    {
         "lukas-reineke/indent-blankline.nvim",
         config = function()
             require("indent_blankline").setup({
-                char = "┊",
                 show_trailing_blankline_indent = false,
                 show_current_context = true,
                 filetype_exclude = {
@@ -182,18 +179,18 @@ function M.setup(use)
                 },
             })
         end
-    })
+    },
 
     -- Displaying colors
-    use({
+    {
         "norcalli/nvim-colorizer.lua",
         config = function()
             require("colorizer").setup()
         end
-    })
+    },
 
     -- Better select ui
-    use({
+    {
         "stevearc/dressing.nvim",
         config = function()
             require("dressing").setup({
@@ -210,27 +207,25 @@ function M.setup(use)
                 local word = vim.fn.expand("<cword>")
                 local suggestions = vim.fn.spellsuggest(word)
                 vim.ui.select(suggestions, {},
-                    vim.schedule_wrap(function(selected)
-                        if selected then
-                            vim.api.nvim_feedkeys("ciw" .. selected, "n", true)
-                            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "n", true)
-                        end
-                    end)
+                vim.schedule_wrap(function(selected)
+                    if selected then
+                        vim.api.nvim_feedkeys("ciw" .. selected, "n", true)
+                        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "n", true)
+                    end
+                end)
                 )
             end)
         end
-    })
+    },
 
     -- Autocompletion symbols
-    use({ "onsails/lspkind.nvim" })
+    { "onsails/lspkind.nvim" },
 
     -- LSP status
-    use({
+    {
         "j-hui/fidget.nvim",
         config = function()
             require("fidget").setup()
         end
-    })
-end
-
-return M
+    }
+}

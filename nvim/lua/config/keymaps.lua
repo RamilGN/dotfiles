@@ -182,12 +182,7 @@ local keymaps = {
             ["o"] = { "<Cmd>Telescope vim_options<CR>", "Options" },
         },
 
-        ["p"] = {
-            name = "+package",
-            ["s"] = { "<Cmd>source $MYVIMRC<CR>", "Source vim config" },
-            ["u"] = { "<Cmd>PackerSync<CR>", "Packer synch" },
-            ["c"] = { "<Cmd>PackerCompile<CR>", "Packer compile" }
-        },
+        ["p"] = { "<Cmd>Lazy home<CR>", "Package manager menu" },
 
         ["g"] = {
             name = "+git",

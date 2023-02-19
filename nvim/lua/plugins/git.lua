@@ -1,8 +1,6 @@
-local M = {}
-
-function M.setup(use)
+return {
     -- Git decorations and buffer integration
-    use({
+    {
         "lewis6991/gitsigns.nvim",
         config = function()
             require("gitsigns").setup({
@@ -16,12 +14,12 @@ function M.setup(use)
                 }
             })
         end
-    })
+    },
 
     -- Git links
-    use({
+    {
         "ruifm/gitlinker.nvim",
-        requires = "nvim-lua/plenary.nvim",
+        dependencies = { { "nvim-lua/plenary.nvim" } },
         config = function()
             require("gitlinker").setup({
                 opts = {
@@ -32,10 +30,8 @@ function M.setup(use)
                 },
             })
         end
-    })
+    },
 
-    -- Useful commands
-    use({ "tpope/vim-fugitive" })
-end
-
-return M
+    -- Git aliases
+    { "tpope/vim-fugitive" }
+}

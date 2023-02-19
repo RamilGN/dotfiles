@@ -1,20 +1,16 @@
-local M = {}
-
-function M.setup(use)
+return {
     -- Popup with suggestions to complete a key binding
-    use({
+    {
         "folke/which-key.nvim",
-        config = {
-            function()
-                require("which-key").setup()
-            end
-        }
-    })
+        config = function()
+            require("which-key").setup()
+        end
+    },
 
     -- File explorer
-    use({
+    {
         "nvim-tree/nvim-tree.lua",
-        requires = { "nvim-tree/nvim-web-devicons" },
+        dependencies = { "nvim-tree/nvim-web-devicons" },
         tag = "nightly",
         config = function()
             require("nvim-tree").setup({
@@ -48,50 +44,44 @@ function M.setup(use)
                 }
             })
         end
-    })
+    },
 
     -- Terminal management
-    use(
-        {
-            "akinsho/toggleterm.nvim",
-            tag = "v2.*",
-            config = function()
-                local toggleterm = require("toggleterm")
+    {
+        "akinsho/toggleterm.nvim",
+        config = function()
+            local toggleterm = require("toggleterm")
 
-                toggleterm.setup {
-                    size = function(term)
-                        if term.direction == "horizontal" then
-                            return 20
-                        elseif term.direction == "vertical" then
-                            return math.floor(vim.o.columns * 0.5)
-                        end
-                    end,
-                    open_mapping = [[<C-\>]],
-                    insert_mappings = true,
-                    persist_size = false,
-                    persist_mode = false,
-                    direction = "float",
-                    auto_scroll = true
-                }
-            end
-        })
+            toggleterm.setup {
+                size = function(term)
+                    if term.direction == "horizontal" then
+                        return 20
+                    elseif term.direction == "vertical" then
+                        return math.floor(vim.o.columns * 0.5)
+                    end
+                end,
+                open_mapping = [[<C-\>]],
+                insert_mappings = true,
+                persist_size = false,
+                persist_mode = false,
+                direction = "float",
+                auto_scroll = true
+            }
+        end
+    },
 
     -- Markdown
-    use({
+    {
         "iamcco/markdown-preview.nvim",
-        run = function()
-            vim.fn["mkdp#util#install"]()
-        end,
-    })
+        build = "cd app && npm install"
+    },
 
     -- Undo tree
-    use({
+    {
         "mbbill/undotree",
         config = function()
             vim.g.undotree_DiffAutoOpen = 0
             vim.g.undotree_SplitWidth = math.floor(vim.o.columns * 0.2)
         end
-    })
-end
-
-return M
+    },
+}

@@ -1,6 +1,5 @@
 ASDFRC_PATH:=~/.asdfrc
 ASDF_PATH:=~/.asdf
-PACKER_PATH:=~/.local/share/nvim/site/pack/packer/start
 OH_MY_ZSH_CUSTOM_PLUGINS_PATH:=~/.oh-my-zsh/custom/plugins
 
 .PHONY: all
@@ -80,9 +79,6 @@ nvim:
 	rm -rf $(PWD)/nvim/plugin
 	rm -rf ~/.local/share/nvim
 	rm -rf ~/.config/nvim
-	rm -rf $(PACKER_PATH)
-	mkdir -p $(PACKER_PATH)
-	git clone --depth 1 https://github.com/wbthomason/packer.nvim $(PACKER_PATH)/packer.nvim
 	ln -snf $(PWD)/nvim ~/.config/nvim
 
 .PHONY: asdf

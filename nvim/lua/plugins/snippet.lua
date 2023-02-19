@@ -1,14 +1,9 @@
-local M = {}
-
-function M.setup(use)
-    use({ "rafamadriz/friendly-snippets" })
-
-    use({
+return {
+    {
         "L3MON4D3/LuaSnip",
+        dependencies = { "rafamadriz/friendly-snippets" },
         config = function()
             require("luasnip.loaders.from_vscode").lazy_load()
         end
-    })
-end
-
-return M
+    }
+}
