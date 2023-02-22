@@ -1,5 +1,6 @@
 # Stash && checkout main && pull && create new branch and checkout
 alias ghf="gstu && gcm && gl && gcb"
+alias gclean!="git clean -fd && git restore ."
 
 # Branch
 unalias gb; function gb {
@@ -21,7 +22,7 @@ unalias gbd; function gbd {
 }
 ## Branch force delete
 unalias gbD; function gbD {
-  BRANCH=$(gb) 
+  BRANCH=$(gb)
   [ ! -z "$BRANCH" ] && git branch -D $BRANCH
 }
 

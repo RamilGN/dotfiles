@@ -38,8 +38,9 @@ return {
                         end
                         return vim.tbl_keys(bufs)
                     end,
-                    keyword_pattern = [[\k\+]]
-                }
+                    keyword_pattern = [[\k\+]],
+                },
+                keyword_length = 3
             }
 
             cmp.setup({
@@ -54,8 +55,10 @@ return {
                     ["<C-e>"] = cmp.mapping.abort(),
                     ["<CR>"] = cmp.mapping.confirm({
                         select = true,
-                        behavior = cmp.ConfirmBehavior.Replace
-                    })
+                        behavior = cmp.ConfirmBehavior.Replace,
+                    },
+                    { "i", "c" }
+                    )
                 }),
                 sources = {
                     { name = "nvim_lsp" },

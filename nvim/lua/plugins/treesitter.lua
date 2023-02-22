@@ -64,6 +64,9 @@ return {
                         node_decremental = "grm",
                     },
                 },
+                indent = {
+                    enable = false
+                },
                 ensure_installed = "all",
                 sync_install = false,
                 highlight = {

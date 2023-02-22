@@ -41,7 +41,7 @@ return {
                 severity_sort = true
             })
 
-            local on_attach = function(_, bufnr)
+            local on_attach = function(client, bufnr)
                 local keymaps = {
                     buffer = bufnr,
                     ["K"] = { vim.lsp.buf.hover, "Hover" },
@@ -123,6 +123,13 @@ return {
                         }
                     }
                 end,
+                ["solargraph"] = function(options)
+                    options.on_attach = function(client, bufnr)
+                        -- Too slow for me :(
+                        client.server_capabilities.completionProvider = false
+                        on_attach(client, bufnr)
+                    end
+                end
             }
 
             require("wip.ruby").setup()

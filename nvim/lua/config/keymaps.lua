@@ -208,14 +208,19 @@ local keymaps = {
             },
 
             -- Aliases
-            ["l"] = { ":GitLog<CR>", "Git log", mode = { "n", "v" } },
-            ["L"] = { ":GitLogG<CR>", "Git log global" },
+            ["g"] = { "<Cmd>vert G<CR>", "Git"},
+
             ["i"] = { "<Cmd>GitShow<CR>", "Git show" },
+
+            ["l"] = {
+                name = "+log",
+                ["l"] = { ":GitLog<CR>", "Git log", mode = { "n", "v" } },
+                ["g"] = { ":GitLogG<CR>", "Git log global" },
+            },
 
             ["a"] = {
                 name = "+add",
                 ["a"] = { "<Cmd>vert G add -v --patch<CR>", "Git add patch" },
-                ["i"] = { "<Cmd>vert G stage -i<CR>", "Git interactive staging" },
             },
 
             ["c"] = {
