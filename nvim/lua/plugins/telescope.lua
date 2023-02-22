@@ -25,7 +25,7 @@ return {
                     dynamic_preview_title = true,
                     preview = {
                         treesitter = {
-                            disable = { "eruby" }
+                            disable = { "eruby" } -- 100% memory WTF 0_0
                         }
                     }
                 },

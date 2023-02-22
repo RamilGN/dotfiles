@@ -110,10 +110,6 @@ return {
                 }
             })
 
-            local lsp_opts = {
-                on_attach = on_attach,
-                capabilities = capabilities,
-            }
             local server_opts = {
                 ["jsonls"] = function(options)
                     options.settings = {
@@ -134,6 +130,10 @@ return {
 
             require("wip.ruby").setup()
             for _, server_name in ipairs(mason_lsp_config.get_installed_servers()) do
+                local lsp_opts = {
+                    on_attach = on_attach,
+                    capabilities = capabilities,
+                }
                 if server_opts[server_name] then
                     server_opts[server_name](lsp_opts)
                 end

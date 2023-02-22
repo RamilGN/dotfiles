@@ -65,7 +65,7 @@ return {
                     },
                 },
                 indent = {
-                    enable = false
+                    enable = true -- Don't need this but ruby highlight mess with indents(it helps)
                 },
                 ensure_installed = "all",
                 sync_install = false,
