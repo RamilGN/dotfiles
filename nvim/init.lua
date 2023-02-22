@@ -15,11 +15,6 @@ local core = {
     end,
     setup_plugins = function()
         require("lazy").setup("plugins", {
-            ui = {
-                icons = {
-                    lazy = " "
-                }
-            },
             change_detection = {
                 notify = false
             },

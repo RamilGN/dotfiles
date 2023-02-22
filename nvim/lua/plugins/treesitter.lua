@@ -55,18 +55,6 @@ return {
         },
         config = function()
             require("nvim-treesitter.configs").setup({
-                incremental_selection = {
-                    enable = true,
-                    keymaps = {
-                        init_selection = "grv",
-                        node_incremental = "grn",
-                        scope_incremental = "grc",
-                        node_decremental = "grm",
-                    },
-                },
-                indent = {
-                    enable = true -- Don't need this but ruby highlight mess with indents(it helps)
-                },
                 ensure_installed = "all",
                 sync_install = false,
                 highlight = {
@@ -75,8 +63,8 @@ return {
                         local f = require("functions")
                         return f.vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
                     end,
+                    additional_vim_regex_highlighting = true
                 },
-                additional_vim_regex_highlighting = false,
                 textobjects = {
                     select = {
                         enable = true,
