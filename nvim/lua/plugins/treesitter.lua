@@ -63,7 +63,7 @@ return {
                         local f = require("functions")
                         return f.vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
                     end,
-                    additional_vim_regex_highlighting = true
+                    additional_vim_regex_highlighting = { "ruby" }
                 },
                 textobjects = {
                     select = {
