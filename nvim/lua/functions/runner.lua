@@ -2,7 +2,6 @@ local v = require("functions.vim")
 local r = require("functions.ruby")
 
 local M = {}
-
 local exec = {
     filetype = {
         ["lua"] = function(opts)
@@ -41,7 +40,7 @@ local exec = {
     },
 }
 
-M.cmd = function(cmd_args)
+M.run = function(cmd_args)
     local current_buffer = vim.fn.expand("%:p")
     local filetype = vim.api.nvim_buf_get_option(0, "filetype")
     local opts = {
@@ -49,6 +48,7 @@ M.cmd = function(cmd_args)
         cmd_args = cmd_args
     }
 
+    -- Find exec by current_buffer path
     for path, func in pairs(exec.path) do
         if current_buffer:find(path) then
             func(opts)
@@ -56,6 +56,7 @@ M.cmd = function(cmd_args)
         end
     end
 
+    -- Find ceratin exec by key
     local fexec = exec.filetype[filetype]
     if fexec then
         fexec(opts)

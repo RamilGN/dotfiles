@@ -48,8 +48,21 @@ M.get_cur_buf_dir_rel_path = function()
     return path .. [[/]]
 end
 
+M.save_last_command = function(command)
+    vim.g.last_command = command
+end
+
+M.get_last_command = function()
+    return vim.g.last_command
+end
+
 M.vterm = function(command)
-    vim.cmd([[vsplit term://]] .. command .. [[ && sleep 0.1]])
+    -- TODO: that is akward
+    local curfile = vim.fn.expand("%")
+    local full_command = ([[vsplit term://]] .. command .. [[ && sleep 0.1]])
+    local expanded_command = full_command.gsub(full_command, "%%", curfile)
+    M.save_last_command(expanded_command)
+    vim.cmd(expanded_command)
 end
 
 M.keys = function(keys)

@@ -37,6 +37,7 @@ vim.opt.shiftround = true -- Round to shiftwidth
 
 -- Globals
 vim.g.max_byte_size = 1024 * 512 -- Using for plugin and other constraints
+vim.g.last_command = "echo 'There is no last command'" -- Using for plugin and other constraints
 vim.g.home_dir = vim.fn.getenv("HOME") -- Home directory
 
 -- Reset leader keymap

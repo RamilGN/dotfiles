@@ -62,12 +62,16 @@ vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
 
 -- Run in vterm
 vim.api.nvim_create_user_command("V",
-    function(opts) f.vim.vterm(opts.fargs[1]) end,
+    function(opts)
+        f.vim.vterm(opts.fargs[1])
+    end,
     { nargs = 1 }
 )
 
 -- Run current file
 vim.api.nvim_create_user_command("Run",
-    function(opts) f.runner.cmd(opts) end,
+    function(opts)
+        f.runner.run(opts)
+    end,
     { nargs = "*", range = true }
 )

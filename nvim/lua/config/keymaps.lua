@@ -143,7 +143,7 @@ local keymaps = {
 
         ["r"] = {
             name = "+run",
-            ["e"] = { "<Cmd>@:<CR>", "Last command" },
+            ["e"] = { function() vim.cmd(vim.g.last_command) end, "Last command" },
             ["u"] = { ":Run<CR>", "Run current file", mode = { "n", "v" } }
         },
 
