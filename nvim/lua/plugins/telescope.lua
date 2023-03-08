@@ -43,7 +43,8 @@ return {
                                     vim.cmd([[e ]] .. file)
                                 end
                             }
-                        }
+                        },
+                        find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" }
                     },
                     buffers = {
                         theme = "dropdown",
@@ -55,6 +56,10 @@ return {
                                 ["<C-d>"] = actions.delete_buffer
                             }
                         }
+                    },
+                    git_branches = {
+                        theme = "dropdown",
+                        previewer = false,
                     },
                     lsp_workspace_symbols = {
                         symbol_width = 65

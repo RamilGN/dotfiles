@@ -6,7 +6,16 @@ alias zshcfg="nvim ~/dotfiles/zshrc/"
 alias trl="tree -LhaC 3"
 alias cdfc="cd \$(find * -type d | fzf)"
 alias cdfh="cd \$(find ~ -type d | fzf)"
-alias a="\$(alias | fzf)"
+
+function a {
+    ALIAS_STR=$(alias | fzf)
+    COMMAND="${ALIAS_STR#*=}"
+    COMMAND="${COMMAND/#\'/}"
+    COMMAND="${COMMAND/%\'/}"
+    ZSH_SOURCE="source ~/.zshrc"
+    COMMAND="${ZSH_SOURCE}; ${COMMAND}"
+    zsh -c $COMMAND || echo -n $COMMAND | xclip -sel clip
+}
 
 # Vim bindings
 bindkey -v

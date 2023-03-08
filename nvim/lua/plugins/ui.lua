@@ -40,7 +40,7 @@ return {
                             dashboard.button("g", "  Git status", "<Cmd>silent! Telescope git_status<CR>"),
                             dashboard.button("i", "  Private", "<Cmd>Telescope find_files cwd=~/private<CR>"),
                             dashboard.button("c", "  Configuration", "<Cmd>Telescope find_files cwd=~/dotfiles<CR>"),
-                            dashboard.button("p", "  Update plugins", "<Cmd>PackerSync<CR>"),
+                            dashboard.button("p", "  Plugins", "<Cmd>Lazy<CR>"),
                             dashboard.button("q", "  Quit", ":qa!<CR>"),
                         },
                         opts = { spacing = 0 },
@@ -76,10 +76,24 @@ return {
                 dimInactive = false,
                 globalStatus = false,
                 terminalColors = true,
-                colors = {},
-                overrides = {
-                    Pmenu = { blend = 17 }
+                colors = {
+                    theme = {
+                        all = {
+                            ui = {
+                                bg_gutter = "none"
+                            }
+                        }
+                    }
                 },
+                overrides = function(colors)
+                    local theme = colors.theme
+                    return {
+                        Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1, blend = 12 },
+                        PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+                        PmenuSbar = { bg = theme.ui.bg_m1 },
+                        PmenuThumb = { bg = theme.ui.bg_p2 },
+                    }
+                end
             })
             vim.cmd("colorscheme kanagawa")
         end
@@ -112,14 +126,25 @@ return {
                 options = {
                     theme = "kanagawa",
                     component_separators = {},
-                    section_separators = {}
+                    section_separators = {},
                 },
                 sections = {
-                    lualine_b = { { "diff", source = diff_source } },
-                    lualine_c = { "%f" },
-                    lualine_z = { "%l:%v" }
+                    lualine_b = {
+                        { "branch" },
+                        { "diff",       source = diff_source },
+                        { "diagnostics" },
+                    },
+                    lualine_c = {
+                        {
+                            function()
+                                local cwd = vim.fn.getcwd()
+                                return "[" .. cwd:match(".*/(.*)") .. "]"
+                            end
+                        },
+                        { "%f" }
+                    }
                 },
-                extensions = { "nvim-tree", "quickfix" }
+                extensions = { "nvim-tree", "quickfix", "toggleterm", "fugitive", "man" }
             })
         end,
         dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -149,7 +174,7 @@ return {
         "lukas-reineke/indent-blankline.nvim",
         config = function()
             require("indent_blankline").setup({
-                char = '┊',
+                char = "┊",
                 show_trailing_blankline_indent = false,
                 show_current_context = true,
                 filetype_exclude = {

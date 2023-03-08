@@ -99,6 +99,9 @@ snippet beg
 		${0}
 	rescue ${1:StandardError} => ${2:e}
 	end
+snippet res
+	rescue ${1:StandardError} => ${2:e}
+		${0}
 snippet req require
 	require '${1}'
 snippet reqr
@@ -494,7 +497,9 @@ snippet dov
 		${2}
 	end
 snippet :
-	${1:key}: ${2:'value'}
+	${1:key}: ${2:value}
+snippet =>
+	${1:key} => ${2:value}
 snippet ope
 	open('${1:path/or/url/or/pipe}', '${2:w}') { |${3:io}| ${0} }
 # path_from_here()
@@ -672,7 +677,7 @@ snippet begin
 snippet debug
   require 'debug'; binding.b
 snippet pry
-	require 'pry'; binding.pry
+	require 'pry-byebug'; binding.pry
 snippet strf
 	strftime('${1:%Y-%m-%d %H:%M:%S %z}')${0}
 #
@@ -740,21 +745,24 @@ snippet mthrow
 #     Rspec snippets     #
 ##########################
 snippet desc
-	describe ${1:`substitute(substitute(vim_snippets#Filename(), '_spec$', '', ''), '\(_\|^\)\(.\)', '\u\2', 'g')`} do
+	describe ${1:message} do
 		${0}
 	end
 snippet rdesc
-	RSpec.describe ${1:`substitute(substitute(vim_snippets#Filename(), '_spec$', '', ''), '\(_\|^\)\(.\)', '\u\2', 'g')`} do
+	RSpec.describe ${1:message} do
 		${0}
 	end
 snippet descm
-	describe '${1:#method}' do
+	describe "${1:#method}" do
 		${0:pending 'Not implemented'}
 	end
 snippet cont
-	context '${1:message}' do
+	context "${1:message}" do
 		${0}
 	end
+snippet inc
+  include_context "${1:message}"
+	  ${0}
 snippet bef
 	before do
 		${0}
@@ -768,13 +776,15 @@ snippet let
 snippet let!
 	let!(:${1:object}) { ${0} }
 snippet subj
-	subject { ${0} }
+	subject(:${1:object}) { ${0} }
 snippet s.
 	subject.${0:method}
 snippet spec
 	specify { subject.${0} }
 snippet exp
 	expect(${1:object}).to ${0}
+snippet expn
+	expect(${1:object}).not_to ${0}
 snippet expb
 	expect { ${1:object} }.to ${0}
 snippet experr
@@ -791,10 +801,6 @@ snippet it
 	end
 snippet its
 	its(:${1:method}) { should ${0} }
-snippet is
-	it { should ${0} }
-snippet isn
-	it { should_not ${0} }
 snippet iexp
 	it { expect(${1:object}).${2} ${0} }
 snippet iexpb
@@ -803,7 +809,3 @@ snippet iiexp
 	it { is_expected.to ${0} }
 snippet iiexpn
 	it { is_expected.not_to ${0} }
-snippet agg
-	aggregate_failures '${1:message}' do
-		${0}
-	end

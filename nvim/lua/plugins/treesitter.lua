@@ -55,15 +55,29 @@ return {
         },
         config = function()
             require("nvim-treesitter.configs").setup({
-                ensure_installed = "all",
-                sync_install = false,
+                ensure_installed = {
+                    "ruby",
+                    "sql",
+                    "lua",
+                    "go",
+                    "python",
+                    "javascript",
+                    "html",
+                    "markdown",
+                    "query",
+                    "vim",
+                    "help",
+                },
+                auto_install = true,
                 highlight = {
                     enable = true,
                     disable = function(_, bufnr)
                         local f = require("functions")
                         return f.vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
-                    end,
-                    additional_vim_regex_highlighting = { "ruby" }
+                    end
+                },
+                indent = {
+                    enable = true
                 },
                 textobjects = {
                     select = {

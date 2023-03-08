@@ -12,14 +12,14 @@ M.get_cur_spec = function(opts)
 
     local spec = vim.fn.expand("%:p:.")
     if line then
-        spec = " " .. spec .. [[:]] .. line
+        spec = spec .. [[:]] .. line
     end
 
     return spec
 end
 
 M.insales_rspec = function(specs)
-    v.vterm([[docker exec -it -w /home/app/code insales_insales_1 bin/rspec ]] .. specs)
+    v.vterm([[docker exec -it -w /home/app/code insales_insales_1 bin/spring rspec ]] .. specs)
 end
 
 M.sync1c_rspec = function(specs)

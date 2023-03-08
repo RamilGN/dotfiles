@@ -1,8 +1,21 @@
 local wk = require("which-key")
 local t = require("telescope.builtin")
 local spectre = require("spectre")
+local gs = require("gitsigns")
 local ls = require("luasnip")
 local f = require("functions")
+local tsrm = require "nvim-treesitter.textobjects.repeatable_move"
+
+-- Set repeat movements
+vim.keymap.set({ "n", "x", "o" }, ";", tsrm.repeat_last_move)
+vim.keymap.set({ "n", "x", "o" }, ",", tsrm.repeat_last_move_opposite)
+vim.keymap.set({ "n", "x", "o" }, "f", tsrm.builtin_f)
+vim.keymap.set({ "n", "x", "o" }, "F", tsrm.builtin_F)
+vim.keymap.set({ "n", "x", "o" }, "t", tsrm.builtin_t)
+vim.keymap.set({ "n", "x", "o" }, "T", tsrm.builtin_T)
+local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
+local next_diag_repeat, prev_diag_repeat = tsrm.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev )
+local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function () f.vim.keys("]s") end, function() f.vim.keys("[s") end)
 
 local keymaps = {
     ["#"] = {
@@ -89,19 +102,21 @@ local keymaps = {
 
     ["["] = {
         name = "+prevaction",
+        ["s"] = { prev_spell_repeat, "Next spell error" },
         ["b"] = { "<C-^>", "Last buffer" },
-        ["d"] = { vim.diagnostic.goto_prev, "Prev diagnostic" },
+        ["d"] = { prev_diag_repeat, "Prev diagnostic" },
         ["t"] = { "<Cmd>tabprevious<CR>", "Prev tab" },
-        ["g"] = { "<Cmd>Gitsigns prev_hunk<CR>", "Prev Git hunk" },
+        ["g"] = { prev_hunk_repeat, "Prev Git hunk", mode = { "n", "x", "o" } },
         ["q"] = { "<Cmd>cprev<CR>", "Prev item in qf" },
         ["<leader>"] = { "i<leader><Esc>", "Insert space after cursor" },
     },
     ["]"] = {
         name = "+nextaction",
+        ["s"] = { next_spell_repeat, "Next spell error" },
         ["b"] = { "<Cmd>bnext<CR>", "Next buffer" },
-        ["d"] = { vim.diagnostic.goto_next, "Next diagnostic" },
+        ["d"] = { next_diag_repeat, "Next diagnostic" },
         ["t"] = { "<Cmd>tabnext<CR>", "Next tab" },
-        ["g"] = { "<Cmd>Gitsigns next_hunk<CR>", "Next git hunk" },
+        ["g"] = { next_hunk_repeat, "Gitsigns next_hunk", mode = { "n", "x", "o" } },
         ["q"] = { "<Cmd>cnext<CR>", "Next item in qf" },
         ["<leader>"] = { "a<leader><Esc>", "Insert space under cursor" },
     },
@@ -144,7 +159,8 @@ local keymaps = {
         ["r"] = {
             name = "+run",
             ["e"] = { function() vim.cmd(vim.g.last_command) end, "Last command" },
-            ["u"] = { ":Run<CR>", "Run current file", mode = { "n", "v" } }
+            ["u"] = { ":Run<CR>", "Run current file", mode = { "n", "v" } },
+            ["t"] = { "<Cmd>@:<CR>", "Last command no expand" }
         },
 
         ["s"] = { function() spectre.open() end, "Search and replace" },
@@ -182,7 +198,11 @@ local keymaps = {
             ["o"] = { "<Cmd>Telescope vim_options<CR>", "Options" },
         },
 
-        ["p"] = { "<Cmd>Lazy home<CR>", "Package manager menu" },
+        ["p"] = {
+            name = "+plugins/packages",
+            ["p"] = {"<Cmd>Lazy home<CR>", "Plugins"},
+            ["m"] = {"<Cmd>Mason<CR>", "Mason"},
+        },
 
         ["g"] = {
             name = "+git",
@@ -216,6 +236,7 @@ local keymaps = {
                 name = "+log",
                 ["l"] = { ":GitLog<CR>", "Git log", mode = { "n", "v" } },
                 ["g"] = { ":GitLogG<CR>", "Git log global" },
+                ["o"] = { "<Cmd>vert G log -n 1000<CR>", "Git log commits" },
             },
 
             ["a"] = {
