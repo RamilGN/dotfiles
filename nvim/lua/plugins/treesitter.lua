@@ -77,7 +77,8 @@ return {
                     end
                 },
                 indent = {
-                    enable = true
+                    enable = true,
+                    disable = { "python" }
                 },
                 textobjects = {
                     select = {

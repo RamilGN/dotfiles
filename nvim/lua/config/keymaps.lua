@@ -158,9 +158,10 @@ local keymaps = {
 
         ["r"] = {
             name = "+run",
-            ["e"] = { function() vim.cmd(vim.g.last_command) end, "Last command" },
             ["u"] = { ":Run<CR>", "Run current file", mode = { "n", "v" } },
-            ["t"] = { "<Cmd>@:<CR>", "Last command no expand" }
+            ["e"] = { function() vim.cmd(vim.g.last_command) end, "Last command" },
+            ["t"] = { function() vim.cmd("2TermExec direction=vertical cmd='" .. vim.g.last_cmd .. "'") end, "Last command in term" },
+            ["v"] = { "<Cmd>@:<CR>", "Last command no expand" },
         },
 
         ["s"] = { function() spectre.open() end, "Search and replace" },
