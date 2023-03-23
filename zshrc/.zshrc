@@ -1,6 +1,5 @@
 sources=(
   'oh-my-zsh'
-  'aliases'
   'misc'
   'languages'
   'docker'
