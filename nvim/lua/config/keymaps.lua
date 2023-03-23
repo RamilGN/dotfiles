@@ -65,11 +65,11 @@ local keymaps = {
     ["<C-n>"] = { function() t.find_files({ default_text = f.vim.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
     ["<C-g>"] = { "<Cmd>Telescope git_status<CR>", "Git status" },
-    ["<C-d>"] = { function() if ls.jumpable(-1) then ls.jump(-1) end end, "Prev snippet item", mode = { "i", "s" } },
     ["<C-1>"] = {
         { "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>", "Send line to term 1" },
         { ":ToggleTermSendVisualSelectionNoTW 1<CR>", "Send visual selection to term 1", mode = "v" },
     },
+    ["<C-d>"] = { function() if ls.jumpable(-1) then ls.jump(-1) end end, "Prev snippet item", mode = { "i", "s" } },
     ["<C-2>"] = {
         { "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>", "Send line to term 2" },
         { ":ToggleTermSendVisualSelectionNoTW 2<CR>", "Send visual selection to term 2", mode = "v" }
@@ -248,6 +248,7 @@ local keymaps = {
             ["c"] = {
                 name = "+commit",
                 ["c"] = { "<Cmd>vert G commit -v<CR>", "Git commit" },
+                ["a"] = { "<Cmd>G commit -v --amend<CR>", "Git commit amend" },
                 ["n"] = { "<Cmd>G commit -v --amend --no-edit<CR>", "Git commit amend no-edit" },
             },
 

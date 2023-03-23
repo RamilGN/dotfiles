@@ -1,5 +1,6 @@
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 3.2
 
 # Useless
 Layout/LineLength:

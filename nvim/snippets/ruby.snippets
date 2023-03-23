@@ -793,6 +793,10 @@ snippet allow
 	allow(${1:object}).to ${0}
 snippet shared
 	shared_examples ${0:'shared examples name'}
+snippet sharedcont
+	RSpec.shared_context ${1:'shared context name'} do
+	  ${0}
+	end
 snippet ibl
 	it_behaves_like ${0:'shared examples name'}
 snippet it

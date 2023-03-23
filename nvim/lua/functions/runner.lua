@@ -36,6 +36,10 @@ local exec = {
         ["insales/1c_synch/spec"] = function(opts)
             local spec = r.get_cur_spec(opts.cmd_args)
             r.sync1c_rspec(spec)
+        end,
+        ["insales/tickets/spec"] = function(opts)
+            local spec = r.get_cur_spec(opts.cmd_args)
+            r.tickets_rspec(spec)
         end
     },
 }

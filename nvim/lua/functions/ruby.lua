@@ -26,4 +26,8 @@ M.sync1c_rspec = function(specs)
     v.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1 bundle exec rspec ]] .. specs)
 end
 
+M.tickets_rspec = function(specs)
+    v.vterm([[docker exec -it -w /tickets tickets_backend_1 bin/spring rspec ]] .. specs)
+end
+
 return M
