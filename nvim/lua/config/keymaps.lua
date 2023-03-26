@@ -14,8 +14,8 @@ vim.keymap.set({ "n", "x", "o" }, "F", tsrm.builtin_F)
 vim.keymap.set({ "n", "x", "o" }, "t", tsrm.builtin_t)
 vim.keymap.set({ "n", "x", "o" }, "T", tsrm.builtin_T)
 local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
-local next_diag_repeat, prev_diag_repeat = tsrm.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev )
-local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function () f.vim.keys("]s") end, function() f.vim.keys("[s") end)
+local next_diag_repeat, prev_diag_repeat = tsrm.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
+local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function() f.vim.keys("]s") end, function() f.vim.keys("[s") end)
 
 local keymaps = {
     ["#"] = {
@@ -152,7 +152,6 @@ local keymaps = {
                 },
                 { function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end, "Search string", mode = "v" },
             },
-            ["t"] = { f.trans.input, "Translate string" },
             ["u"] = { "<Cmd>UndotreeToggle<CR>", "Undo tree" },
         },
 
@@ -201,8 +200,8 @@ local keymaps = {
 
         ["p"] = {
             name = "+plugins/packages",
-            ["p"] = {"<Cmd>Lazy home<CR>", "Plugins"},
-            ["m"] = {"<Cmd>Mason<CR>", "Mason"},
+            ["p"] = { "<Cmd>Lazy home<CR>", "Plugins" },
+            ["m"] = { "<Cmd>Mason<CR>", "Mason" },
         },
 
         ["g"] = {
@@ -229,7 +228,7 @@ local keymaps = {
             },
 
             -- Aliases
-            ["g"] = { "<Cmd>vert G<CR>", "Git"},
+            ["g"] = { "<Cmd>vert G<CR>", "Git" },
 
             ["i"] = { "<Cmd>GitShow<CR>", "Git show" },
 
