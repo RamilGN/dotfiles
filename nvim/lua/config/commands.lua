@@ -37,6 +37,13 @@ vim.api.nvim_create_user_command("GitShow",
     { nargs = "?" }
 )
 
+vim.api.nvim_create_user_command("GitShowPrev",
+    function()
+        f.git.delta([[show -p --stat HEAD~1]])
+    end,
+    { nargs = "?" }
+)
+
 -- Set color bar
 vim.api.nvim_create_user_command("SetColorColumn",
     function()

@@ -84,4 +84,6 @@ return {
             vim.g.undotree_SplitWidth = math.floor(vim.o.columns * 0.2)
         end
     },
+
+    { "github/copilot.vim" }
 }
