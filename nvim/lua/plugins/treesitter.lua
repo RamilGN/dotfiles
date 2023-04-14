@@ -67,6 +67,7 @@ return {
                     "query",
                     "vim",
                     "help",
+                    "comment"
                 },
                 auto_install = true,
                 highlight = {

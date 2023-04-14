@@ -9,6 +9,7 @@ plugins=(
   docker
   docker-compose
   git
+  golang
   kubectl
   vi-mode
   zsh-syntax-highlighting

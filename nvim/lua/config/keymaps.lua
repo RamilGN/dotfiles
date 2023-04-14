@@ -42,7 +42,6 @@ local keymaps = {
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
 
     -- Fast shortucts
-    ["<C-Space>"] = { f.ntree.toggle, "Open file explorer" },
     ["<C-m>"] = { "<Cmd>Telescope resume<CR>", "Telescope resume" },
     ["<C-s>"] = {
         { "<Cmd>Telescope live_grep<CR>", "Live grep" },
@@ -134,6 +133,8 @@ local keymaps = {
 
     ["<leader>"] = {
         name = "+SPC",
+
+        ["<leader>"] = { "<Cmd>Neotree position=current reveal=true toggle=true<CR>", "Open file explorer" },
 
         ["m"] = {
             name = "+misc",

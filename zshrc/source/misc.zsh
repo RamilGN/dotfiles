@@ -3,7 +3,7 @@ alias vif="nvim \$(fzf --preview 'batcat --style=numbers --color=always --line-r
 alias sudop='sudo -E env "PATH=$PATH"' # Save PATH for sudo
 alias bat="batcat"
 alias zshcfg="nvim ~/dotfiles/zshrc/"
-alias trl="tree -LhaC 3"
+alias trl="tree -LhaC 3 -I .gi"
 alias cdfc="cd \$(find * -type d | fzf)"
 alias cdfh="cd \$(find ~ -type d | fzf)"
 
