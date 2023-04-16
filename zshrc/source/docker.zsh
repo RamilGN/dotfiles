@@ -43,3 +43,16 @@ function dstp {
   CONTAINER_ID=$(dcls)
   [ ! -z "$CONTAINER_ID" ] && docker container stop $CONTAINER_ID
 }
+
+## Kill
+function dk {
+  CONTAINER_ID=$(dcls)
+  [ ! -z "$CONTAINER_ID" ] && docker kill $CONTAINER_ID
+}
+
+## Remove
+unalias drm
+function drm {
+  CONTAINER_ID=$(dclsa)
+  [ ! -z "$CONTAINER_ID" ] && docker rm $CONTAINER_ID
+}

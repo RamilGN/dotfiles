@@ -77,10 +77,7 @@ return {
                         return f.vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
                     end
                 },
-                indent = {
-                    enable = true,
-                    disable = { "python" }
-                },
+                indent = { enable = true },
                 textobjects = {
                     select = {
                         enable = true,

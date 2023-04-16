@@ -125,6 +125,13 @@ return {
                         client.server_capabilities.completionProvider = false
                         on_attach(client, bufnr)
                     end
+                end,
+                ["yamlls"] = function(options)
+                    options.settings = {
+                        yaml = {
+                            keyOrdering = false
+                        }
+                    }
                 end
             }
 

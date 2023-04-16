@@ -42,6 +42,7 @@ local keymaps = {
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
 
     -- Fast shortucts
+    ["<C-Space>"] = { "<Cmd>Neotree position=current reveal=true toggle=true<CR>", "Open file explorer" },
     ["<C-m>"] = { "<Cmd>Telescope resume<CR>", "Telescope resume" },
     ["<C-s>"] = {
         { "<Cmd>Telescope live_grep<CR>", "Live grep" },
@@ -134,7 +135,7 @@ local keymaps = {
     ["<leader>"] = {
         name = "+SPC",
 
-        ["<leader>"] = { "<Cmd>Neotree position=current reveal=true toggle=true<CR>", "Open file explorer" },
+        -- ["<leader>"] = { "<Cmd>Neotree position=current reveal=true toggle=true<CR>", "Open file explorer" },
 
         ["m"] = {
             name = "+misc",
@@ -248,8 +249,8 @@ local keymaps = {
             ["c"] = {
                 name = "+commit",
                 ["c"] = { "<Cmd>vert G commit -v<CR>", "Git commit" },
-                ["a"] = { "<Cmd>G commit -v --amend<CR>", "Git commit amend" },
-                ["n"] = { "<Cmd>G commit -v --amend --no-edit<CR>", "Git commit amend no-edit" },
+                ["a"] = { "<Cmd>vert G commit -v --amend<CR>", "Git commit amend" },
+                ["n"] = { "<Cmd>vert G commit -v --amend --no-edit<CR>", "Git commit amend no-edit" },
             },
 
             ["p"] = {
