@@ -1,66 +1,14 @@
 return {
-    -- Dashboard
-    {
-        "goolord/alpha-nvim",
-        dependencies = { { "nvim-tree/nvim-web-devicons" } },
-        config = function()
-            local dashboard = require("alpha.themes.dashboard")
-            local fortune = require("alpha.fortune")()
-            local plugins = require("lazy.stats").stats().count
+    -- LSP status
+    { "j-hui/fidget.nvim", config = function() require("fidget").setup() end },
 
-            local v = vim.version()
-            local info = string.format(" %d v%d.%d.%d", plugins, v.major, v.minor, v.patch)
-            local header = {
-                "                                                     ",
-                "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
-                "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
-                "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
-                "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
-                "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
-                "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
-                "                                                     ",
-            }
-            dashboard.section.header.val = header
-            dashboard.section.footer.val = fortune
-
-            local config = {
-                layout = {
-                    { type = "padding", val = 10 },
-                    dashboard.section.header,
-                    { type = "text",    val = info, opts = { position = "center" } },
-                    { type = "padding", val = 2 },
-                    {
-                        type = "group",
-                        val = {
-                            dashboard.button("n", "  New file", "<Cmd>enew | startinsert<CR>"),
-                            dashboard.button("s", "  Search word", "<Cmd>Telescope live_grep<CR>"),
-                            dashboard.button("f", "  Find files", "<Cmd>Telescope find_files<CR>"),
-                            dashboard.button("r", "  Recent files", "<Cmd>Telescope oldfiles cwd_only=true<CR>"),
-                            dashboard.button("a", "  All files", "<Cmd>Telescope find_files cwd=~<CR>"),
-                            dashboard.button("g", "  Git status", "<Cmd>silent! Telescope git_status<CR>"),
-                            dashboard.button("i", "  Private", "<Cmd>Telescope find_files cwd=~/private<CR>"),
-                            dashboard.button("c", "  Configuration", "<Cmd>Telescope find_files cwd=~/dotfiles<CR>"),
-                            dashboard.button("p", "  Plugins", "<Cmd>Lazy<CR>"),
-                            dashboard.button("q", "  Quit", ":qa!<CR>"),
-                        },
-                        opts = { spacing = 0 },
-                    },
-
-                    { type = "padding", val = 1 },
-                    dashboard.section.footer,
-                },
-                opts = {
-                    margin = 5,
-                },
-            }
-
-            require("alpha").setup(config)
-        end
-    },
+    -- TODO: LAZY
 
     -- Theme
     {
         "rebelot/kanagawa.nvim",
+        lazy = false,
+        priority = 1000,
         config = function()
             require("kanagawa").setup({
                 undercurl = true,
@@ -99,18 +47,11 @@ return {
         end
     },
 
-    -- Displaying icons
-    {
-        "nvim-tree/nvim-web-devicons",
-        config = function()
-            require("nvim-web-devicons").setup()
-        end
-    },
-
     -- Fancy lower statusline
     {
         "nvim-lualine/lualine.nvim",
-        config = function()
+        event = "VeryLazy",
+        opts = function()
             local function diff_source()
                 local gitsigns = vim.b.gitsigns_status_dict
                 if gitsigns then
@@ -122,7 +63,7 @@ return {
                 end
             end
 
-            require("lualine").setup({
+            return {
                 options = {
                     theme = "kanagawa",
                     component_separators = {},
@@ -145,75 +86,127 @@ return {
                     }
                 },
                 extensions = { "nvim-tree", "quickfix", "toggleterm", "fugitive", "man" }
-            })
-        end,
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-    },
-
-    -- Fancy tabs
-    {
-        "alvarosevilla95/luatab.nvim",
-        config = function()
-            require("luatab").setup {
-                modified = function()
-                    return ""
-                end,
-                windowCount = function(index)
-                    return "[" .. index .. "]" .. " "
-                end,
-                devicon = function()
-                    return ""
-                end
             }
         end,
         dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
-    -- Displaying colors
+    -- Indent guide
     {
-        "norcalli/nvim-colorizer.lua",
-        config = function()
-            require("colorizer").setup()
-        end
+        "echasnovski/mini.indentscope",
+        event = { "BufReadPre", "BufNewFile" },
+        opts = {
+            symbol = "│",
+            options = { try_as_border = true },
+            draw = { animation = function() return 0 end }
+        },
+        init = function()
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+                callback = function()
+                    vim.b.miniindentscope_disable = true
+                end,
+            })
+        end,
+        config = function(_, opts) require("mini.indentscope").setup(opts) end,
     },
 
-    -- Better select ui
+    -- Better select UI
     {
         "stevearc/dressing.nvim",
-        config = function()
-            require("dressing").setup({
-                input = {
-                    get_config = function()
-                        if vim.api.nvim_buf_get_option(0, "filetype") == "NvimTree" then
-                            return { min_width = 140 }
-                        end
-                    end
-                }
-            })
-
-            vim.keymap.set("n", "z=", function()
-                local word = vim.fn.expand("<cword>")
-                local suggestions = vim.fn.spellsuggest(word)
-                vim.ui.select(suggestions, {},
-                    vim.schedule_wrap(function(selected)
-                        if selected then
-                            vim.api.nvim_feedkeys("ciw" .. selected, "n", true)
-                            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, true, true), "n", true)
-                        end
-                    end)
-                )
-            end)
-        end
+        lazy = true,
+        init = function()
+            vim.ui.select = function(...)
+                require("lazy").load({ plugins = { "dressing.nvim" } })
+                return vim.ui.select(...)
+            end
+            vim.ui.input = function(...)
+                require("lazy").load({ plugins = { "dressing.nvim" } })
+                return vim.ui.input(...)
+            end
+        end,
     },
 
-    -- Autocompletion symbols
-    { "onsails/lspkind.nvim" },
-
-    -- LSP status
+    -- Dashboard
     {
-        "j-hui/fidget.nvim",
-        config = function()
-            require("fidget").setup()
-        end
-    }
+        "goolord/alpha-nvim",
+        event = "VimEnter",
+        opts = function()
+            local dashboard = require("alpha.themes.dashboard")
+
+            local header = {
+                "                                                   ",
+                "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+                "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+                "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+                "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+                "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+                "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+                "                                                   ",
+            }
+
+            dashboard.section.header.val = header
+
+            dashboard.section.buttons.val = {
+                dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
+                dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert <CR>"),
+                dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
+                dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
+                dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
+                dashboard.button("l", "" .. " Plugins", ":Lazy<CR>"),
+                dashboard.button("q", " " .. " Quit", ":qa<CR>"),
+            }
+            for _, button in ipairs(dashboard.section.buttons.val) do
+                button.opts.hl = "AlphaButtons"
+                button.opts.hl_shortcut = "AlphaShortcut"
+            end
+
+            dashboard.section.header.opts.hl = "AlphaHeader"
+            dashboard.section.buttons.opts.hl = "AlphaButtons"
+            dashboard.section.footer.opts.hl = "AlphaFooter"
+            dashboard.opts.layout[1].val = 8
+
+            return dashboard
+        end,
+        config = function(_, dashboard)
+            -- close Lazy and re-open when the dashboard is ready
+            if vim.o.filetype == "lazy" then
+                vim.cmd.close()
+                vim.api.nvim_create_autocmd("User", {
+                    pattern = "AlphaReady",
+                    callback = function()
+                        require("lazy").show()
+                    end,
+                })
+            end
+
+            require("alpha").setup(dashboard.opts)
+
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "LazyVimStarted",
+                callback = function()
+                    local stats = require("lazy").stats()
+                    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+                    local v = vim.version()
+                    local info = string.format(" v%d.%d ", v.major, v.minor)
+                    dashboard.section.footer.val = info .. "loaded " .. stats.count .. " plugins in " .. ms .. "ms"
+
+                    pcall(vim.cmd.AlphaRedraw)
+                end,
+            })
+        end,
+    },
+
+    -- Displaying colors
+    { "norcalli/nvim-colorizer.lua", event = "VeryLazy", config = function() require("colorizer").setup() end },
+
+    -- Autocompletion symbols
+    { "onsails/lspkind.nvim", lazy = true },
+
+    -- Displaying icons
+    { "nvim-tree/nvim-web-devicons", lazy = true },
+
+    -- UI components
+    { "MunifTanjim/nui.nvim", lazy = true },
+
 }

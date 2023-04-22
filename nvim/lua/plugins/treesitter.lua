@@ -8,37 +8,7 @@ return {
             {
                 "nvim-treesitter/nvim-treesitter-context",
                 config = function()
-                    require("treesitter-context").setup({
-                        patterns = {
-                            default = {
-                                "class",
-                                "function",
-                                "method",
-                                "for",
-                                "while",
-                                "if",
-                                "else",
-                                "switch",
-                                "case"
-                            },
-                            javascript = {
-                                "object",
-                                "pair"
-                            },
-                            ruby = {
-                                "module",
-                                "block"
-                            },
-                            yaml = {
-                                "block_mapping_pair",
-                                "block_sequence_item"
-                            },
-                            json = {
-                                "object",
-                                "pair",
-                            },
-                        },
-                    })
+                    require("treesitter-context").setup()
                 end
             },
             { "RRethy/nvim-treesitter-endwise" },
@@ -64,10 +34,7 @@ return {
                     "javascript",
                     "html",
                     "markdown",
-                    "query",
                     "vim",
-                    "help",
-                    "comment"
                 },
                 auto_install = true,
                 highlight = {
@@ -85,13 +52,10 @@ return {
                         keymaps = {
                             ["aa"] = "@parameter.outer",
                             ["ia"] = "@parameter.inner",
-
                             ["af"] = "@function.outer",
                             ["if"] = "@function.inner",
-
                             ["ac"] = "@class.outer",
                             ["ic"] = "@class.inner",
-
                             ["ar"] = "@block.outer",
                             ["ir"] = "@block.inner",
                         }

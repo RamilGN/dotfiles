@@ -1,6 +1,5 @@
 local wk = require("which-key")
 local t = require("telescope.builtin")
-local spectre = require("spectre")
 local gs = require("gitsigns")
 local ls = require("luasnip")
 local f = require("functions")
@@ -13,6 +12,7 @@ vim.keymap.set({ "n", "x", "o" }, "f", tsrm.builtin_f)
 vim.keymap.set({ "n", "x", "o" }, "F", tsrm.builtin_F)
 vim.keymap.set({ "n", "x", "o" }, "t", tsrm.builtin_t)
 vim.keymap.set({ "n", "x", "o" }, "T", tsrm.builtin_T)
+
 local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
 local next_diag_repeat, prev_diag_repeat = tsrm.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
 local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function() f.vim.keys("]s") end, function() f.vim.keys("[s") end)
@@ -165,8 +165,6 @@ local keymaps = {
             ["v"] = { "<Cmd>@:<CR>", "Last command no expand" },
         },
 
-        ["s"] = { function() spectre.open() end, "Search and replace" },
-        ["S"] = { function() spectre.open_file_search() end, "Search and replace current file" },
 
         ["l"] = {
             name = "+lsp/action",
