@@ -1,7 +1,5 @@
 local wk = require("which-key")
-local t = require("telescope.builtin")
 local gs = require("gitsigns")
-local ls = require("luasnip")
 local f = require("functions")
 local tsrm = require "nvim-treesitter.textobjects.repeatable_move"
 
@@ -46,17 +44,17 @@ local keymaps = {
     ["<C-m>"] = { "<Cmd>Telescope resume<CR>", "Telescope resume" },
     ["<C-s>"] = {
         { "<Cmd>Telescope live_grep<CR>", "Live grep" },
-        { function() t.live_grep({ default_text = f.vim.get_visual_selection() }) end, "Live grep", mode = "v" },
+        { function() require("telescope.builtin").live_grep({ default_text = f.vim.get_visual_selection() }) end, "Live grep", mode = "v" },
     },
     ["<C-f>"] = {
         { "<Cmd>Telescope find_files<CR>", "Find files" },
-        { function() t.find_files({ default_text = f.vim.get_visual_selection() }) end, "Find files", mode = "v" },
+        { function() require("telescope.builtin").find_files({ default_text = f.vim.get_visual_selection() }) end, "Find files", mode = "v" },
     },
     ["<C-/>"] = {
         { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Search buffer" },
-        { function() t.current_buffer_fuzzy_find({ default_text = f.vim.get_visual_selection() }) end, "Search buffer", mode = "v" },
+        { function() require("telescope.builtin").current_buffer_fuzzy_find({ default_text = f.vim.get_visual_selection() }) end, "Search buffer", mode = "v" },
     },
-    ["<C-n>"] = { function() t.find_files({ default_text = f.vim.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
+    ["<C-n>"] = { function() require("telescope.builtin").find_files({ default_text = f.vim.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
     ["<C-g>"] = { "<Cmd>silent! Telescope git_status<CR>", "Git status" },
     ["<C-1>"] = {
@@ -144,7 +142,7 @@ local keymaps = {
                 end,
                     "Grep string"
                 },
-                { function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end, "Search string", mode = "v" },
+                { function() require("telescope.builtin").grep_string({ default_text = f.vim.get_visual_selection() }) end, "Search string", mode = "v" },
             },
             ["u"] = { "<Cmd>UndotreeToggle<CR>", "Undo tree" },
         },
@@ -175,7 +173,7 @@ local keymaps = {
             ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
             ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
             ["t"] = { "<Cmd>$tabnew %<CR>", "Open tab for current buffer" },
-            ["r"] = { function() t.oldfiles({ only_cwd = true }) end, "Open recent files" },
+            ["r"] = { function() require("telescope.builtin").oldfiles({ only_cwd = true }) end, "Open recent files" },
         },
 
         ["h"] = {
@@ -198,10 +196,6 @@ local keymaps = {
 
         ["g"] = {
             name = "+git",
-            ["y"] = {
-                { function() require "gitlinker".get_buf_range_url("n") end, "Git copy link" },
-                { function() require "gitlinker".get_buf_range_url("v") end, "Git copy link" },
-            },
             ["b"] = { "<Cmd>Gitsigns blame_line<CR>", "Git blame_line" },
             ["d"] = { "<Cmd>Gitsigns diffthis<CR>", "Git diff" },
             ["h"] = { "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk" },

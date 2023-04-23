@@ -3,6 +3,7 @@ return {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
+            -- Package manager
             {
                 "williamboman/mason.nvim",
                 config = function()
@@ -10,7 +11,11 @@ return {
                 end
             },
             { "williamboman/mason-lspconfig.nvim" },
-            { "b0o/schemastore.nvim" }
+            -- JSON schemas
+            { "b0o/schemastore.nvim" },
+            -- LSP status
+            { "j-hui/fidget.nvim", config = function() require("fidget").setup() end },
+
         },
         config = function()
             local wk = require("which-key")

@@ -116,6 +116,7 @@ return {
     -- Undo tree
     {
         "mbbill/undotree",
+        cmd = "UndotreeToggle",
         config = function()
             vim.g.undotree_DiffAutoOpen = 0
             vim.g.undotree_SplitWidth = math.floor(vim.o.columns * 0.2)

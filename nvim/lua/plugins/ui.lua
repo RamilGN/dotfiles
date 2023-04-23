@@ -1,7 +1,4 @@
 return {
-    -- LSP status
-    { "j-hui/fidget.nvim", config = function() require("fidget").setup() end },
-
     -- TODO: LAZY
 
     -- Theme
