@@ -1,6 +1,34 @@
 return {
+    -- Snippets
+    {
+        "L3MON4D3/LuaSnip",
+        opts = {
+            history = true,
+            delete_check_events = "TextChanged",
+        },
+        config = function(_, opts)
+            require("luasnip").config.set_config(opts)
+            require("luasnip.loaders.from_snipmate").lazy_load()
+        end,
+        keys = {
+            {
+                "<C-f>",
+                function()
+                    return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
+                end,
+                expr = true,
+                silent = true,
+                mode = "i",
+            },
+            { "<C-f>", function() require("luasnip").jump(1) end,  mode = "s" },
+            { "<C-d>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
+        },
+    },
+
+    -- Autocomplete
     {
         "hrsh7th/nvim-cmp",
+        event = "InsertEnter",
         dependencies = {
             { "hrsh7th/cmp-nvim-lsp" },
             { "hrsh7th/cmp-buffer" },
@@ -11,10 +39,6 @@ return {
         config = function()
             local f = require("functions")
             local cmp = require("cmp")
-
-            local luasnip = require("luasnip")
-            require("luasnip.loaders.from_snipmate").lazy_load()
-
             local buffer_source = {
                 name = "buffer",
                 option = {
@@ -44,9 +68,12 @@ return {
             }
 
             cmp.setup({
+                completion = {
+                    completeopt = "menu,menuone,noinsert",
+                },
                 snippet = {
                     expand = function(args)
-                        luasnip.lsp_expand(args.body)
+                        require("luasnip").lsp_expand(args.body)
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({

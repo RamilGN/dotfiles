@@ -51,13 +51,6 @@ local keymaps = {
     ["<C-f>"] = {
         { "<Cmd>Telescope find_files<CR>", "Find files" },
         { function() t.find_files({ default_text = f.vim.get_visual_selection() }) end, "Find files", mode = "v" },
-        { function()
-            if ls.expand_or_jumpable() then
-                ls.expand_or_jump()
-            end
-        end,
-            "Next snippet item",
-            mode = { "i", "s" }, silent = true },
     },
     ["<C-/>"] = {
         { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Search buffer" },
@@ -70,7 +63,6 @@ local keymaps = {
         { "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>", "Send line to term 1" },
         { ":ToggleTermSendVisualSelectionNoTW 1<CR>", "Send visual selection to term 1", mode = "v" },
     },
-    ["<C-d>"] = { function() if ls.jumpable(-1) then ls.jump(-1) end end, "Prev snippet item", mode = { "i", "s" } },
     ["<C-2>"] = {
         { "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>", "Send line to term 2" },
         { ":ToggleTermSendVisualSelectionNoTW 2<CR>", "Send visual selection to term 2", mode = "v" }
