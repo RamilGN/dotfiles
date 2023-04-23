@@ -2,6 +2,7 @@ return {
     -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
+        event = { "BufReadPost", "BufNewFile" },
         build = ":TSUpdate",
         dependencies = {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
@@ -97,6 +98,22 @@ return {
                     enable = true
                 }
             })
+
+            local f = require("functions")
+            local tsrm = require "nvim-treesitter.textobjects.repeatable_move"
+            local next_diag_repeat, prev_diag_repeat = tsrm.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
+            local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function() f.vim.keys("]s") end, function() f.vim.keys("[s") end)
+
+            vim.keymap.set({ "n", "x", "o" }, ";", tsrm.repeat_last_move)
+            vim.keymap.set({ "n", "x", "o" }, ",", tsrm.repeat_last_move_opposite)
+            vim.keymap.set({ "n", "x", "o" }, "f", tsrm.builtin_f)
+            vim.keymap.set({ "n", "x", "o" }, "F", tsrm.builtin_F)
+            vim.keymap.set({ "n", "x", "o" }, "t", tsrm.builtin_t)
+            vim.keymap.set({ "n", "x", "o" }, "T", tsrm.builtin_T)
+            vim.keymap.set("n", "]s", next_spell_repeat, { desc = "Next spell error" })
+            vim.keymap.set("n", "[s", prev_spell_repeat, { desc = "Prev spell error" })
+            vim.keymap.set("n", "]d", next_diag_repeat, { desc = "Next diag error" })
+            vim.keymap.set("n", "[d", prev_diag_repeat, { desc = "Prev diag error" })
         end
     }
 }

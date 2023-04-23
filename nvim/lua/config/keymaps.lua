@@ -1,19 +1,5 @@
 local wk = require("which-key")
-local gs = require("gitsigns")
 local f = require("functions")
-local tsrm = require "nvim-treesitter.textobjects.repeatable_move"
-
--- Set repeat movements
-vim.keymap.set({ "n", "x", "o" }, ";", tsrm.repeat_last_move)
-vim.keymap.set({ "n", "x", "o" }, ",", tsrm.repeat_last_move_opposite)
-vim.keymap.set({ "n", "x", "o" }, "f", tsrm.builtin_f)
-vim.keymap.set({ "n", "x", "o" }, "F", tsrm.builtin_F)
-vim.keymap.set({ "n", "x", "o" }, "t", tsrm.builtin_t)
-vim.keymap.set({ "n", "x", "o" }, "T", tsrm.builtin_T)
-
-local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
-local next_diag_repeat, prev_diag_repeat = tsrm.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
-local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function() f.vim.keys("]s") end, function() f.vim.keys("[s") end)
 
 local keymaps = {
     ["#"] = {
@@ -93,23 +79,16 @@ local keymaps = {
 
     ["["] = {
         name = "+prevaction",
-        ["s"] = { prev_spell_repeat, "Next spell error" },
         ["b"] = { "<C-^>", "Last buffer" },
-        ["d"] = { prev_diag_repeat, "Prev diagnostic" },
         ["t"] = { "<Cmd>tabprevious<CR>", "Prev tab" },
-        ["g"] = { prev_hunk_repeat, "Prev Git hunk", mode = { "n", "x", "o" } },
         ["q"] = { "<Cmd>cprev<CR>", "Prev item in qf" },
-        ["<leader>"] = { "i<leader><Esc>", "Insert space after cursor" },
     },
+
     ["]"] = {
         name = "+nextaction",
-        ["s"] = { next_spell_repeat, "Next spell error" },
         ["b"] = { "<Cmd>bnext<CR>", "Next buffer" },
-        ["d"] = { next_diag_repeat, "Next diagnostic" },
         ["t"] = { "<Cmd>tabnext<CR>", "Next tab" },
-        ["g"] = { next_hunk_repeat, "Gitsigns next_hunk", mode = { "n", "x", "o" } },
         ["q"] = { "<Cmd>cnext<CR>", "Next item in qf" },
-        ["<leader>"] = { "a<leader><Esc>", "Insert space under cursor" },
     },
 
     ["il"] = {
