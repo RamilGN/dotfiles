@@ -1,6 +1,4 @@
 return {
-    -- TODO: LAZY
-
     -- Theme
     {
         "rebelot/kanagawa.nvim",
@@ -63,24 +61,24 @@ return {
             return {
                 options = {
                     theme = "kanagawa",
+                    globalstatus = true,
                     component_separators = {},
                     section_separators = {},
                 },
                 sections = {
-                    lualine_b = {
-                        { "branch" },
-                        { "diff",       source = diff_source },
-                        { "diagnostics" },
-                    },
+                    lualine_a = { "mode" },
+                    lualine_b = { { "branch" }, { "diff", source = diff_source } },
                     lualine_c = {
-                        {
-                            function()
-                                local cwd = vim.fn.getcwd()
-                                return "[" .. cwd:match(".*/(.*)") .. "]"
-                            end
-                        },
-                        { "%f" }
-                    }
+                        { "diagnostics" },
+                        { "filetype",   icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+                        { "filename",   path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+                    },
+                    lualine_x = {},
+                    lualine_y = {},
+                    lualine_z = {
+                        { "progress", separator = " ", padding = { left = 1, right = 0 } },
+                        { "location", padding = { left = 0, right = 1 } },
+                    },
                 },
                 extensions = { "nvim-tree", "quickfix", "toggleterm", "fugitive", "man" }
             }
@@ -198,12 +196,12 @@ return {
     { "norcalli/nvim-colorizer.lua", event = "VeryLazy", config = function() require("colorizer").setup() end },
 
     -- Autocompletion symbols
-    { "onsails/lspkind.nvim", lazy = true },
+    { "onsails/lspkind.nvim",        lazy = true },
 
     -- Displaying icons
     { "nvim-tree/nvim-web-devicons", lazy = true },
 
     -- UI components
-    { "MunifTanjim/nui.nvim", lazy = true },
+    { "MunifTanjim/nui.nvim",        lazy = true },
 
 }
