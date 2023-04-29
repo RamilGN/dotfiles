@@ -97,7 +97,7 @@ return {
         },
         init = function()
             vim.api.nvim_create_autocmd("FileType", {
-                pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+                pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason", "toggleterm", "undotree" },
                 callback = function()
                     vim.b.miniindentscope_disable = true
                 end,
@@ -193,7 +193,7 @@ return {
     },
 
     -- Displaying colors
-    { "norcalli/nvim-colorizer.lua", event = "VeryLazy", config = function() require("colorizer").setup() end },
+    { "norcalli/nvim-colorizer.lua", event = { "BufReadPre", "BufNewFile" }, config = function() require("colorizer").setup() end },
 
     -- Autocompletion symbols
     { "onsails/lspkind.nvim",        lazy = true },

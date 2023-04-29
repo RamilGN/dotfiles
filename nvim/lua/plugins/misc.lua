@@ -103,14 +103,16 @@ return {
                 direction = "float",
                 auto_scroll = true
             }
-        end
+        end,
     },
 
     -- Markdown
     {
         "iamcco/markdown-preview.nvim",
         build = "cd app && npm install",
-        cmd = "MarkdownPreviewToggle"
+        cmd = "MarkdownPreviewToggle",
+        event = { "BufReadPost", "BufNewFile" },
+        keys = require("config.keymaps_new").markdown_preview,
     },
 
     -- Undo tree
@@ -120,6 +122,7 @@ return {
         config = function()
             vim.g.undotree_DiffAutoOpen = 0
             vim.g.undotree_SplitWidth = math.floor(vim.o.columns * 0.2)
-        end
+        end,
+        keys = require("config.keymaps_new").undotree
     }
 }

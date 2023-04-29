@@ -14,17 +14,8 @@ return {
                 topdelete    = { hl = "GitSignsDelete", text = "│" },
             },
             on_attach = function(buffer)
-                local function map(mode, l, r, desc)
-                    vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-                end
-
-                local gs = package.loaded.gitsigns
-                local tsrm = require "nvim-treesitter.textobjects.repeatable_move"
-                local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
-                local gitlinker = require("gitlinker")
-
                 -- Links
-                gitlinker.setup({
+                require("gitlinker").setup({
                     opts = {
                         print_url = false,
                     },
@@ -33,10 +24,7 @@ return {
                     },
                 })
 
-                map("n", "]g", next_hunk_repeat, "Next Hunk")
-                map("n", "[g", prev_hunk_repeat, "Prev Hunk")
-                map("n", "<leader>gy", function() require("gitlinker").get_buf_range_url("n") end, "Git copy link")
-                map("v", "<leader>gy", function() require("gitlinker").get_buf_range_url("v") end, "Git copy link")
+                require("config.keymaps_new").git(buffer)
             end,
         },
         config = function(_, opts)

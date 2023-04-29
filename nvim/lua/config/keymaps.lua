@@ -26,7 +26,6 @@ local keymaps = {
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
 
     -- Fast shortucts
-    ["<C-Space>"] = { "<Cmd>Neotree position=current reveal=true toggle=true<CR>", "Open file explorer" },
     ["<C-m>"] = { "<Cmd>Telescope resume<CR>", "Telescope resume" },
     ["<C-s>"] = {
         { "<Cmd>Telescope live_grep<CR>", "Live grep" },
@@ -123,7 +122,6 @@ local keymaps = {
                 },
                 { function() require("telescope.builtin").grep_string({ default_text = f.vim.get_visual_selection() }) end, "Search string", mode = "v" },
             },
-            ["u"] = { "<Cmd>UndotreeToggle<CR>", "Undo tree" },
         },
 
         ["r"] = {
@@ -149,7 +147,6 @@ local keymaps = {
             ["p"] = { "<Cmd>Telescope find_files cwd=~/private<CR>", "Open private dir" },
             ["1"] = { "<Cmd>1ToggleTerm direction=float<CR>", "Toggle term1" },
             ["2"] = { "<Cmd>2ToggleTerm direction=vertical<CR>", "Toggle term2" },
-            ["m"] = { "<Cmd>MarkdownPreviewToggle<CR>", "Toggle markdown preview" },
             ["q"] = { "<Cmd>copen<CR>", "Open quick fix list" },
             ["t"] = { "<Cmd>$tabnew %<CR>", "Open tab for current buffer" },
             ["r"] = { function() require("telescope.builtin").oldfiles({ only_cwd = true }) end, "Open recent files" },

@@ -6,23 +6,11 @@ return {
             history = true,
             delete_check_events = "TextChanged",
         },
+        keys = require("config.keymaps_new").luasnip,
         config = function(_, opts)
             require("luasnip").config.set_config(opts)
             require("luasnip.loaders.from_snipmate").lazy_load()
-        end,
-        keys = {
-            {
-                "<C-f>",
-                function()
-                    return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-                end,
-                expr = true,
-                silent = true,
-                mode = "i",
-            },
-            { "<C-f>", function() require("luasnip").jump(1) end,  mode = "s" },
-            { "<C-d>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
-        },
+        end
     },
 
     -- Autocomplete
