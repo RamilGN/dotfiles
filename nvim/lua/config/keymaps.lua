@@ -19,9 +19,6 @@ local keymaps = {
     ["k"] = { "v:count == 0 ? 'gk' : 'k'", "Up lines wrap", expr = true },
     ["j"] = { "v:count == 0 ? 'gj' : 'j'", "Down lines wrap", expr = true },
 
-    ["ZA"] = { "<Cmd>qa!<CR>", "Force quit all" },
-    ["ZS"] = { "<Cmd>wall!<CR>", "Force save all" },
-
     ["<CR>"] = { "m`o<Esc>``", "Insert space below cursor" },
     ["<S-CR>"] = { "m`O<Esc>``", "Insert space under cursor" },
 
@@ -41,7 +38,6 @@ local keymaps = {
     },
     ["<C-n>"] = { function() require("telescope.builtin").find_files({ default_text = f.vim.get_cur_buf_dir_rel_path() }) end, "Show current dir" },
     ["<C-b>"] = { "<Cmd>Telescope buffers<CR>", "Current buffers" },
-    ["<C-g>"] = { "<Cmd>silent! Telescope git_status<CR>", "Git status" },
     ["<C-1>"] = {
         { "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>", "Send line to term 1" },
         { ":ToggleTermSendVisualSelectionNoTW 1<CR>", "Send visual selection to term 1", mode = "v" },
@@ -103,8 +99,6 @@ local keymaps = {
     ["<leader>"] = {
         name = "+SPC",
 
-        -- ["<leader>"] = { "<Cmd>Neotree position=current reveal=true toggle=true<CR>", "Open file explorer" },
-
         ["m"] = {
             name = "+misc",
             ["s"] = {
@@ -131,8 +125,6 @@ local keymaps = {
             ["t"] = { function() vim.cmd("2TermExec direction=vertical cmd='" .. vim.g.last_cmd .. "'") end, "Last command in term" },
             ["v"] = { "<Cmd>@:<CR>", "Last command no expand" },
         },
-
-
         ["l"] = {
             name = "+lsp/action",
             ["n"] = { ":Neogen<CR>", "Annotate" },
@@ -168,57 +160,6 @@ local keymaps = {
             name = "+plugins/packages",
             ["p"] = { "<Cmd>Lazy home<CR>", "Plugins" },
             ["m"] = { "<Cmd>Mason<CR>", "Mason" },
-        },
-
-        ["g"] = {
-            name = "+git",
-            ["b"] = { "<Cmd>Gitsigns blame_line<CR>", "Git blame_line" },
-            ["d"] = { "<Cmd>Gitsigns diffthis<CR>", "Git diff" },
-            ["h"] = { "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk" },
-            ["v"] = { "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk" },
-            ["r"] = { "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk" },
-            ["R"] = { "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer" },
-            ["s"] = { "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk" },
-            ["S"] = { "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer" },
-            ["u"] = { "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk" },
-            ["o"] = {
-                name = "+open",
-                ["s"] = { "<Cmd>Telescope git_stash<CR>", "Git stash" },
-                ["c"] = { "<Cmd>Telescope git_commits<CR>", "Git commits" },
-                ["C"] = { "<Cmd>Telescope git_bcommits<CR>", "Git commits" },
-                ["b"] = { "<Cmd>Telescope git_branches<CR>", "Git branches" },
-            },
-
-            -- Aliases
-            ["g"] = { "<Cmd>vert G<CR>", "Git" },
-
-            ["i"] = { "<Cmd>GitShow<CR>", "Git show" },
-
-            ["l"] = {
-                name = "+log",
-                ["l"] = { ":GitLog<CR>", "Git log", mode = { "n", "v" } },
-                ["g"] = { ":GitLogG<CR>", "Git log global" },
-                ["o"] = { "<Cmd>vert G log -n 1000<CR>", "Git log commits" },
-            },
-
-            ["a"] = {
-                name = "+add",
-                ["a"] = { "<Cmd>vert G add -v --patch<CR>", "Git add patch" },
-            },
-
-            ["c"] = {
-                name = "+commit",
-                ["c"] = { "<Cmd>vert G commit -v<CR>", "Git commit" },
-                ["a"] = { "<Cmd>vert G commit -v --amend<CR>", "Git commit amend" },
-                ["n"] = { "<Cmd>vert G commit -v --amend --no-edit<CR>", "Git commit amend no-edit" },
-            },
-
-            ["p"] = {
-                name = "+push/pull",
-                ["p"] = { "<Cmd>G push -v<CR>", "Push" },
-                ["f"] = { "<Cmd>G push -v --force-with-lease<CR>", "Force push" },
-                ["l"] = { "<Cmd>G pull -v<CR>", "Git pull" },
-            }
         }
     }
 }

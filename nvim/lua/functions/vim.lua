@@ -53,10 +53,11 @@ M.save_last_command = function(command, cmd)
     vim.g.last_cmd = cmd
 end
 
-M.vterm = function(command)
+M.vterm = function(command, opts)
     -- TODO: that is akward
     local curfile = vim.fn.expand("%")
-    local full_command = ([[vsplit term://]] .. command .. [[ && sleep 0.1]])
+    local s = (opts.split and "split") or "vsplit"
+    local full_command = (s .. [[ term://]] .. command .. [[ && sleep 0.1]])
     local expanded_command = full_command.gsub(full_command, "%%", curfile)
     M.save_last_command(expanded_command, command)
     vim.cmd(expanded_command)

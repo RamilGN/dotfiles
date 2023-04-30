@@ -24,7 +24,12 @@ return {
                     },
                 })
 
-                require("config.keymaps_new").git(buffer)
+                local k = require("config.keymaps_new")
+                k.git.default(buffer)
+                k.git.signs(buffer)
+                k.git.fugitive(buffer)
+                k.git.linker(buffer)
+                k.git.telescope(buffer)
             end,
         },
         config = function(_, opts)

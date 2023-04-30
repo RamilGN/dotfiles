@@ -28,10 +28,9 @@ vim.api.nvim_create_user_command("GitShow",
         local commit_hash = opts.args
         if commit_hash == "" then
             local cword = vim.fn.expand("<cword>")
-            f.vim.closewin()
-            f.git.delta([[show -p --stat ]] .. cword)
+            f.git.delta([[show -p --stat ]] .. cword, { split = true })
         else
-            f.git.delta([[show -p --stat ]] .. commit_hash)
+            f.git.delta([[show -p --stat ]] .. commit_hash, { split = true })
         end
     end,
     { nargs = "?" }
