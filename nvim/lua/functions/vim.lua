@@ -54,10 +54,11 @@ M.save_last_command = function(command, cmd)
 end
 
 M.vterm = function(command, opts)
-    -- TODO: that is akward
+    opts = opts or {}
     local curfile = vim.fn.expand("%")
     local s = (opts.split and "split") or "vsplit"
     local full_command = (s .. [[ term://]] .. command .. [[ && sleep 0.1]])
+    -- TODO: that is akward
     local expanded_command = full_command.gsub(full_command, "%%", curfile)
     M.save_last_command(expanded_command, command)
     vim.cmd(expanded_command)
@@ -65,6 +66,18 @@ end
 
 M.keys = function(keys)
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), "n", true)
+end
+
+M.input = function(name, func)
+    return function()
+        vim.ui.input(name,
+            function(input)
+                if not input then
+                    return
+                end
+                func(input)
+            end)
+    end
 end
 
 return M

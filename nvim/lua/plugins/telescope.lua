@@ -3,6 +3,7 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
+        keys = require("config.keymaps_new").telescope,
         config = function()
             local telescope = require("telescope")
             local actions = require("telescope.actions")
