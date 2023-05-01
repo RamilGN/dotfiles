@@ -70,13 +70,13 @@ return {
                     lualine_b = { { "branch" }, { "diff", source = diff_source } },
                     lualine_c = {
                         { "diagnostics" },
-                        { "filetype",   icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-                        { "filename",   path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+                        { "filetype",   icon_only = true, separator = "",                                               padding = { left = 1, right = 0 } },
+                        { "filename",   path = 1,         symbols = { modified = "  ", readonly = "", unnamed = "" } },
                     },
                     lualine_x = {},
                     lualine_y = {},
                     lualine_z = {
-                        { "progress", separator = " ", padding = { left = 1, right = 0 } },
+                        { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
                         { "location", padding = { left = 0, right = 1 } },
                     },
                 },
@@ -190,6 +190,21 @@ return {
                 end,
             })
         end,
+    },
+
+    -- `TODO` comments
+    {
+        "folke/todo-comments.nvim",
+        cmd = { "TodoTrouble", "TodoTelescope" },
+        event = { "BufReadPost", "BufNewFile" },
+        config = true,
+        -- stylua: ignore
+        keys = {
+            { "]t",        function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
+            { "[t",        function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
+            { "<leader>t", "<cmd>TodoTelescope<cr>",                            desc = "Todo" },
+            { "<leader>T", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Todo/Fix/Fixme" },
+        },
     },
 
     -- Displaying colors

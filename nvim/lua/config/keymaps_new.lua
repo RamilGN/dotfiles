@@ -14,7 +14,7 @@ return {
         map("n", "<CR>", "m`o<Esc>``", { desc = "Insert space below cursor" })
         map("n", "<S-CR>", "m`O<Esc>``", { desc = "Insert space under cursor" })
 
-        map("n", "p", [["_dP]], { desc = "Replace without yanking" })
+        map("v", "p", [["_dP]], { desc = "Replace without yanking" })
         map({ "n", "v" }, "c", [["_c]], { desc = "Change without yanking" })
         map({ "n", "v" }, "C", [["_C]], { desc = "Change without yanking" })
     end,
