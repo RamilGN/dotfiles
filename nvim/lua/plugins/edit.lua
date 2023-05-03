@@ -43,6 +43,7 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         version = false,
         config = function(_, opts) require("mini.pairs").setup(opts) end,
-    }
+    },
 
+    { "nmac427/guess-indent.nvim", config = function() require("guess-indent").setup {} end }
 }

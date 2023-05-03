@@ -55,9 +55,31 @@ return {
                 keyword_length = 3
             }
 
+            local function border(hl_name)
+                return {
+                    { "╭", hl_name },
+                    { "─", hl_name },
+                    { "╮", hl_name },
+                    { "│", hl_name },
+                    { "╯", hl_name },
+                    { "─", hl_name },
+                    { "╰", hl_name },
+                    { "│", hl_name },
+                }
+            end
+
             cmp.setup({
-                completion = {
-                    completeopt = "menu,menuone,noinsert",
+                window = {
+                    completion = {
+                        side_padding = 0,
+                        completeopt = "menu,menuone,noinsert",
+                        winhighlight = "Normal:CmpPmenu,Search:PmenuSel",
+                    },
+                    documentation = {
+                        border = border("CmpDocBorder"),
+                        winhighlight = "Normal:CmpDoc",
+                        scrollbar = false
+                    },
                 },
                 snippet = {
                     expand = function(args)

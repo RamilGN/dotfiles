@@ -14,7 +14,7 @@ local exec = {
             local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
             if prefix then
                 local src = prefix .. ".go"
-                v.vterm("go test " .. src .. " " .. opts.current_buffer)
+                v.vterm("go test -cover " .. src .. " " .. opts.current_buffer)
             else
                 v.vterm("go run " .. opts.current_buffer)
             end

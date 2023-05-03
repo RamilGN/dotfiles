@@ -30,7 +30,6 @@ return {
         vim.opt.clipboard = "unnamedplus"     -- System clipboard
         vim.opt.undolevels = 10000
         vim.opt.pumheight = 12                -- Set maximum number of items in the pop-up menu
-        vim.opt.pumblend = 17                 -- Transparency for pop-up window
         vim.opt.scrollback = 100000           -- Scrollback lines for terminal buffer
         vim.opt.expandtab = true              -- Tabs to spaces
         vim.opt.tabstop = 4                   -- Number of spaces that tab counts for
