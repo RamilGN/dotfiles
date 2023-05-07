@@ -27,7 +27,6 @@ return {
                 local k = require("config.keymaps_new")
 
                 k.git.signs(buffer)
-                k.git.default(buffer)
             end,
         },
         config = function(_, opts)

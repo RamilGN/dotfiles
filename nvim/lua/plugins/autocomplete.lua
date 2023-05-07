@@ -16,7 +16,7 @@ return {
     -- Autocomplete
     {
         "hrsh7th/nvim-cmp",
-        event = "InsertEnter",
+        event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {
             { "hrsh7th/cmp-nvim-lsp" },
             { "hrsh7th/cmp-buffer" },
@@ -26,6 +26,7 @@ return {
         },
         config = function()
             local f = require("functions")
+            local k = require("config.keymaps_new")
             local cmp = require("cmp")
             local buffer_source = {
                 name = "buffer",
@@ -86,17 +87,7 @@ return {
                         require("luasnip").lsp_expand(args.body)
                     end,
                 },
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-u>"] = cmp.mapping.scroll_docs(-2),
-                    ["<C-d>"] = cmp.mapping.scroll_docs(2),
-                    ["<C-e>"] = cmp.mapping.abort(),
-                    ["<CR>"] = cmp.mapping.confirm({
-                            select = true,
-                            behavior = cmp.ConfirmBehavior.Replace,
-                        },
-                        { "i", "c" }
-                    )
-                }),
+                mapping = cmp.mapping.preset.insert(k.cmp()),
                 sources = {
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
@@ -104,7 +95,9 @@ return {
                     { name = "path" }
                 },
                 experimental = {
-                    ghost_text = true,
+                    ghost_text = {
+                        hl_group = "LspCodeLens",
+                    },
                 },
                 formatting = {
                     format = require("lspkind").cmp_format(),

@@ -14,14 +14,35 @@ return {
         map("n", "<CR>", "m`o<Esc>``", { desc = "Insert space below cursor" })
         map("n", "<S-CR>", "m`O<Esc>``", { desc = "Insert space under cursor" })
 
+        map("n", "<C-w>b", ":bd! %<CR>", { desc = "Close current buffer" })
+
         map("v", "p", [["_dP]], { desc = "Replace without yanking" })
         map({ "n", "v" }, "c", [["_c]], { desc = "Change without yanking" })
         map({ "n", "v" }, "C", [["_C]], { desc = "Change without yanking" })
+
+
+        map("t", "<C-[>", "<C-\\><C-n>", { desc = "Normal mode" })
+
+        map("n", "<C-k>", "<C-w><Up>", { desc = "Go to upper window" })
+        map("n", "<C-j>", "<C-w><down>", { desc = "Go to bottom window" })
+        map({ "i", "c", "t" }, "<C-j>", "<C-^>", { desc = "Switch layout" })
+        map("n", "<C-l>", "<C-w><right>", { desc = "Go to right window" })
+        map("n", "<C-h>", "<C-w><Left>", { desc = "Go to left window" })
+
+        map("n", "<C-Up>", "<Cmd>resize -2<CR>", { desc = "Resize horiz-" })
+        map("n", "<C-Down>", "<Cmd>resize +2<CR>", { desc = "Resize horiz+" })
+        map("n", "<C-Left>", "<Cmd>vertical resize -2<CR>", { desc = "Resize vert-" })
+        map("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { desc = "Resize vert+" })
+
+        map({ "n", "v" }, "<leader>gll", ":GitLog<CR>", { desc = "Git log" })
+        map("n", "<leader>glg", "<Cmd>GitLogG<CR>", { desc = "Git log global" })
+        map("n", "<leader>gii", "<Cmd>GitShow<CR>", { desc = "Git show" })
+        map("n", "<leader>gip", "<Cmd>GitShowPrev<CR>", { desc = "Git show prev" })
     end,
     luasnip          = function()
         return {
             {
-                "<C-f>",
+                "<Tab>",
                 function()
                     return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
                 end,
@@ -29,8 +50,17 @@ return {
                 silent = true,
                 mode = "i",
             },
-            { "<C-f>", function() require("luasnip").jump(1) end,  mode = "s" },
-            { "<C-d>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
+            { "<Tab>",   function() require("luasnip").jump(1) end,  mode = "s" },
+            { "<S-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } }, }
+    end,
+    cmp              = function()
+        local cmp = require("cmp")
+        return {
+            ["<C-u>"] = cmp.mapping.scroll_docs(-2),
+            ["<C-d>"] = cmp.mapping.scroll_docs(2),
+            ["<C-e>"] = cmp.mapping.abort(),
+            ["<CR>"] = cmp.mapping.confirm({ select = true }),
+            ["<S-CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
         }
     end,
     mini             = {
@@ -62,18 +92,6 @@ return {
         }
     end,
     git              = {
-        default = function(buffer)
-            local function map(mode, l, r, desc)
-                vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-            end
-
-            -- Git log
-            map({ "n", "v" }, "<leader>gll", ":GitLog<CR>", "Git log")
-            map("n", "<leader>glg", "<Cmd>GitLogG<CR>", "Git log global")
-
-            -- Git show
-            map("n", "<leader>gi", "<Cmd>GitShow<CR>", "Git show")
-        end,
         signs = function(buffer)
             local function map(mode, l, r, desc)
                 vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
@@ -120,6 +138,17 @@ return {
     neotree          = function()
         return {
             { "<C-Space>", "<Cmd>Neotree position=current reveal=true toggle=true<CR>", desc = "Open file explorer" }
+        }
+    end,
+    toggleterm       = function()
+        return {
+            { "<C-\\>",     "<Cmd>ToggleTerm<CR>",                      desc = "Toggle term" },
+            { "<leader>o1", "<Cmd>1ToggleTerm direction=float<CR>",     desc = "Toggle term1" },
+            { "<leader>o2", "<Cmd>2ToggleTerm direction=vertical<CR>",  desc = "Toggle term2" },
+            { "<C-1>",      "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>", desc = "Send line to term 1" },
+            { "<C-1>",      ":ToggleTermSendVisualSelectionNoTW 1<CR>", desc = "Send visual selection to term 1", mode = "v" },
+            { "<C-2>",      "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>", desc = "Send line to term 2" },
+            { "<C-2>",      ":ToggleTermSendVisualSelectionNoTW 2<CR>", desc = "Send visual selection to term 2", mode = "v" }
         }
     end,
     telescope        = function()

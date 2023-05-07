@@ -7,6 +7,7 @@ return {
         end
     },
 
+    -- File explorer
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
@@ -86,6 +87,7 @@ return {
     -- Terminal management
     {
         "akinsho/toggleterm.nvim",
+        cmd = "ToggleTerm",
         config = function()
             local toggleterm = require("toggleterm")
 
@@ -108,6 +110,7 @@ return {
                 auto_scroll = true
             }
         end,
+        keys = require("config.keymaps_new").toggleterm()
     },
 
     -- Markdown
