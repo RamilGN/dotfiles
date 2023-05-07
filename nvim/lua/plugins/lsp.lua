@@ -8,7 +8,8 @@ return {
                 "williamboman/mason.nvim",
                 config = function()
                     require("mason").setup()
-                end
+                end,
+                keys = require("config.keymaps").mason(),
             },
             { "williamboman/mason-lspconfig.nvim" },
             -- JSON schemas
@@ -133,6 +134,7 @@ return {
                 end
             }
 
+            -- TODO: Run only if ruby lsp is present
             require("wip.ruby").setup()
             for _, server_name in ipairs(mason_lsp_config.get_installed_servers()) do
                 local lsp_opts = {

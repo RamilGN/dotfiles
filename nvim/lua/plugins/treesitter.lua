@@ -14,15 +14,6 @@ return {
             },
             { "RRethy/nvim-treesitter-endwise" },
             { "windwp/nvim-ts-autotag" },
-            {
-                "danymat/neogen",
-                config = function()
-                    require("neogen").setup({
-                        snippet_engine = "luasnip",
-                        placeholders_hl = "None",
-                    })
-                end
-            }
         },
         config = function()
             require("nvim-treesitter.configs").setup({
@@ -127,5 +118,14 @@ return {
             vim.keymap.set("n", "]d", next_diag_repeat, { desc = "Next diag error" })
             vim.keymap.set("n", "[d", prev_diag_repeat, { desc = "Prev diag error" })
         end
+    },
+    {
+        "danymat/neogen",
+        opts = {
+            snippet_engine = "luasnip",
+            placeholders_hl = "None",
+        },
+        keys = require("config.keymaps").neogen()
     }
+
 }

@@ -24,7 +24,7 @@ return {
                     },
                 })
 
-                local k = require("config.keymaps_new")
+                local k = require("config.keymaps")
 
                 k.git.signs(buffer)
             end,
@@ -35,8 +35,8 @@ return {
     },
 
     -- Git aliases
-    { "tpope/vim-fugitive", cmd = "G", keys = require("config.keymaps_new").git.fugitive },
+    { "tpope/vim-fugitive", cmd = "G", keys = require("config.keymaps").git.fugitive },
 
     -- Git links
-    { "ruifm/gitlinker.nvim", lazy = true, keys = require("config.keymaps_new").git.linker }
+    { "ruifm/gitlinker.nvim", lazy = true, keys = require("config.keymaps").git.linker }
 }

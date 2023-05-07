@@ -2,7 +2,7 @@ return {
     -- Surroundings
     {
         "echasnovski/mini.surround",
-        keys = require("config.keymaps_new").mini.surround,
+        keys = require("config.keymaps").mini.surround,
         opts = {
             mappings = {
                 add = "ys",
@@ -34,7 +34,7 @@ return {
     -- Serach and replace
     {
         "nvim-pack/nvim-spectre",
-        keys = require("config.keymaps_new").spectre
+        keys = require("config.keymaps").spectre
     },
 
     -- Auto pairs

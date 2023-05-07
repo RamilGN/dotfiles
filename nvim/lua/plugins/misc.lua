@@ -2,16 +2,40 @@ return {
     -- Popup with suggestions to complete a key binding
     {
         "folke/which-key.nvim",
-        config = function()
-            require("which-key").setup()
-        end
+        event = "VeryLazy",
+        opts = {
+            plugins = { spelling = true },
+            defaults = {
+                mode = { "n", "v" },
+                ["g"] = { name = "+goto" },
+                ["]"] = { name = "+next" },
+                ["["] = { name = "+prev" },
+                ["<leader>g"] = { name = "+git" },
+                ["<leader>ga"] = { name = "+add" },
+                ["<leader>gc"] = { name = "+commit" },
+                ["<leader>gi"] = { name = "+info/show" },
+                ["<leader>gl"] = { name = "+log" },
+                ["<leader>go"] = { name = "+open" },
+                ["<leader>gp"] = { name = "+push/pull" },
+                ["<leader>p"] = { name = "+plugins/packages" },
+                ["<leader>ll"] = { name = "+server" },
+                ["<leader>r"] = { name = "+run" },
+                ["<leader>m"] = { name = "+misc" },
+                ["<leader>o"] = { name = "+open/toggle" },
+                ["<leader>h"] = { name = "+help" },
+            },
+        },
+        config = function(_, opts)
+            local wk = require("which-key")
+            wk.setup(opts)
+            wk.register(opts.defaults)
+        end,
     },
-
     -- File explorer
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
-        keys = require("config.keymaps_new").neotree,
+        keys = require("config.keymaps").neotree,
         cmd = "Neotree",
         config = function()
             require("neo-tree").setup({
@@ -87,11 +111,11 @@ return {
     -- Terminal management
     {
         "akinsho/toggleterm.nvim",
-        cmd = "ToggleTerm",
+        cmd = { "ToggleTerm", "TermExec" },
         config = function()
             local toggleterm = require("toggleterm")
 
-            toggleterm.setup {
+            toggleterm.setup({
                 size = function(term)
                     if term.direction == "horizontal" then
                         return 20
@@ -108,9 +132,27 @@ return {
                     border = "rounded",
                 },
                 auto_scroll = true
-            }
+            })
+
+            vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW",
+                function(opts)
+                    toggleterm = require("toggleterm")
+
+                    toggleterm.send_lines_to_terminal("single_line", false, opts)
+                end,
+                { nargs = "?" }
+            )
+
+            vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
+                function(opts)
+                    toggleterm = require("toggleterm")
+
+                    toggleterm.send_lines_to_terminal("visual_selection", false, opts)
+                end,
+                { range = true, nargs = "?" }
+            )
         end,
-        keys = require("config.keymaps_new").toggleterm()
+        keys = require("config.keymaps").toggleterm()
     },
 
     -- Markdown
@@ -119,7 +161,7 @@ return {
         build = "cd app && npm install",
         cmd = "MarkdownPreviewToggle",
         event = { "BufReadPost", "BufNewFile" },
-        keys = require("config.keymaps_new").markdown_preview,
+        keys = require("config.keymaps").markdown_preview,
     },
 
     -- Undo tree
@@ -130,6 +172,6 @@ return {
             vim.g.undotree_DiffAutoOpen = 0
             vim.g.undotree_SplitWidth = math.floor(vim.o.columns * 0.2)
         end,
-        keys = require("config.keymaps_new").undotree
+        keys = require("config.keymaps").undotree
     }
 }

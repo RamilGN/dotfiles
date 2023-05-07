@@ -59,22 +59,6 @@ return {
 
         -- TODO: move to functions
         -- ToggleTerm commands
-        vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW",
-            function(opts)
-                local toggleterm = require("toggleterm")
-
-                toggleterm.send_lines_to_terminal("single_line", false, opts)
-            end,
-            { nargs = "?" }
-        )
-        vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
-            function(opts)
-                local toggleterm = require("toggleterm")
-
-                toggleterm.send_lines_to_terminal("visual_selection", false, opts)
-            end,
-            { range = true, nargs = "?" }
-        )
 
         -- Run in vterm
         vim.api.nvim_create_user_command("V",

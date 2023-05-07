@@ -6,7 +6,7 @@ return {
             history = true,
             delete_check_events = "TextChanged",
         },
-        keys = require("config.keymaps_new").luasnip,
+        keys = require("config.keymaps").luasnip,
         config = function(_, opts)
             require("luasnip").config.set_config(opts)
             require("luasnip.loaders.from_snipmate").lazy_load()
@@ -26,7 +26,7 @@ return {
         },
         config = function()
             local f = require("functions")
-            local k = require("config.keymaps_new")
+            local k = require("config.keymaps")
             local cmp = require("cmp")
             local buffer_source = {
                 name = "buffer",
