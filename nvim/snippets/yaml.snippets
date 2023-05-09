@@ -1,0 +1,37 @@
+snippet !dockercmp
+	version: "3.8"
+	services:
+		app:
+			build: .
+			container_name: app
+			ports:
+				- 8084:8084
+			volumes:
+				- ./:/app
+			depends_on:
+				- postgres
+		postgres:
+			image: postgres:15.2-alpine
+			container_name: app-postgres
+			ports:
+				- 5832:5432
+			volumes:
+				- postgres:/var/lib/postgresql/data
+			environment:
+				POSTGRES_USER: postgres
+				POSTGRES_PASSWORD: postgres
+		swagger-ui:
+			image: swaggerapi/swagger-ui
+			container_name: app-swagger-ui
+			ports:
+				- 8083:8080
+			volumes:
+				- ./:/local
+			environment:
+				SWAGGER_JSON: /local/api/openapi.yml
+	volumes:
+		postgres:
+
+# Docker external host
+snippet !docker_external_ip
+	172.17.0.1:2990

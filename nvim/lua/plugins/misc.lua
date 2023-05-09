@@ -36,6 +36,14 @@ return {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
         keys = require("config.keymaps").neotree,
+        init = function()
+            if vim.fn.argc() == 1 then
+                local stat = vim.loop.fs_stat(vim.fn.argv(0))
+                if stat and stat.type == "directory" then
+                    require("neo-tree")
+                end
+            end
+        end,
         cmd = "Neotree",
         config = function()
             require("neo-tree").setup({

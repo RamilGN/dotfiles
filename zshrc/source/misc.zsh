@@ -1,3 +1,4 @@
+alias pg-sandbox='docker run --rm --name pg-sandbox -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres:14'
 alias ssh='TERM=xterm-256color ssh'
 alias vif="nvim \$(fzf --preview 'batcat --style=numbers --color=always --line-range :500 {}')"
 alias sudop='sudo -E env "PATH=$PATH"' # Save PATH for sudo
