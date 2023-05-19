@@ -1,2 +1,7 @@
 snippet !selectvals
   SELECT * FROM (VALUES (1, 'Alice'), (2, 'Bob'), (3, 'Eve')) AS names(id, name);
+
+snippet dropconnection
+  SELECT pg_terminate_backend(pg_stat_activity.pid)
+  FROM pg_stat_activity
+  WHERE pg_stat_activity.datname = 'TARGET_DB' AND pid != pg_backend_pid();

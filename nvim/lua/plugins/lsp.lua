@@ -9,13 +9,14 @@ return {
                 config = function()
                     require("mason").setup()
                 end,
+                cmd = "Mason",
                 keys = require("config.keymaps").mason(),
             },
             { "williamboman/mason-lspconfig.nvim" },
             -- JSON schemas
             { "b0o/schemastore.nvim" },
             -- LSP status
-            { "j-hui/fidget.nvim", config = function() require("fidget").setup() end },
+            { "j-hui/fidget.nvim",                config = function() require("fidget").setup() end },
 
         },
         config = function()
@@ -95,7 +96,6 @@ return {
                     "lua_ls",
                     "emmet_ls",
                     "gopls",
-                    "sqlls",
                     "pylsp",
                     "pyright",
                     "dockerls",
@@ -156,7 +156,10 @@ return {
             local null_ls = require("null-ls")
             require("null-ls").setup({
                 sources = {
-                    null_ls.builtins.diagnostics.markdownlint
+                    null_ls.builtins.diagnostics.markdownlint,
+                    null_ls.builtins.diagnostics.sqlfluff.with({
+                        extra_args = { "--dialect", "postgres" }
+                    })
                 },
             })
         end

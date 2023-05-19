@@ -5,7 +5,7 @@ return {
 
         map("n", "<leader>pp", "<Cmd>Lazy home<CR>", { desc = "Plugins" })
 
-        map("n", "#", ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", { desc = "Search word without jumping" })
+        map("n", "#", ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", { desc = "Search word without jumping", silent = true })
         map("v", "#", function() vim.cmd([[let @/="]] .. f.vim.get_visual_selection() .. [["]] .. [[ | set hls]]) end, { desc = "Search word without jumping" })
 
         map("n", "//", ":nohlsearch<CR>", { desc = "Turn off highlight" })
@@ -199,7 +199,6 @@ return {
             -- Core
             { "<C-/>",       "<Cmd>Telescope current_buffer_fuzzy_find<CR>",                                              desc = "Search buffer" },
             { "<C-/>",       function() t.current_buffer_fuzzy_find({ default_text = f.vim.get_visual_selection() }) end, desc = "Search buffer",          mode = "v" },
-            { "<C-/>" },
             { "<C-m>",       "<Cmd>Telescope resume<CR>",                                                                 desc = "Telescope resume" },
             { "<C-n>",       function() t.find_files({ default_text = f.vim.get_cur_buf_dir_rel_path() }) end,            desc = "Show current dir" },
             { "<C-b>",       "<Cmd>Telescope buffers<CR>",                                                                desc = "Current buffers" },

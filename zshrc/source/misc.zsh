@@ -7,6 +7,7 @@ alias zshcfg="nvim ~/dotfiles/zshrc/"
 alias trl="tree -LhaC 3 -I .gi"
 alias cdfc="cd \$(find * -type d | fzf)"
 alias cdfh="cd \$(find ~ -type d | fzf)"
+alias kgpar="kgpa --field-selector=status.phase=Running | fzf"
 
 function a {
     ALIAS_STR=$(alias | fzf)

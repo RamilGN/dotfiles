@@ -3,6 +3,9 @@
 ## Kill all
 alias dka="docker kill \$(docker ps -q)"
 
+## Inspect with shell
+alias dksh="docker run -it --rm --entrypoint=sh"
+
 LS_CONTAINER_FORMAT="table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.RunningFor}}"
 
 ## List running
