@@ -13,6 +13,9 @@ return {
         map("n", "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Up with line wrap", expr = true, silent = true })
         map("n", "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Down with line wrap", expr = true, silent = true })
 
+        map("v", "<", "<gv")
+        map("v", ">", ">gv")
+
         map("n", "<CR>", "m`o<Esc>``", { desc = "Insert space below cursor" })
         map("n", "<S-CR>", "m`O<Esc>``", { desc = "Insert space under cursor" })
 

@@ -13,8 +13,12 @@ local exec = {
         ["go"] = function(opts)
             local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
             if prefix then
-                local src = prefix .. ".go"
-                v.vterm("go test -race -bench=. -cover " .. src .. " " .. opts.current_buffer)
+                local curbufdirabspath = v.cur_buf_dir_abs_path()
+                local teststr = " "
+                if opts.selected then
+                    teststr = [[ -run=]] .. opts.selected .. [[ ]]
+                end
+                v.vterm([[go test -race -bench=. -cover]] .. teststr .. curbufdirabspath)
             else
                 v.vterm("go run " .. opts.current_buffer)
             end
@@ -40,6 +44,21 @@ local exec = {
         ["insales/tickets/spec"] = function(opts)
             local spec = r.get_cur_spec(opts.cmd_args)
             r.tickets_rspec(spec)
+        end,
+        -- TODO: create go runner
+        ["insales/yookassa"] = function(opts)
+            local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
+            if prefix then
+                local curbufrelpath = v.get_cur_buf_dir_rel_path()
+                local teststr = " "
+                if opts.selected then
+                    teststr = [[ -run=]] .. opts.selected .. [[ ]]
+                end
+                v.vterm([[docker exec -it yookassa sh -c 'ENV_PATH=/app/configs/.test.env go test -bench=. -cover]] .. teststr .. [[/app/]] .. curbufrelpath .. [[']])
+            else
+                local curbufrelpath = v.get_cur_buf_rel_path()
+                v.vterm([[docker exec -it yookassa go run .. /app/]] .. curbufrelpath)
+            end
         end
     },
 }
@@ -47,9 +66,16 @@ local exec = {
 M.run = function(cmd_args)
     local current_buffer = vim.fn.expand("%:p")
     local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+
+    local text = nil
+    if cmd_args.range > 0 then
+        text = v.get_visual_selection_v2()
+    end
+
     local opts = {
         current_buffer = current_buffer,
-        cmd_args = cmd_args
+        cmd_args = cmd_args,
+        selected = text,
     }
 
     -- Find exec by current_buffer path

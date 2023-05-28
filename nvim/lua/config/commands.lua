@@ -57,9 +57,6 @@ return {
             { nargs = "?", count = true }
         )
 
-        -- TODO: move to functions
-        -- ToggleTerm commands
-
         -- Run in vterm
         vim.api.nvim_create_user_command("V",
             function(opts)

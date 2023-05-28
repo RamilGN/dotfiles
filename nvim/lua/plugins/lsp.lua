@@ -159,7 +159,8 @@ return {
                     null_ls.builtins.diagnostics.markdownlint,
                     null_ls.builtins.diagnostics.sqlfluff.with({
                         extra_args = { "--dialect", "postgres" }
-                    })
+                    }),
+                    null_ls.builtins.formatting.goimports,
                 },
             })
         end
