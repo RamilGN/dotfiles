@@ -74,7 +74,7 @@ return {
     luasnip          = function()
         return {
             {
-                "<Tab>",
+                "<C-f>",
                 function()
                     return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
                 end,
@@ -82,8 +82,9 @@ return {
                 silent = true,
                 mode = "i",
             },
-            { "<Tab>",   function() require("luasnip").jump(1) end,  mode = "s" },
-            { "<S-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } }, }
+            { "<C-f>", function() require("luasnip").jump(1) end,  mode = { "s" } },
+            { "<C-d>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } }
+        }
     end,
     cmp              = function()
         local cmp = require("cmp")

@@ -1,8 +1,7 @@
-local v = require("functions.vim")
-
 local M = {}
 
 M.delta = function(command, opts)
+    local v = require("functions.vim")
     opts = opts or {}
     local delta = [[git --no-pager ]] .. command .. [[ \| delta --paging=never]]
     v.vterm(delta, opts)

@@ -34,7 +34,17 @@ return {
     -- Serach and replace
     {
         "nvim-pack/nvim-spectre",
+        cmd = "Spectre",
         keys = require("config.keymaps").spectre
+    },
+
+    -- Buffer remove
+    {
+        "echasnovski/mini.bufremove",
+        keys = {
+            { "<leader>bd", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
+            { "<leader>bD", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
+        },
     },
 
     -- Auto pairs
@@ -45,5 +55,5 @@ return {
         config = function(_, opts) require("mini.pairs").setup(opts) end,
     },
 
-    { "nmac427/guess-indent.nvim", config = function() require("guess-indent").setup {} end }
+    { "nmac427/guess-indent.nvim",                   config = function() require("guess-indent").setup {} end }
 }

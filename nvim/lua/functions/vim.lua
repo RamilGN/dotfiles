@@ -69,6 +69,7 @@ M.cur_buf_dir_abs_path = function()
 end
 
 M.save_last_command = function(command, cmd)
+    vim.g.previous_command = vim.g.last_command
     vim.g.last_command = command
     vim.g.last_cmd = cmd
 end

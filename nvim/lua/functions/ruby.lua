@@ -1,6 +1,8 @@
-local v = require("functions.vim")
-
 local M = {}
+
+M.ruby = function(opts)
+    require("functions.vim").vterm("ruby " .. opts.current_buffer)
+end
 
 M.get_cur_spec = function(opts)
     local line = nil
@@ -18,16 +20,19 @@ M.get_cur_spec = function(opts)
     return spec
 end
 
-M.insales_rspec = function(specs)
-    v.vterm([[docker exec -it -w /home/app/code insales_insales_1 bin/spring rspec ]] .. specs)
+M.insales_rspec = function(opts)
+    local spec = M.get_cur_spec(opts.cmd_args)
+    require("functions.vim").vterm([[docker exec -it -w /home/app/code insales_insales_1 bin/spring rspec ]] .. spec)
 end
 
-M.sync1c_rspec = function(specs)
-    v.vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1 bundle exec rspec ]] .. specs)
+M.sync1c_rspec = function(opts)
+    local spec = M.get_cur_spec(opts.cmd_args)
+    require("functions.vim").vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1 bundle exec rspec ]] .. spec)
 end
 
-M.tickets_rspec = function(specs)
-    v.vterm([[docker exec -it -w /tickets tickets_backend_1 bin/spring rspec ]] .. specs)
+M.tickets_rspec = function(opts)
+    local spec = M.get_cur_spec(opts.cmd_args)
+    require("functions.vim").vterm([[docker exec -it -w /tickets tickets_backend_1 bin/spring rspec ]] .. spec)
 end
 
 return M

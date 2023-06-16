@@ -72,7 +72,10 @@ return {
                             },
                             ["f"] = {
                                 {
-                                    function() vim.lsp.buf.format({ async = true }) end,
+                                    function()
+                                        vim.cmd([[silent! write]])
+                                        vim.lsp.buf.format({ async = true })
+                                    end,
                                     "Format",
                                 },
                                 {
@@ -161,6 +164,10 @@ return {
                         extra_args = { "--dialect", "postgres" }
                     }),
                     null_ls.builtins.formatting.goimports,
+                    null_ls.builtins.formatting.gofumpt.with({
+                        extra_args = { "-extra" }
+                    }),
+                    null_ls.builtins.formatting.prettierd
                 },
             })
         end

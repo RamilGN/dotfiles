@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -eu
 
 if [ "$#" -eq 3 ]; then
@@ -11,7 +12,6 @@ else
 fi
 
 exec nvim 63<&0 0</dev/null \
-    -u NONE \
     -c "map <silent> q :qa!<CR>" \
     -c "set shell=bash scrollback=100000 termguicolors laststatus=0 clipboard+=unnamedplus ic scs" \
     -c "autocmd TermEnter * stopinsert" \
