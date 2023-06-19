@@ -75,6 +75,7 @@ return {
                         side_padding = 0,
                         completeopt = "menu,menuone,noinsert",
                         winhighlight = "Normal:CmpPmenu,Search:PmenuSel",
+                        border = border("CmpDocBorder"),
                     },
                     documentation = {
                         border = border("CmpDocBorder"),

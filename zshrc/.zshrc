@@ -5,6 +5,7 @@ sources=(
   'docker'
   'git'
   'insales'
+  'secrets'
 )
 
 for s in "${sources[@]}"; do

@@ -37,7 +37,7 @@ M.go = function(opts)
         local teststr = M.teststr(opts.selected)
         v.vterm([[go test -v -race -cover -count=1 -benchmem -bench=.]] .. teststr .. curbufdirabspath)
     else
-        v.vterm("go run " .. opts.current_buffer)
+        v.vterm("go run .")
     end
 end
 

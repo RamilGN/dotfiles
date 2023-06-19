@@ -16,7 +16,7 @@ return {
             -- JSON schemas
             { "b0o/schemastore.nvim" },
             -- LSP status
-            { "j-hui/fidget.nvim",                config = function() require("fidget").setup() end },
+            { "j-hui/fidget.nvim",                config = function() require("fidget").setup() end, tag = "legacy" },
 
         },
         config = function()
