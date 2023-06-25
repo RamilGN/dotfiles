@@ -8,35 +8,7 @@ alias trl="tree -LhaC 3 -I .gi"
 alias cdfc="cd \$(find * -type d | fzf)"
 alias cdfh="cd \$(find ~ -type d | fzf)"
 alias kgpar="kgpa --field-selector=status.phase=Running | fzf"
-
-function gpt() {
-    echo -e "$@" | bat --style=grid
-
-    INPUT=$(echo "$@" | jq -Rsa '.')
-    JSON='{
-      "model": "gpt-3.5-turbo",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You are a helpful assistant."
-        },
-        {
-          "role": "user",
-          "content": '"$INPUT"'
-        }
-      ]
-   }'
-   JSON=$(echo -E $JSON | jq)
-
-   RES=$(curl https://api.openai.com/v1/chat/completions -s -H "Content-Type: application/json" -H "Authorization: Bearer $OPENAI_API_KEY" -d $JSON)
-   RES=$(echo -E $RES | jq '.choices[0].message.content' | sed 's/^"//; s/"$//')
-   print $RES | bat -P --style=grid -l md
-}
-
-function foo() {
-    INPUT=$(bat)
-    echo -E $INPUT
-}
+alias gpt="zsh ~/dotfiles/zshrc/scripts/gpt.zsh"
 
 function a {
     ALIAS_STR=$(alias | fzf)
