@@ -78,7 +78,7 @@ return {
         )
 
         -- GPT
-        vim.api.nvim_create_user_command("GPT",
+        vim.api.nvim_create_user_command("Gpt",
             function(opts)
                 local f = require("functions")
 

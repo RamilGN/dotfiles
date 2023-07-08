@@ -4,6 +4,7 @@ sources=(
   'languages'
   'docker'
   'git'
+  'curl'
   'insales'
   'secrets'
 )

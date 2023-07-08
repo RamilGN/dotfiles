@@ -37,14 +37,12 @@ return {
                     "query",
                     "regex",
                     "ruby",
-                    "sql",
                     "tsx",
                     "typescript",
                     "vim",
                     "vimdoc",
                     "yaml",
                 },
-                auto_install = true,
                 highlight = {
                     enable = true,
                     disable = function(_, bufnr)

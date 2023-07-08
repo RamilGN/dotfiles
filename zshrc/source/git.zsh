@@ -1,6 +1,7 @@
 # Stash && checkout main && pull && create new branch and checkout
 alias ghf="gstu && gcm && gl && gcb"
 alias gclean!="git clean -fd && git restore ."
+alias glb="git log $(git_current_branch) --not $(git_main_branch)"
 
 # Branch
 unalias gb; function gb {
@@ -11,6 +12,7 @@ unalias gb; function gb {
     git branch $@
   fi
 }
+
 ## Branch all
 unalias gba; function gba {
   echo $(git branch -a | fzf) | xargs | sed 's/remotes\/origin\///'

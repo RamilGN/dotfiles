@@ -73,7 +73,6 @@ return {
                             ["f"] = {
                                 {
                                     function()
-                                        vim.cmd([[silent! write]])
                                         vim.lsp.buf.format({ async = true })
                                     end,
                                     "Format",
@@ -158,12 +157,17 @@ return {
         config = function()
             local null_ls = require("null-ls")
             require("null-ls").setup({
+                should_attach = function(bufnr)
+                    local f = require("functions")
+                    return f.vim.get_buf_byte_size(bufnr) < vim.g.max_byte_size
+                end,
                 sources = {
                     null_ls.builtins.diagnostics.markdownlint,
                     null_ls.builtins.diagnostics.sqlfluff.with({
                         extra_args = { "--dialect", "postgres" }
                     }),
                     null_ls.builtins.formatting.goimports,
+                    null_ls.builtins.code_actions.gomodifytags,
                     null_ls.builtins.formatting.gofumpt.with({
                         extra_args = { "-extra" }
                     }),

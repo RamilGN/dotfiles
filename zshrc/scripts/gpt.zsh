@@ -4,7 +4,7 @@ if [[ $1 == "-f" ]]; then
   bat --paging=never $2
   INPUT=$(cat $2 | jq -Rsa '.')
 else
-  echo -e "$@" | bat --paging=never
+  echo -e "$@" | bat --paging=never --style=grid
   INPUT=$(echo "$@" | jq -Rsa '.')
 fi
 

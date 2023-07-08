@@ -152,16 +152,18 @@ return {
             map("n", "<leader>gu", "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk")
         end,
         fugitive = function()
+            local f = require("functions")
             return {
-                { "<leader>gg",  "<Cmd>vert G<CR>",                             desc = "Git" },
-                { "<leader>glo", "<Cmd>vert G log -n 1000<CR>",                 desc = "Git log 1000" },
-                { "<leader>gaa", "<Cmd>vert G add -v --patch<CR>",              desc = "Git add patch" },
-                { "<leader>gcc", "<Cmd>vert G commit -v<CR>",                   desc = "Git commit" },
-                { "<leader>gca", "<Cmd>vert G commit -v --amend<CR>",           desc = "Git commit amend" },
-                { "<leader>gcn", "<Cmd>vert G commit -v --amend --no-edit<CR>", desc = "Git commit amend no-edit" },
-                { "<leader>gpp", "<Cmd>G push -v<CR>",                          desc = "Push" },
-                { "<leader>gpf", "<Cmd>G push -v --force-with-lease<CR>",       desc = "Force push" },
-                { "<leader>gpl", "<Cmd>G pull -v<CR>",                          desc = "Git pull" },
+                { "<leader>gg",  "<Cmd>vert G<CR>",                                                                  desc = "Git" },
+                { "<leader>glo", "<Cmd>vert G log -n 1000<CR>",                                                      desc = "Git log 1000" },
+                { "<leader>gaa", "<Cmd>vert G add -v --patch<CR>",                                                   desc = "Git add patch" },
+                { "<leader>gcc", "<Cmd>vert G commit -v<CR>",                                                        desc = "Git commit" },
+                { "<leader>gca", "<Cmd>vert G commit -v --amend<CR>",                                                desc = "Git commit amend" },
+                { "<leader>gcn", "<Cmd>vert G commit -v --amend --no-edit<CR>",                                      desc = "Git commit amend no-edit" },
+                { "<leader>gcb", f.vim.input("Branch name", function(input) vim.cmd("G checkout -b " .. input) end), desc = "Git checkout new branch" },
+                { "<leader>gpp", "<Cmd>G push -v<CR>",                                                               desc = "Push" },
+                { "<leader>gpf", "<Cmd>G push -v --force-with-lease<CR>",                                            desc = "Force push" },
+                { "<leader>gpl", "<Cmd>G pull -v<CR>",                                                               desc = "Git pull" },
             }
         end,
         linker = function()
