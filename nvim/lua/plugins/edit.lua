@@ -38,15 +38,6 @@ return {
         keys = require("config.keymaps").spectre
     },
 
-    -- Buffer remove
-    {
-        "echasnovski/mini.bufremove",
-        keys = {
-            { "<leader>bd", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
-            { "<leader>bD", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
-        },
-    },
-
     -- Auto pairs
     {
         "echasnovski/mini.pairs",

@@ -61,10 +61,10 @@ return {
                     ["<C-q>"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "Live grep" },
                     ["g"] = {
                         ["d"] = { "<Cmd>Telescope lsp_definitions<CR>", "Go to defenition" },
-                        ["D"] = { "<Cmd>Telescope lsp_declarations<CR>", "Go to declaration" },
                         ["r"] = { "<Cmd>Telescope lsp_references<CR>", "Show references" },
+                        ["y"] = { "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition" },
                         ["I"] = { "<Cmd>Telescope lsp_implementations<CR>", "Go to Implementation" },
-                        ["T"] = { "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition" },
+                        ["D"] = { "<Cmd>Telescope lsp_declarations<CR>", "Go to declaration" },
                     },
                     ["<leader>"] = {
                         name = "+spc",
