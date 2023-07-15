@@ -57,12 +57,12 @@ return {
             { nargs = "?", count = true }
         )
 
-        -- Run in vterm
+        -- Run in terminal
         vim.api.nvim_create_user_command("V",
             function(opts)
                 local f = require("functions")
 
-                f.vim.vterm(opts.fargs[1])
+                f.vim.vterm("/bin/zsh -i -c '" .. opts.fargs[1] .. "'")
             end,
             { nargs = 1 }
         )

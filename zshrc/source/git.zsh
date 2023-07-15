@@ -49,17 +49,27 @@ function gcoa {
   git checkout $BRANCH
 }
 
-# Stash
-unalias gstl; function gstl {
+# stash index
+function _git_stash_index; {
   echo $(git stash list --format='%gd{%ch}: %gs' | fzf) | sed 's/stash@{//' | sed 's/}{.*//'
 }
-## Stash delete
+
+# stash list
+function _gstl {
+  STASH_INDEX=$(_git_stash_index)
+  [ ! -z "$STASH_INDEX" ] && git $1 stash show --text $STASH_INDEX
+}
+unalias gstl
+alias gstl="_gstl $1# git stash list and show"
+alias gstl-np="_gstl --no-pager | delta --paging=never # git stash list and show"
+
+# stash delete
 unalias gstd; function gstd {
-  STASH_INDEX=$(gstl)
+  STASH_INDEX=$(_git_stash_index)
   [ ! -z "$STASH_INDEX" ] && git stash drop $STASH_INDEX
 }
-## Stash apply
-function gsai {
-  STASH_INDEX=$(gstl)
+# stash apply
+function gsti {
+  STASH_INDEX=$(_git_stash_index)
   [ ! -z "$STASH_INDEX" ] && git stash apply --index $STASH_INDEX
 }

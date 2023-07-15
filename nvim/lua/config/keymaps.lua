@@ -92,8 +92,8 @@ return {
             ["<C-u>"] = cmp.mapping.scroll_docs(-2),
             ["<C-d>"] = cmp.mapping.scroll_docs(2),
             ["<C-e>"] = cmp.mapping.abort(),
-            ["<CR>"] = cmp.mapping.confirm({ select = true }),
-            ["<S-CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+            ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+            ["<S-CR>"] = cmp.mapping.confirm({ select = true }),
         }
     end,
     mini             = {
@@ -164,14 +164,8 @@ return {
                 { "<leader>gpp", "<Cmd>G push -v<CR>",                                                               desc = "Push" },
                 { "<leader>gpf", "<Cmd>G push -v --force-with-lease<CR>",                                            desc = "Force push" },
                 { "<leader>gpl", "<Cmd>G pull -v<CR>",                                                               desc = "Git pull" },
-            }
-        end,
-        linker = function()
-            local gitlinker = require("gitlinker")
-
-            return {
-                { "<leader>gy", function() gitlinker.get_buf_range_url("n") end, desc = "Git copy link" },
-                { "<leader>gy", function() gitlinker.get_buf_range_url("v") end, desc = "Git copy link", mode = "v" }
+                { "<leader>gyy", ":GBrowse!<CR>",                                                                    desc = "Git copy link",           mode = { "n", "v" } },
+                { "<leader>gyo", ":GBrowse<CR>",                                                                     desc = "Git open link",           mode = { "n", "v" } }
             }
         end,
     },

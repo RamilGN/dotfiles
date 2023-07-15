@@ -66,7 +66,7 @@ return {
                     system_open = function(state)
                         local node = state.tree:get_node()
                         local path = node:get_id()
-                        vim.api.nvim_command([[silent !xdg-open ]] .. path)
+                        vim.cmd("call jobstart('xdg-open " .. path .. "')")
                     end,
                     run_command = function(state)
                         local node = state.tree:get_node()

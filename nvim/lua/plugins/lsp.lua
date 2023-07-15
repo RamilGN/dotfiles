@@ -8,6 +8,25 @@ return {
                 "williamboman/mason.nvim",
                 config = function()
                     require("mason").setup()
+
+                    require("mason-lspconfig").setup({
+                        ensure_installed = {
+                            "solargraph",
+                            "lua_ls",
+                            "emmet_ls",
+                            "gopls",
+                            "pylsp",
+                            "pyright",
+                            "dockerls",
+                            "bashls",
+                            "tsserver",
+                            "html",
+                            "cssls",
+                            "jsonls",
+                            "yamlls",
+                            "dockerls"
+                        }
+                    })
                 end,
                 cmd = "Mason",
                 keys = require("config.keymaps").mason(),
@@ -20,13 +39,6 @@ return {
 
         },
         config = function()
-            local wk = require("which-key")
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-            local lspconfig = require("lspconfig")
-            local schemastore = require("schemastore")
-            local mason_lsp_config = require("mason-lspconfig")
-
             -- Diagnositc signs
             vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
             vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
@@ -89,34 +101,24 @@ return {
                     }
                 }
 
-                wk.register(keymaps)
+                require("which-key").register(keymaps)
             end
 
-            mason_lsp_config.setup({
-                ensure_installed = {
-                    "solargraph",
-                    "lua_ls",
-                    "emmet_ls",
-                    "gopls",
-                    "pylsp",
-                    "pyright",
-                    "dockerls",
-                    "bashls",
-                    "tsserver",
-                    "html",
-                    "cssls",
-                    "jsonls",
-                    "yamlls",
-                    "dockerls"
-                }
-            })
 
             local server_opts = {
                 ["jsonls"] = function(options)
                     options.settings = {
                         json = {
-                            schemas = schemastore.json.schemas(),
+                            schemas = require("schemastore").json.schemas(),
                             validate = { enable = true }
+                        }
+                    }
+                end,
+                ["yamlls"] = function(options)
+                    options.settings = {
+                        yaml = {
+                            schemas = require("schemastore").yaml.schemas(),
+                            keyOrdering = false
                         }
                     }
                 end,
@@ -127,25 +129,62 @@ return {
                         on_attach(client, bufnr)
                     end
                 end,
-                ["yamlls"] = function(options)
+                ["gopls"] = function(options)
                     options.settings = {
-                        yaml = {
-                            keyOrdering = false
-                        }
+                        gopls = {
+                            gofumpt = true,
+                            codelenses = {
+                                gc_details = false,
+                                generate = true,
+                                regenerate_cgo = true,
+                                run_govulncheck = true,
+                                test = true,
+                                tidy = true,
+                                upgrade_dependency = true,
+                                vendor = true,
+                            },
+                            hints = {
+                                assignVariableTypes = true,
+                                compositeLiteralFields = true,
+                                compositeLiteralTypes = true,
+                                constantValues = true,
+                                functionTypeParameters = true,
+                                parameterNames = true,
+                                rangeVariableTypes = true,
+                            },
+                            analyses = {
+                                -- fieldalignment = true,
+                                nilness = true,
+                                unusedparams = true,
+                                unusedwrite = true,
+                                useany = true,
+                            },
+                            usePlaceholders = true,
+                            completeUnimported = true,
+                            staticcheck = true,
+                            directoryFilters = { "-.git", "-node_modules" },
+                            semanticTokens = true,
+                        },
                     }
                 end
             }
 
             -- TODO: Run only if ruby lsp is present
             require("wip.ruby").setup()
-            for _, server_name in ipairs(mason_lsp_config.get_installed_servers()) do
+
+            local lspconfig = require("lspconfig")
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+            for _, server_name in ipairs(require("mason-lspconfig").get_installed_servers()) do
                 local lsp_opts = {
                     on_attach = on_attach,
                     capabilities = capabilities,
                 }
+
                 if server_opts[server_name] then
                     server_opts[server_name](lsp_opts)
                 end
+
                 lspconfig[server_name].setup(lsp_opts)
             end
         end

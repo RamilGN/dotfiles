@@ -14,18 +14,7 @@ return {
                 topdelete    = { hl = "GitSignsDelete", text = "│" },
             },
             on_attach = function(buffer)
-                -- Links
-                require("gitlinker").setup({
-                    opts = {
-                        print_url = false,
-                    },
-                    callbacks = {
-                        ["gitlab.insales.ru"] = require("gitlinker.hosts").get_gitlab_type_url
-                    },
-                })
-
                 local k = require("config.keymaps")
-
                 k.git.signs(buffer)
             end,
         },
@@ -35,8 +24,12 @@ return {
     },
 
     -- Git aliases
-    { "tpope/vim-fugitive", cmd = "G", keys = require("config.keymaps").git.fugitive },
-
-    -- Git links
-    { "ruifm/gitlinker.nvim", lazy = true, keys = require("config.keymaps").git.linker }
+    { "tpope/vim-fugitive", cmd = { "G", "GBrowse" }, keys = require("config.keymaps").git.fugitive },
+    {
+        "shumphrey/fugitive-gitlab.vim",
+        config = function()
+            vim.g.fugitive_gitlab_domains = { "https://gitlab.insalesteam.ru" }
+        end
+    },
+    { "tpope/vim-rhubarb" },
 }
