@@ -3,6 +3,7 @@ return {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
+            { "folke/neodev.nvim",                opts = {} },
             -- Package manager
             {
                 "williamboman/mason.nvim",
@@ -35,11 +36,21 @@ return {
             -- JSON schemas
             { "b0o/schemastore.nvim" },
             -- LSP status
-            { "j-hui/fidget.nvim",                config = function() require("fidget").setup() end, tag = "legacy" },
+            {
+                "j-hui/fidget.nvim",
+                config = function()
+                    require("fidget").setup({
+                        window = {
+                            blend = 0,
+                        }
+                    })
+                end,
+                tag = "legacy"
+            },
 
         },
         config = function()
-            -- Diagnositc signs
+            -- Diagnostic signs
             vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
             vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
             vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
@@ -60,7 +71,7 @@ return {
                     -- Fast shortcuts
                     ["<C-q>"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "Live grep" },
                     ["g"] = {
-                        ["d"] = { "<Cmd>Telescope lsp_definitions<CR>", "Go to defenition" },
+                        ["d"] = { "<Cmd>Telescope lsp_definitions<CR>", "Go to definition" },
                         ["r"] = { "<Cmd>Telescope lsp_references<CR>", "Show references" },
                         ["y"] = { "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition" },
                         ["I"] = { "<Cmd>Telescope lsp_implementations<CR>", "Go to Implementation" },
@@ -129,6 +140,15 @@ return {
                         on_attach(client, bufnr)
                     end
                 end,
+                ["lua_ls"] = function(options)
+                    options.settings = {
+                        Lua = {
+                            completion = {
+                                callSnippet = "Replace"
+                            }
+                        }
+                    }
+                end,
                 ["gopls"] = function(options)
                     options.settings = {
                         gopls = {
@@ -172,9 +192,10 @@ return {
             -- TODO: Run only if ruby lsp is present
             require("wip.ruby").setup()
 
+            require("neodev").setup()
+
             local lspconfig = require("lspconfig")
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+            local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
             for _, server_name in ipairs(require("mason-lspconfig").get_installed_servers()) do
                 local lsp_opts = {
                     on_attach = on_attach,
@@ -189,13 +210,32 @@ return {
             end
         end
     },
-
     {
-        "jose-elias-alvarez/null-ls.nvim",
+        "jay-babu/mason-null-ls.nvim",
         event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "williamboman/mason.nvim",
+            "jose-elias-alvarez/null-ls.nvim",
+        },
+
         config = function()
+            require("mason").setup()
+
+            require("mason-null-ls").setup({
+                ensure_installed = {
+                    "markdownlint",
+                    "sqlfluff",
+                    "goimports",
+                    "gomodifytags",
+                    "gofumpt",
+                    "prettierd",
+                    "codespell",
+                },
+                automatic_installation = true,
+            })
+
             local null_ls = require("null-ls")
-            require("null-ls").setup({
+            null_ls.setup({
                 should_attach = function(bufnr)
                     local f = require("functions")
                     return f.vim.get_buf_byte_size(bufnr) < vim.g.max_byte_size
@@ -210,7 +250,8 @@ return {
                     null_ls.builtins.formatting.gofumpt.with({
                         extra_args = { "-extra" }
                     }),
-                    null_ls.builtins.formatting.prettierd
+                    null_ls.builtins.formatting.prettierd,
+                    null_ls.builtins.formatting.codespell
                 },
             })
         end

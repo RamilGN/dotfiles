@@ -16,6 +16,8 @@ return {
                 ["<leader>gi"] = { name = "+info/show" },
                 ["<leader>gl"] = { name = "+log" },
                 ["<leader>go"] = { name = "+open" },
+                ["<leader>gs"] = { name = "+stash/stage" },
+                ["<leader>gy"] = { name = "+yank/open" },
                 ["<leader>gp"] = { name = "+push/pull" },
                 ["<leader>p"] = { name = "+plugins/packages" },
                 ["<leader>ll"] = { name = "+server" },

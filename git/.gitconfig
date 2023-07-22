@@ -33,3 +33,6 @@
 
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
+
+[includeIf "gitdir:~/insales/"]
+  path = ~/insales/.gitconfig

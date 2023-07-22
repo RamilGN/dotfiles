@@ -13,8 +13,14 @@ return {
             {
                 "nvim-treesitter/nvim-treesitter-context",
                 config = function()
-                    require("treesitter-context").setup()
-                end
+                    require("treesitter-context").setup({
+                        on_attach = function(bufnr)
+                            if require("functions").vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size then
+                                vim.cmd("TSContextDisable")
+                            end
+                        end
+                    })
+                end,
             },
             { "RRethy/nvim-treesitter-endwise" },
             { "windwp/nvim-ts-autotag" },
@@ -25,6 +31,10 @@ return {
                     "bash",
                     "c",
                     "go",
+                    "go",
+                    "gomod",
+                    "gosum",
+                    "gowork",
                     "html",
                     "javascript",
                     "json",
@@ -46,8 +56,7 @@ return {
                 highlight = {
                     enable = true,
                     disable = function(_, bufnr)
-                        local f = require("functions")
-                        return f.vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
+                        return require("functions").vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
                     end
                 },
                 indent = { enable = true },

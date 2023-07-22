@@ -52,7 +52,11 @@ M.get_visual_selection_v2 = function()
     return table.concat(lines, "\n")
 end
 
-M.get_cur_buf_rel_path = function()
+M.get_cur_buf_rel_path = function(should_append_line_num)
+    local buf_rel_path = vim.fn.expand("%:p:.")
+    if should_append_line_num then
+        return buf_rel_path .. ":" .. vim.fn.line(".")
+    end
     return vim.fn.expand("%:p:.")
 end
 

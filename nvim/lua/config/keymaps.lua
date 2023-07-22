@@ -16,6 +16,10 @@ return {
         map("v", "<", "<gv")
         map("v", ">", ">gv")
 
+        -- Follow line number with `gf`.
+        map("n", "gf", "gF")
+        map("n", "gF", "gf")
+
         map("n", "<CR>", "m`o<Esc>``", { desc = "Insert space below cursor" })
         map("n", "<S-CR>", "m`O<Esc>``", { desc = "Insert space under cursor" })
 
@@ -147,25 +151,35 @@ return {
             map("n", "<leader>gv", "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk")
             map("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk")
             map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer")
-            map("n", "<leader>gs", "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk")
-            map("n", "<leader>gS", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
+            map("n", "<leader>gsh", "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk")
+            map("n", "<leader>gsb", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
             map("n", "<leader>gu", "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk")
         end,
         fugitive = function()
             local f = require("functions")
             return {
                 { "<leader>gg",  "<Cmd>vert G<CR>",                                                                  desc = "Git" },
-                { "<leader>glo", "<Cmd>vert G log -n 1000<CR>",                                                      desc = "Git log 1000" },
+
                 { "<leader>gaa", "<Cmd>vert G add -v --patch<CR>",                                                   desc = "Git add patch" },
-                { "<leader>gcc", "<Cmd>vert G commit -v<CR>",                                                        desc = "Git commit" },
+
+                { "<leader>glo", "<Cmd>vert G log -n 1000<CR>",                                                      desc = "Git log 1000" },
+
+                { "<leader>gstl", "<Cmd>V gstl-np<CR>",                                                               desc = "Git stash list" },
+                { "<leader>gsti", "<Cmd>V gsti<CR>",                                                                  desc = "Git stash apply" },
+
                 { "<leader>gca", "<Cmd>vert G commit -v --amend<CR>",                                                desc = "Git commit amend" },
-                { "<leader>gcn", "<Cmd>vert G commit -v --amend --no-edit<CR>",                                      desc = "Git commit amend no-edit" },
                 { "<leader>gcb", f.vim.input("Branch name", function(input) vim.cmd("G checkout -b " .. input) end), desc = "Git checkout new branch" },
-                { "<leader>gpp", "<Cmd>G push -v<CR>",                                                               desc = "Push" },
+                { "<leader>gcc", "<Cmd>vert G commit -v<CR>",                                                        desc = "Git commit" },
+                { "<leader>gcm", "<Cmd>V gcm<CR>",                                                                   desc = "Git checkout master" },
+                { "<leader>gco", "<Cmd>V gco<CR>",                                                                   desc = "Git checkout" },
+                { "<leader>gcn", "<Cmd>vert G commit -v --amend --no-edit<CR>",                                      desc = "Git commit amend no-edit" },
+
+
                 { "<leader>gpf", "<Cmd>G push -v --force-with-lease<CR>",                                            desc = "Force push" },
                 { "<leader>gpl", "<Cmd>G pull -v<CR>",                                                               desc = "Git pull" },
+                { "<leader>gpp", "<Cmd>G push -v<CR>",                                                               desc = "Push" },
+                { "<leader>gyo", ":GBrowse<CR>",                                                                     desc = "Git open link",           mode = { "n", "v" } },
                 { "<leader>gyy", ":GBrowse!<CR>",                                                                    desc = "Git copy link",           mode = { "n", "v" } },
-                { "<leader>gyo", ":GBrowse<CR>",                                                                     desc = "Git open link",           mode = { "n", "v" } }
             }
         end,
     },

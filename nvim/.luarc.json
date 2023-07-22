@@ -8,5 +8,6 @@
     ],
     "Lua.diagnostics.neededFileStatus": {
         "codestyle-check": "Any"
-    }
+    },
+    "workspace.checkThirdParty": false
 }

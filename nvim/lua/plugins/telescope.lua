@@ -48,6 +48,9 @@ return {
                         },
                         find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" }
                     },
+                    live_grep = {
+                        glob_pattern = { "!vendor" },
+                    },
                     buffers = {
                         theme = "dropdown",
                         sorting_strategy = "ascending",

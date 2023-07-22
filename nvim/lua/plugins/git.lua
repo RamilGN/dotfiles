@@ -24,11 +24,11 @@ return {
     },
 
     -- Git aliases
-    { "tpope/vim-fugitive", cmd = { "G", "GBrowse" }, keys = require("config.keymaps").git.fugitive },
+    { "tpope/vim-fugitive", keys = require("config.keymaps").git.fugitive },
     {
         "shumphrey/fugitive-gitlab.vim",
         config = function()
-            vim.g.fugitive_gitlab_domains = { "https://gitlab.insalesteam.ru" }
+            vim.g.fugitive_gitlab_domains = { "https://gitlab.insales.ru" }
         end
     },
     { "tpope/vim-rhubarb" },

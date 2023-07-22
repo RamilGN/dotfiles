@@ -48,6 +48,7 @@ return {
         event = "VeryLazy",
         opts = function()
             local function diff_source()
+                ---@diagnostic disable-next-line: undefined-field
                 local gitsigns = vim.b.gitsigns_status_dict
                 if gitsigns then
                     return {
@@ -70,8 +71,23 @@ return {
                     lualine_b = { { "branch" }, { "diff", source = diff_source } },
                     lualine_c = {
                         { "diagnostics" },
-                        { "filetype",   icon_only = true, separator = "",                                               padding = { left = 1, right = 0 } },
-                        { "filename",   path = 1,         symbols = { modified = "  ", readonly = "", unnamed = "" } },
+                        {
+                            "filetype",
+                            icon_only = true,
+                            separator = "",
+                            padding = {
+                                left = 1, right = 0 }
+                        },
+                        { "filename",   path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+                        {
+                            function()
+                                return require("nvim-navic").get_location()
+                            end,
+                            cond = function()
+                                return package.loaded["nvim-navic"] and
+                                    require("nvim-navic").is_available()
+                            end,
+                        },
                     },
                     lualine_x = {},
                     lualine_y = {},
@@ -97,7 +113,8 @@ return {
         },
         init = function()
             vim.api.nvim_create_autocmd("FileType", {
-                pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason", "toggleterm", "undotree" },
+                pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason", "toggleterm",
+                    "undotree" },
                 callback = function()
                     vim.b.miniindentscope_disable = true
                 end,
@@ -111,10 +128,12 @@ return {
         "stevearc/dressing.nvim",
         lazy = true,
         init = function()
+            ---@diagnostic disable-next-line: duplicate-set-field
             vim.ui.select = function(...)
                 require("lazy").load({ plugins = { "dressing.nvim" } })
                 return vim.ui.select(...)
             end
+            ---@diagnostic disable-next-line: duplicate-set-field
             vim.ui.input = function(...)
                 require("lazy").load({ plugins = { "dressing.nvim" } })
                 return vim.ui.input(...)

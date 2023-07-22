@@ -40,7 +40,7 @@ return {
                                 bufs[buf] = true
                             end
                         end
-                        local prev_buf = vim.fn.bufnr("#")
+                        local prev_buf = vim.fn.bufnr(0)
                         if prev_buf == -1 then
                             return vim.tbl_keys(bufs)
                         end
@@ -53,7 +53,7 @@ return {
                     end,
                     keyword_pattern = [[\k\+]],
                 },
-                keyword_length = 3
+                keyword_length = 2
             }
 
             local function border(hl_name)

@@ -105,7 +105,7 @@ return {
                     local text = table.concat(opts.fargs, " ")
                     gpt("'" .. text .. "'")
                 else
-                    vim.api.nvim_echo({ { "Please, provide args", "WarningMsg" } }, {}, {})
+                    vim.api.nvim_echo({ { "Please, provide args", "WarningMsg" } }, false, {})
                 end
             end,
             { nargs = "*", range = true }
