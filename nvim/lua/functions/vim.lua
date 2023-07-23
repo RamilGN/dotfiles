@@ -60,6 +60,10 @@ M.get_cur_buf_rel_path = function(should_append_line_num)
     return vim.fn.expand("%:p:.")
 end
 
+M.copy_rel_path_line_to_buffer = function()
+    vim.fn.setreg("+", M.get_cur_buf_rel_path(true))
+end
+
 M.get_cur_buf_dir_rel_path = function()
     local path = vim.fn.expand("%:p:.:h")
     if path == "." then

@@ -1,3 +1,5 @@
+local fu = function(fu) return fu end
+
 return {
     core             = function()
         local f = require("functions")
@@ -74,6 +76,8 @@ return {
 
         map("n", "<leader>oq", "<Cmd>copen<CR>", { desc = "Open quick fix list" })
         map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
+
+        map("n", "<leader>by", fu(f.vim.copy_rel_path_line_to_buffer), { desc = "Bookmark yank line" })
     end,
     luasnip          = function()
         return {
