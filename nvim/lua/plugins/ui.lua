@@ -6,6 +6,7 @@ return {
         priority = 1000,
         config = function()
             require("kanagawa").setup({
+                compile = true,
                 undercurl = true,
                 commentStyle = { italic = true },
                 functionStyle = {},
@@ -237,5 +238,4 @@ return {
 
     -- UI components
     { "MunifTanjim/nui.nvim",        lazy = true },
-
 }

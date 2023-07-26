@@ -106,7 +106,7 @@ return {
                                     mode = "v",
                                 }
                             },
-                            ["w"] = { "<Cmd>Telescope lsp_workspace_symbols<CR>", "Workspace symbols" },
+                            ["w"] = { "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", "Workspace symbols" },
                         },
 
                     }

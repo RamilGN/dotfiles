@@ -1,5 +1,5 @@
 return {
-    -- Popup with suggestions to complete a key binding
+    -- Popup with suggestions to complete a key binding.
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
@@ -33,13 +33,14 @@ return {
             wk.register(opts.defaults)
         end,
     },
-    -- File explorer
+    -- File explorer.
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v2.x",
         keys = require("config.keymaps").neotree,
         init = function()
             if vim.fn.argc() == 1 then
+                ---@diagnostic disable-next-line: param-type-mismatch
                 local stat = vim.loop.fs_stat(vim.fn.argv(0))
                 if stat and stat.type == "directory" then
                     require("neo-tree")
@@ -115,8 +116,7 @@ return {
             }
         }
     },
-
-    -- Terminal management
+    -- Terminal management.
     {
         "akinsho/toggleterm.nvim",
         cmd = { "ToggleTerm", "TermExec" },
@@ -162,8 +162,7 @@ return {
         end,
         keys = require("config.keymaps").toggleterm()
     },
-
-    -- Markdown
+    -- Markdown.
     {
         "iamcco/markdown-preview.nvim",
         build = "cd app && npm install",
@@ -171,8 +170,32 @@ return {
         event = { "BufReadPost", "BufNewFile" },
         keys = require("config.keymaps").markdown_preview,
     },
-
-    -- Undo tree
+    -- YAML.
+    {
+        "cuducos/yaml.nvim",
+        ft = { "yaml" },
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-telescope/telescope.nvim",
+        },
+        keys = require("config.keymaps").yaml,
+        cmd = { "YAMLTelescope" }
+    },
+    -- Better quickfix-list.
+    {
+        "kevinhwang91/nvim-bqf",
+        ft = { "qf" },
+        config = function()
+            require("bqf").setup({
+                preview = {
+                    winblend = 0,
+                    border = "none",
+                    win_height = 999
+                },
+            })
+        end
+    },
+    -- Undo-tree.
     {
         "mbbill/undotree",
         cmd = "UndotreeToggle",

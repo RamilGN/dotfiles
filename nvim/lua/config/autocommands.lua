@@ -35,7 +35,15 @@ return {
         vim.api.nvim_create_autocmd("BufWritePre", {
             group = augroup("trimspaces"),
             pattern = "*",
-            command = [[%s/\s\+$//e]],
+            callback = function()
+                local buf = vim.api.nvim_get_current_buf()
+                if vim.fn.getbufvar(buf, "&modifiable") == 0 then
+                    return
+                end
+
+                vim.cmd([[%s/\s\+$//e]])
+            end
+            ,
         })
 
         -- Auto create dir when saving a file, in case some intermediate directory does not exist.

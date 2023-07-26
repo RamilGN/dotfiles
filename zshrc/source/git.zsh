@@ -1,9 +1,9 @@
-# Stash && checkout main && pull && create new branch and checkout
+# Stash && checkout main && pull && create new branch and checkout.
 alias ghf="gstu && gcm && gl && gcb"
-alias gclean!="git clean -fd && git restore ."
+alias gclean!="git clean -fd && grs . && grst ."
 alias glb="git log $(git_current_branch) --not $(git_main_branch)"
 
-# Branch
+# Branch.
 unalias gb; function gb {
   if [ $# -eq 0 ]
   then
@@ -13,22 +13,22 @@ unalias gb; function gb {
   fi
 }
 
-## Branch all
+## Branch all.
 unalias gba; function gba {
   echo $(git branch -a | fzf) | xargs | sed 's/remotes\/origin\///'
 }
-## Branch delete
+## Branch delete.
 unalias gbd; function gbd {
   BRANCH=$(gb)
   [ ! -z "$BRANCH" ] && git branch -d $BRANCH
 }
-## Branch force delete
+## Branch force delete.
 unalias gbD; function gbD {
   BRANCH=$(gb)
   [ ! -z "$BRANCH" ] && git branch -D $BRANCH
 }
 
-# Checkout
+# Checkout.
 unalias gco; function gco {
   if [ $# -eq 0 ]
   then
@@ -36,9 +36,9 @@ unalias gco; function gco {
   else
    BRANCH=$@
   fi
-  [ ! -z "$BRANCH" ] && git checkout $BRANCH
+  [ ! -z "$BRANCH" ] && git checkout $(echo $BRANCH | sed 's/^\*\s*//')
 }
-# Checkout all
+# Checkout all.
 function gcoa {
   if [ $# -eq 0 ]
   then
@@ -46,15 +46,15 @@ function gcoa {
   else
     BRANCH=$@
   fi
-  git checkout $BRANCH
+  [ ! -z "$BRANCH" ] && git checkout $(echo $BRANCH | sed 's/^\*\s*//')
 }
 
-# stash index
+# Stash index.
 function _git_stash_index; {
   echo $(git stash list --format='%gd{%ch}: %gs' | fzf) | sed 's/stash@{//' | sed 's/}{.*//'
 }
 
-# stash list
+# Stash list.
 function _gstl {
   STASH_INDEX=$(_git_stash_index)
   [ ! -z "$STASH_INDEX" ] && git $1 stash show --text $STASH_INDEX
@@ -63,12 +63,12 @@ unalias gstl
 alias gstl="_gstl $1# git stash list and show"
 alias gstl-np="_gstl --no-pager | delta --paging=never # git stash list and show"
 
-# stash delete
+# Stash delete.
 unalias gstd; function gstd {
   STASH_INDEX=$(_git_stash_index)
   [ ! -z "$STASH_INDEX" ] && git stash drop $STASH_INDEX
 }
-# stash apply
+# Stash apply.
 function gsti {
   STASH_INDEX=$(_git_stash_index)
   [ ! -z "$STASH_INDEX" ] && git stash apply --index $STASH_INDEX
