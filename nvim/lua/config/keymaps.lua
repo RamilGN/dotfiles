@@ -134,22 +134,17 @@ return {
             { "<leader>om", "<Cmd>MarkdownPreviewToggle<CR>", desc = "Toggle markdown preview" },
         }
     end,
-    undotree         = function()
-        return {
-            { "<leader>ou", "<Cmd>UndotreeToggle<CR>", desc = "Undo tree" },
-        }
-    end,
     git              = {
         signs = function(buffer)
             local function map(mode, l, r, desc)
                 vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
             end
+            local gs = package.loaded.gitsigns
             -- Blame.
             map("n", "<leader>gb", "<Cmd>Gitsigns blame_line<CR>", "Git blame_line")
             -- Diff.
-            map("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>", "Git diff")
+            map("n", "<leader>gd", "<Cmd>Gitsigns diffthis split=botright<CR>", "Git diff")
             -- Hunks.
-            local gs = package.loaded.gitsigns
             local tsrm = require "nvim-treesitter.textobjects.repeatable_move"
             local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
             map("n", "]g", function() next_hunk_repeat({ preview = true }) end, "Next Hunk")
@@ -254,6 +249,7 @@ return {
             { "<leader>oy",  "<Cmd>YAMLTelescope<CR>",                                                                    desc = "Diagnostics" },
             { "<leader>os",  f.vim.input("Grep string", function(input) t.grep_string({ search = input }) end),           desc = "Grep string" },
             { "<leader>os",  function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end,               desc = "Grep string",            mode = "v" },
+            { "<leader>ou",   "<Cmd>Telescope undo<CR>",                                                                   desc = "Undo history" },
         }
     end,
     lsp              = function(buffer, _)

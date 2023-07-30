@@ -34,20 +34,7 @@ return {
             },
             { "williamboman/mason-lspconfig.nvim" },
             -- JSON schemas
-            { "b0o/schemastore.nvim" },
-            -- LSP status
-            {
-                "j-hui/fidget.nvim",
-                config = function()
-                    require("fidget").setup({
-                        window = {
-                            blend = 0,
-                        }
-                    })
-                end,
-                tag = "legacy"
-            },
-
+            { "b0o/schemastore.nvim" }
         },
         opts = {
             diagnostics = {

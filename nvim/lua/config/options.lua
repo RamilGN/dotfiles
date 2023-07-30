@@ -17,7 +17,7 @@ return {
         vim.opt.termguicolors  = true                    -- Term colors
         vim.opt.undofile       = true                    -- Undo after rebooting
         vim.opt.cursorline     = true                    -- Highlight current line
-        vim.opt.updatetime     = 250                     -- Faster auto-completion and etc...
+        vim.opt.updatetime     = 200                     -- Faster auto-completion and etc...
         vim.opt.timeoutlen     = 300                     -- Faster shortcuts
         vim.opt.signcolumn     = "yes:2"                 -- Sign column
         vim.opt.swapfile       = false                   -- Swap file off
