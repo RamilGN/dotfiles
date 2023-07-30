@@ -65,3 +65,6 @@ alias rails_load_fixtures='xclipsel "RAILS_ENV=test FIXTURES_PATH="spec/fixtures
 
 # ngrok
 alias ngrok_host_header_rewrite='xclipsel "ngrok http --host-header=rewrite my.site.io:80"'
+
+# nvim/ruby/solargraph
+alias ruby_load_gems_for_solargraph_to_nvim="GEM_HOME='$HOME/.local/share/nvim/mason/packages/solargraph' GEM_PATH='$HOME/.local/share/nvim/mason/packages/solargraph' bundle"

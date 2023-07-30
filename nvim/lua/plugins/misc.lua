@@ -20,7 +20,7 @@ return {
                 ["<leader>gy"] = { name = "+yank/open" },
                 ["<leader>gp"] = { name = "+push/pull" },
                 ["<leader>p"] = { name = "+plugins/packages" },
-                ["<leader>ll"] = { name = "+server" },
+                ["<leader>l"] = { name = "+lsp/action" },
                 ["<leader>r"] = { name = "+run" },
                 ["<leader>m"] = { name = "+misc" },
                 ["<leader>o"] = { name = "+open/toggle" },
@@ -62,9 +62,10 @@ return {
                     end
                 },
             },
-            follow_current_file = true,
             filesystem = {
+                bind_to_cwd = false,
                 use_libuv_file_watcher = true,
+                follow_current_file = { enabled = true },
                 commands = {
                     system_open = function(state)
                         local node = state.tree:get_node()
@@ -162,6 +163,34 @@ return {
         end,
         keys = require("config.keymaps").toggleterm()
     },
+    -- Better quickfix-list.
+    {
+        "kevinhwang91/nvim-bqf",
+        ft = { "qf" },
+        config = function()
+            require("bqf").setup({
+                preview = {
+                    winblend = 0,
+                    border = "none",
+                    win_height = 999
+                },
+            })
+        end,
+    },
+    {
+        "stefandtw/quickfix-reflector.vim",
+        ft = { "qf" }
+    },
+    -- Undo-tree.
+    {
+        "mbbill/undotree",
+        cmd = "UndotreeToggle",
+        init = function()
+            vim.g.undotree_DiffAutoOpen = 0
+            vim.g.undotree_SplitWidth = math.floor(vim.o.columns * 0.2)
+        end,
+        keys = require("config.keymaps").undotree
+    },
     -- Markdown.
     {
         "iamcco/markdown-preview.nvim",
@@ -180,29 +209,5 @@ return {
         },
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" }
-    },
-    -- Better quickfix-list.
-    {
-        "kevinhwang91/nvim-bqf",
-        ft = { "qf" },
-        config = function()
-            require("bqf").setup({
-                preview = {
-                    winblend = 0,
-                    border = "none",
-                    win_height = 999
-                },
-            })
-        end
-    },
-    -- Undo-tree.
-    {
-        "mbbill/undotree",
-        cmd = "UndotreeToggle",
-        init = function()
-            vim.g.undotree_DiffAutoOpen = 0
-            vim.g.undotree_SplitWidth = math.floor(vim.o.columns * 0.2)
-        end,
-        keys = require("config.keymaps").undotree
     }
 }

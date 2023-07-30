@@ -1,5 +1,3 @@
-local fu = function(fu) return fu end
-
 return {
     core             = function()
         local f = require("functions")
@@ -59,7 +57,7 @@ return {
         -- Set options and misc.
         map("n", "yos", "<Cmd>setlocal invspell<CR>", { desc = "Set spelling" })
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
-        map("n", "yof", fu(f.vim.copy_rel_path_line_to_buffer), { desc = "Yank file path with line" })
+        map("n", "yof", f.vim.copy_rel_path_line_to_buffer, { desc = "Yank file path with line" })
         -- Prev action.
         map("n", "[b", "<C-^>", { desc = "Last buffer" })
         map("n", "[t", "<Cmd>tabprevious<CR>", { desc = "Prev tab" })
@@ -127,8 +125,8 @@ return {
     end,
     spectre          = function()
         return {
-            { "<leader>s", function() require("spectre").open() end,             desc = "Search and replace" },
-            { "<leader>S", function() require("spectre").open_file_search() end, desc = "Search and replace current file" },
+            { "<leader>s", function() require("spectre").toggle() end,             desc = "Search and replace" },
+            { "<leader>S", function() require("spectre").open_file_search({}) end, desc = "Search and replace current file" },
         }
     end,
     markdown_preview = function()
@@ -146,22 +144,24 @@ return {
             local function map(mode, l, r, desc)
                 vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
             end
-
+            -- Blame.
+            map("n", "<leader>gb", "<Cmd>Gitsigns blame_line<CR>", "Git blame_line")
+            -- Diff.
+            map("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>", "Git diff")
+            -- Hunks.
             local gs = package.loaded.gitsigns
             local tsrm = require "nvim-treesitter.textobjects.repeatable_move"
             local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
-
-            map("n", "]g", next_hunk_repeat, "Next Hunk")
-            map("n", "[g", prev_hunk_repeat, "Prev Hunk")
-            map("n", "<leader>gb", "<Cmd>Gitsigns blame_line<CR>", "Git blame_line")
-            map("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>", "Git diff")
-            map("n", "<leader>gh", "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk")
-            map("n", "<leader>gv", "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk")
+            map("n", "]g", function() next_hunk_repeat({ preview = true }) end, "Next Hunk")
+            map("n", "[g", function() prev_hunk_repeat({ preview = true }) end, "Prev Hunk")
+            map("n", "H", "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk")
+            map("n", "<leader>ghs", "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk")
+            map("n", "<leader>ghv", "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk")
             map("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk")
-            map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer")
-            map("n", "<leader>gsh", "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk")
-            map("n", "<leader>gsb", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
             map("n", "<leader>gu", "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk")
+            -- Buffers.
+            map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer")
+            map("n", "<leader>gsb", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
         end,
         fugitive = function()
             local f = require("functions")
@@ -221,7 +221,7 @@ return {
         local t = require("telescope.builtin")
 
         return {
-            -- Core
+            -- Search.
             { "<C-/>",       "<Cmd>Telescope current_buffer_fuzzy_find<CR>",                                              desc = "Search buffer" },
             { "<C-/>",       function() t.current_buffer_fuzzy_find({ default_text = f.vim.get_visual_selection() }) end, desc = "Search buffer",          mode = "v" },
             { "<C-m>",       "<Cmd>Telescope resume<CR>",                                                                 desc = "Telescope resume" },
@@ -255,5 +255,26 @@ return {
             { "<leader>os",  f.vim.input("Grep string", function(input) t.grep_string({ search = input }) end),           desc = "Grep string" },
             { "<leader>os",  function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end,               desc = "Grep string",            mode = "v" },
         }
+    end,
+    lsp              = function(buffer, _)
+        local function map(mode, l, r, desc)
+            vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+        end
+
+        map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
+        map("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>", "LSP document symbols")
+        map("n", "<leader>li", "<Cmd>LspInfo<CR>", "Lsp info")
+        map("n", "<leader>lr", vim.lsp.buf.rename, "Rename")
+        map("n", "<leader>lw", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", "Workspace symbols")
+        map("n", "<leader>lx", "<Cmd>LspRestart<CR>", "Lsp restart")
+        map("n", "K", vim.lsp.buf.hover, "Hover")
+        map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
+        map("n", "gI", "<Cmd>Telescope lsp_implementations<CR>", "Go to Implementation")
+        map("n", "gK", vim.lsp.buf.signature_help, "Signature Help")
+        map("n", "gd", "<Cmd>Telescope lsp_definitions<CR>", "Go to definition")
+        map("n", "gr", "<Cmd>Telescope lsp_references<CR>", "Show references")
+        map("n", "gy", "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition")
+        map({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, "Code actions")
+        map({ "n", "v" }, "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, "Format")
     end
 }

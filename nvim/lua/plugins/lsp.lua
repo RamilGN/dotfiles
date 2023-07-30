@@ -49,75 +49,28 @@ return {
             },
 
         },
-        config = function()
-            -- Diagnostic signs
-            vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-            vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-            vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-            vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
-
-            -- Diagnositcs opts
-            vim.diagnostic.config({
-                virtual_text = false,
-                update_in_insert = false,
-                underline = true,
-                severity_sort = true
-            })
-
-            local on_attach = function(client, bufnr)
-                local keymaps = {
-                    buffer = bufnr,
-                    ["K"] = { vim.lsp.buf.hover, "Hover" },
-                    -- Fast shortcuts
-                    ["<C-q>"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "Live grep" },
-                    ["g"] = {
-                        ["d"] = { "<Cmd>Telescope lsp_definitions<CR>", "Go to definition" },
-                        ["r"] = { "<Cmd>Telescope lsp_references<CR>", "Show references" },
-                        ["y"] = { "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition" },
-                        ["I"] = { "<Cmd>Telescope lsp_implementations<CR>", "Go to Implementation" },
-                        ["D"] = { "<Cmd>Telescope lsp_declarations<CR>", "Go to declaration" },
-                    },
-                    ["<leader>"] = {
-                        name = "+spc",
-                        ["l"] = {
-                            name = "+lsp/action",
-                            ["l"] = {
-                                ["i"] = { "<Cmd>LspInfo<CR>", "Lsp info" },
-                                ["r"] = { "<Cmd>LspRestart<CR>", "Lsp restart" },
-                                ["a"] = { "<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Add Folder" },
-                                ["d"] = { "<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "Remove Folder" },
-                                ["l"] = { "<Cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", "List Folders" },
-                            },
-                            ["r"] = { vim.lsp.buf.rename, "Rename" },
-                            ["a"] = {
-                                { vim.lsp.buf.code_action,                  "Code actions" },
-                                { "<Cmd>lua vim.lsp.buf.code_action()<CR>", "Code actions", mode = "v" },
-                            },
-                            ["f"] = {
-                                {
-                                    function()
-                                        vim.lsp.buf.format({ async = true })
-                                    end,
-                                    "Format",
-                                },
-                                {
-                                    function() vim.lsp.buf.format({ async = true }) end,
-                                    "Range format",
-                                    mode = "v",
-                                }
-                            },
-                            ["w"] = { "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", "Workspace symbols" },
-                        },
-
-                    }
+        opts = {
+            diagnostics = {
+                config = {
+                    virtual_text = false,
+                    update_in_insert = false,
+                    underline = true,
+                    severity_sort = true
+                },
+                signs = {
+                    DiagnosticSignError = { text = " ", texthl = "DiagnosticSignError" },
+                    DiagnosticSignWarn = { text = " ", texthl = "DiagnosticSignWarn" },
+                    DiagnosticSignInfo = { text = " ", texthl = "DiagnosticSignInfo" },
+                    DiagnosticSignHint = { text = "", texthl = "DiagnosticSignHint" }
                 }
+            },
 
-                require("which-key").register(keymaps)
-            end
-
-
-            local server_opts = {
-                ["jsonls"] = function(options)
+            on_attach = function(client, bufnr)
+                local k = require("config.keymaps")
+                k.lsp(bufnr, client)
+            end,
+            servers = {
+                jsonls = function(options, _)
                     options.settings = {
                         json = {
                             schemas = require("schemastore").json.schemas(),
@@ -125,7 +78,7 @@ return {
                         }
                     }
                 end,
-                ["yamlls"] = function(options)
+                yamlls = function(options, _)
                     options.settings = {
                         yaml = {
                             schemas = require("schemastore").yaml.schemas(),
@@ -133,14 +86,14 @@ return {
                         }
                     }
                 end,
-                ["solargraph"] = function(options)
+                solargraph = function(options, opts)
                     options.on_attach = function(client, bufnr)
                         -- Too slow for me :(
                         client.server_capabilities.completionProvider = false
-                        on_attach(client, bufnr)
+                        opts.on_attach(client, bufnr)
                     end
                 end,
-                ["lua_ls"] = function(options)
+                lua_ls = function(options, _)
                     options.settings = {
                         Lua = {
                             completion = {
@@ -149,7 +102,7 @@ return {
                         }
                     }
                 end,
-                ["gopls"] = function(options)
+                gopls = function(options)
                     options.settings = {
                         gopls = {
                             gofumpt = true,
@@ -189,21 +142,27 @@ return {
                 end
             }
 
+        },
+        config = function(_, opts)
+            for sign, value in pairs(opts.diagnostics.signs) do
+                vim.fn.sign_define(sign, value)
+            end
+            vim.diagnostic.config(opts.diagnostics.config)
+
             -- TODO: Run only if ruby lsp is present
             require("wip.ruby").setup()
-
             require("neodev").setup()
 
             local lspconfig = require("lspconfig")
             local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
             for _, server_name in ipairs(require("mason-lspconfig").get_installed_servers()) do
                 local lsp_opts = {
-                    on_attach = on_attach,
+                    on_attach = opts.on_attach,
                     capabilities = capabilities,
                 }
 
-                if server_opts[server_name] then
-                    server_opts[server_name](lsp_opts)
+                if opts.servers[server_name] then
+                    opts.servers[server_name](lsp_opts, opts)
                 end
 
                 lspconfig[server_name].setup(lsp_opts)
