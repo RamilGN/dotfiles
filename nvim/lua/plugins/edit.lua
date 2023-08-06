@@ -30,11 +30,18 @@ return {
         },
     },
 
-    -- Serach and replace
+    -- Search and replace
     {
         "nvim-pack/nvim-spectre",
         cmd = "Spectre",
-        keys = require("config.keymaps").spectre
+        keys = require("config.keymaps").spectre,
+        opts = {
+            highlight = {
+                ui = "String",
+                search = "DiffAdd",
+                replace = "DiffDelete"
+            },
+        }
     },
 
     -- Auto pairs

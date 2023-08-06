@@ -4,6 +4,7 @@ return {
         "lewis6991/gitsigns.nvim",
         event = { "BufReadPre", "BufNewFile" },
         opts = {
+            max_file_length = 50000,
             signs = {
                 add          = { hl = "GitSignsAdd", text = "│" },
                 untracked    = { hl = "GitSignsAdd", text = "┆" },

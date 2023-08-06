@@ -1,7 +1,7 @@
 # Stash && checkout main && pull && create new branch and checkout.
-alias ghf="gstu && gcm && gl && gcb"
-alias gclean!="git clean -fd && grs . && grst ."
-alias glb="git log $(git_current_branch) --not $(git_main_branch)"
+alias ghf='gstu && gcm && gl && gcb'
+alias gclean!='git clean -fd && grs . && grst .'
+alias glb='git log $(git_current_branch) --not $(git_main_branch)'
 
 # Branch.
 unalias gb; function gb {
