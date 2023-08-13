@@ -36,7 +36,7 @@ return {
     -- File explorer.
     {
         "nvim-neo-tree/neo-tree.nvim",
-        branch = "v2.x",
+        branch = "v3.x",
         keys = require("config.keymaps").neotree,
         init = function()
             if vim.fn.argc() == 1 then
@@ -63,7 +63,7 @@ return {
                 },
             },
             filesystem = {
-                bind_to_cwd = false,
+                bind_to_cwd = true,
                 use_libuv_file_watcher = true,
                 follow_current_file = { enabled = true },
                 commands = {
@@ -177,20 +177,7 @@ return {
             })
         end,
     },
-    {
-        "stefandtw/quickfix-reflector.vim",
-        ft = { "qf" }
-    },
-    -- Undo-tree.
-    {
-        "mbbill/undotree",
-        cmd = "UndotreeToggle",
-        init = function()
-            vim.g.undotree_DiffAutoOpen = 0
-            vim.g.undotree_SplitWidth = math.floor(vim.o.columns * 0.2)
-        end,
-        keys = require("config.keymaps").undotree
-    },
+    { "stefandtw/quickfix-reflector.vim", ft = { "qf" } },
     -- Markdown.
     {
         "iamcco/markdown-preview.nvim",
@@ -209,5 +196,6 @@ return {
         },
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" }
-    }
+    },
+    { "echasnovski/mini.cursorword",      version = "*", opts = {} }
 }

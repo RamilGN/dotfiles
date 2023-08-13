@@ -10,18 +10,7 @@ return {
                 "nvim-treesitter/playground",
                 cmd = "TSPlaygroundToggle"
             },
-            {
-                "nvim-treesitter/nvim-treesitter-context",
-                config = function()
-                    require("treesitter-context").setup({
-                        on_attach = function(bufnr)
-                            if require("functions").vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size then
-                                vim.cmd("TSContextDisable")
-                            end
-                        end
-                    })
-                end,
-            },
+            { "nvim-treesitter/nvim-treesitter-context",    opts = {} },
             { "RRethy/nvim-treesitter-endwise" },
             { "windwp/nvim-ts-autotag" },
         },
@@ -103,7 +92,15 @@ return {
                         swap_previous = {
                             ["[a"] = "@parameter.inner",
                         }
+                    },
+                    lsp_interop = {
+                        enable = true,
+                        peek_definition_code = {
+                            ["L"] = "@function.outer",
+                            ["M"] = "@class.outer"
+                        }
                     }
+
                 },
                 endwise = {
                     enable = true

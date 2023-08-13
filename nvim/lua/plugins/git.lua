@@ -1,5 +1,5 @@
 return {
-    -- Git decorations and buffer integration
+    -- Git decorations and buffer integration.
     {
         "lewis6991/gitsigns.nvim",
         event = { "BufReadPre", "BufNewFile" },
@@ -22,7 +22,7 @@ return {
             require("gitsigns").setup(opts)
         end
     },
-    -- Git aliases
+    -- Git aliases.
     { "tpope/vim-fugitive", keys = require("config.keymaps").git.fugitive },
     {
         "shumphrey/fugitive-gitlab.vim",

@@ -1,5 +1,5 @@
 return {
-    -- Theme
+    -- Theme.
     {
         "rebelot/kanagawa.nvim",
         lazy = false,
@@ -42,8 +42,7 @@ return {
             vim.cmd("colorscheme kanagawa")
         end
     },
-
-    -- Fancy lower statusline
+    -- Fancy lower status line.
     {
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
@@ -211,8 +210,7 @@ return {
             })
         end,
     },
-
-    -- `TODO` comments
+    -- `TODO` comments.
     {
         "folke/todo-comments.nvim",
         cmd = { "TodoTrouble", "TodoTelescope" },
@@ -226,16 +224,19 @@ return {
             { "<leader>T", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Todo/Fix/Fixme" },
         },
     },
-
-    -- Displaying colors
+    -- Highlight word under cursor.
+    {
+        "echasnovski/mini.cursorword",
+        version = "*",
+        event = { "BufReadPre", "BufNewFile" },
+        opts = {}
+    },
+    -- Displaying colors.
     { "norcalli/nvim-colorizer.lua", event = { "BufReadPre", "BufNewFile" }, config = function() require("colorizer").setup() end },
-
-    -- Autocompletion symbols
+    -- Autocompletion symbols.
     { "onsails/lspkind.nvim",        lazy = true },
-
-    -- Displaying icons
+    -- Displaying icons.
     { "nvim-tree/nvim-web-devicons", lazy = true },
-
-    -- UI components
-    { "MunifTanjim/nui.nvim",        lazy = true },
+    -- UI components.
+    { "MunifTanjim/nui.nvim",        lazy = true }
 }

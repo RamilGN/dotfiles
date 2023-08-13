@@ -1,21 +1,11 @@
 return {
     -- Surroundings
     {
-        "echasnovski/mini.surround",
-        keys = require("config.keymaps").mini.surround,
-        opts = {
-            mappings = {
-                add = "ys",
-                delete = "ds",
-                replace = "cs",
-                update_n_lines = "gs",
-            },
-        },
-        config = function(_, opts)
-            require("mini.surround").setup(opts)
-        end,
+        "kylechui/nvim-surround",
+        version = "*",
+        event = "VeryLazy",
+        opts = {},
     },
-
     -- Comments
     { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
     {
@@ -29,7 +19,6 @@ return {
             },
         },
     },
-
     -- Search and replace
     {
         "nvim-pack/nvim-spectre",
@@ -43,7 +32,6 @@ return {
             },
         }
     },
-
     -- Auto pairs
     {
         "echasnovski/mini.pairs",
@@ -51,6 +39,6 @@ return {
         version = false,
         config = function(_, opts) require("mini.pairs").setup(opts) end,
     },
-
+    -- Auto-indent
     { "nmac427/guess-indent.nvim",                   config = function() require("guess-indent").setup {} end }
 }

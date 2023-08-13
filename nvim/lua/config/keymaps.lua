@@ -80,6 +80,14 @@ return {
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Run commands.
         map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
+
+        vim.api.nvim_create_autocmd("FileType", {
+            group = vim.api.nvim_create_augroup("TSGoToContext", { clear = true }),
+            callback = function()
+                local buffer = vim.api.nvim_get_current_buf()
+                map("n", "[[", function() require("treesitter-context").go_to_context() end, { buffer = buffer })
+            end
+        })
     end,
     luasnip          = function()
         return {
