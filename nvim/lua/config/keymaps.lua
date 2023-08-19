@@ -114,18 +114,6 @@ return {
             ["<S-CR>"] = cmp.mapping.confirm({ select = true }),
         }
     end,
-    mini             = {
-        surround = function()
-            local plugin = require("lazy.core.config").spec.plugins["mini.surround"]
-            local opts = require("lazy.core.plugin").values(plugin, "opts", false)
-            return {
-                { opts.mappings.add,            desc = "Add surrounding",        mode = { "n", "v" } },
-                { opts.mappings.delete,         desc = "Delete surrounding" },
-                { opts.mappings.replace,        desc = "Replace surrounding" },
-                { opts.mappings.update_n_lines, desc = "Update `coverage lines`" },
-            }
-        end
-    },
     mason            = function()
         return {
             { "<leader>pm", "<Cmd>Mason<CR>", desc = "Mason" }
@@ -194,9 +182,9 @@ return {
             }
         end,
     },
-    neotree          = function()
+    oil              = function()
         return {
-            { "<C-Space>", "<Cmd>Neotree position=current reveal=true toggle=true<CR>", desc = "Open file explorer" }
+            { "<C-Space>", "<Cmd>Oil<CR>", desc = "Open file explorer" }
         }
     end,
     neogen           = function()
@@ -257,7 +245,7 @@ return {
             { "<leader>oy",  "<Cmd>YAMLTelescope<CR>",                                                                    desc = "Diagnostics" },
             { "<leader>os",  f.vim.input("Grep string", function(input) t.grep_string({ search = input }) end),           desc = "Grep string" },
             { "<leader>os",  function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end,               desc = "Grep string",            mode = "v" },
-            { "<leader>ou",   "<Cmd>Telescope undo<CR>",                                                                   desc = "Undo history" },
+            { "<leader>ou",  "<Cmd>Telescope undo<CR>",                                                                   desc = "Undo history" },
         }
     end,
     lsp              = function(buffer, _)

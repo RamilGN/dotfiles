@@ -224,13 +224,6 @@ return {
             { "<leader>T", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Todo/Fix/Fixme" },
         },
     },
-    -- Highlight word under cursor.
-    {
-        "echasnovski/mini.cursorword",
-        version = "*",
-        event = { "BufReadPre", "BufNewFile" },
-        opts = {}
-    },
     -- Displaying colors.
     { "norcalli/nvim-colorizer.lua", event = { "BufReadPre", "BufNewFile" }, config = function() require("colorizer").setup() end },
     -- Autocompletion symbols.

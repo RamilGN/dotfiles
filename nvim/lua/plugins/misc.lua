@@ -35,87 +35,40 @@ return {
     },
     -- File explorer.
     {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v3.x",
-        keys = require("config.keymaps").neotree,
-        init = function()
-            if vim.fn.argc() == 1 then
-                ---@diagnostic disable-next-line: param-type-mismatch
-                local stat = vim.loop.fs_stat(vim.fn.argv(0))
-                if stat and stat.type == "directory" then
-                    require("neo-tree")
-                end
-            end
-        end,
-        cmd = "Neotree",
+        "stevearc/oil.nvim",
+        keys = require("config.keymaps").oil(),
+        dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {
-            sources = { "filesystem", "buffers", "git_status", "document_symbols" },
-            log_level = "warn",
-            event_handlers = {
-                {
-                    event = "neo_tree_buffer_enter",
-                    handler = function()
-                        vim.opt_local.signcolumn = "no"
-                        vim.opt_local.cursorlineopt = "number,line"
-                        vim.opt_local.number = true
-                        vim.opt_local.relativenumber = true
+            win_options = {
+                concealcursor = "nvic",
+            },
+            keymaps = {
+                ["<C-Space>"] = "actions.close",
+                ["go"] = {
+                    desc = "Open with default app",
+                    callback = function()
+                        local oil = require("oil")
+                        local entry = oil.get_cursor_entry()
+                        local dir = oil.get_current_dir()
+                        ---@diagnostic disable-next-line: need-check-nil
+                        local path = dir .. entry.name
+                        vim.cmd("call jobstart('xdg-open " .. path .. "')")
                     end
                 },
-            },
-            filesystem = {
-                bind_to_cwd = true,
-                use_libuv_file_watcher = true,
-                follow_current_file = { enabled = true },
-                commands = {
-                    system_open = function(state)
-                        local node = state.tree:get_node()
-                        local path = node:get_id()
-                        vim.cmd("call jobstart('xdg-open " .. path .. "')")
+                ["gd"] = {
+                    desc = "Toggle detail view",
+                    callback = function()
+                        local oil = require("oil")
+                        local config = require("oil.config")
+                        if #config.columns == 1 then
+                            oil.set_columns({ "icon", "permissions", "size", "mtime" })
+                        else
+                            oil.set_columns({ "icon" })
+                        end
                     end,
-                    run_command = function(state)
-                        local node = state.tree:get_node()
-                        local path = node:get_id()
-                        vim.api.nvim_input(": " .. path .. "<Home>")
-                    end,
-                    copy_path = function(state)
-                        local node = state.tree:get_node()
-                        local path = node:get_id()
-                        vim.fn.setreg("+", path)
-                    end,
-                },
-                window = {
-                    position = "current",
-                    mappings = {
-                        ["f"] = "fuzzy_finder",
-                        ["F"] = "filter_on_submit",
-                        ["o"] = "system_open",
-                        ["i"] = "run_command",
-                        ["gy"] = "copy_path",
-                        ["/"] = "noop",
-                        ["<space>"] = "noop",
-                        ["l"] = "noop",
-                        ["#"] = "noop",
-                    }
-                }
-            },
-            default_component_configs = {
-                git_status = {
-                    symbols = {
-                        -- Change type
-                        added     = "",
-                        modified  = "",
-                        deleted   = "✖",
-                        renamed   = "",
-                        -- Status type
-                        untracked = "",
-                        ignored   = "",
-                        unstaged  = "",
-                        staged    = "",
-                        conflict  = "",
-                    }
                 },
             }
-        }
+        },
     },
     -- Terminal management.
     {
@@ -196,6 +149,5 @@ return {
         },
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" }
-    },
-    { "echasnovski/mini.cursorword",      version = "*", opts = {} }
+    }
 }
