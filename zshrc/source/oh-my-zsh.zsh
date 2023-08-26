@@ -11,8 +11,8 @@ plugins=(
   git
   golang
   kubectl
-  vi-mode
   zsh-syntax-highlighting
+  zsh-vi-mode
 )
 
 # Oh-my-zsh

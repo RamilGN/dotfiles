@@ -36,23 +36,36 @@ return {
     -- File explorer.
     {
         "stevearc/oil.nvim",
-        keys = require("config.keymaps").oil(),
+        lazy         = false,
+        keys         = require("config.keymaps").oil(),
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts = {
+        opts         = {
+            skip_confirm_for_simple_edits = true,
             win_options = {
                 concealcursor = "nvic",
             },
+            view_options = {
+                show_hidden = true
+            },
             keymaps = {
+                ["~"] = "<cmd>edit $HOME<CR>",
                 ["<C-Space>"] = "actions.close",
+                ["<C-l>"] = false,
+                ["gr"] = "actions.refresh",
+                ["<C-s>"] = false,
+                ["gv"] = "actions.select_vsplit",
+                ["<C-h>"] = false,
+                ["gs"] = "actions.select_split",
+                ["."] = "actions.open_cmdline",
                 ["go"] = {
                     desc = "Open with default app",
                     callback = function()
-                        local oil = require("oil")
+                        local oil = require("oil.actions")
+                        local cwd = oil.get_current_dir()
                         local entry = oil.get_cursor_entry()
-                        local dir = oil.get_current_dir()
-                        ---@diagnostic disable-next-line: need-check-nil
-                        local path = dir .. entry.name
-                        vim.cmd("call jobstart('xdg-open " .. path .. "')")
+                        if cwd and entry then
+                            vim.fn.jobstart({ "open", string.format("%s/%s", cwd, entry.name) })
+                        end
                     end
                 },
                 ["gd"] = {
@@ -123,6 +136,7 @@ return {
         config = function()
             require("bqf").setup({
                 preview = {
+                    auto_preview = false,
                     winblend = 0,
                     border = "none",
                     win_height = 999

@@ -66,9 +66,6 @@ return {
                         theme = "dropdown",
                         previewer = false,
                     },
-                    git_status = {
-                        previewer = previewer,
-                    },
                     lsp_workspace_symbols = {
                         symbol_width = 65
                     },
@@ -79,25 +76,23 @@ return {
                 extensions = {
                     undo = {
                         use_delta = true,
-                    },
+                    }
                 }
             })
         end,
-        dependencies = {
-            { "nvim-lua/plenary.nvim" },
-            {
-                "nvim-telescope/telescope-fzf-native.nvim",
-                build = "make",
-                config = function()
-                    require("telescope").load_extension("fzf")
-                end
-            },
-            {
-                "debugloop/telescope-undo.nvim",
-                config = function()
-                    require("telescope").load_extension("undo")
-                end
-            }
-        }
+        dependencies = { { "nvim-lua/plenary.nvim" } }
+    },
+    {
+        "debugloop/telescope-undo.nvim",
+        config = function()
+            require("telescope").load_extension("undo")
+        end
+    },
+    {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+        config = function()
+            require("telescope").load_extension("fzf")
+        end
     }
 }

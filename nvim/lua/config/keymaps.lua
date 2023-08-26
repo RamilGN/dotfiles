@@ -38,7 +38,7 @@ return {
         map({ "n", "v" }, "c", [["_c]], { desc = "Change without yanking" })
         map({ "n", "v" }, "C", [["_C]], { desc = "Change without yanking" })
         -- Normal mode in terminal.
-        map("t", "<C-[>", "<C-\\><C-n>", { desc = "Normal mode" })
+        map("t", "<C-[><C-[>", "<C-\\><C-n>", { desc = "Normal mode" })
         -- Windows.
         map("n", "<C-k>", "<C-w><Up>", { desc = "Go to upper window" })
         map("n", "<C-j>", "<C-w><down>", { desc = "Go to bottom window" })
@@ -65,7 +65,6 @@ return {
         -- Next action.
         map("n", "]b", "<Cmd>bnext<CR>", { desc = "Next buffer" })
         map("n", "]t", "<Cmd>tabnext<CR>", { desc = "Next tab" })
-        map("n", "]q", "<Cmd>cnext<CR>", { desc = "Next item in qf" })
         -- Line textobject.
         map("v", "il", ":normal ^vg_<CR>", { desc = "in Line" })
         map("o", "il", ":normal vil<CR>", { desc = "in line" })
@@ -80,14 +79,6 @@ return {
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Run commands.
         map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
-
-        vim.api.nvim_create_autocmd("FileType", {
-            group = vim.api.nvim_create_augroup("TSGoToContext", { clear = true }),
-            callback = function()
-                local buffer = vim.api.nvim_get_current_buf()
-                map("n", "[[", function() require("treesitter-context").go_to_context() end, { buffer = buffer })
-            end
-        })
     end,
     luasnip          = function()
         return {
