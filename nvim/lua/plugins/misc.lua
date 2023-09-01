@@ -60,7 +60,7 @@ return {
                 ["go"] = {
                     desc = "Open with default app",
                     callback = function()
-                        local oil = require("oil.actions")
+                        local oil = require("oil")
                         local cwd = oil.get_current_dir()
                         local entry = oil.get_cursor_entry()
                         if cwd and entry then

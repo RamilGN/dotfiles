@@ -150,20 +150,20 @@ return {
 
             local next_qf_repeat, prev_qf_repeat = tsrm.make_repeatable_move_pair(
                 function()
-                    local ok, _, _ = pcall(vim.cmd.cprevious)
+                    local ok, _, _ = pcall(vim.cmd.next)
 
                     if ok then
                         return
                     else
-                        pcall(vim.cmd.clast)
+                        pcall(vim.cmd.cfirst)
                     end
                 end,
                 function()
-                    local ok, _, _ = pcall(vim.cmd.cnext)
+                    local ok, _, _ = pcall(vim.cmd.cprevious)
                     if ok then
                         return
                     else
-                        pcall(vim.cmd.cfirst)
+                        pcall(vim.cmd.clast)
                     end
                 end
             )

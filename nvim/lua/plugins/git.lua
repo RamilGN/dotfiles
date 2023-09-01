@@ -23,7 +23,11 @@ return {
         end
     },
     -- Git aliases.
-    { "tpope/vim-fugitive", keys = require("config.keymaps").git.fugitive },
+    {
+        "tpope/vim-fugitive",
+        keys = require("config.keymaps").git.fugitive,
+        cmd = "G"
+    },
     {
         "shumphrey/fugitive-gitlab.vim",
         config = function()

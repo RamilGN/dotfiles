@@ -38,7 +38,7 @@ return {
         map({ "n", "v" }, "c", [["_c]], { desc = "Change without yanking" })
         map({ "n", "v" }, "C", [["_C]], { desc = "Change without yanking" })
         -- Normal mode in terminal.
-        map("t", "<C-[><C-[>", "<C-\\><C-n>", { desc = "Normal mode" })
+        map("t", "<C-[>", "<C-\\><C-n>", { desc = "Normal mode" })
         -- Windows.
         map("n", "<C-k>", "<C-w><Up>", { desc = "Go to upper window" })
         map("n", "<C-j>", "<C-w><down>", { desc = "Go to bottom window" })
@@ -149,21 +149,21 @@ return {
             local f = require("functions")
             return {
                 -- Git menu.
-                { "<leader>gg",   "<Cmd>vert G<CR>",                                                                  desc = "Git" },
+                { "<leader>gg",   "<Cmd>G ++curwin<CR>",                                                              desc = "Git" },
                 -- Git add.
-                { "<leader>gaa",  "<Cmd>vert G add -v --patch<CR>",                                                   desc = "Git add patch" },
+                { "<leader>gaa",  "<Cmd>G ++curwin add -v --patch<CR>",                                               desc = "Git add patch" },
                 -- Git log.
-                { "<leader>glo",  "<Cmd>vert G log -n 1000<CR>",                                                      desc = "Git log 1000" },
+                { "<leader>glo",  "<Cmd>G ++curwin log -n 1000<CR>",                                                  desc = "Git log 1000" },
                 -- Git stash.
                 { "<leader>gstl", "<Cmd>V gstl-np<CR>",                                                               desc = "Git stash list" },
                 { "<leader>gsti", "<Cmd>V gsti<CR>",                                                                  desc = "Git stash apply" },
                 -- Git commit/checkout.
-                { "<leader>gca",  "<Cmd>vert G commit -v --amend<CR>",                                                desc = "Git commit amend" },
+                { "<leader>gca",  "<Cmd>G ++curwin commit -v --amend<CR>",                                            desc = "Git commit amend" },
                 { "<leader>gcb",  f.vim.input("Branch name", function(input) vim.cmd("G checkout -b " .. input) end), desc = "Git checkout new branch" },
-                { "<leader>gcc",  "<Cmd>vert G commit -v<CR>",                                                        desc = "Git commit" },
+                { "<leader>gcc",  "<Cmd>G ++curwin commit -v<CR>",                                                    desc = "Git commit" },
                 { "<leader>gcm",  "<Cmd>V gcm<CR>",                                                                   desc = "Git checkout master" },
                 { "<leader>gco",  "<Cmd>V gco<CR>",                                                                   desc = "Git checkout" },
-                { "<leader>gcn",  "<Cmd>vert G commit -v --amend --no-edit<CR>",                                      desc = "Git commit amend no-edit" },
+                { "<leader>gcn",  "<Cmd>G ++curwin commit -v --amend --no-edit<CR>",                                  desc = "Git commit amend no-edit" },
                 -- Git pull/push.
                 { "<leader>gpf",  "<Cmd>G push -v --force-with-lease<CR>",                                            desc = "Force push" },
                 { "<leader>gpl",  "<Cmd>G pull -v<CR>",                                                               desc = "Git pull" },
@@ -218,7 +218,8 @@ return {
             { "<leader>gos", "<Cmd>Telescope git_stash<CR>",                                                              desc = "Git stash" },
             { "<leader>goc", "<Cmd>Telescope git_commits<CR>",                                                            desc = "Git commits" },
             { "<leader>goC", "<Cmd>Telescope git_bcommits<CR>",                                                           desc = "Git commits" },
-            { "<leader>gob", "<Cmd>Telescope git_branches<CR>",                                                           desc = "Git branches" },
+            { "<leader>gob", function() t.git_branches({ show_remote_tracking_branches = false }) end,                    desc = "Git branches" },
+            { "<leader>goB", function() t.git_branches() end,                                                             desc = "Git branches all" },
             -- Help
             { "<leader>hc",  "<Cmd>Telescope commands<CR>",                                                               desc = "Commands" },
             { "<leader>hh",  "<Cmd>Telescope help_tags<CR>",                                                              desc = "Help pages" },
@@ -231,6 +232,8 @@ return {
             -- Open
             { "<leader>oc",  "<Cmd>Telescope find_files cwd=~/dotfiles<CR>",                                              desc = "Open configs dir" },
             { "<leader>op",  "<Cmd>Telescope find_files cwd=~/private<CR>",                                               desc = "Open private dir" },
+            { "<leader>o:",  "<Cmd>Telescope command_history<CR>",                                                        desc = "Command history" },
+            { "<leader>o/",  "<Cmd>Telescope search_history<CR>",                                                         desc = "Search history" },
             { "<leader>or",  function() t.oldfiles({ only_cwd = true }) end,                                              desc = "Open recent files" },
             { "<leader>od",  "<Cmd>Telescope diagnostics<CR>",                                                            desc = "Diagnostics" },
             { "<leader>oy",  "<Cmd>YAMLTelescope<CR>",                                                                    desc = "Diagnostics" },
