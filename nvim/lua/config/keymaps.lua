@@ -77,8 +77,9 @@ return {
         map("n", "<leader>re", function() vim.cmd(vim.g.last_command) end, { desc = "Last command" })
         map("n", "<leader>rv", "<Cmd>@:<CR>", { desc = "Last command no expand" })
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
-        -- Run commands.
+        -- Open smth.
         map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
+        map("n", "gx", "<Cmd>silent !xdg-open <cWORD><CR>", { desc = "Open file with system app" })
     end,
     luasnip          = function()
         return {

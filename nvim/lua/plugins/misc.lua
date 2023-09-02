@@ -136,7 +136,6 @@ return {
         config = function()
             require("bqf").setup({
                 preview = {
-                    auto_preview = false,
                     winblend = 0,
                     border = "none",
                     win_height = 999
@@ -144,7 +143,6 @@ return {
             })
         end,
     },
-    { "stefandtw/quickfix-reflector.vim", ft = { "qf" } },
     -- Markdown.
     {
         "iamcco/markdown-preview.nvim",
