@@ -59,13 +59,13 @@ oh-my-zsh:
 	rm -f ~/.zshrc
 	ln -sf $(PWD)/zshrc/.zshrc ~/.zshrc
 	chsh -s $$(which zsh)
-	git clone https://github.com/jeffreytse/zsh-vi-mode $(ZSH_CUSTOM)/plugins/zsh-vi-mode
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $(ZSH_CUSTOM)/plugins/zsh-syntax-highlighting
 
 .PHONY: zsh-plugins
 zsh-plugins:
 	rm -rf $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/zsh-syntax-highlighting
+	git clone https://github.com/jeffreytse/zsh-vi-mode $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/plugins/zsh-vi-mode
+	git clone https://github.com/zsh-users/zsh-autosuggestions $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/plugins/zsh-autosuggestions
 
 .PHONY: font
 fonts:

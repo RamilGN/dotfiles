@@ -80,6 +80,11 @@ return {
         -- Open smth.
         map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
         map("n", "gx", "<Cmd>silent !xdg-open <cWORD><CR>", { desc = "Open file with system app" })
+        -- Mighty A.
+        map("n", "<leader>a", function()
+            vim.cmd("V a")
+            vim.cmd("startinsert")
+        end, { desc = "Mighty A" })
     end,
     luasnip          = function()
         return {
