@@ -193,15 +193,15 @@ return {
         return {
             { "<C-\\>",     "<Cmd>ToggleTerm<CR>",                                                                 desc = "Toggle term" },
             { "<leader>o1", "<Cmd>1ToggleTerm direction=float<CR>",                                                desc = "Toggle term1" },
-            { "<leader>o2", "<Cmd>2ToggleTerm direction=vertical<CR>",                                             desc = "Toggle term2" },
-            { "<leader>o3", "<Cmd>3ToggleTerm direction=vertical<CR>",                                             desc = "Toggle term3" },
-            { "<leader>rt", function() vim.cmd("2TermExec direction=vertical cmd='" .. vim.g.last_cmd .. "'") end, desc = "Last command in term" },
+            { "<leader>o2", "<Cmd>22ToggleTerm direction=vertical<CR>",                                             desc = "Toggle term22" },
+            { "<leader>o3", "<Cmd>33ToggleTerm direction=vertical<CR>",                                             desc = "Toggle term33" },
+            { "<leader>rt", function() vim.cmd("22TermExec direction=vertical cmd='" .. vim.g.last_cmd .. "'") end, desc = "Last command in term" },
             { "<C-1>",      "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>",                                            desc = "Send line to term 1" },
             { "<C-1>",      ":ToggleTermSendVisualSelectionNoTW 1<CR>",                                            desc = "Send visual selection to term 1", mode = "v" },
-            { "<C-2>",      "<Cmd>ToggleTermSendCurrentLineNoTW 2<CR>",                                            desc = "Send line to term 2" },
-            { "<C-2>",      ":ToggleTermSendVisualSelectionNoTW 2<CR>",                                            desc = "Send visual selection to term 2", mode = "v" },
-            { "<C-3>",      "<Cmd>ToggleTermSendCurrentLineNoTW 3<CR>",                                            desc = "Send line to term 3" },
-            { "<C-3>",      ":ToggleTermSendVisualSelectionNoTW 3<CR>",                                            desc = "Send visual selection to term 3", mode = "v" },
+            { "<C-2>",      "<Cmd>ToggleTermSendCurrentLineNoTW 22<CR>",                                            desc = "Send line to term 2" },
+            { "<C-2>",      ":ToggleTermSendVisualSelectionNoTW 22<CR>",                                            desc = "Send visual selection to term 2", mode = "v" },
+            { "<C-3>",      "<Cmd>ToggleTermSendCurrentLineNoTW 33<CR>",                                            desc = "Send line to term 3" },
+            { "<C-3>",      ":ToggleTermSendVisualSelectionNoTW 33<CR>",                                            desc = "Send visual selection to term 3", mode = "v" },
         }
     end,
     telescope        = function()

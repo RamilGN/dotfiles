@@ -13,6 +13,7 @@ plugins=(
   kubectl
   zsh-syntax-highlighting
   zsh-vi-mode
+  globalias
 )
 
 # Oh-my-zsh
