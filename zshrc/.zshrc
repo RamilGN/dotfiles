@@ -7,7 +7,6 @@ sources=(
   'curl'
   'insales'
   'secrets'
-  'keymaps'
 )
 
 for s in "${sources[@]}"; do

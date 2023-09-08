@@ -13,7 +13,6 @@ plugins=(
   kubectl
   zsh-syntax-highlighting
   zsh-vi-mode
-  zsh-autosuggestions
 )
 
 # Oh-my-zsh

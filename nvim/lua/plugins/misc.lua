@@ -56,7 +56,7 @@ return {
                 ["gv"] = "actions.select_vsplit",
                 ["<C-h>"] = false,
                 ["gs"] = "actions.select_split",
-                ["."] = "actions.open_cmdline",
+                ["g."] = "actions.open_cmdline",
                 ["go"] = {
                     desc = "Open with default app",
                     callback = function()
