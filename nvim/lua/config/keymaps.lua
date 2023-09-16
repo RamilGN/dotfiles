@@ -1,12 +1,12 @@
 return {
     core             = function()
-        local f = require("functions")
+        local f = function() return require("functions") end
         local map = vim.keymap.set
         -- Package manager.
         map("n", "<leader>pp", "<Cmd>Lazy home<CR>", { desc = "Plugins" })
         -- Search without jumping.
         map("n", "#", ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", { desc = "Search word without jumping", silent = true })
-        map("v", "#", function() vim.cmd([[let @/="]] .. f.vim.get_visual_selection() .. [["]] .. [[ | set hls]]) end, { desc = "Search word without jumping" })
+        map("v", "#", function() vim.cmd([[let @/="]] .. f().vim.get_visual_selection() .. [["]] .. [[ | set hls]]) end, { desc = "Search word without jumping" })
         -- Turn off highlight.
         map("n", "//", ":nohlsearch<CR>", { desc = "Turn off highlight" })
         -- Better up/down.
@@ -57,7 +57,7 @@ return {
         -- Set options and misc.
         map("n", "yos", "<Cmd>setlocal invspell<CR>", { desc = "Set spelling" })
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
-        map("n", "yof", f.vim.copy_rel_path_line_to_buffer, { desc = "Yank file path with line" })
+        map("n", "yof", f().vim.copy_rel_path_line_to_buffer, { desc = "Yank file path with line" })
         -- Prev action.
         map("n", "[b", "<C-^>", { desc = "Last buffer" })
         map("n", "[t", "<Cmd>tabprevious<CR>", { desc = "Prev tab" })
@@ -191,13 +191,13 @@ return {
     end,
     toggleterm       = function()
         return {
-            { "<C-\\>",     "<Cmd>ToggleTerm<CR>",                                                                 desc = "Toggle term" },
-            { "<leader>o1", "<Cmd>1ToggleTerm direction=float<CR>",                                                desc = "Toggle term1" },
+            { "<C-\\>",     "<Cmd>ToggleTerm<CR>",                                                                  desc = "Toggle term" },
+            { "<leader>o1", "<Cmd>1ToggleTerm direction=float<CR>",                                                 desc = "Toggle term1" },
             { "<leader>o2", "<Cmd>22ToggleTerm direction=vertical<CR>",                                             desc = "Toggle term22" },
             { "<leader>o3", "<Cmd>33ToggleTerm direction=vertical<CR>",                                             desc = "Toggle term33" },
             { "<leader>rt", function() vim.cmd("22TermExec direction=vertical cmd='" .. vim.g.last_cmd .. "'") end, desc = "Last command in term" },
-            { "<C-1>",      "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>",                                            desc = "Send line to term 1" },
-            { "<C-1>",      ":ToggleTermSendVisualSelectionNoTW 1<CR>",                                            desc = "Send visual selection to term 1", mode = "v" },
+            { "<C-1>",      "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>",                                             desc = "Send line to term 1" },
+            { "<C-1>",      ":ToggleTermSendVisualSelectionNoTW 1<CR>",                                             desc = "Send visual selection to term 1", mode = "v" },
             { "<C-2>",      "<Cmd>ToggleTermSendCurrentLineNoTW 22<CR>",                                            desc = "Send line to term 2" },
             { "<C-2>",      ":ToggleTermSendVisualSelectionNoTW 22<CR>",                                            desc = "Send visual selection to term 2", mode = "v" },
             { "<C-3>",      "<Cmd>ToggleTermSendCurrentLineNoTW 33<CR>",                                            desc = "Send line to term 3" },
@@ -205,47 +205,47 @@ return {
         }
     end,
     telescope        = function()
-        local f = require("functions")
-        local t = require("telescope.builtin")
+        local f = function() return require("functions") end
+        local t = function() return require("telescope.builtin") end
 
         return {
             -- Search.
-            { "<C-/>",       "<Cmd>Telescope current_buffer_fuzzy_find<CR>",                                              desc = "Search buffer" },
-            { "<C-/>",       function() t.current_buffer_fuzzy_find({ default_text = f.vim.get_visual_selection() }) end, desc = "Search buffer",          mode = "v" },
-            { "<C-m>",       "<Cmd>Telescope resume<CR>",                                                                 desc = "Telescope resume" },
-            { "<C-n>",       function() t.find_files({ default_text = f.vim.get_cur_buf_dir_rel_path() }) end,            desc = "Show current dir" },
-            { "<C-b>",       "<Cmd>Telescope buffers<CR>",                                                                desc = "Current buffers" },
-            { "<C-f>",       "<Cmd>Telescope find_files<CR>",                                                             desc = "Find files" },
-            { "<C-f>",       function() t.find_files({ default_text = f.vim.get_visual_selection() }) end,                desc = "Find files",             mode = "v" },
-            { "<C-s>",       "<Cmd>Telescope live_grep<CR>",                                                              desc = "Live grep" },
-            { "<C-s>",       function() t.live_grep({ default_text = f.vim.get_visual_selection() }) end,                 desc = "Live grep",              mode = "v" },
+            { "<C-/>",       "<Cmd>Telescope current_buffer_fuzzy_find<CR>",                                                  desc = "Search buffer" },
+            { "<C-/>",       function() t().current_buffer_fuzzy_find({ default_text = f().vim.get_visual_selection() }) end, desc = "Search buffer",          mode = "v" },
+            { "<C-m>",       "<Cmd>Telescope resume<CR>",                                                                     desc = "Telescope resume" },
+            { "<C-n>",       function() t().find_files({ default_text = f().vim.get_cur_buf_dir_rel_path() }) end,            desc = "Show current dir" },
+            { "<C-b>",       "<Cmd>Telescope buffers<CR>",                                                                    desc = "Current buffers" },
+            { "<C-f>",       "<Cmd>Telescope find_files<CR>",                                                                 desc = "Find files" },
+            { "<C-f>",       function() t().find_files({ default_text = f().vim.get_visual_selection() }) end,                desc = "Find files",             mode = "v" },
+            { "<C-s>",       "<Cmd>Telescope live_grep<CR>",                                                                  desc = "Live grep" },
+            { "<C-s>",       function() t().live_grep({ default_text = f().vim.get_visual_selection() }) end,                 desc = "Live grep",              mode = "v" },
             -- Git
-            { "<C-g>",       "<Cmd>Telescope git_status<CR>",                                                             desc = "Git status" },
-            { "<leader>gos", "<Cmd>Telescope git_stash<CR>",                                                              desc = "Git stash" },
-            { "<leader>goc", "<Cmd>Telescope git_commits<CR>",                                                            desc = "Git commits" },
-            { "<leader>goC", "<Cmd>Telescope git_bcommits<CR>",                                                           desc = "Git commits" },
-            { "<leader>gob", function() t.git_branches({ show_remote_tracking_branches = false }) end,                    desc = "Git branches" },
-            { "<leader>goB", function() t.git_branches() end,                                                             desc = "Git branches all" },
+            { "<C-g>",       "<Cmd>Telescope git_status<CR>",                                                                 desc = "Git status" },
+            { "<leader>gos", "<Cmd>Telescope git_stash<CR>",                                                                  desc = "Git stash" },
+            { "<leader>goc", "<Cmd>Telescope git_commits<CR>",                                                                desc = "Git commits" },
+            { "<leader>goC", "<Cmd>Telescope git_bcommits<CR>",                                                               desc = "Git commits" },
+            { "<leader>gob", function() t().git_branches({ show_remote_tracking_branches = false }) end,                      desc = "Git branches" },
+            { "<leader>goB", function() t().git_branches() end,                                                               desc = "Git branches all" },
             -- Help
-            { "<leader>hc",  "<Cmd>Telescope commands<CR>",                                                               desc = "Commands" },
-            { "<leader>hh",  "<Cmd>Telescope help_tags<CR>",                                                              desc = "Help pages" },
-            { "<leader>hk",  "<Cmd>Telescope keymaps<CR>",                                                                desc = "Key maps" },
-            { "<leader>hm",  "<Cmd>Telescope man_pages<CR>",                                                              desc = "Man pages" },
-            { "<leader>hf",  "<Cmd>Telescope filetypes<CR>",                                                              desc = "File Types" },
-            { "<leader>ht",  "<Cmd>Telescope builtin<CR>",                                                                desc = "Telescope" },
-            { "<leader>hs",  "<Cmd>Telescope highlights<cr>",                                                             desc = "Search Highlight Groups" },
-            { "<leader>ho",  "<Cmd>Telescope vim_options<CR>",                                                            desc = "Options" },
+            { "<leader>hc",  "<Cmd>Telescope commands<CR>",                                                                   desc = "Commands" },
+            { "<leader>hh",  "<Cmd>Telescope help_tags<CR>",                                                                  desc = "Help pages" },
+            { "<leader>hk",  "<Cmd>Telescope keymaps<CR>",                                                                    desc = "Key maps" },
+            { "<leader>hm",  "<Cmd>Telescope man_pages<CR>",                                                                  desc = "Man pages" },
+            { "<leader>hf",  "<Cmd>Telescope filetypes<CR>",                                                                  desc = "File Types" },
+            { "<leader>ht",  "<Cmd>Telescope builtin<CR>",                                                                    desc = "Telescope" },
+            { "<leader>hs",  "<Cmd>Telescope highlights<cr>",                                                                 desc = "Search Highlight Groups" },
+            { "<leader>ho",  "<Cmd>Telescope vim_options<CR>",                                                                desc = "Options" },
             -- Open
-            { "<leader>oc",  "<Cmd>Telescope find_files cwd=~/dotfiles<CR>",                                              desc = "Open configs dir" },
-            { "<leader>op",  "<Cmd>Telescope find_files cwd=~/private<CR>",                                               desc = "Open private dir" },
-            { "<leader>o:",  "<Cmd>Telescope command_history<CR>",                                                        desc = "Command history" },
-            { "<leader>o/",  "<Cmd>Telescope search_history<CR>",                                                         desc = "Search history" },
-            { "<leader>or",  function() t.oldfiles({ only_cwd = true }) end,                                              desc = "Open recent files" },
-            { "<leader>od",  "<Cmd>Telescope diagnostics<CR>",                                                            desc = "Diagnostics" },
-            { "<leader>oy",  "<Cmd>YAMLTelescope<CR>",                                                                    desc = "Diagnostics" },
-            { "<leader>os",  f.vim.input("Grep string", function(input) t.grep_string({ search = input }) end),           desc = "Grep string" },
-            { "<leader>os",  function() t.grep_string({ default_text = f.vim.get_visual_selection() }) end,               desc = "Grep string",            mode = "v" },
-            { "<leader>ou",  "<Cmd>Telescope undo<CR>",                                                                   desc = "Undo history" },
+            { "<leader>oc",  "<Cmd>Telescope find_files cwd=~/dotfiles<CR>",                                                  desc = "Open configs dir" },
+            { "<leader>op",  "<Cmd>Telescope find_files cwd=~/private<CR>",                                                   desc = "Open private dir" },
+            { "<leader>o:",  "<Cmd>Telescope command_history<CR>",                                                            desc = "Command history" },
+            { "<leader>o/",  "<Cmd>Telescope search_history<CR>",                                                             desc = "Search history" },
+            { "<leader>or",  function() t().oldfiles({ only_cwd = true }) end,                                                desc = "Open recent files" },
+            { "<leader>od",  "<Cmd>Telescope diagnostics<CR>",                                                                desc = "Diagnostics" },
+            { "<leader>oy",  "<Cmd>YAMLTelescope<CR>",                                                                        desc = "Diagnostics" },
+            { "<leader>os",  f().vim.input("Grep string", function(input) t().grep_string({ search = input }) end),           desc = "Grep string" },
+            { "<leader>os",  function() t().grep_string({ default_text = f().vim.get_visual_selection() }) end,               desc = "Grep string",            mode = "v" },
+            { "<leader>ou",  "<Cmd>Telescope undo<CR>",                                                                       desc = "Undo history" },
         }
     end,
     lsp              = function(buffer, _)

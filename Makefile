@@ -1,41 +1,29 @@
-ASDFRC_PATH:=~/.asdfrc
-ASDF_PATH:=~/.asdf
-OH_MY_ZSH_CUSTOM_PLUGINS_PATH:=~/.oh-my-zsh/custom/plugins
-
 .PHONY: all
-all: packages-only kitty zsh fonts nvim asdf
+all: dnf-packages git kitty zsh fonts nvim asdf
 
-.PHONY: packages-only
-packages-only: packages deb-packages packages-after
+.PHONY: dnf-packages
+dnf-packages:
+	dnf install -y \
+					bat \
+					curl \
+					fd-find \ # neovim
+					fira-code-fonts \
+					sqlite3 \ # rpm
+					fzf \ # neovim
+					gcc-c++ \ # treesitter
+					git \
+					git-delta \
+					htop \
+					ripgrep \ # neovim
+					transmission \
+					util-linux-user \ # chsh
+					xclip \ # neovim
+					zsh
 
-.PHONY: zsh
-zsh: oh-my-zsh zsh zsh-plugins
-
-.PHONY: packages
-packages:
-	apt-get install software-properties-common -y
-	add-apt-repository -y ppa:git-core/ppa
-	add-apt-repository ppa:neovim-ppa/stable -y
-	add-apt-repository ppa:neovim-ppa/unstable -y
-	apt-get update -y
-	apt-get install -y zsh     \
-	                   neovim  \
-	                   git     \
-	                   xclip   \
-	                   curl    \
-	                   bat     \
-	                   fd-find \
-	                   fzf     \
-	                   ripgrep \
-	                   htop
-
-.PHONY: packages
-deb-packages:
-	curl -L -o delta.deb https://github.com/dandavison/delta/releases/download/0.14.0/git-delta_0.14.0_amd64.deb && apt-get install ./delta.deb && rm delta.deb
-
-.PHONY: packages-after
-packages-after:
-	ln -sf $$(which fdfind) ~/.local/bin/fd
+.PHONY: flatpak
+flatpak:
+	flatpak install flathub org.videolan.VLC
+	flatpak install flathub org.telegram.desktop
 
 .PHONY: kitty
 kitty:
@@ -51,6 +39,9 @@ kitty:
 	sed -i "s|Icon=kitty|Icon=$(PWD)/kitty/whiskers_256x256.png|g" ~/.local/share/applications/kitty*.desktop
 	sed -i "s|Exec=kitty|Exec=/home/$(USER)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
 
+.PHONY: zsh
+zsh: oh-my-zsh zsh-plugins
+
 .PHONY: oh-my-zsh
 oh-my-zsh:
 	rm -rf ~/.oh-my-zsh
@@ -60,12 +51,13 @@ oh-my-zsh:
 	ln -sf $(PWD)/zshrc/.zshrc ~/.zshrc
 	chsh -s $$(which zsh)
 
+OH_MY_ZSH_CUSTOM_PLUGINS_PATH:=~/.oh-my-zsh/custom/plugins
 .PHONY: zsh-plugins
 zsh-plugins:
 	rm -rf $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/zsh-syntax-highlighting
-	git clone https://github.com/jeffreytse/zsh-vi-mode $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/plugins/zsh-vi-mode
-	git clone https://github.com/zsh-users/zsh-autosuggestions $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/plugins/zsh-autosuggestions
+	rm -rf $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/zsh-vi-mode
+	git clone https://github.com/jeffreytse/zsh-vi-mode $(OH_MY_ZSH_CUSTOM_PLUGINS_PATH)/zsh-vi-mode
 
 .PHONY: font
 fonts:
@@ -82,6 +74,16 @@ nvim:
 	rm -rf ~/.config/nvim
 	ln -snf $(PWD)/nvim ~/.config/nvim
 
+.PHONY: git
+git:
+	ln -sf $(PWD)/git/.gitconfig ~/.gitconfig
+	git config --global core.excludesfile $(PWD)/git/.gitignore
+
+################################################
+##################### ASDF #####################
+################################################
+ASDF_PATH:=~/.asdf
+ASDFRC_PATH:=~/.asdfrc
 .PHONY: asdf
 asdf:
 	rm -rf $(ASDF_PATH)
@@ -89,13 +91,33 @@ asdf:
 	git clone git@github.com:asdf-vm/asdf.git $(ASDF_PATH)
 	ln -sf $(PWD)/asdfrc/.asdfrc $(ASDFRC_PATH)
 
-.PHONY: git
-git:
-	ln -sf $(PWD)/git/.gitconfig ~/.gitconfig
-	git config --global core.excludesfile $(PWD)/git/.gitignore
+.PHONY: nodejs
+asdf-nodejs:
+	asdf plugin-add nodejs
+	asdf install nodejs latest
+	asdf global nodejs latest
 
+.PHONY: ruby
+asdf-ruby:
+	dnf instal -y libyaml-devel
+	asdf plugin add ruby
+	asdf install ruby latest
+	asdf global ruby latest
 
-.PHONY: other-packages
-other-packages:
-	apt-get install -y vlc           \
-	                   transmission  \
+.PHONY: golang
+asdf-golang:
+	asdf plugin add golang
+	asdf install golang latest
+	asdf global golang latest
+
+.PHONY: python
+asdf-python:
+	asdf plugin add python
+	asdf install python latest
+	asdf global python latest
+
+.PHONY: python
+asdf-lua:
+	asdf plugin add lua
+	asdf install lua latest
+	asdf global lua latest
