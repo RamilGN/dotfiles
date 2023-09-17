@@ -78,7 +78,7 @@ return {
                             padding = {
                                 left = 1, right = 0 }
                         },
-                        { "filename",   path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+                        { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
                         {
                             function()
                                 return require("nvim-navic").get_location()
@@ -167,7 +167,7 @@ return {
                 dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
                 dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
                 dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
-                dashboard.button("l", "" .. " Plugins", ":Lazy<CR>"),
+                dashboard.button("l", " " .. " Plugins", ":Lazy<CR>"),
                 dashboard.button("q", " " .. " Quit", ":qa<CR>"),
             }
             for _, button in ipairs(dashboard.section.buttons.val) do
@@ -202,7 +202,7 @@ return {
                     local stats = require("lazy").stats()
                     local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
                     local v = vim.version()
-                    local info = string.format(" v%d.%d ", v.major, v.minor)
+                    local info = string.format(" v%d.%d ", v.major, v.minor)
                     dashboard.section.footer.val = info .. "loaded " .. stats.count .. " plugins in " .. ms .. "ms"
 
                     pcall(vim.cmd.AlphaRedraw)

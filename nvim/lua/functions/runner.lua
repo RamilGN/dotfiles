@@ -5,14 +5,11 @@ local g = require("functions.go")
 local M = {}
 local exec = {
     filetype = {
-        ["lua"] = function(opts)
-            v.vterm("lua " .. opts.current_buffer)
-        end,
+        ["lua"] = function(opts) v.vterm("lua " .. opts.current_buffer) end,
         ["ruby"] = r.ruby,
         ["go"] = g.go,
-        ["python"] = function(opts)
-            v.vterm("python3 " .. opts.current_buffer)
-        end,
+        ["python"] = function(opts) v.vterm("python3 " .. opts.current_buffer) end,
+        ["javascript"] = function(opts) v.vterm("node " .. opts.current_buffer) end,
         ["c"] = function(opts)
             local curb = opts.current_buffer
             local cmpf = curb .. ".out"

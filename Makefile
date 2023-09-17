@@ -24,6 +24,7 @@ dnf-packages:
 flatpak:
 	flatpak install flathub org.videolan.VLC
 	flatpak install flathub org.telegram.desktop
+	flatpak install flathub com.discordapp.Discord
 
 .PHONY: kitty
 kitty:
@@ -38,6 +39,14 @@ kitty:
 	cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications
 	sed -i "s|Icon=kitty|Icon=$(PWD)/kitty/whiskers_256x256.png|g" ~/.local/share/applications/kitty*.desktop
 	sed -i "s|Exec=kitty|Exec=/home/$(USER)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
+
+.PHONY: docker
+docker:
+	sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+	sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	sudo groupadd docker
+	sudo usermod -aG docker $USER
+	newgrp docker
 
 .PHONY: zsh
 zsh: oh-my-zsh zsh-plugins
@@ -67,6 +76,15 @@ fonts:
 	cd nerd-fonts && git sparse-checkout add patched-fonts/FiraCode
 	./nerd-fonts/install.sh FiraCode
 
+.PHONY: codecs
+codecs:
+	dnf install -y \
+		gstreamer1-plugins-{bad-\*,good-\*,base} \
+		gstreamer1-plugin-openh264 \
+		gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel \
+		lame\* --exclude=lame-devel
+	dnf group upgrade --with-optional Multimedia
+
 .PHONY: nvim
 nvim:
 	rm -rf $(PWD)/nvim/plugin
@@ -79,9 +97,6 @@ git:
 	ln -sf $(PWD)/git/.gitconfig ~/.gitconfig
 	git config --global core.excludesfile $(PWD)/git/.gitignore
 
-################################################
-##################### ASDF #####################
-################################################
 ASDF_PATH:=~/.asdf
 ASDFRC_PATH:=~/.asdfrc
 .PHONY: asdf
