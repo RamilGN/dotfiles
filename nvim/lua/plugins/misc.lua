@@ -64,7 +64,7 @@ return {
                         local cwd = oil.get_current_dir()
                         local entry = oil.get_cursor_entry()
                         if cwd and entry then
-                            vim.fn.jobstart({ "open", string.format("%s/%s", cwd, entry.name) })
+                            vim.fn.jobstart({ "xdg-open", string.format("%s/%s", cwd, entry.name) })
                         end
                     end
                 },

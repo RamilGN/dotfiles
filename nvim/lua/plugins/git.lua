@@ -31,7 +31,7 @@ return {
     {
         "shumphrey/fugitive-gitlab.vim",
         config = function()
-            vim.g.fugitive_gitlab_domains = { "https://gitlab.insales.ru" }
+            vim.g.fugitive_gitlab_domains = { "https://gitlab.insalesteam.ru" }
         end
     },
     { "tpope/vim-rhubarb" },

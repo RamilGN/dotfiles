@@ -13,7 +13,7 @@ dnf-packages:
 					gcc-c++ \ # treesitter
 					git \
 					git-delta \
-					htop \
+					btop \
 					ripgrep \ # neovim
 					transmission \
 					util-linux-user \ # chsh

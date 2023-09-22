@@ -20,6 +20,7 @@ return {
                             "pyright",
                             "dockerls",
                             "bashls",
+                            "eslint",
                             "tsserver",
                             "html",
                             "cssls",
@@ -198,7 +199,9 @@ return {
                     null_ls.builtins.formatting.gofumpt.with({
                         extra_args = { "-extra" }
                     }),
-                    null_ls.builtins.formatting.prettierd,
+                    null_ls.builtins.formatting.prettierd.with {
+                        disabled_filetypes = { "javascript" }
+                    },
                     null_ls.builtins.formatting.codespell
                 },
             })

@@ -22,17 +22,17 @@ end
 
 M.insales_rspec = function(opts)
     local spec = M.get_cur_spec(opts.cmd_args)
-    require("functions.vim").vterm([[docker exec -it -w /home/app/code insales_insales_1 bin/spring rspec ]] .. spec)
+    require("functions.vim").vterm([[docker exec -it -w /home/app/code insales-insales-1 bin/spring rspec ]] .. spec)
 end
 
 M.sync1c_rspec = function(opts)
     local spec = M.get_cur_spec(opts.cmd_args)
-    require("functions.vim").vterm([[docker exec -it -w /home/app/code 1c_synch_1c_sync_1 bundle exec rspec ]] .. spec)
+    require("functions.vim").vterm([[docker exec -it -w /home/app/code 1c-synch-1c-sync-1 bundle exec rspec ]] .. spec)
 end
 
 M.tickets_rspec = function(opts)
     local spec = M.get_cur_spec(opts.cmd_args)
-    require("functions.vim").vterm([[docker exec -it -w /tickets tickets_backend_1 bin/spring rspec ]] .. spec)
+    require("functions.vim").vterm([[docker exec -it -w /tickets tickets-backend-1 bin/spring rspec ]] .. spec)
 end
 
 return M
