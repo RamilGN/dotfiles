@@ -200,7 +200,7 @@ return {
                         extra_args = { "-extra" }
                     }),
                     null_ls.builtins.formatting.prettierd.with {
-                        disabled_filetypes = { "javascript" }
+                        disabled_filetypes = {}
                     },
                     null_ls.builtins.formatting.codespell
                 },

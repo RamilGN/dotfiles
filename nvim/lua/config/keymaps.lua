@@ -220,7 +220,7 @@ return {
             { "<C-s>",       "<Cmd>Telescope live_grep<CR>",                                                                  desc = "Live grep" },
             { "<C-s>",       function() t().live_grep({ default_text = f().vim.get_visual_selection() }) end,                 desc = "Live grep",              mode = "v" },
             -- Git
-            { "<C-g>",       "<Cmd>Telescope git_status<CR>",                                                                 desc = "Git status" },
+            { "<C-g>",       "<Cmd>silent! Telescope git_status<CR>",                                                                 desc = "Git status" },
             { "<leader>gos", "<Cmd>Telescope git_stash<CR>",                                                                  desc = "Git stash" },
             { "<leader>goc", "<Cmd>Telescope git_commits<CR>",                                                                desc = "Git commits" },
             { "<leader>goC", "<Cmd>Telescope git_bcommits<CR>",                                                               desc = "Git commits" },
