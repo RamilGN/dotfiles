@@ -146,7 +146,7 @@ return {
     -- Markdown.
     {
         "iamcco/markdown-preview.nvim",
-        build = "cd app && npm install",
+        build = vim.fn["mkdp#util#install"],
         cmd = "MarkdownPreviewToggle",
         event = { "BufReadPost", "BufNewFile" },
         keys = require("config.keymaps").markdown_preview,
