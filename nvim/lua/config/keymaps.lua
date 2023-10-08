@@ -79,7 +79,7 @@ return {
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Open smth.
         map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
-        map("n", "gx", "<Cmd>silent !xdg-open <cWORD><CR>", { desc = "Open file with system app" })
+        map("n", "gx", "<Cmd>silent !xdg-open '<cWORD>'<CR>", { desc = "Open file with system app" })
         -- Mighty A.
         map("n", "<leader>a", function()
             vim.cmd("V a")

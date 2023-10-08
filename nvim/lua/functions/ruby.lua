@@ -27,7 +27,7 @@ end
 
 M.sync1c_rspec = function(opts)
     local spec = M.get_cur_spec(opts.cmd_args)
-    require("functions.vim").vterm([[docker exec -it -w /home/app/code 1c-synch-1c-sync-1 bundle exec rspec ]] .. spec)
+    require("functions.vim").vterm([[docker exec -it -w /home/app/code 1c_synch-1c_sync-1 bundle exec rspec ]] .. spec)
 end
 
 M.tickets_rspec = function(opts)
