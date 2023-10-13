@@ -159,7 +159,7 @@ return {
                 -- Git add.
                 { "<leader>gaa",  "<Cmd>G ++curwin add -v --patch<CR>",                                               desc = "Git add patch" },
                 -- Git log.
-                { "<leader>glo",  "<Cmd>G ++curwin log -n 1000<CR>",                                                  desc = "Git log 1000" },
+                { "<leader>glo",  "<Cmd>G ++curwin log -n 100<CR>",                                                   desc = "Git log 100" },
                 -- Git stash.
                 { "<leader>gstl", "<Cmd>V gstl-np<CR>",                                                               desc = "Git stash list" },
                 { "<leader>gsti", "<Cmd>V gsti<CR>",                                                                  desc = "Git stash apply" },
@@ -219,8 +219,9 @@ return {
             { "<C-f>",       function() t().find_files({ default_text = f().vim.get_visual_selection() }) end,                desc = "Find files",             mode = "v" },
             { "<C-s>",       "<Cmd>Telescope live_grep<CR>",                                                                  desc = "Live grep" },
             { "<C-s>",       function() t().live_grep({ default_text = f().vim.get_visual_selection() }) end,                 desc = "Live grep",              mode = "v" },
+            { "<C-;>",       "<Cmd>Telescope command_history<CR>",                                                            desc = "Command history" },
             -- Git
-            { "<C-g>",       "<Cmd>silent! Telescope git_status<CR>",                                                                 desc = "Git status" },
+            { "<C-g>",       "<Cmd>silent! Telescope git_status<CR>",                                                         desc = "Git status" },
             { "<leader>gos", "<Cmd>Telescope git_stash<CR>",                                                                  desc = "Git stash" },
             { "<leader>goc", "<Cmd>Telescope git_commits<CR>",                                                                desc = "Git commits" },
             { "<leader>goC", "<Cmd>Telescope git_bcommits<CR>",                                                               desc = "Git commits" },
@@ -238,7 +239,6 @@ return {
             -- Open
             { "<leader>oc",  "<Cmd>Telescope find_files cwd=~/dotfiles<CR>",                                                  desc = "Open configs dir" },
             { "<leader>op",  "<Cmd>Telescope find_files cwd=~/private<CR>",                                                   desc = "Open private dir" },
-            { "<leader>o:",  "<Cmd>Telescope command_history<CR>",                                                            desc = "Command history" },
             { "<leader>o/",  "<Cmd>Telescope search_history<CR>",                                                             desc = "Search history" },
             { "<leader>or",  function() t().oldfiles({ only_cwd = true }) end,                                                desc = "Open recent files" },
             { "<leader>od",  "<Cmd>Telescope diagnostics<CR>",                                                                desc = "Diagnostics" },

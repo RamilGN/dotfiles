@@ -57,17 +57,8 @@ return {
                 ["<C-h>"] = false,
                 ["gs"] = "actions.select_split",
                 ["g."] = "actions.open_cmdline",
-                ["go"] = {
-                    desc = "Open with default app",
-                    callback = function()
-                        local oil = require("oil")
-                        local cwd = oil.get_current_dir()
-                        local entry = oil.get_cursor_entry()
-                        if cwd and entry then
-                            vim.fn.jobstart({ "xdg-open", string.format("%s/%s", cwd, entry.name) })
-                        end
-                    end
-                },
+                ["gh"] = "actions.toggle_hidden",
+                ["gx"] = "actions.open_external",
                 ["gd"] = {
                     desc = "Toggle detail view",
                     callback = function()

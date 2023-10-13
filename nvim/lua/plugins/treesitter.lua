@@ -10,38 +10,43 @@ return {
                 "nvim-treesitter/playground",
                 cmd = "TSPlaygroundToggle"
             },
-            { "nvim-treesitter/nvim-treesitter-context",    opts = {} },
+            {
+                "nvim-treesitter/nvim-treesitter-context",
+                opts = { mode = "cursor" },
+            },
             { "RRethy/nvim-treesitter-endwise" },
-            { "windwp/nvim-ts-autotag" },
         },
         config = function()
             require("nvim-treesitter.configs").setup({
                 ensure_installed = {
                     "bash",
                     "c",
-                    "go",
+                    "diff",
+                    "gitcommit",
                     "go",
                     "gomod",
                     "gosum",
                     "gowork",
                     "html",
                     "javascript",
-                    "vue",
+                    "jsdoc",
                     "json",
+                    "jsonc",
                     "lua",
                     "luadoc",
                     "luap",
                     "markdown",
                     "markdown_inline",
-                    "gitcommit",
                     "python",
                     "query",
                     "regex",
                     "ruby",
+                    "toml",
                     "tsx",
                     "typescript",
                     "vim",
                     "vimdoc",
+                    "vue",
                     "yaml",
                 },
                 highlight = {
@@ -180,6 +185,9 @@ return {
             placeholders_hl = "None",
         },
         keys = require("config.keymaps").neogen()
-    }
-
+    },
+    {
+        "windwp/nvim-ts-autotag",
+        event = "InsertEnter"
+    },
 }

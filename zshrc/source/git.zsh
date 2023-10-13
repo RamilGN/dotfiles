@@ -4,6 +4,8 @@ alias gclean!='git clean -fd && grs . && grst .'
 alias glb='git log $(git_current_branch) --not $(git_main_branch)'
 
 # Branch.
+alias gby='xclipsel $(git_current_branch)'
+
 unalias gb; function gb {
   if [ $# -eq 0 ]
   then
