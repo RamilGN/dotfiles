@@ -1,45 +1,17 @@
 return {
     -- Theme.
     {
-        "rebelot/kanagawa.nvim",
-        lazy = false,
-        priority = 1000,
+        "folke/tokyonight.nvim",
         config = function()
-            require("kanagawa").setup({
-                compile = true,
-                undercurl = true,
-                commentStyle = { italic = true },
-                functionStyle = {},
-                keywordStyle = { italic = true },
-                statementStyle = { bold = true },
-                typeStyle = {},
-                variablebuiltinStyle = { italic = true },
-                specialReturn = true,
-                specialException = true,
-                transparent = true,
-                dimInactive = false,
-                globalStatus = false,
-                terminalColors = true,
-                colors = {
-                    theme = {
-                        all = {
-                            ui = {
-                                bg_gutter = "none"
-                            }
-                        }
-                    }
-                },
-                overrides = function(colors)
-                    local theme = colors.theme
-                    return {
-                        Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1, blend = 12 },
-                        PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
-                        PmenuSbar = { bg = theme.ui.bg_m1 },
-                        PmenuThumb = { bg = theme.ui.bg_p2 },
-                    }
+            require("tokyonight").setup({
+                on_highlights = function(hl, c)
+                    hl.CursorLineNr = { fg = c.orange, bold = true }
+                    hl.GitSignsAdd = { fg = c.teal }
+                    hl.GitSignsChange = { fg = c.yellow }
+                    hl.GitSignsDelete = { fg = c.red1 }
                 end
             })
-            vim.cmd("colorscheme kanagawa")
+            vim.cmd([[colorscheme tokyonight-moon]])
         end
     },
     -- Fancy lower status line.
@@ -61,7 +33,7 @@ return {
 
             return {
                 options = {
-                    theme = "kanagawa",
+                    theme = "tokyonight",
                     globalstatus = true,
                     component_separators = {},
                     section_separators = {},
@@ -122,7 +94,8 @@ return {
                     "lazy",
                     "mason",
                     "toggleterm",
-                    "undotree"
+                    "undotree",
+                    "oil_preview"
                 },
                 callback = function()
                     vim.b.miniindentscope_disable = true
@@ -240,5 +213,5 @@ return {
     -- Displaying icons.
     { "nvim-tree/nvim-web-devicons", lazy = true },
     -- UI components.
-    { "MunifTanjim/nui.nvim",        lazy = true }
+    { "MunifTanjim/nui.nvim",        lazy = true },
 }

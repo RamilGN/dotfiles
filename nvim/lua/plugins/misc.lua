@@ -82,13 +82,7 @@ return {
             local toggleterm = require("toggleterm")
 
             toggleterm.setup({
-                size = function(term)
-                    if term.direction == "horizontal" then
-                        return 20
-                    elseif term.direction == "vertical" then
-                        return math.floor(vim.o.columns * 0.5)
-                    end
-                end,
+                size = function(_) return math.floor(vim.o.columns * 0.5) end,
                 open_mapping = [[<C-\>]],
                 insert_mappings = true,
                 persist_size = false,
@@ -102,8 +96,6 @@ return {
 
             vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW",
                 function(opts)
-                    toggleterm = require("toggleterm")
-
                     toggleterm.send_lines_to_terminal("single_line", false, opts)
                 end,
                 { nargs = "?" }
@@ -111,8 +103,6 @@ return {
 
             vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
                 function(opts)
-                    toggleterm = require("toggleterm")
-
                     toggleterm.send_lines_to_terminal("visual_selection", false, opts)
                 end,
                 { range = true, nargs = "?" }

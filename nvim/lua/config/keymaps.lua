@@ -26,8 +26,8 @@ return {
         map("v", "<", "<gv")
         map("v", ">", ">gv")
         -- Follow line number with `gf`.
-        map("n", "gf", "gF")
-        map("n", "gF", "gf")
+        map({ "n", "v" }, "gf", "gF")
+        map({ "n", "v" }, "gF", "gf")
         -- New lines.
         map("n", "<CR>", "m`o<Esc>``", { desc = "Insert new line below cursor" })
         map("n", "<S-CR>", "m`O<Esc>``", { desc = "Insert new line under cursor" })
@@ -71,7 +71,7 @@ return {
         map("v", "al", ":normal 0v$h<CR>", { desc = "around line" })
         map("o", "al", ":normal val<CR>", { desc = "around line" })
         -- Quickifx list.
-        map("n", "<leader>qo", "<Cmd>copen<CR>", { desc = "Open quick fix list" })
+        map("n", "<leader>q", "<Cmd>copen<CR>", { desc = "Open quick fix list" })
         -- Run commands.
         map({ "n", "v" }, "<leader>ru", ":Run<CR>", { desc = "Run current file" })
         map("n", "<leader>re", function() vim.cmd(vim.g.last_command) end, { desc = "Last command" })

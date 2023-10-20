@@ -17,7 +17,10 @@ local core = {
         require("lazy").setup("plugins", {
             change_detection = {
                 notify = false
-            }
+            },
+            dev = {
+                path = "~/dotfiles/nvim/lua/dev",
+            },
         })
     end
 }
