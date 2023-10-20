@@ -48,13 +48,14 @@ return {
                 show_hidden = true
             },
             keymaps = {
-                ["~"] = "<cmd>edit $HOME<CR>",
-                ["<C-Space>"] = "actions.close",
+                ["~"] = false,
                 ["<C-l>"] = false,
-                ["gr"] = "actions.refresh",
                 ["<C-s>"] = false,
-                ["gv"] = "actions.select_vsplit",
                 ["<C-h>"] = false,
+                ["gg"] = "<cmd>edit $HOME<CR>",
+                ["<C-Space>"] = "actions.close",
+                ["gr"] = "actions.refresh",
+                ["gv"] = "actions.select_vsplit",
                 ["gs"] = "actions.select_split",
                 ["g."] = "actions.open_cmdline",
                 ["gh"] = "actions.toggle_hidden",

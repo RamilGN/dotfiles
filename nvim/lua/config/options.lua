@@ -1,5 +1,9 @@
 return {
     setup = function()
+        vim.opt.keymap         = "russian-jcukenwin" -- RU keyboard layout
+        vim.opt.iminsert       = 0                   -- EN layout default in insert
+        vim.opt.imsearch       = -1                  -- EN layout default in search
+
         -- Standard
         vim.opt.autoindent     = true                    -- Copy indent from current line to next
         vim.opt.autowriteall   = true                    -- Autowrite
@@ -11,9 +15,6 @@ return {
         vim.opt.formatoptions  = "jcroqlnt"              -- tcqj
         vim.opt.grepprg        = "rg --vimgrep"          -- Command for grep
         vim.opt.ignorecase     = true                    -- Ignore case when searching
-        vim.opt.iminsert       = 0                       -- EN layout default in insert
-        vim.opt.imsearch       = -1                      -- EN layout default in search
-        vim.opt.keymap         = "russian-jcukenwin"     -- RU keyboard layout
         vim.opt.laststatus     = 3                       -- Global statusline
         vim.opt.list           = true                    -- Show trailing whitespaces, tabs etc...
         vim.opt.mouse          = nil                     -- Mouse off
@@ -24,7 +25,7 @@ return {
         vim.opt.scrolloff      = 10                      -- Show some lines after cursor
         vim.opt.shiftround     = true                    -- Round to shiftwidth
         vim.opt.shiftwidth     = 4                       -- Tabs width
-        vim.opt.showmode       = false
+        vim.opt.showmode       = false                   -- Statusline line dup
         vim.opt.signcolumn     = "yes:2"                 -- Sign column
         vim.opt.smartcase      = true                    -- Ignore case when searching if there is no capital letter
         vim.opt.smartindent    = true                    -- Smart indent

@@ -2,6 +2,9 @@ return {
     core             = function()
         local f = function() return require("functions") end
         local map = vim.keymap.set
+        -- Arrows
+        map({ "i", "c", "t" }, "<C-h>", "<Left>")
+        map({ "i", "c", "t" }, "<C-l>", "<Right>")
         -- Package manager.
         map("n", "<leader>pp", "<Cmd>Lazy home<CR>", { desc = "Plugins" })
         -- Search without jumping.
