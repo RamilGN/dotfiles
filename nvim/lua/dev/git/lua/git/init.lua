@@ -1,7 +1,7 @@
 local M = {}
 
-M.setup = function(opts)
-    require("git.commands").setup(opts)
+M.setup = function(config)
+    require("git.commands").setup(config)
 end
 
 return M

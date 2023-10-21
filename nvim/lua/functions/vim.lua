@@ -1,19 +1,5 @@
 local M = {}
 
-M.closewin = function()
-    vim.cmd([[q]])
-end
-
-M.curwin = function()
-    local cw = vim.api.nvim_get_current_win()
-    return {
-        id = cw,
-        back = function()
-            vim.api.nvim_set_current_win(cw)
-        end
-    }
-end
-
 M.get_buf_byte_size = function(bufnr)
     local success, lines = pcall(vim.api.nvim_buf_line_count, bufnr)
     if success then

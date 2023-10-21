@@ -1,4 +1,12 @@
 return {
-    { "RamilGN/gpt", opts = {}, dev = true },
-    { "RamilGN/git", opts = {}, dev = true },
+    {
+        "RamilGN/gpt",
+        dev = true,
+        opts = {}
+    },
+    {
+        "RamilGN/git",
+        dev = true,
+        opts = { delta = true },
+    },
 }
