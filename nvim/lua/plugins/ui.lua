@@ -125,72 +125,30 @@ return {
 
     -- Dashboard
     {
-        "goolord/alpha-nvim",
+        "nvimdev/dashboard-nvim",
         event = "VimEnter",
-        opts = function()
-            local dashboard = require("alpha.themes.dashboard")
-
-            local header = {
-                "                                                   ",
-                "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
-                "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
-                "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
-                "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
-                "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
-                "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
-                "                                                   ",
-            }
-
-            dashboard.section.header.val = header
-
-            dashboard.section.buttons.val = {
-                dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
-                dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert <CR>"),
-                dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
-                dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
-                dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
-                dashboard.button("l", " " .. " Plugins", ":Lazy<CR>"),
-                dashboard.button("q", " " .. " Quit", ":qa<CR>"),
-            }
-            for _, button in ipairs(dashboard.section.buttons.val) do
-                button.opts.hl = "AlphaButtons"
-                button.opts.hl_shortcut = "AlphaShortcut"
-            end
-
-            dashboard.section.header.opts.hl = "AlphaHeader"
-            dashboard.section.buttons.opts.hl = "AlphaButtons"
-            dashboard.section.footer.opts.hl = "AlphaFooter"
-            dashboard.opts.layout[1].val = 8
-
-            return dashboard
-        end,
-        config = function(_, dashboard)
-            -- close Lazy and re-open when the dashboard is ready
-            if vim.o.filetype == "lazy" then
-                vim.cmd.close()
-                vim.api.nvim_create_autocmd("User", {
-                    pattern = "AlphaReady",
-                    callback = function()
-                        require("lazy").show()
-                    end,
-                })
-            end
-
-            require("alpha").setup(dashboard.opts)
-
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "LazyVimStarted",
-                callback = function()
-                    local stats = require("lazy").stats()
-                    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-                    local v = vim.version()
-                    local info = string.format(" v%d.%d ", v.major, v.minor)
-                    dashboard.section.footer.val = info .. "loaded " .. stats.count .. " plugins in " .. ms .. "ms"
-
-                    pcall(vim.cmd.AlphaRedraw)
-                end,
+        config = function()
+            local v = vim.version()
+            local info = string.format("v%d.%d.%d", v.major, v.minor, v.patch)
+            require("dashboard").setup({
+                theme = "hyper",
+                config = {
+                    header = {
+                        "                                                   ",
+                        "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+                        "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+                        "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+                        "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+                        "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+                        "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+                        "                                                   ",
+                    },
+                    shortcut = { { desc = info } },
+                    footer = {}
+                },
             })
         end,
+        dependencies = { { "nvim-tree/nvim-web-devicons" } }
     },
     -- `TODO` comments.
     {

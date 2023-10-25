@@ -2,9 +2,6 @@ return {
     core             = function()
         local f = function() return require("functions") end
         local map = vim.keymap.set
-        -- Arrows
-        map({ "i", "c", "t" }, "<C-h>", "<Left>")
-        map({ "i", "c", "t" }, "<C-l>", "<Right>")
         -- Package manager.
         map("n", "<leader>pp", "<Cmd>Lazy home<CR>", { desc = "Plugins" })
         -- Search without jumping.
@@ -41,7 +38,7 @@ return {
         map({ "n", "v" }, "c", [["_c]], { desc = "Change without yanking" })
         map({ "n", "v" }, "C", [["_C]], { desc = "Change without yanking" })
         -- Normal mode in terminal.
-        map("t", "<C-[>", "<C-\\><C-n>", { desc = "Normal mode" })
+        map("t", "<C-[><C-[>", "<C-\\><C-n>", { desc = "Normal mode" })
         -- Windows.
         map("n", "<C-k>", "<C-w><Up>", { desc = "Go to upper window" })
         map("n", "<C-j>", "<C-w><down>", { desc = "Go to bottom window" })
