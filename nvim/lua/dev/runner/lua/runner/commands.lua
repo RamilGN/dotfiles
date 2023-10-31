@@ -1,6 +1,5 @@
 local M = {}
 
-M.setup = function(_)
-end
+M.setup = function(_) end
 
 return M

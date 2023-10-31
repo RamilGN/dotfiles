@@ -28,17 +28,24 @@ return {
             highlight = {
                 ui = "String",
                 search = "DiffAdd",
-                replace = "DiffDelete"
+                replace = "DiffDelete",
             },
-        }
+        },
     },
     -- Auto pairs
     {
         "echasnovski/mini.pairs",
         event = { "BufReadPre", "BufNewFile" },
         version = false,
-        config = function(_, opts) require("mini.pairs").setup(opts) end,
+        config = function(_, opts)
+            require("mini.pairs").setup(opts)
+        end,
     },
     -- Auto-indent
-    { "nmac427/guess-indent.nvim",                   config = function() require("guess-indent").setup {} end }
+    {
+        "nmac427/guess-indent.nvim",
+        config = function()
+            require("guess-indent").setup({})
+        end,
+    },
 }

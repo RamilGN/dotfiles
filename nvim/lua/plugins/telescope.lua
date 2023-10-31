@@ -25,7 +25,7 @@ return {
                 end)
             end
 
-            local tcd_to_dir          = function(prompt_bufnr)
+            local tcd_to_dir = function(prompt_bufnr)
                 local selection = require("telescope.actions.state").get_selected_entry()
                 local file = vim.fn.fnamemodify(selection.path, ":p")
                 local dir = vim.fn.fnamemodify(selection.path, ":p:h")
@@ -42,15 +42,15 @@ return {
                             ["<Esc>"] = actions.close,
                             ["<C-\\>"] = actions.close,
                             ["<C-j>"] = { "<C-^>", type = "command" },
-                            ["<C-s>"] = actions.file_split
+                            ["<C-s>"] = actions.file_split,
                         },
                     },
                     dynamic_preview_title = true,
                     preview = {
                         treesitter = {
-                            disable = { "eruby" } -- 100% memory WTF 0_0
-                        }
-                    }
+                            disable = { "eruby" }, -- 100% memory WTF 0_0
+                        },
+                    },
                 },
                 pickers = {
                     find_files = {
@@ -58,9 +58,9 @@ return {
                         mappings = {
                             i = {
                                 ["<C-f>"] = tcd_to_dir,
-                            }
+                            },
                         },
-                        find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" }
+                        find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
                     },
                     live_grep = {
                         glob_pattern = { "!vendor" },
@@ -74,29 +74,29 @@ return {
                             i = {
                                 ["<C-d>"] = actions.delete_buffer,
                                 ["<C-x>"] = force_delete_buffer,
-                            }
-                        }
+                            },
+                        },
                     },
                     git_branches = {
                         theme = "dropdown",
                         previewer = false,
                     },
                     lsp_workspace_symbols = {
-                        symbol_width = 65
+                        symbol_width = 65,
                     },
                     lsp_document_symbols = {
                         theme = "dropdown",
-                    }
+                    },
                 },
                 extensions = {
                     undo = {
                         use_delta = true,
-                    }
-                }
+                    },
+                },
             })
         end,
-        dependencies = { { "nvim-lua/plenary.nvim" } }
+        dependencies = { { "nvim-lua/plenary.nvim" } },
     },
     { "debugloop/telescope-undo.nvim" },
-    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 }

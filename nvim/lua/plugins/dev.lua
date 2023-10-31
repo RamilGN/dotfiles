@@ -2,7 +2,7 @@ return {
     {
         "RamilGN/gpt",
         dev = true,
-        opts = {}
+        opts = {},
     },
     {
         "RamilGN/git",

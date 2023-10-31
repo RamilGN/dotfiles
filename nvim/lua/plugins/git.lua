@@ -6,12 +6,12 @@ return {
         opts = {
             max_file_length = 50000,
             signs = {
-                add          = { hl = "GitSignsAdd", text = "│" },
-                untracked    = { hl = "GitSignsAdd", text = "┆" },
-                change       = { hl = "GitSignsChange", text = "│" },
+                add = { hl = "GitSignsAdd", text = "│" },
+                untracked = { hl = "GitSignsAdd", text = "┆" },
+                change = { hl = "GitSignsChange", text = "│" },
                 changedelete = { hl = "GitSignsChange", text = "│" },
-                delete       = { hl = "GitSignsDelete", text = "│" },
-                topdelete    = { hl = "GitSignsDelete", text = "│" },
+                delete = { hl = "GitSignsDelete", text = "│" },
+                topdelete = { hl = "GitSignsDelete", text = "│" },
             },
             on_attach = function(buffer)
                 local k = require("config.keymaps")
@@ -20,19 +20,27 @@ return {
         },
         config = function(_, opts)
             require("gitsigns").setup(opts)
-        end
+        end,
     },
     -- Git aliases.
     {
         "tpope/vim-fugitive",
         keys = require("config.keymaps").git.fugitive,
-        cmd = "G"
+        cmd = "G",
     },
+    -- Github.
     {
         "shumphrey/fugitive-gitlab.vim",
         config = function()
             vim.g.fugitive_gitlab_domains = { "https://gitlab.insalesteam.ru" }
-        end
+        end,
     },
+    -- Gitlab
     { "tpope/vim-rhubarb" },
+    -- Diffview
+    {
+        "sindrets/diffview.nvim",
+        cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+        opts = {},
+    },
 }

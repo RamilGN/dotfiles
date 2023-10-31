@@ -19,13 +19,13 @@ M.setup = function(config)
                     delta("log -p -L" .. range .. ":%")
                 end
             end,
-            opts = { nargs = "?", range = true }
+            opts = { nargs = "?", range = true },
         },
         GitLogG = {
             cmd = function(_)
                 delta("log -n 300 -p --stat")
             end,
-            opts = { nargs = "?" }
+            opts = { nargs = "?" },
         },
         GitShow = {
             cmd = function(opts)
@@ -37,14 +37,14 @@ M.setup = function(config)
                     delta("show -p --stat " .. commit_hash)
                 end
             end,
-            opts = { nargs = "?" }
+            opts = { nargs = "?" },
         },
         GitShowPrev = {
             cmd = function(_)
                 delta("show -p --stat HEAD~1")
             end,
-            opts = { nargs = "?" }
-        }
+            opts = { nargs = "?" },
+        },
     }
 
     for name, command in pairs(M.commands) do

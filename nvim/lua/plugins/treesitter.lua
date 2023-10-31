@@ -8,7 +8,7 @@ return {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
             {
                 "nvim-treesitter/playground",
-                cmd = "TSPlaygroundToggle"
+                cmd = "TSPlaygroundToggle",
             },
             {
                 "nvim-treesitter/nvim-treesitter-context",
@@ -53,7 +53,7 @@ return {
                     enable = true,
                     disable = function(_, bufnr)
                         return require("functions").vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
-                    end
+                    end,
                 },
                 indent = { enable = true },
                 textobjects = {
@@ -69,14 +69,14 @@ return {
                             ["ic"] = "@class.inner",
                             ["ar"] = "@block.outer",
                             ["ir"] = "@block.inner",
-                        }
+                        },
                     },
                     move = {
                         enable = true,
                         set_jumps = true,
                         goto_next_start = {
                             ["]f"] = "@function.outer",
-                            ["]c"] = "@class.outer"
+                            ["]c"] = "@class.outer",
                         },
                         goto_next_end = {
                             ["]F"] = "@function.outer",
@@ -84,12 +84,12 @@ return {
                         },
                         goto_previous_start = {
                             ["[f"] = "@function.outer",
-                            ["[c"] = "@class.outer"
+                            ["[c"] = "@class.outer",
                         },
                         goto_previous_end = {
                             ["[F"] = "@function.outer",
                             ["[C"] = "@class.outer",
-                        }
+                        },
                     },
                     swap = {
                         enable = true,
@@ -98,22 +98,21 @@ return {
                         },
                         swap_previous = {
                             ["[a"] = "@parameter.inner",
-                        }
+                        },
                     },
                     lsp_interop = {
                         enable = true,
                         peek_definition_code = {
                             ["L"] = "@function.outer",
-                            ["M"] = "@class.outer"
-                        }
-                    }
-
+                            ["M"] = "@class.outer",
+                        },
+                    },
                 },
                 endwise = {
-                    enable = true
+                    enable = true,
                 },
                 autotag = {
-                    enable = true
+                    enable = true,
                 },
                 playground = {
                     enable = true,
@@ -132,13 +131,15 @@ return {
                         goto_node = "<cr>",
                         show_help = "?",
                     },
-                }
+                },
             })
 
             local f = require("functions")
             local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
 
-            local go_to_context, _ = tsrm.make_repeatable_move_pair(function() require("treesitter-context").go_to_context() end, function() end)
+            local go_to_context, _ = tsrm.make_repeatable_move_pair(function()
+                require("treesitter-context").go_to_context()
+            end, function() end)
             vim.keymap.set("n", "[z", go_to_context, { desc = "Go to context" })
             vim.keymap.set({ "n", "x", "o" }, ";", tsrm.repeat_last_move)
             vim.keymap.set({ "n", "x", "o" }, ",", tsrm.repeat_last_move_opposite)
@@ -147,7 +148,11 @@ return {
             vim.keymap.set({ "n", "x", "o" }, "t", tsrm.builtin_t)
             vim.keymap.set({ "n", "x", "o" }, "T", tsrm.builtin_T)
 
-            local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function() f.vim.keys("]s") end, function() f.vim.keys("[s") end)
+            local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function()
+                f.vim.keys("]s")
+            end, function()
+                f.vim.keys("[s")
+            end)
             vim.keymap.set("n", "]s", next_spell_repeat, { desc = "Next spell error" })
             vim.keymap.set("n", "[s", prev_spell_repeat, { desc = "Prev spell error" })
 
@@ -155,28 +160,25 @@ return {
             vim.keymap.set("n", "]d", next_diag_repeat, { desc = "Next diag error" })
             vim.keymap.set("n", "[d", prev_diag_repeat, { desc = "Prev diag error" })
 
-            local next_qf_repeat, prev_qf_repeat = tsrm.make_repeatable_move_pair(
-                function()
-                    local ok, _, _ = pcall(vim.cmd.cnext)
+            local next_qf_repeat, prev_qf_repeat = tsrm.make_repeatable_move_pair(function()
+                local ok, _, _ = pcall(vim.cmd.cnext)
 
-                    if ok then
-                        return
-                    else
-                        pcall(vim.cmd.cfirst)
-                    end
-                end,
-                function()
-                    local ok, _, _ = pcall(vim.cmd.cprevious)
-                    if ok then
-                        return
-                    else
-                        pcall(vim.cmd.clast)
-                    end
+                if ok then
+                    return
+                else
+                    pcall(vim.cmd.cfirst)
                 end
-            )
+            end, function()
+                local ok, _, _ = pcall(vim.cmd.cprevious)
+                if ok then
+                    return
+                else
+                    pcall(vim.cmd.clast)
+                end
+            end)
             vim.keymap.set("n", "]q", next_qf_repeat, { desc = "Next qf" })
             vim.keymap.set("n", "[q", prev_qf_repeat, { desc = "Prev qf" })
-        end
+        end,
     },
     {
         "danymat/neogen",
@@ -184,10 +186,10 @@ return {
             snippet_engine = "luasnip",
             placeholders_hl = "None",
         },
-        keys = require("config.keymaps").neogen()
+        keys = require("config.keymaps").neogen(),
     },
     {
         "windwp/nvim-ts-autotag",
-        event = "InsertEnter"
+        event = "InsertEnter",
     },
 }

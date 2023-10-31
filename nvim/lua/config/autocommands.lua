@@ -10,7 +10,7 @@ return {
                 vim.opt.iminsert = 0
             end,
             pattern = "*",
-            group = augroup("input_mode")
+            group = augroup("input_mode"),
         })
 
         -- Turn off comments auto-insert.
@@ -19,7 +19,7 @@ return {
                 vim.opt.formatoptions:remove({ "c", "r", "o" })
             end,
             pattern = "*",
-            group = augroup("format_options")
+            group = augroup("format_options"),
         })
 
         -- Highlight yanking text.
@@ -42,8 +42,7 @@ return {
                 end
 
                 vim.cmd([[%s/\s\+$//e]])
-            end
-            ,
+            end,
         })
 
         -- Auto create dir when saving a file, in case some intermediate directory does not exist.
@@ -80,5 +79,5 @@ return {
             group = augroup("checktime"),
             command = "checktime",
         })
-    end
+    end,
 }

@@ -85,13 +85,12 @@ end
 
 M.input = function(name, func)
     return function()
-        vim.ui.input(name,
-            function(input)
-                if not input then
-                    return
-                end
-                func(input)
-            end)
+        vim.ui.input(name, function(input)
+            if not input then
+                return
+            end
+            func(input)
+        end)
     end
 end
 

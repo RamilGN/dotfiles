@@ -9,10 +9,10 @@ return {
                     hl.GitSignsAdd = { fg = c.teal }
                     hl.GitSignsChange = { fg = c.yellow }
                     hl.GitSignsDelete = { fg = c.red1 }
-                end
+                end,
             })
             vim.cmd([[colorscheme tokyonight-moon]])
-        end
+        end,
     },
     -- Fancy lower status line.
     {
@@ -26,7 +26,7 @@ return {
                     return {
                         added = gitsigns.added,
                         modified = gitsigns.changed,
-                        removed = gitsigns.removed
+                        removed = gitsigns.removed,
                     }
                 end
             end
@@ -48,7 +48,9 @@ return {
                             icon_only = true,
                             separator = "",
                             padding = {
-                                left = 1, right = 0 }
+                                left = 1,
+                                right = 0,
+                            },
                         },
                         { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
                         {
@@ -56,19 +58,18 @@ return {
                                 return require("nvim-navic").get_location()
                             end,
                             cond = function()
-                                return package.loaded["nvim-navic"] and
-                                    require("nvim-navic").is_available()
+                                return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
                             end,
                         },
                     },
                     lualine_x = {},
                     lualine_y = {},
                     lualine_z = {
-                        { "progress", separator = " ",                  padding = { left = 1, right = 0 } },
+                        { "progress", separator = " ", padding = { left = 1, right = 0 } },
                         { "location", padding = { left = 0, right = 1 } },
                     },
                 },
-                extensions = { "nvim-tree", "quickfix", "toggleterm", "fugitive", "man" }
+                extensions = { "nvim-tree", "quickfix", "toggleterm", "fugitive", "man" },
             }
         end,
         dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -81,7 +82,11 @@ return {
         opts = {
             symbol = "│",
             options = { try_as_border = true },
-            draw = { animation = function() return 0 end }
+            draw = {
+                animation = function()
+                    return 0
+                end,
+            },
         },
         init = function()
             vim.api.nvim_create_autocmd("FileType", {
@@ -95,14 +100,16 @@ return {
                     "mason",
                     "toggleterm",
                     "undotree",
-                    "oil_preview"
+                    "oil_preview",
                 },
                 callback = function()
                     vim.b.miniindentscope_disable = true
                 end,
             })
         end,
-        config = function(_, opts) require("mini.indentscope").setup(opts) end,
+        config = function(_, opts)
+            require("mini.indentscope").setup(opts)
+        end,
     },
 
     -- Better select UI
@@ -144,11 +151,11 @@ return {
                         "                                                   ",
                     },
                     shortcut = { { desc = info } },
-                    footer = {}
+                    footer = {},
                 },
             })
         end,
-        dependencies = { { "nvim-tree/nvim-web-devicons" } }
+        dependencies = { { "nvim-tree/nvim-web-devicons" } },
     },
     -- `TODO` comments.
     {
@@ -165,11 +172,17 @@ return {
         },
     },
     -- Displaying colors.
-    { "norcalli/nvim-colorizer.lua", event = { "BufReadPre", "BufNewFile" }, config = function() require("colorizer").setup() end },
+    {
+        "norcalli/nvim-colorizer.lua",
+        event = { "BufReadPre", "BufNewFile" },
+        config = function()
+            require("colorizer").setup()
+        end,
+    },
     -- Autocompletion symbols.
-    { "onsails/lspkind.nvim",        lazy = true },
+    { "onsails/lspkind.nvim", lazy = true },
     -- Displaying icons.
     { "nvim-tree/nvim-web-devicons", lazy = true },
     -- UI components.
-    { "MunifTanjim/nui.nvim",        lazy = true },
+    { "MunifTanjim/nui.nvim", lazy = true },
 }

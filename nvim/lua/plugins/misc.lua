@@ -36,16 +36,16 @@ return {
     -- File explorer.
     {
         "stevearc/oil.nvim",
-        lazy         = false,
-        keys         = require("config.keymaps").oil(),
+        lazy = false,
+        keys = require("config.keymaps").oil(),
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        opts         = {
+        opts = {
             skip_confirm_for_simple_edits = true,
             win_options = {
                 concealcursor = "nvic",
             },
             view_options = {
-                show_hidden = true
+                show_hidden = true,
             },
             keymaps = {
                 ["~"] = false,
@@ -72,7 +72,7 @@ return {
                         end
                     end,
                 },
-            }
+            },
         },
     },
     -- Terminal management.
@@ -83,7 +83,9 @@ return {
             local toggleterm = require("toggleterm")
 
             toggleterm.setup({
-                size = function(_) return math.floor(vim.o.columns * 0.5) end,
+                size = function(_)
+                    return math.floor(vim.o.columns * 0.5)
+                end,
                 open_mapping = [[<C-\>]],
                 insert_mappings = true,
                 persist_size = false,
@@ -92,24 +94,18 @@ return {
                 float_opts = {
                     border = "rounded",
                 },
-                auto_scroll = true
+                auto_scroll = true,
             })
 
-            vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW",
-                function(opts)
-                    toggleterm.send_lines_to_terminal("single_line", false, opts)
-                end,
-                { nargs = "?" }
-            )
+            vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW", function(opts)
+                toggleterm.send_lines_to_terminal("single_line", false, opts)
+            end, { nargs = "?" })
 
-            vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW",
-                function(opts)
-                    toggleterm.send_lines_to_terminal("visual_selection", false, opts)
-                end,
-                { range = true, nargs = "?" }
-            )
+            vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW", function(opts)
+                toggleterm.send_lines_to_terminal("visual_selection", false, opts)
+            end, { range = true, nargs = "?" })
         end,
-        keys = require("config.keymaps").toggleterm()
+        keys = require("config.keymaps").toggleterm(),
     },
     -- Better quickfix-list.
     {
@@ -120,7 +116,7 @@ return {
                 preview = {
                     winblend = 0,
                     border = "none",
-                    win_height = 999
+                    win_height = 999,
                 },
             })
         end,
@@ -142,6 +138,6 @@ return {
             "nvim-telescope/telescope.nvim",
         },
         keys = require("config.keymaps").yaml,
-        cmd = { "YAMLTelescope" }
-    }
+        cmd = { "YAMLTelescope" },
+    },
 }

@@ -2,7 +2,9 @@ local M = {}
 
 M.ts_funcdecl = function()
     local current_node = vim.treesitter.get_node()
-    if not current_node then return "" end
+    if not current_node then
+        return ""
+    end
 
     local expr = current_node
     while expr do
@@ -11,7 +13,9 @@ M.ts_funcdecl = function()
         end
         expr = expr:parent()
     end
-    if not expr then return "" end
+    if not expr then
+        return ""
+    end
 
     local res = (vim.treesitter.get_node_text(expr:child(1), 0))
     return res
@@ -26,7 +30,6 @@ M.teststr = function(text)
 
     return teststr
 end
-
 
 M.go = function(opts)
     local v = require("functions.vim")

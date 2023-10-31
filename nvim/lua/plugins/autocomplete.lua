@@ -10,7 +10,7 @@ return {
         config = function(_, opts)
             require("luasnip").config.set_config(opts)
             require("luasnip.loaders.from_snipmate").lazy_load()
-        end
+        end,
     },
 
     -- Autocomplete
@@ -23,7 +23,7 @@ return {
             { "hrsh7th/cmp-buffer" },
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-cmdline" },
-            { "saadparwaiz1/cmp_luasnip" }
+            { "saadparwaiz1/cmp_luasnip" },
         },
         config = function()
             local f = require("functions")
@@ -54,7 +54,7 @@ return {
                     end,
                     keyword_pattern = [[\k\+]],
                 },
-                keyword_length = 2
+                keyword_length = 2,
             }
 
             local function border(hl_name)
@@ -81,7 +81,7 @@ return {
                     documentation = {
                         border = border("CmpDocBorder"),
                         winhighlight = "Normal:CmpDoc",
-                        scrollbar = false
+                        scrollbar = false,
                     },
                 },
                 snippet = {
@@ -94,7 +94,7 @@ return {
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
                     buffer_source,
-                    { name = "path" }
+                    { name = "path" },
                 },
                 experimental = {
                     ghost_text = {
@@ -110,19 +110,18 @@ return {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources({
                     { name = "cmdline" },
-                    { name = "path" }
-                })
+                    { name = "path" },
+                }),
             })
 
-            for _, cmd_type in ipairs { "/", "?", } do
-                cmp.setup.cmdline(
-                    cmd_type, {
-                        mapping = cmp.mapping.preset.cmdline(),
-                        sources = {
-                            buffer_source
-                        }
-                    })
+            for _, cmd_type in ipairs({ "/", "?" }) do
+                cmp.setup.cmdline(cmd_type, {
+                    mapping = cmp.mapping.preset.cmdline(),
+                    sources = {
+                        buffer_source,
+                    },
+                })
             end
-        end
-    }
+        end,
+    },
 }

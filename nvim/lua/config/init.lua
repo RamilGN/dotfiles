@@ -6,5 +6,5 @@ return {
         require("config.autocommands").setup()
         require("config.commands").setup()
         core.setup_plugins()
-    end
+    end,
 }

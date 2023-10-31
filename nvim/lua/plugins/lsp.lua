@@ -3,7 +3,7 @@ return {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
-            { "folke/neodev.nvim",                opts = {} },
+            { "folke/neodev.nvim", opts = {} },
             -- Package manager
             {
                 "williamboman/mason.nvim",
@@ -12,22 +12,21 @@ return {
 
                     require("mason-lspconfig").setup({
                         ensure_installed = {
-                            "solargraph",
-                            "lua_ls",
+                            "bashls",
+                            "cssls",
+                            "dockerls",
                             "emmet_ls",
+                            "eslint",
                             "gopls",
+                            "html",
+                            "jsonls",
+                            "lua_ls",
                             "pylsp",
                             "pyright",
-                            "dockerls",
-                            "bashls",
-                            "eslint",
+                            "solargraph",
                             "tsserver",
-                            "html",
-                            "cssls",
-                            "jsonls",
                             "yamlls",
-                            "dockerls"
-                        }
+                        },
                     })
                 end,
                 cmd = "Mason",
@@ -35,7 +34,7 @@ return {
             },
             { "williamboman/mason-lspconfig.nvim" },
             -- JSON schemas
-            { "b0o/schemastore.nvim" }
+            { "b0o/schemastore.nvim" },
         },
         opts = {
             diagnostics = {
@@ -43,14 +42,14 @@ return {
                     virtual_text = false,
                     update_in_insert = false,
                     underline = true,
-                    severity_sort = true
+                    severity_sort = true,
                 },
                 signs = {
                     DiagnosticSignError = { text = " ", texthl = "DiagnosticSignError" },
                     DiagnosticSignWarn = { text = " ", texthl = "DiagnosticSignWarn" },
                     DiagnosticSignInfo = { text = " ", texthl = "DiagnosticSignInfo" },
-                    DiagnosticSignHint = { text = " ", texthl = "DiagnosticSignHint" }
-                }
+                    DiagnosticSignHint = { text = " ", texthl = "DiagnosticSignHint" },
+                },
             },
 
             on_attach = function(client, bufnr)
@@ -62,16 +61,16 @@ return {
                     options.settings = {
                         json = {
                             schemas = require("schemastore").json.schemas(),
-                            validate = { enable = true }
-                        }
+                            validate = { enable = true },
+                        },
                     }
                 end,
                 yamlls = function(options, _)
                     options.settings = {
                         yaml = {
                             schemas = require("schemastore").yaml.schemas(),
-                            keyOrdering = false
-                        }
+                            keyOrdering = false,
+                        },
                     }
                 end,
                 solargraph = function(options, opts)
@@ -87,9 +86,9 @@ return {
                     options.settings = {
                         Lua = {
                             completion = {
-                                callSnippet = "Replace"
-                            }
-                        }
+                                callSnippet = "Replace",
+                            },
+                        },
                     }
                 end,
                 gopls = function(options)
@@ -129,9 +128,8 @@ return {
                             semanticTokens = true,
                         },
                     }
-                end
-            }
-
+                end,
+            },
         },
         config = function(_, opts)
             for sign, value in pairs(opts.diagnostics.signs) do
@@ -157,54 +155,6 @@ return {
 
                 lspconfig[server_name].setup(lsp_opts)
             end
-        end
+        end,
     },
-    {
-        "jay-babu/mason-null-ls.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            "williamboman/mason.nvim",
-            "nvimtools/none-ls.nvim",
-        },
-
-        config = function()
-            require("mason").setup()
-
-            require("mason-null-ls").setup({
-                ensure_installed = {
-                    "markdownlint",
-                    "sqlfluff",
-                    "goimports",
-                    "gomodifytags",
-                    "gofumpt",
-                    "prettierd",
-                    "codespell",
-                },
-                automatic_installation = true,
-            })
-
-            local null_ls = require("null-ls")
-            null_ls.setup({
-                should_attach = function(bufnr)
-                    local f = require("functions")
-                    return f.vim.get_buf_byte_size(bufnr) < vim.g.max_byte_size
-                end,
-                sources = {
-                    null_ls.builtins.diagnostics.markdownlint,
-                    null_ls.builtins.diagnostics.sqlfluff.with({
-                        extra_args = { "--dialect", "postgres" }
-                    }),
-                    null_ls.builtins.formatting.goimports,
-                    null_ls.builtins.code_actions.gomodifytags,
-                    null_ls.builtins.formatting.gofumpt.with({
-                        extra_args = { "-extra" }
-                    }),
-                    null_ls.builtins.formatting.prettierd.with {
-                        disabled_filetypes = {}
-                    },
-                    null_ls.builtins.formatting.codespell
-                },
-            })
-        end
-    }
 }
