@@ -15,7 +15,7 @@ return {
             {
                 "<leader>lF",
                 function()
-                    require("conform").format({ formatters = { "injected" } })
+                    require("conform").format({ async = true, formatters = { "injected" } })
                 end,
                 mode = { "n", "v" },
                 desc = "Format Injected Langs",
@@ -30,7 +30,7 @@ return {
                 gofumpt = { prepend_args = { "-extra" } },
             },
             formatters_by_ft = {
-                go = { "goimports", "gofumpt", "codespell" },
+                go = { "goimports", "gofumpt", "golines", "codespell" },
                 javascript = { "prettierd", "codespell" },
                 markdown = { "prettierd", "markdownlint" },
                 ruby = { "rubocop", "codespell" },

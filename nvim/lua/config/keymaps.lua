@@ -37,6 +37,7 @@ return {
         map("n", "<S-CR>", "m`O<Esc>``", { desc = "Insert new line under cursor" })
         -- Close buffer.
         map("n", "<C-w>b", ":bd! %<CR>", { desc = "Close current buffer" })
+        map("n", "<C-w>t", "<Cmd>tabc<CR>", { desc = "Close current tab" })
         -- Without yank.
         map("v", "p", [["_dP]], { desc = "Replace without yanking" })
         map({ "n", "v" }, "c", [["_c]], { desc = "Change without yanking" })
@@ -165,8 +166,6 @@ return {
             local gs = package.loaded.gitsigns
             -- Blame.
             map("n", "<leader>gb", "<Cmd>Gitsigns blame_line<CR>", "Git blame_line")
-            -- Diff.
-            map("n", "<leader>gd", "<Cmd>Gitsigns diffthis split=botright<CR>", "Git diff")
             -- Hunks.
             local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
             local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
@@ -566,7 +565,7 @@ return {
         map("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>", "LSP document symbols")
         map("n", "<leader>li", "<Cmd>LspInfo<CR>", "Lsp info")
         map("n", "<leader>lr", vim.lsp.buf.rename, "Rename")
-        map("n", "<leader>lw", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", "Workspace symbols")
+        map("n", "<leader>lw", "<Cmd>Telescope lsp_workspace_symbols<CR>", "Workspace symbols")
         map("n", "<leader>lx", "<Cmd>LspRestart<CR>", "Lsp restart")
         map("n", "K", vim.lsp.buf.hover, "Hover")
         map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")

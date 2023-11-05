@@ -74,10 +74,14 @@ return {
                     }
                 end,
                 solargraph = function(options, opts)
+                    opts.settings = {
+                        diagnostics = false,
+                    }
+
                     options.on_attach = function(client, bufnr)
                         -- Too slow for me :(
                         if vim.fn.expand("%:p"):find("insales/insales") then
-                            client.server_capabilities.completionProvider = false
+                            -- client.server_capabilities.completionProvider = false
                         end
                         opts.on_attach(client, bufnr)
                     end
@@ -137,8 +141,6 @@ return {
             end
             vim.diagnostic.config(opts.diagnostics.config)
 
-            -- TODO: Run only if ruby lsp is present
-            require("wip.ruby").setup()
             require("neodev").setup()
 
             local lspconfig = require("lspconfig")
