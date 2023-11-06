@@ -171,6 +171,21 @@ return {
             { "<leader>T", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Todo/Fix/Fixme" },
         },
     },
+    -- Better tabs.
+    {
+        "alvarosevilla95/luatab.nvim",
+        config = function()
+            require("luatab").setup({
+                modified = function()
+                    return ""
+                end,
+                windowCount = function(index)
+                    return "[" .. index .. "]" .. " "
+                end,
+            })
+        end,
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
     -- Displaying colors.
     {
         "norcalli/nvim-colorizer.lua",

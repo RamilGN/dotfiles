@@ -165,7 +165,9 @@ return {
             end
             local gs = package.loaded.gitsigns
             -- Blame.
-            map("n", "<leader>gb", "<Cmd>Gitsigns blame_line<CR>", "Git blame_line")
+            map("n", "<leader>gb", function()
+                gs.blame_line({ full = true })
+            end, "Git blame_line")
             -- Hunks.
             local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
             local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)

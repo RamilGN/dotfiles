@@ -25,18 +25,20 @@ return {
     -- Git aliases.
     {
         "tpope/vim-fugitive",
+        dependencies = {
+            -- Github.
+            { "tpope/vim-rhubarb" },
+            -- Gitlab.
+            {
+                "shumphrey/fugitive-gitlab.vim",
+                config = function()
+                    vim.g.fugitive_gitlab_domains = { "https://gitlab.insalesteam.ru" }
+                end,
+            },
+        },
         keys = require("config.keymaps").git.fugitive,
         cmd = "G",
     },
-    -- Github.
-    {
-        "shumphrey/fugitive-gitlab.vim",
-        config = function()
-            vim.g.fugitive_gitlab_domains = { "https://gitlab.insalesteam.ru" }
-        end,
-    },
-    -- Gitlab
-    { "tpope/vim-rhubarb" },
     -- Diffview
     {
         "sindrets/diffview.nvim",
@@ -49,7 +51,13 @@ return {
         },
         opts = {},
         keys = {
-            { "<leader>gdd", "<Cmd>DiffviewFileHistory<CR>", desc = "Diff" },
+            {
+                "<leader>gdd",
+                function()
+                    vim.cmd("DiffviewOpen")
+                end,
+                desc = "Diff",
+            },
         },
     },
 }
