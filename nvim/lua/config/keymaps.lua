@@ -5,6 +5,8 @@ return {
         end
         local map = vim.keymap.set
         -- Package manager.
+        map("n", "ZA", "<Cmd>wqall!<CR>", { desc = "Force quit all" })
+        -- Package manager.
         map("n", "<leader>pp", "<Cmd>Lazy home<CR>", { desc = "Plugins" })
         -- Search without jumping.
         map("n", "#", ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", { desc = "Search word without jumping", silent = true })

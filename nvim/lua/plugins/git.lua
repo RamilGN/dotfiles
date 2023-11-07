@@ -39,25 +39,4 @@ return {
         keys = require("config.keymaps").git.fugitive,
         cmd = "G",
     },
-    -- Diffview
-    {
-        "sindrets/diffview.nvim",
-        cmd = {
-            "DiffviewOpen",
-            "DiffviewClose",
-            "DiffviewToggleFiles",
-            "DiffviewFocusFiles",
-            "DiffviewFileHistory",
-        },
-        opts = {},
-        keys = {
-            {
-                "<leader>gdd",
-                function()
-                    vim.cmd("DiffviewOpen")
-                end,
-                desc = "Diff",
-            },
-        },
-    },
 }
