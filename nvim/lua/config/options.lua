@@ -6,7 +6,7 @@ return {
 
         -- Standard
         vim.opt.autoindent = true -- Copy indent from current line to next
-        vim.opt.autowrite = true -- Autowrite
+        vim.opt.autowriteall   = true -- Autowrite all
         vim.opt.clipboard = "unnamedplus" -- System clipboard
         vim.opt.completeopt = "menu,menuone,noselect" -- Autocomplete
         vim.opt.cursorline = true -- Highlight current line

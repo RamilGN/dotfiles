@@ -81,7 +81,7 @@ return {
                     options.on_attach = function(client, bufnr)
                         -- Too slow for me :(
                         if vim.fn.expand("%:p"):find("insales/insales") then
-                            -- client.server_capabilities.completionProvider = false
+                            client.server_capabilities.completionProvider = false
                         end
                         opts.on_attach(client, bufnr)
                     end

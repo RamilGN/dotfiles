@@ -46,6 +46,10 @@ alias zshcfg='nvim ~/dotfiles/zshrc/'
 alias trl='tree -LhaC 3 -I .git'
 alias vim='nvim'
 
+function trans() {
+    just-translate-cli -l1=ru -l2=en -t="$*"
+}
+
 # postgres
 alias pg-sandbox='docker run --rm --name pg-sandbox -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres:14'
 alias pg-console='psql postgresql://postgres:postgres@localhost:5432'
