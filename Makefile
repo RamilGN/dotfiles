@@ -20,6 +20,13 @@ dnf-packages:
 					xclip \ # neovim
 					zsh
 
+.PHONY: keyd
+keyd:
+	git clone https://github.com/rvaiya/keyd
+	cd keyd
+	make && sudo make install
+	sudo systemctl enable keyd && sudo systemctl start keyd
+
 .PHONY: flatpak
 flatpak:
 	flatpak install flathub org.videolan.VLC

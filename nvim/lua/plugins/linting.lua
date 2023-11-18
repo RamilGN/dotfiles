@@ -12,11 +12,12 @@ return {
                 "lua",
             },
             linters_by_ft = {
-                markdown = { "markdownlint" },
-                lua = { "codespell" },
-                ruby = { "rubocop", "codespell" },
                 go = { "golangcilint", "codespell" },
                 javascript = { "codespell" },
+                lua = { "codespell" },
+                markdown = { "markdownlint" },
+                ruby = { "rubocop", "codespell" },
+                vue = { "codespell" }
             },
             linters = {},
         },

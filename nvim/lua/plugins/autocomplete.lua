@@ -29,6 +29,18 @@ return {
             local f = require("functions")
             local k = require("config.keymaps")
             local cmp = require("cmp")
+
+            local lsp_source = { name = "nvim_lsp" }
+
+            local codeium_source = {
+                name = "codeium",
+                option = {
+                    keyword_pattern = [[\k\+]],
+                }
+            }
+
+            local luasnip_source = { name = "luasnip" }
+
             local buffer_source = {
                 name = "buffer",
                 option = {
@@ -56,6 +68,8 @@ return {
                 },
                 keyword_length = 2,
             }
+
+            local path_source = { name = "path" }
 
             local function border(hl_name)
                 return {
@@ -91,10 +105,11 @@ return {
                 },
                 mapping = cmp.mapping.preset.insert(k.cmp()),
                 sources = {
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
+                    lsp_source,
+                    codeium_source,
+                    luasnip_source,
                     buffer_source,
-                    { name = "path" },
+                    path_source,
                 },
                 experimental = {
                     ghost_text = {
@@ -102,7 +117,12 @@ return {
                     },
                 },
                 formatting = {
-                    format = require("lspkind").cmp_format(),
+                    format = require("lspkind").cmp_format({
+                        mode = "symbol",
+                        maxwidth = 50,
+                        ellipsis_char = "...",
+                        symbol_map = { Codeium = "" },
+                    }),
                 },
             })
 

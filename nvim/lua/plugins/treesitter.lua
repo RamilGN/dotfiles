@@ -178,6 +178,16 @@ return {
             end)
             vim.keymap.set("n", "]q", next_qf_repeat, { desc = "Next qf" })
             vim.keymap.set("n", "[q", prev_qf_repeat, { desc = "Prev qf" })
+
+            vim.api.nvim_create_autocmd("BufReadPost", {
+                callback = function(event)
+                    if vim.wo.diff then
+                        for _, key in ipairs({ "[c", "]c", "[C", "]C" }) do
+                            pcall(vim.keymap.del, "n", key, { buffer = event.buf })
+                        end
+                    end
+                end,
+            })
         end,
     },
     {

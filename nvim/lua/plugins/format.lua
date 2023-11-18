@@ -32,10 +32,11 @@ return {
             formatters_by_ft = {
                 go = { "goimports", "gofumpt", "golines", "codespell" },
                 javascript = { "prettierd", "codespell" },
+                lua = { "stylua", "codespell" },
                 markdown = { "prettierd", "markdownlint" },
                 ruby = { "rubocop", "codespell" },
-                lua = { "stylua", "codespell" },
                 sql = { "pg_format" },
+                vue = { "codespell" },
             },
         },
     },
