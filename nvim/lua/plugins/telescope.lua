@@ -25,15 +25,6 @@ return {
                 end)
             end
 
-            local tcd_to_dir = function(prompt_bufnr)
-                local selection = require("telescope.actions.state").get_selected_entry()
-                local file = vim.fn.fnamemodify(selection.path, ":p")
-                local dir = vim.fn.fnamemodify(selection.path, ":p:h")
-                require("telescope.actions").close(prompt_bufnr)
-                vim.cmd([[silent tcd ]] .. dir)
-                vim.cmd([[e ]] .. file)
-            end
-
             telescope.setup({
                 defaults = {
                     vimgrep_arguments = vimgrep_arguments,
@@ -55,11 +46,6 @@ return {
                 pickers = {
                     find_files = {
                         hidden = true,
-                        mappings = {
-                            i = {
-                                ["<C-f>"] = tcd_to_dir,
-                            },
-                        },
                         find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
                     },
                     live_grep = {
