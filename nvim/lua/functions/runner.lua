@@ -9,6 +9,10 @@ local exec = {
             v.vterm("lua " .. opts.current_buffer)
         end,
         ["ruby"] = r.ruby,
+        ["racket"] = function(opts)
+            local bin = opts.current_buffer:gsub(".rkt$", "")
+            v.vterm("raco exe " .. opts.current_buffer .. " && " .. bin)
+        end,
         ["go"] = g.go,
         ["python"] = function(opts)
             v.vterm("python3 " .. opts.current_buffer)
@@ -52,7 +56,7 @@ M.run = function(cmd_args)
         end
     end
 
-    -- Find ceratin exec by key
+    -- Find certain exec by key
     local fexec = exec.filetype[filetype]
     if fexec then
         return fexec(opts)

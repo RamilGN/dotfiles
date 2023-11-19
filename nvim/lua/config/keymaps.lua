@@ -45,7 +45,10 @@ return {
         map({ "n", "v" }, "c", [["_c]], { desc = "Change without yanking" })
         map({ "n", "v" }, "C", [["_C]], { desc = "Change without yanking" })
         -- Normal mode in terminal.
-        map("t", "<C-[>", "<C-\\><C-n>", { desc = "Normal mode" })
+        map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal mode" })
+        map("t", "<C-w>c", "<C-\\><C-n><C-w>c", { desc = "Close terminal" })
+        map("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Scroll up" })
+        map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Left window" })
         -- Windows.
         map("n", "<C-k>", "<C-w><Up>", { desc = "Go to upper window" })
         map("n", "<C-j>", "<C-w><down>", { desc = "Go to bottom window" })

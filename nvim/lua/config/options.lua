@@ -35,7 +35,6 @@ return {
         vim.opt.swapfile = false -- Swap file off
         vim.opt.tabstop = 4 -- Number of spaces that tab counts for
         vim.opt.termguicolors = true -- Term colors
-        vim.opt.timeoutlen = 300 -- Faster shortcuts
         vim.opt.undofile = true -- Undo after rebooting
         vim.opt.undolevels = 10000 -- More undo
         vim.opt.updatetime = 200 -- Faster auto-completion and etc...

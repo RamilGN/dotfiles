@@ -140,8 +140,14 @@ return {
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" },
     },
+    -- Lisp.
+    {
+        "gpanders/nvim-parinfer",
+        ft = { "racket" },
+    },
     {
         "Exafunction/codeium.nvim",
+        event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             "nvim-lua/plenary.nvim",
             "hrsh7th/nvim-cmp",
