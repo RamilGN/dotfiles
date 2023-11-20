@@ -1,11 +1,5 @@
 return {
     {
-        "RamilGN/gpt",
-        dev = true,
-        cmd = { "Gpt" },
-        opts = {},
-    },
-    {
         "RamilGN/git",
         dev = true,
         cmd = { "GitShowPrev", "GitLog", "GitLogG" },
