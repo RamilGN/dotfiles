@@ -58,9 +58,6 @@ alias pg-console='psql postgresql://postgres:postgres@localhost:5432'
 alias cdfc='cd $(find * -type d | fzf)'
 alias cdfh='cd $(find ~ -type d | fzf)'
 
-# gpt prompt
-alias gpt='zsh ~/dotfiles/zshrc/scripts/gpt.zsh'
-
 # rails
 alias rails_load_fixtures='xclipsel "RAILS_ENV=test FIXTURES_PATH="spec/fixtures" bin/rails db:fixtures:load"'
 

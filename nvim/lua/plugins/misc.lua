@@ -154,4 +154,25 @@ return {
         },
         opts = {},
     },
+    {
+        "epwalsh/obsidian.nvim",
+        version = "*", -- recommended, use latest release instead of latest commit
+        ft = "markdown",
+        cmd = { "ObsidianNew", "ObsidianToday" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        opts = {
+            workspaces = {
+                {
+                    name = "personal",
+                    path = "/home/ramilg/vaults/personal",
+                },
+                {
+                    name = "work",
+                    path = "/home/ramilg/vaults/work",
+                },
+            },
+        },
+    },
 }

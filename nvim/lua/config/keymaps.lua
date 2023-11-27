@@ -306,7 +306,7 @@ return {
             },
             {
                 "<leader>o1",
-                "<Cmd>1ToggleTerm direction=float<CR>",
+                "<Cmd>11ToggleTerm direction=vertical<CR>",
                 desc = "Toggle term1",
             },
             {
@@ -328,13 +328,13 @@ return {
             },
             {
                 "<C-1>",
-                "<Cmd>ToggleTermSendCurrentLineNoTW 1<CR>",
+                "<Cmd>ToggleTermSendCurrentLineNoTW 11<CR>",
                 desc = "Send line to term 1",
             },
             {
                 "<C-1>",
-                ":ToggleTermSendVisualSelectionNoTW 1<CR>",
-                desc = "Send visual selection to term 1",
+                ":ToggleTermSendVisualSelectionNoTW 11<CR>",
+                desc = "Send visual selection to term 11",
                 mode = "v",
             },
             {
@@ -345,7 +345,7 @@ return {
             {
                 "<C-2>",
                 ":ToggleTermSendVisualSelectionNoTW 22<CR>",
-                desc = "Send visual selection to term 2",
+                desc = "Send visual selection to term 22",
                 mode = "v",
             },
             {
