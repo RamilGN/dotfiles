@@ -140,39 +140,4 @@ return {
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" },
     },
-    -- Lisp.
-    {
-        "gpanders/nvim-parinfer",
-        ft = { "racket" },
-    },
-    {
-        "Exafunction/codeium.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "hrsh7th/nvim-cmp",
-        },
-        opts = {},
-    },
-    {
-        "epwalsh/obsidian.nvim",
-        version = "*", -- recommended, use latest release instead of latest commit
-        ft = "markdown",
-        cmd = { "ObsidianNew", "ObsidianToday" },
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-        },
-        opts = {
-            workspaces = {
-                {
-                    name = "personal",
-                    path = "/home/ramilg/vaults/personal",
-                },
-                {
-                    name = "work",
-                    path = "/home/ramilg/vaults/work",
-                },
-            },
-        },
-    },
 }

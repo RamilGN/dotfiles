@@ -3,16 +3,23 @@ local Util = require("note.util")
 local M = {}
 
 M.setup = function(config)
-    vim.api.nvim_create_user_command("NoteCreate", function(_)
-        Util.create_today_journal(config.journal_dir)
-    end, { nargs = "*", range = true })
+    -- delete default key and get to var
+    local exec = function()
+        local default_workspace = config.workspaces.default
+        if default_workspace == nil then
+            vim.notify("Please, provide default workspace", vim.log.levels.ERROR)
+            return
+        end
 
-    vim.api.nvim_create_user_command("NoteSearch", function(_)
-        require("telescope.builtin").live_grep({ cwd = config.journal_dir })
-    end, { nargs = "*", range = true })
+        local current_buffer = vim.fn.expand("%:p")
+        for path, value in pairs(config.workspaces) do
+            if current_buffer:find(value.path) then
+            end
+        end
+    end
 
-    vim.api.nvim_create_user_command("NoteOpen", function(_)
-        require("telescope.builtin").find_files({ cwd = config.journal_dir })
+    vim.api.nvim_create_user_command("NoteTodo", function(_)
+        exec()
     end, { nargs = "*", range = true })
 end
 

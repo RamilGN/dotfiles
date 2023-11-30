@@ -97,6 +97,11 @@ return {
             vim.cmd("V a")
             vim.cmd("startinsert")
         end, { desc = "Mighty A" })
+
+        map("n", "<C-0>", function()
+            local text = vim.api.nvim_get_current_line()
+            os.execute("kitty @ send-text --match neighbor:right --stdin <<EOF\n" .. text .. "\nEOF\n")
+        end, { desc = "Send to right term" })
     end,
     luasnip = function()
         return {
@@ -346,17 +351,6 @@ return {
                 "<C-2>",
                 ":ToggleTermSendVisualSelectionNoTW 22<CR>",
                 desc = "Send visual selection to term 22",
-                mode = "v",
-            },
-            {
-                "<C-3>",
-                "<Cmd>ToggleTermSendCurrentLineNoTW 33<CR>",
-                desc = "Send line to term 3",
-            },
-            {
-                "<C-3>",
-                ":ToggleTermSendVisualSelectionNoTW 33<CR>",
-                desc = "Send visual selection to term 3",
                 mode = "v",
             },
         }

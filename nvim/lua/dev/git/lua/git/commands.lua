@@ -41,7 +41,7 @@ M.setup = function(config)
         },
         GitShowPrev = {
             cmd = function(_)
-                delta("show -p --stat HEAD~1")
+                delta("show -p --stat")
             end,
             opts = { nargs = "?" },
         },
