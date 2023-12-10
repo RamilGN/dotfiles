@@ -334,7 +334,7 @@ return {
             {
                 "<C-1>",
                 "<Cmd>ToggleTermSendCurrentLineNoTW 11<CR>",
-                desc = "Send line to term 1",
+                desc = "Send line to term 11",
             },
             {
                 "<C-1>",
@@ -345,7 +345,7 @@ return {
             {
                 "<C-2>",
                 "<Cmd>ToggleTermSendCurrentLineNoTW 22<CR>",
-                desc = "Send line to term 2",
+                desc = "Send line to term 22",
             },
             {
                 "<C-2>",
