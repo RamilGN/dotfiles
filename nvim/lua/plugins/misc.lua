@@ -79,6 +79,7 @@ return {
     {
         "akinsho/toggleterm.nvim",
         cmd = { "ToggleTerm", "TermExec" },
+        commit = "c80844fd52ba76f48fabf83e2b9f9b93273f418d",
         config = function()
             local toggleterm = require("toggleterm")
 
