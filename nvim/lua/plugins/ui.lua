@@ -1,17 +1,49 @@
 return {
-    -- Theme.
     {
-        "folke/tokyonight.nvim",
+        "rebelot/kanagawa.nvim",
+        lazy = false,
+        priority = 1000,
         config = function()
-            require("tokyonight").setup({
-                on_highlights = function(hl, c)
-                    hl.CursorLineNr = { fg = c.orange, bold = true }
-                    hl.GitSignsAdd = { fg = c.teal }
-                    hl.GitSignsChange = { fg = c.yellow }
-                    hl.GitSignsDelete = { fg = c.red1 }
+            require("kanagawa").setup({
+                compile = false,
+                undercurl = true,
+                specialReturn = true,
+                specialException = true,
+                transparent = false,
+                globalStatus = true,
+                terminalColors = true,
+                colors = {
+                    theme = {
+                        all = {
+                            ui = {
+                                bg_gutter = "none",
+                            },
+                        },
+                    },
+                },
+                overrides = function(colors)
+                    local theme = colors.theme
+
+                    return {
+                        -- Transparent Floating Windows
+                        NormalFloat = { bg = "none" },
+                        FloatBorder = { bg = "none" },
+                        FloatTitle = { bg = "none" },
+                        NormalDark = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m3 },
+                        LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+                        MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
+                        -- More uniform colors for the popup menu.
+                        Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1, blend = vim.o.pumblend },
+                        PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+                        PmenuSbar = { bg = theme.ui.bg_m1 },
+                        PmenuThumb = { bg = theme.ui.bg_p2 },
+                        -- Borderless old messages
+                        MsgSeparator = { bg = "none" },
+                    }
                 end,
             })
-            vim.cmd([[colorscheme tokyonight-moon]])
+
+            vim.cmd("colorscheme kanagawa-dragon")
         end,
     },
     -- Fancy lower status line.
@@ -33,7 +65,7 @@ return {
 
             return {
                 options = {
-                    theme = "tokyonight",
+                    theme = "kanagawa",
                     globalstatus = true,
                     component_separators = {},
                     section_separators = {},
@@ -53,14 +85,6 @@ return {
                             },
                         },
                         { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
-                        {
-                            function()
-                                return require("nvim-navic").get_location()
-                            end,
-                            cond = function()
-                                return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-                            end,
-                        },
                     },
                     lualine_x = {},
                     lualine_y = {},

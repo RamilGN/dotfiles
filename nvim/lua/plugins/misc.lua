@@ -89,12 +89,11 @@ return {
                 end,
                 open_mapping = [[<C-\>]],
                 insert_mappings = true,
+                shade_terminals = false,
                 persist_size = false,
                 persist_mode = false,
                 direction = "float",
-                float_opts = {
-                    border = "rounded",
-                },
+                float_opts = { border = "rounded" },
                 auto_scroll = true,
             })
 

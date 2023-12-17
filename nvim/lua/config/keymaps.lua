@@ -102,6 +102,10 @@ return {
             local text = vim.api.nvim_get_current_line()
             os.execute("kitty @ send-text --match neighbor:right --stdin <<EOF\n" .. text .. "\nEOF\n")
         end, { desc = "Send to right term" })
+        map("v", "<C-0>", function()
+            local text = f().vim.get_visual_selection_v2()
+            os.execute("kitty @ send-text --match neighbor:right --stdin <<EOF\n" .. text .. "\nEOF\n")
+        end, { desc = "Send to right term" })
     end,
     luasnip = function()
         return {

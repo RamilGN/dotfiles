@@ -23,6 +23,7 @@ return {
         vim.opt.relativenumber = true -- Relative numbers
         vim.opt.scrollback = 100000 -- Scrollback lines for terminal buffer
         vim.opt.scrolloff = 10 -- Show some lines after cursor
+        vim.opt.pumblend = 17
         vim.opt.shiftround = true -- Round to shiftwidth
         vim.opt.shiftwidth = 4 -- Tabs width
         vim.opt.showmode = false -- Statusline line dup

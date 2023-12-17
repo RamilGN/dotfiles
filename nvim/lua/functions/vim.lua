@@ -93,4 +93,16 @@ M.input = function(name, func)
     end
 end
 
+-- Get the start and the end of the selection
+M.get_visual_line_selection = function()
+    local start_line, start_col = unpack(vim.fn.getpos("'<"), 2, 3)
+    local end_line, end_col = unpack(vim.fn.getpos("'>"), 2, 3)
+    local selected_lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+    return {
+        start_pos = { start_line, start_col },
+        end_pos = { end_line, end_col },
+        selected_lines = selected_lines,
+    }
+end
+
 return M
