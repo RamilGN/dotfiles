@@ -5,7 +5,7 @@ return {
         priority = 1000,
         config = function()
             require("kanagawa").setup({
-                compile = false,
+                compile = true,
                 undercurl = true,
                 specialReturn = true,
                 specialException = true,

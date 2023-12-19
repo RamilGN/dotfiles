@@ -28,6 +28,7 @@ return {
             formatters = {
                 injected = { options = { ignore_errors = false } },
                 gofumpt = { prepend_args = { "-extra" } },
+                pg_format = { prepend_args = { "-L" } },
             },
             formatters_by_ft = {
                 go = { "goimports", "gofumpt", "golines", "codespell" },

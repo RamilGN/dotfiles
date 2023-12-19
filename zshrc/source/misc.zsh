@@ -14,8 +14,9 @@ function a {
     COMMAND="${COMMAND/#\'/}"
     COMMAND="${COMMAND/%\'/}"
     ZSH_SOURCE="source ~/.zshrc"
+    print -S "$COMMAND"
     COMMAND="${ZSH_SOURCE}; ${COMMAND}"
-    zsh -c $COMMAND || echo -n $COMMAND | xclip -sel clip
+    zsh -c $COMMAND
 }
 
 # copy to clipboard

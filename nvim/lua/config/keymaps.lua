@@ -298,7 +298,16 @@ return {
     },
     oil = function()
         return {
-            { "<C-Space>", "<Cmd>Oil<CR>", desc = "Open file explorer" },
+            { "<C-Space>",
+                function()
+                    local open = require("oil").open
+                    if vim.bo.filetype == "fugitive" then
+                        open(".")
+                    else
+                        open()
+                    end
+                end,
+                desc = "Open file explorer" },
         }
     end,
     neogen = function()
