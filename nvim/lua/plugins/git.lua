@@ -20,6 +20,15 @@ return {
         },
         config = function(_, opts)
             require("gitsigns").setup(opts)
+            require("git-conflict").setup({
+                highlights = {
+                    ancestor = "DiffChange",
+                },
+                default_mappings = {
+                    next = "]x",
+                    prev = "[x",
+                },
+            })
         end,
     },
     -- Git aliases.
@@ -38,5 +47,10 @@ return {
         },
         keys = require("config.keymaps").git.fugitive,
         cmd = "G",
+    },
+    {
+        "akinsho/git-conflict.nvim",
+        version = "*",
+        lazy = true,
     },
 }
