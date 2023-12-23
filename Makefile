@@ -20,6 +20,11 @@ dnf-packages:
 					xclip \ # neovim
 					zsh
 
+# /etc/keyd/default.conf
+# [ids]
+# *
+# [main]
+# capslock = overload(control, esc)
 .PHONY: keyd
 keyd:
 	git clone https://github.com/rvaiya/keyd

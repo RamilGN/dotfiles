@@ -78,7 +78,7 @@ return {
     -- Terminal management.
     {
         "akinsho/toggleterm.nvim",
-        cmd = { "ToggleTerm", "TermExec" },
+        cmd = { "ToggleTerm", "TermExec", "ToggleTermSendVisualSelectionKitty" },
         commit = "c80844fd52ba76f48fabf83e2b9f9b93273f418d",
         config = function()
             local toggleterm = require("toggleterm")
@@ -103,6 +103,17 @@ return {
 
             vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW", function(opts)
                 toggleterm.send_lines_to_terminal("visual_selection", false, opts)
+            end, { range = true, nargs = "?" })
+
+            -- TODO: Move from here.
+            vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionKitty", function(_)
+                local utils = require("toggleterm.utils")
+                local res = utils.get_line_selection("visual")
+                local lines = utils.get_visual_selection(res)
+
+                for _, line in ipairs(lines) do
+                    os.execute("kitty @ send-text --match neighbor:right --stdin <<EOF\n" .. line .. "\nEOF\n")
+                end
             end, { range = true, nargs = "?" })
         end,
         keys = require("config.keymaps").toggleterm(),

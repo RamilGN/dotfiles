@@ -98,14 +98,21 @@ return {
             vim.cmd("startinsert")
         end, { desc = "Mighty A" })
 
+        local kitty = "kitty @ send-text --match neighbor:right --stdin "
         map("n", "<C-0>", function()
             local text = vim.api.nvim_get_current_line()
-            os.execute("kitty @ send-text --match neighbor:right --stdin <<EOF\n" .. text .. "\nEOF\n")
+            os.execute(kitty .. "<<EOF\n" .. text .. "\nEOF\n")
         end, { desc = "Send to right term" })
-        map("v", "<C-0>", function()
-            local text = f().vim.get_visual_selection_v2()
-            os.execute("kitty @ send-text --match neighbor:right --stdin <<EOF\n" .. text .. "\nEOF\n")
+
+        map("n", "<C-->", function()
+            os.execute(kitty .. "<<EOF\nq\nEOF\n")
         end, { desc = "Send to right term" })
+
+        map("n", "<C-=>", function()
+            os.execute(kitty .. "<<EOF\n \nEOF\n")
+        end, { desc = "Send to right term" })
+
+        map("v", "<C-0>", ":ToggleTermSendVisualSelectionKitty<CR>", { desc = "Send to right kitty terminal" })
     end,
     luasnip = function()
         return {
