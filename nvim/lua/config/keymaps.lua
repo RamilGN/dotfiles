@@ -18,6 +18,9 @@ return {
         -- Better up/down.
         map("n", "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Up with line wrap", expr = true, silent = true })
         map("n", "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Down with line wrap", expr = true, silent = true })
+        map({ "i", "c" }, "<C-h>", "<Left>", { desc = "Go to left window" })
+        map({ "i", "c" }, "<C-l>", "<Right>", { desc = "Go to right window" })
+        map("n", "<C-h>", "<C-w><Left>", { desc = "Go to left window" })
         -- Move Lines
         map("n", "<A-j>", "<Cmd>m .+1<CR>==", { desc = "Move down" })
         map("n", "<A-k>", "<Cmd>m .-2<CR>==", { desc = "Move up" })
@@ -97,22 +100,6 @@ return {
             vim.cmd("V a")
             vim.cmd("startinsert")
         end, { desc = "Mighty A" })
-
-        local kitty = "kitty @ send-text --match neighbor:right --stdin "
-        map("n", "<C-0>", function()
-            local text = vim.api.nvim_get_current_line()
-            os.execute(kitty .. "<<EOF\n" .. text .. "\nEOF\n")
-        end, { desc = "Send to right term" })
-
-        map("n", "<C-->", function()
-            os.execute(kitty .. "<<EOF\nq\nEOF\n")
-        end, { desc = "Send to right term" })
-
-        map("n", "<C-=>", function()
-            os.execute(kitty .. "<<EOF\n \nEOF\n")
-        end, { desc = "Send to right term" })
-
-        map("v", "<C-0>", ":ToggleTermSendVisualSelectionKitty<CR>", { desc = "Send to right kitty terminal" })
     end,
     luasnip = function()
         return {
@@ -305,7 +292,8 @@ return {
     },
     oil = function()
         return {
-            { "<C-Space>",
+            {
+                "<C-Space>",
                 function()
                     local open = require("oil").open
                     if vim.bo.filetype == "fugitive" then
@@ -314,7 +302,8 @@ return {
                         open()
                     end
                 end,
-                desc = "Open file explorer" },
+                desc = "Open file explorer",
+            },
         }
     end,
     neogen = function()
@@ -330,19 +319,9 @@ return {
                 desc = "Toggle term",
             },
             {
-                "<leader>o1",
-                "<Cmd>11ToggleTerm direction=vertical<CR>",
-                desc = "Toggle term1",
-            },
-            {
                 "<leader>o2",
                 "<Cmd>22ToggleTerm direction=vertical<CR>",
-                desc = "Toggle term22",
-            },
-            {
-                "<leader>o3",
-                "<Cmd>33ToggleTerm direction=vertical<CR>",
-                desc = "Toggle term33",
+                desc = "Open interactive terminal",
             },
             {
                 "<leader>rt",
@@ -352,26 +331,25 @@ return {
                 desc = "Last command in term",
             },
             {
-                "<C-1>",
-                "<Cmd>ToggleTermSendCurrentLineNoTW 11<CR>",
-                desc = "Send line to term 11",
+                "<C-0>",
+                "<Cmd>SendCurrentLineToTerm<CR>",
+                desc = "Send line to term",
             },
             {
-                "<C-1>",
-                ":ToggleTermSendVisualSelectionNoTW 11<CR>",
-                desc = "Send visual selection to term 11",
+                "<C-0>",
+                ":SendVisualSelectionToTerm<CR>",
+                desc = "Send visual selection to term",
                 mode = "v",
             },
             {
-                "<C-2>",
-                "<Cmd>ToggleTermSendCurrentLineNoTW 22<CR>",
-                desc = "Send line to term 22",
+                "<C-->",
+                "<Cmd>SendQToTerm<CR>",
+                desc = "Send q to term",
             },
             {
-                "<C-2>",
-                ":ToggleTermSendVisualSelectionNoTW 22<CR>",
-                desc = "Send visual selection to term 22",
-                mode = "v",
+                "<C-+>",
+                "<Cmd>SendSpaceToTerm<CR>",
+                desc = "Send space to term",
             },
         }
     end,
@@ -599,4 +577,22 @@ return {
     end,
     formatting = {},
     linting = {},
+    sibling = function()
+        return {
+            {
+                "[a",
+                function()
+                    require("sibling-swap").swap_with_left()
+                end,
+                desc = "Swap node with left",
+            },
+            {
+                "]a",
+                function()
+                    require("sibling-swap").swap_with_right()
+                end,
+                desc = "Swap node with right",
+            },
+        }
+    end,
 }

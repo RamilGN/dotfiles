@@ -6,7 +6,7 @@ return {
 
         -- Standard
         vim.opt.autoindent = true -- Copy indent from current line to next
-        vim.opt.autowriteall   = true -- Autowrite all
+        vim.opt.autowriteall = true -- Autowrite all
         vim.opt.clipboard = "unnamedplus" -- System clipboard
         vim.opt.completeopt = "menu,menuone,noselect" -- Autocomplete
         vim.opt.cursorline = true -- Highlight current line
@@ -19,11 +19,11 @@ return {
         vim.opt.list = true -- Show trailing whitespaces, tabs etc...
         vim.opt.mouse = nil -- Mouse off
         vim.opt.number = true -- Line numbers
+        vim.opt.pumblend = 17
         vim.opt.pumheight = 12 -- Set maximum number of items in the pop-up menu
         vim.opt.relativenumber = true -- Relative numbers
         vim.opt.scrollback = 100000 -- Scrollback lines for terminal buffer
         vim.opt.scrolloff = 10 -- Show some lines after cursor
-        vim.opt.pumblend = 17
         vim.opt.shiftround = true -- Round to shiftwidth
         vim.opt.shiftwidth = 4 -- Tabs width
         vim.opt.showmode = false -- Statusline line dup
@@ -36,6 +36,7 @@ return {
         vim.opt.swapfile = false -- Swap file off
         vim.opt.tabstop = 4 -- Number of spaces that tab counts for
         vim.opt.termguicolors = true -- Term colors
+        vim.opt.timeoutlen = 300
         vim.opt.undofile = true -- Undo after rebooting
         vim.opt.undolevels = 10000 -- More undo
         vim.opt.updatetime = 200 -- Faster auto-completion and etc...

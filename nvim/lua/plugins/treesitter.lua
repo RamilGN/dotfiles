@@ -91,15 +91,6 @@ return {
                             ["[C"] = "@class.outer",
                         },
                     },
-                    swap = {
-                        enable = true,
-                        swap_next = {
-                            ["]a"] = "@parameter.inner",
-                        },
-                        swap_previous = {
-                            ["[a"] = "@parameter.inner",
-                        },
-                    },
                     lsp_interop = {
                         enable = true,
                         peek_definition_code = {
@@ -200,6 +191,14 @@ return {
     },
     {
         "windwp/nvim-ts-autotag",
-        event = "InsertEnter",
+        event = "InsertEnter"
+    },
+    {
+        "Wansmer/sibling-swap.nvim",
+        lazy = true,
+        keys = require("config.keymaps").sibling,
+        opts = {
+            use_default_keymaps = false,
+        },
     },
 }

@@ -78,7 +78,7 @@ return {
     -- Terminal management.
     {
         "akinsho/toggleterm.nvim",
-        cmd = { "ToggleTerm", "TermExec", "ToggleTermSendVisualSelectionKitty" },
+        cmd = { "ToggleTerm", "TermExec" },
         commit = "c80844fd52ba76f48fabf83e2b9f9b93273f418d",
         config = function()
             local toggleterm = require("toggleterm")
@@ -97,24 +97,47 @@ return {
                 auto_scroll = true,
             })
 
-            vim.api.nvim_create_user_command("ToggleTermSendCurrentLineNoTW", function(opts)
-                toggleterm.send_lines_to_terminal("single_line", false, opts)
-            end, { nargs = "?" })
-
-            vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionNoTW", function(opts)
-                toggleterm.send_lines_to_terminal("visual_selection", false, opts)
-            end, { range = true, nargs = "?" })
-
-            -- TODO: Move from here.
-            vim.api.nvim_create_user_command("ToggleTermSendVisualSelectionKitty", function(_)
-                local utils = require("toggleterm.utils")
-                local res = utils.get_line_selection("visual")
-                local lines = utils.get_visual_selection(res)
-
-                for _, line in ipairs(lines) do
-                    os.execute("kitty @ send-text --match neighbor:right --stdin <<EOF\n" .. line .. "\nEOF\n")
+            local kitty_columns = 98
+            local kitty = "kitty @ send-text --match neighbor:right --stdin "
+            local termid = 22
+            vim.api.nvim_create_user_command("SendCurrentLineToTerm", function(_)
+                if vim.o.columns == kitty_columns then
+                    local text = vim.api.nvim_get_current_line()
+                    os.execute(kitty .. "<<EOF\n" .. text .. "\nEOF\n")
+                else
+                    toggleterm.send_lines_to_terminal("single_line", false, { args = termid })
                 end
-            end, { range = true, nargs = "?" })
+            end, {})
+
+            vim.api.nvim_create_user_command("SendVisualSelectionToTerm", function(_)
+                if vim.o.columns == kitty_columns then
+                    local utils = require("toggleterm.utils")
+                    local res = utils.get_line_selection("visual")
+                    local lines = utils.get_visual_selection(res)
+
+                    for _, line in ipairs(lines) do
+                        os.execute("kitty @ send-text --match neighbor:right --stdin <<EOF\n" .. line .. "\nEOF\n")
+                    end
+                else
+                    toggleterm.send_lines_to_terminal("visual_selection", false, { args = termid })
+                end
+            end, { range = true })
+
+            vim.api.nvim_create_user_command("SendQToTerm", function(_)
+                if vim.o.columns == kitty_columns then
+                    os.execute(kitty .. "<<EOF\nq\nEOF\n")
+                else
+                    toggleterm.exec_command("cmd=q", termid)
+                end
+            end, {})
+
+            vim.api.nvim_create_user_command("SendSpaceToTerm", function(_)
+                if vim.o.columns == kitty_columns then
+                    os.execute(kitty .. "<<EOF\n \nEOF\n")
+                else
+                    toggleterm.exec_command("cmd= ", termid)
+                end
+            end, {})
         end,
         keys = require("config.keymaps").toggleterm(),
     },
