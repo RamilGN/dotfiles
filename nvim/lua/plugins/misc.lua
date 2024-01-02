@@ -52,7 +52,12 @@ return {
                 ["<C-l>"] = false,
                 ["<C-s>"] = false,
                 ["<C-h>"] = false,
-                ["gg"] = "<cmd>edit $HOME<CR>",
+                ["gg"] = {
+                    desc = "Go to home",
+                    callback = function()
+                        vim.cmd("edit $HOME")
+                    end,
+                },
                 ["<C-Space>"] = "actions.close",
                 ["gr"] = "actions.refresh",
                 ["gv"] = "actions.select_vsplit",
@@ -173,5 +178,11 @@ return {
         },
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" },
+    },
+    {
+        "robitx/gp.nvim",
+        config = function()
+            require("gp").setup()
+        end,
     },
 }

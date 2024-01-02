@@ -3,6 +3,7 @@ bindkey -v
 
 # vim as default editor
 export EDITOR=nvim
+export SUDO_EDITOR=nvim
 export VISUAL=nvim
 export ASDF_GOLANG_MOD_VERSION_ENABLED=true
 export FZF_DEFAULT_OPTS='--multi --height 50% --layout=reverse --border'
