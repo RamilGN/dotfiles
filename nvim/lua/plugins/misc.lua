@@ -40,6 +40,7 @@ return {
         keys = require("config.keymaps").oil(),
         dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {
+            default_file_explorer = true,
             skip_confirm_for_simple_edits = true,
             win_options = {
                 concealcursor = "nvic",
@@ -61,6 +62,7 @@ return {
                 ["<C-Space>"] = "actions.close",
                 ["gr"] = "actions.refresh",
                 ["gv"] = "actions.select_vsplit",
+                ["gc"] = "actions.change_sort",
                 ["gs"] = "actions.select_split",
                 ["g."] = "actions.open_cmdline",
                 ["gh"] = "actions.toggle_hidden",
@@ -181,8 +183,13 @@ return {
     },
     {
         "robitx/gp.nvim",
-        config = function()
-            require("gp").setup()
-        end,
+        cmd = { "GptChatToggle", "GptChatNew", "GptEnew", "GptRewrite", "GptImplement" },
+        keys = require("config.keymaps").gpt(),
+        opts = {
+            cmd_prefix = "Gpt",
+            chat_user_prefix = "==>",
+            chat_assistant_prefix = { "<==" },
+            chat_free_cursor = true,
+        },
     },
 }

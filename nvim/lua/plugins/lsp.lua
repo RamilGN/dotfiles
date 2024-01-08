@@ -75,7 +75,9 @@ return {
                 end,
                 solargraph = function(options, opts)
                     opts.settings = {
-                        diagnostics = false,
+                        solargraph = {
+                            diagnostics = false,
+                        }
                     }
 
                     options.on_attach = function(client, bufnr)

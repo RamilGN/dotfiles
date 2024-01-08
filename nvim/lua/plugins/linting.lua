@@ -17,7 +17,7 @@ return {
                 lua = { "codespell" },
                 markdown = { "markdownlint" },
                 ruby = { "rubocop", "codespell" },
-                vue = { "codespell" }
+                vue = { "codespell" },
             },
             linters = {},
         },
@@ -36,7 +36,7 @@ return {
                     local bufnr = vim.api.nvim_get_current_buf()
                     timer:stop()
                     timer:start(
-                        500,
+                        1000,
                         0,
                         vim.schedule_wrap(function()
                             if vim.api.nvim_buf_is_valid(bufnr) then

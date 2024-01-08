@@ -1,3 +1,4 @@
 nvim/plugin/
 nerd-fonts/
 zshrc/source/secrets.zsh
+zshrc/scripts/secrets.rb

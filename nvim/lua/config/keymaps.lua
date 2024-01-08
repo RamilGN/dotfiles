@@ -95,11 +95,6 @@ return {
         -- Open smth.
         map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
         map("n", "gx", "<Cmd>silent !xdg-open '<cWORD>'<CR>", { desc = "Open file with system app" })
-        -- Mighty A.
-        map("n", "<leader>a", function()
-            vim.cmd("V a")
-            vim.cmd("startinsert")
-        end, { desc = "Mighty A" })
     end,
     luasnip = function()
         return {
@@ -303,6 +298,7 @@ return {
                     end
                 end,
                 desc = "Open file explorer",
+                mode = { "t", "n" },
             },
         }
     end,
@@ -331,25 +327,25 @@ return {
                 desc = "Last command in term",
             },
             {
-                "<C-0>",
+                "<C-2>",
                 "<Cmd>SendCurrentLineToTerm<CR>",
                 desc = "Send line to term",
             },
             {
-                "<C-0>",
+                "<C-2>",
                 ":SendVisualSelectionToTerm<CR>",
                 desc = "Send visual selection to term",
                 mode = "v",
             },
             {
-                "<C-->",
-                "<Cmd>SendQToTerm<CR>",
-                desc = "Send q to term",
-            },
-            {
-                "<C-+>",
+                "<C-3>",
                 "<Cmd>SendSpaceToTerm<CR>",
                 desc = "Send space to term",
+            },
+            {
+                "<C-4>",
+                "<Cmd>SendQToTerm<CR>",
+                desc = "Send q to term",
             },
         }
     end,
@@ -592,6 +588,40 @@ return {
                     require("sibling-swap").swap_with_right()
                 end,
                 desc = "Swap node with right",
+            },
+        }
+    end,
+    gpt = function()
+        return {
+            {
+                "<leader>at",
+                "<Cmd>GptChatToggle enew<CR>",
+                desc = "GPT chat toggle",
+                mode = { "n", "v" },
+            },
+            {
+                "<leader>aa",
+                "<Cmd>GptChatNew enew<CR>",
+                desc = "GPT chat new ",
+                mode = { "n", "v" },
+            },
+            {
+                "<leader>ae",
+                "<Cmd>GptEnew<CR>",
+                desc = "GPT in buffer",
+                mode = { "n", "v" },
+            },
+            {
+                "<leader>ai",
+                "<Cmd>GptImplement<CR>",
+                desc = "GPT implement in buffer",
+                mode = { "n", "v" },
+            },
+            {
+                "<leader>ar",
+                "<Cmd>GptRewrite<CR>",
+                desc = "GPT rewrite in buffer",
+                mode = { "n", "v" },
             },
         }
     end,
