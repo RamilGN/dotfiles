@@ -595,13 +595,13 @@ return {
         return {
             {
                 "<leader>at",
-                "<Cmd>GptChatToggle enew<CR>",
+                "<Cmd>GptChatToggle new<CR>",
                 desc = "GPT chat toggle",
                 mode = { "n", "v" },
             },
             {
                 "<leader>aa",
-                "<Cmd>GptChatNew enew<CR>",
+                "<Cmd>GptChatNew new<CR>",
                 desc = "GPT chat new ",
                 mode = { "n", "v" },
             },

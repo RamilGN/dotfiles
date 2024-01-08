@@ -97,9 +97,10 @@ return {
                 open_mapping = [[<C-\>]],
                 insert_mappings = true,
                 shade_terminals = false,
+                hide_numbers = false,
                 persist_size = false,
                 persist_mode = false,
-                direction = "float",
+                direction = "tab",
                 float_opts = { border = "rounded" },
                 auto_scroll = true,
             })
