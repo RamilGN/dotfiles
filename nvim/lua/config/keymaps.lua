@@ -63,10 +63,10 @@ return {
         map("n", "<C-Left>", "<Cmd>vertical resize -2<CR>", { desc = "Resize vert-" })
         map("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { desc = "Resize vert+" })
         -- Git.
-        map({ "n", "v" }, "<leader>gll", ":GitLog<CR>", { desc = "Git log" })
-        map("n", "<leader>glg", "<Cmd>GitLogG<CR>", { desc = "Git log global" })
-        map("n", "<leader>gii", "<Cmd>GitShow<CR>", { desc = "Git show" })
-        map("n", "<leader>gip", "<Cmd>GitShowPrev<CR>", { desc = "Git show prev" })
+        map({ "n", "v" }, "<leader>gll", ":Gitx log<CR>", { desc = "Git log" })
+        map("n", "<leader>glg", "<Cmd>Gitx log_global<CR>", { desc = "Git log global" })
+        map("n", "<leader>gii", "<Cmd>Gitx show<CR>", { desc = "Git show" })
+        map("n", "<leader>gip", "<Cmd>Gitx show_prev<CR>", { desc = "Git show prev" })
         -- Set options and misc.
         map("n", "yos", "<Cmd>setlocal invspell<CR>", { desc = "Set spelling" })
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
@@ -78,11 +78,6 @@ return {
         -- Next action.
         map("n", "]b", "<Cmd>bnext<CR>", { desc = "Next buffer" })
         map("n", "]t", "<Cmd>tabnext<CR>", { desc = "Next tab" })
-        -- Line textobject.
-        map("v", "il", ":normal ^vg_<CR>", { desc = "in Line" })
-        map("o", "il", ":normal vil<CR>", { desc = "in line" })
-        map("v", "al", ":normal 0v$h<CR>", { desc = "around line" })
-        map("o", "al", ":normal val<CR>", { desc = "around line" })
         -- Quickifx list.
         map("n", "<leader>q", "<Cmd>copen<CR>", { desc = "Open quick fix list" })
         -- Run commands.
@@ -95,6 +90,9 @@ return {
         -- Open smth.
         map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
         map("n", "gx", "<Cmd>silent !xdg-open '<cWORD>'<CR>", { desc = "Open file with system app" })
+        -- Spacing.
+        map("n", "]<leader>", "<Cmd>norm i <CR>l", { desc = "Next buffer" })
+        map("n", "[<leader>", "<Cmd>norm <CR> h", { desc = "Next tab" })
     end,
     luasnip = function()
         return {

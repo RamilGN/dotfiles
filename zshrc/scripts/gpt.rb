@@ -5,6 +5,7 @@
 require 'net/http'
 require 'open-uri'
 require 'json'
+require 'tempfile'
 
 class GPT
   class Client
@@ -89,4 +90,13 @@ end
 
 gpt = GPT.new(token: TOKEN)
 answer = gpt.ask(message: MESSAGE)
-exec("bat --paging=never --style=grid -l md <<EOF\n#{answer}\nEOF\n")
+file = Tempfile.new('my-gpt')
+
+begin
+  file.write(answer)
+  file.flush
+  system("bat --paging=never --style=grid -l md #{file.path}")
+ensure
+  file.close
+  file.unlink
+end

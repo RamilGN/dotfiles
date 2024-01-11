@@ -100,18 +100,19 @@ return {
                 hide_numbers = false,
                 persist_size = false,
                 persist_mode = false,
-                direction = "tab",
+                direction = "float",
                 float_opts = { border = "rounded" },
                 auto_scroll = true,
             })
 
             local kitty_columns = 98
-            local kitty = "kitty @ send-text --match neighbor:right --stdin "
+            local kitty = "kitty @ send-text --match neighbor:right "
             local termid = 22
             vim.api.nvim_create_user_command("SendCurrentLineToTerm", function(_)
                 if vim.o.columns == kitty_columns then
                     local text = vim.api.nvim_get_current_line()
-                    os.execute(kitty .. "<<EOF\n" .. text .. "\nEOF\n")
+                    text = text:gsub("'", [['\'']])
+                    os.execute(kitty .. "'" .. text .. "\n'")
                 else
                     toggleterm.send_lines_to_terminal("single_line", false, { args = termid })
                 end
@@ -124,7 +125,8 @@ return {
                     local lines = utils.get_visual_selection(res)
 
                     for _, line in ipairs(lines) do
-                        os.execute("kitty @ send-text --match neighbor:right --stdin <<EOF\n" .. line .. "\nEOF\n")
+                        local text = line:gsub("'", [['\'']])
+                        os.execute(kitty .. "'" .. text .. "\n'")
                     end
                 else
                     toggleterm.send_lines_to_terminal("visual_selection", false, { args = termid })
@@ -133,7 +135,7 @@ return {
 
             vim.api.nvim_create_user_command("SendQToTerm", function(_)
                 if vim.o.columns == kitty_columns then
-                    os.execute(kitty .. "<<EOF\nq\nEOF\n")
+                    os.execute(kitty .. "'" .. "q" .. "\n'")
                 else
                     toggleterm.exec_command("cmd=q", termid)
                 end
@@ -141,7 +143,7 @@ return {
 
             vim.api.nvim_create_user_command("SendSpaceToTerm", function(_)
                 if vim.o.columns == kitty_columns then
-                    os.execute(kitty .. "<<EOF\n \nEOF\n")
+                    os.execute(kitty .. "'" .. " " .. "\n'")
                 else
                     toggleterm.exec_command("cmd= ", termid)
                 end

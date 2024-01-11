@@ -48,4 +48,43 @@ return {
             require("guess-indent").setup({})
         end,
     },
+    -- Better text objects.
+    {
+        "echasnovski/mini.ai",
+        event = "VeryLazy",
+        opts = function()
+            return {
+                n_lines = 500,
+                mappings = {
+                    around_last = "",
+                    inside_last = "",
+                },
+                custom_textobjects = {
+                    l = function(operator)
+                        local from = nil
+                        local to = nil
+                        local cur = vim.fn.getcurpos(0)
+                        local cur_line_num = cur[2]
+                        local end_of_cur_line = vim.fn.getline(cur_line_num):len()
+
+                        if operator == "a" then
+                            from = { line = cur_line_num, col = 1 }
+                            to = { line = cur_line_num, col = end_of_cur_line }
+                        end
+
+                        if operator == "i" then
+                            local cur_line = vim.api.nvim_get_current_line()
+                            local start_of_line = cur_line:find("%S")
+
+                            from = { line = cur_line_num, col = start_of_line }
+                            to = { line = cur_line_num, col = end_of_cur_line }
+                        end
+
+                        return { from = from, to = to }
+                    end,
+                },
+                silent = true,
+            }
+        end,
+    },
 }

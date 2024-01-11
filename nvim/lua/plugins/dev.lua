@@ -2,7 +2,7 @@ return {
     {
         "RamilGN/git",
         dev = true,
-        cmd = { "GitShow", "GitShowPrev", "GitLog", "GitLogG" },
+        cmd = { "Gitx" },
         opts = {
             delta = true,
         },

@@ -68,18 +68,18 @@ class Connection
   attr_reader :name, :cmd
 end
 
-CONNECTION_NAME = ARGV[0]
-if CONNECTION_NAME.empty?
-  warn('You must specify connection name')
-  exit(1)
-end
-
 def resolve_ips(hosts:)
   hosts
     .flat_map { Resolv.getaddresses(_1) }
     .concat(Secrets::Connection::DNS_IPS)
     .tap(&:uniq!)
     .join(', ')
+end
+
+CONNECTION_NAME = ARGV[0]
+if CONNECTION_NAME.nil? || CONNECTION_NAME.empty?
+  warn('You must specify connection name!')
+  exit(1)
 end
 
 connection = Connection.new(name: CONNECTION_NAME)
