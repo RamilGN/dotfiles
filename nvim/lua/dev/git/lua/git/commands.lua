@@ -32,13 +32,13 @@ M.setup = function(config)
                 delta("log -p --stat --follow " .. "%")
             end
         end,
-        logglobal = function(opts)
-            vim.print(opts)
-            delta("log -n 300 -p --stat")
+        logglobal = function(opts, args)
+            local number_of_lines = args[2] or "500"
+            delta("log -n " .. number_of_lines .. " -p --stat")
         end,
-        show = function(opts, _)
-            local commit_hash = opts.args
-            if commit_hash == "" then
+        show = function(_, args)
+            local commit_hash = args[2]
+            if commit_hash == nil then
                 local cword = vim.fn.expand("<cword>")
                 delta("show -p --stat " .. cword)
             else

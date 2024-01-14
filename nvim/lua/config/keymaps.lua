@@ -64,9 +64,9 @@ return {
         map("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { desc = "Resize vert+" })
         -- Git.
         map({ "n", "v" }, "<leader>gll", ":Gitx log<CR>", { desc = "Git log" })
-        map("n", "<leader>glg", "<Cmd>Gitx log_global<CR>", { desc = "Git log global" })
+        map("n", "<leader>glg", "<Cmd>Gitx logglobal<CR>", { desc = "Git log global" })
         map("n", "<leader>gii", "<Cmd>Gitx show<CR>", { desc = "Git show" })
-        map("n", "<leader>gip", "<Cmd>Gitx show_prev<CR>", { desc = "Git show prev" })
+        map("n", "<leader>gip", "<Cmd>Gitx showprev<CR>", { desc = "Git show prev" })
         -- Set options and misc.
         map("n", "yos", "<Cmd>setlocal invspell<CR>", { desc = "Set spelling" })
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
@@ -93,6 +93,10 @@ return {
         -- Spacing.
         map("n", "]<leader>", "<Cmd>norm i <CR>l", { desc = "Next buffer" })
         map("n", "[<leader>", "<Cmd>norm <CR> h", { desc = "Next tab" })
+        -- Mind.
+        map("n", "<leader>mt", "<Cmd>e ~/private/mind/todo.md<CR>", { desc = "Open todo in mind" })
+        map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/private/mind<CR>", { desc = "Find files in mind" })
+        map("n", "<leader>ms", "<Cmd>Telescope find_files cwd=~/private/mind<CR>", { desc = "Grep string in mind" })
     end,
     luasnip = function()
         return {
@@ -207,6 +211,12 @@ return {
                     "<leader>glo",
                     "<Cmd>G ++curwin log -n 100<CR>",
                     desc = "Git log 100",
+                },
+                -- Git log.
+                {
+                    "<leader>glc",
+                    "<Cmd>G log <cword><CR>",
+                    desc = "Git log commit",
                 },
                 -- Git stash.
                 {
@@ -525,7 +535,7 @@ return {
             {
                 "<leader>oy",
                 "<Cmd>YAMLTelescope<CR>",
-                desc = "Diagnostics",
+                desc = "Open yaml strings",
             },
             {
                 "<leader>os",
