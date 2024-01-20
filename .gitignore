@@ -2,3 +2,7 @@ nvim/plugin/
 nerd-fonts/
 zshrc/source/secrets.zsh
 zshrc/scripts/secrets.rb
+
+nvim/spell/
+!nvim/spell/en.utf-8.add
+!nvim/spell/ru.utf-8.add

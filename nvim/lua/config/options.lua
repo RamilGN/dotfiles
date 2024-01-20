@@ -17,6 +17,7 @@ return {
         vim.opt.ignorecase = true -- Ignore case when searching
         vim.opt.laststatus = 3 -- Global statusline
         vim.opt.list = true -- Show trailing whitespaces, tabs etc...
+        vim.opt.modeline = false
         vim.opt.mouse = nil -- Mouse off
         vim.opt.number = true -- Line numbers
         vim.opt.pumblend = 17

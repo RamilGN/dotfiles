@@ -174,7 +174,9 @@ return {
                         "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
                         "                                                   ",
                     },
+                    project = { enable = false },
                     shortcut = { { desc = info } },
+                    mru = { limit = 20, cwd_only = true },
                     footer = {},
                 },
             })

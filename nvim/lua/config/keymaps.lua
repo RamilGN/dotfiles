@@ -4,7 +4,6 @@ return {
             return require("functions")
         end
         local map = vim.keymap.set
-        -- Package manager.
         map("n", "ZA", "<Cmd>wqall!<CR>", { desc = "Force quit all" })
         -- Package manager.
         map("n", "<leader>pp", "<Cmd>Lazy home<CR>", { desc = "Plugins" })
@@ -89,14 +88,35 @@ return {
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Open smth.
         map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
-        map("n", "gx", "<Cmd>silent !xdg-open '<cWORD>'<CR>", { desc = "Open file with system app" })
+        -- Open url with gx.
+        map("n", "gx", function()
+            local word = vim.fn.expand("<cWORD>")
+            local url_pattern = "https?://[a-zA-Z%d_/%%%-%.~@\\+#=?&:]+"
+            local url = word:match(url_pattern)
+
+            if url then
+                local command = "xdg-open " .. url
+                return vim.fn.jobstart(command)
+            end
+
+            if not url then
+                url_pattern = "([a-zA-Z%d_/%-%.~@\\+#]+%.[a-zA-Z%d_/%%%-%.~@\\+#=?&:]+)"
+                url = word:match(url_pattern)
+
+                if url then
+                    url = "https://" .. url
+                    local command = "xdg-open " .. url
+                    return vim.fn.jobstart(command)
+                end
+            end
+        end, { desc = "Open file with system app" })
         -- Spacing.
         map("n", "]<leader>", "<Cmd>norm i <CR>l", { desc = "Next buffer" })
         map("n", "[<leader>", "<Cmd>norm <CR> h", { desc = "Next tab" })
         -- Mind.
-        map("n", "<leader>mt", "<Cmd>e ~/private/mind/todo.md<CR>", { desc = "Open todo in mind" })
-        map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/private/mind<CR>", { desc = "Find files in mind" })
-        map("n", "<leader>ms", "<Cmd>Telescope find_files cwd=~/private/mind<CR>", { desc = "Grep string in mind" })
+        map("n", "<leader>mt", "<Cmd>e ~/mind/todo/todo.md<CR>", { desc = "Open todo in mind" })
+        map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/mind<CR>", { desc = "Find files in mind" })
+        map("n", "<leader>ms", "<Cmd>Telescope live_grep cwd=~/mind<CR>", { desc = "Live grep in mind" })
     end,
     luasnip = function()
         return {

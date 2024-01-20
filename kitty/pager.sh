@@ -4,7 +4,7 @@ set -eu
 
 AUTOCMD_TERMCLOSE_CMD="normal G"
 
-exec nvim -u NORC 63<&0 0</dev/null \
+exec nvim 63<&0 0</dev/null \
     -c "map <silent> q :qa!<CR>" \
     -c "nmap <silent> i :qa!<CR>" \
     -c "set shell=bash scrollback=100000 termguicolors laststatus=0 clipboard+=unnamedplus ic scs" \

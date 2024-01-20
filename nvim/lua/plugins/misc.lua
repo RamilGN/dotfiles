@@ -42,9 +42,6 @@ return {
         opts = {
             default_file_explorer = true,
             skip_confirm_for_simple_edits = true,
-            win_options = {
-                concealcursor = "nvic",
-            },
             view_options = {
                 show_hidden = true,
             },
@@ -112,7 +109,8 @@ return {
                 if vim.o.columns == kitty_columns then
                     local text = vim.api.nvim_get_current_line()
                     text = text:gsub("'", [['\'']])
-                    os.execute(kitty .. "'" .. text .. "\n'")
+                    local command = kitty .. "-- '" .. text .. "\n'"
+                    vim.fn.jobstart(command)
                 else
                     toggleterm.send_lines_to_terminal("single_line", false, { args = termid })
                 end
@@ -126,7 +124,8 @@ return {
 
                     for _, line in ipairs(lines) do
                         local text = line:gsub("'", [['\'']])
-                        os.execute(kitty .. "'" .. text .. "\n'")
+                        local command = kitty .. "-- '" .. text .. "\n'"
+                        vim.fn.jobstart(command)
                     end
                 else
                     toggleterm.send_lines_to_terminal("visual_selection", false, { args = termid })
