@@ -1,8 +1,9 @@
-local v = require("util.vim")
+local v = require("util")
 local r = require("functions.ruby")
 local g = require("functions.go")
 
 local M = {}
+
 local exec = {
     filetype = {
         ["lua"] = function(opts)

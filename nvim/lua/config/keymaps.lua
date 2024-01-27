@@ -1,7 +1,7 @@
 return {
     core = function()
         local UtilVim = function()
-            return require("util.vim")
+            return require("util")
         end
 
         local map = vim.keymap.set
@@ -222,7 +222,7 @@ return {
             map("n", "<leader>gsb", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
         end,
         fugitive = function()
-            local UtilVim = require("util.vim")
+            local UtilVim = require("util")
 
             return {
                 -- Git menu.
@@ -426,7 +426,7 @@ return {
     end,
     telescope = function()
         local UtilVim = function()
-            return require("util.vim")
+            return require("util")
         end
         local t = function()
             return require("telescope.builtin")
