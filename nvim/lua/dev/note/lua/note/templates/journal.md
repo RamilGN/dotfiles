@@ -1,5 +1,0 @@
----
-type: journal
-aliases: []
-tags: []
----
