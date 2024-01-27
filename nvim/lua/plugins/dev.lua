@@ -1,6 +1,6 @@
 return {
     {
-        "RamilGN/git",
+        "RamilGN/gitx",
         dev = true,
         cmd = { "Gitx" },
         opts = {
