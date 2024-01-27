@@ -26,7 +26,7 @@ return {
             { "saadparwaiz1/cmp_luasnip" },
         },
         config = function()
-            local f = require("functions")
+            local f = require("util")
             local k = require("config.keymaps")
             local cmp = require("cmp")
 
@@ -48,7 +48,7 @@ return {
                         local bufs = {}
                         for _, win in ipairs(vim.api.nvim_list_wins()) do
                             local buf = vim.api.nvim_win_get_buf(win)
-                            local byte_size = f.vim.get_buf_byte_size(buf)
+                            local byte_size = f.get_buf_byte_size(buf)
                             if byte_size < vim.g.max_byte_size then
                                 bufs[buf] = true
                             end
@@ -58,7 +58,7 @@ return {
                             return vim.tbl_keys(bufs)
                         end
 
-                        local prev_buf_byte_size = f.vim.get_buf_byte_size(prev_buf)
+                        local prev_buf_byte_size = f.get_buf_byte_size(prev_buf)
                         if prev_buf_byte_size < vim.g.max_byte_size then
                             bufs[prev_buf] = true
                         end

@@ -13,7 +13,7 @@ local core = {
         end
         vim.opt.rtp:prepend(lazypath)
     end,
-    setup_plugins = function()
+    setup = function()
         require("lazy").setup("plugins", {
             change_detection = {
                 notify = false,
@@ -22,6 +22,9 @@ local core = {
                 path = "~/dotfiles/nvim/lua/dev",
             },
         })
+
+        require("gitx").setup()
+        require("runner").setup()
     end,
 }
 

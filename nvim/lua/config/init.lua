@@ -5,6 +5,6 @@ return {
         require("config.keymaps").core()
         require("config.autocommands").setup()
         require("config.commands").setup()
-        core.setup_plugins()
+        core.setup()
     end,
 }

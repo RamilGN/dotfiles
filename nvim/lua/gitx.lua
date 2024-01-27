@@ -49,24 +49,26 @@ M.cmds = {
     end,
 }
 
-vim.api.nvim_create_user_command("Gitx", function(opts)
-    local cmd = vim.trim(opts.args or "")
-    execute_cmd(M, cmd, opts)
-end, {
-    nargs = "?",
-    range = true,
-    desc = "Gitx",
-    complete = function(_, line)
-        if line:match("^%s*Gitx %w+ ") then
-            return {}
-        end
+M.setup = function()
+    vim.api.nvim_create_user_command("Gitx", function(opts)
+        local cmd = vim.trim(opts.args or "")
+        execute_cmd(M, cmd, opts)
+    end, {
+        nargs = "?",
+        range = true,
+        desc = "Gitx",
+        complete = function(_, line)
+            if line:match("^%s*Gitx %w+ ") then
+                return {}
+            end
 
-        local prefix = line:match("^%s*Gitx (%w*)") or ""
-        return vim.tbl_filter(function(key)
-            local start_idx, _ = key:find(prefix)
-            return start_idx == 1
-        end, vim.tbl_keys(M.cmds))
-    end,
-})
+            local prefix = line:match("^%s*Gitx (%w*)") or ""
+            return vim.tbl_filter(function(key)
+                local start_idx, _ = key:find(prefix)
+                return start_idx == 1
+            end, vim.tbl_keys(M.cmds))
+        end,
+    })
+end
 
 return M

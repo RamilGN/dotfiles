@@ -52,7 +52,7 @@ return {
                 highlight = {
                     enable = true,
                     disable = function(_, bufnr)
-                        return require("functions").vim.get_buf_byte_size(bufnr) > vim.g.max_byte_size
+                        return require("util").get_buf_byte_size(bufnr) > vim.g.max_byte_size
                     end,
                 },
                 indent = { enable = true },
@@ -125,7 +125,7 @@ return {
                 },
             })
 
-            local f = require("functions")
+            local f = require("util")
             local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
 
             local go_to_context, _ = tsrm.make_repeatable_move_pair(function()
@@ -140,9 +140,9 @@ return {
             vim.keymap.set({ "n", "x", "o" }, "T", tsrm.builtin_T)
 
             local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function()
-                f.vim.keys("]s")
+                f.keys("]s")
             end, function()
-                f.vim.keys("[s")
+                f.keys("[s")
             end)
             vim.keymap.set("n", "]s", next_spell_repeat, { desc = "Next spell error" })
             vim.keymap.set("n", "[s", prev_spell_repeat, { desc = "Prev spell error" })
