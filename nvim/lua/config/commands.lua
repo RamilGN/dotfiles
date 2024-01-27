@@ -6,9 +6,7 @@ return {
         end, { nargs = "?", count = true })
         -- Run in terminal
         vim.api.nvim_create_user_command("V", function(opts)
-            local f = require("functions")
-
-            f.vim.vterm("/bin/zsh -i -c '" .. opts.fargs[1] .. "'")
+            require("util.vim").vterm("/bin/zsh -i -c '" .. opts.fargs[1] .. "'")
         end, { nargs = 1 })
         -- Run current file
         vim.api.nvim_create_user_command("Run", function(opts)

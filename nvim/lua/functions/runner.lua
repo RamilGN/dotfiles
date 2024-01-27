@@ -1,4 +1,4 @@
-local v = require("functions.vim")
+local v = require("util.vim")
 local r = require("functions.ruby")
 local g = require("functions.go")
 

@@ -37,7 +37,7 @@ return {
     {
         "stevearc/oil.nvim",
         lazy = false,
-        keys = require("config.keymaps").oil(),
+        keys = require("config.keymaps").oil.keys(),
         dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {
             default_file_explorer = true,
@@ -45,38 +45,7 @@ return {
             view_options = {
                 show_hidden = true,
             },
-            keymaps = {
-                ["~"] = false,
-                ["<C-l>"] = false,
-                ["<C-s>"] = false,
-                ["<C-h>"] = false,
-                ["gg"] = {
-                    desc = "Go to home",
-                    callback = function()
-                        vim.cmd("edit $HOME")
-                    end,
-                },
-                ["<C-Space>"] = "actions.close",
-                ["gr"] = "actions.refresh",
-                ["gv"] = "actions.select_vsplit",
-                ["gc"] = "actions.change_sort",
-                ["gs"] = "actions.select_split",
-                ["g."] = "actions.open_cmdline",
-                ["gh"] = "actions.toggle_hidden",
-                ["gx"] = "actions.open_external",
-                ["gd"] = {
-                    desc = "Toggle detail view",
-                    callback = function()
-                        local oil = require("oil")
-                        local config = require("oil.config")
-                        if #config.columns == 1 then
-                            oil.set_columns({ "icon", "permissions", "size", "mtime" })
-                        else
-                            oil.set_columns({ "icon" })
-                        end
-                    end,
-                },
-            },
+            keymaps = require("config.keymaps").oil.explorer(),
         },
     },
     -- Terminal management.

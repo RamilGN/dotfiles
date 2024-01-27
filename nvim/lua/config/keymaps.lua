@@ -1,16 +1,23 @@
 return {
     core = function()
-        local f = function()
-            return require("functions")
+        local UtilVim = function()
+            return require("util.vim")
         end
+
         local map = vim.keymap.set
         map("n", "ZA", "<Cmd>wqall!<CR>", { desc = "Force quit all" })
         -- Package manager.
         map("n", "<leader>pp", "<Cmd>Lazy home<CR>", { desc = "Plugins" })
         -- Search without jumping.
-        map("n", "#", ":let @/='\\<'.expand('<cword>').'\\>' | set hls <CR>", { desc = "Search word without jumping", silent = true })
+        map("n", "#", function()
+            local text = vim.fn.expand("<cword>")
+            vim.fn.setreg("/", text)
+            vim.cmd("set hls")
+        end, { desc = "Search word without jumping", silent = true })
         map("v", "#", function()
-            vim.cmd([[let @/="]] .. f().vim.get_visual_selection() .. [["]] .. [[ | set hls]])
+            local text = UtilVim().get_visual_selection()
+            vim.fn.setreg("/", text)
+            vim.cmd("set hls")
         end, { desc = "Search word without jumping" })
         -- Turn off highlight.
         map("n", "//", ":nohlsearch<CR>", { desc = "Turn off highlight" })
@@ -69,7 +76,10 @@ return {
         -- Set options and misc.
         map("n", "yos", "<Cmd>setlocal invspell<CR>", { desc = "Set spelling" })
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
-        map("n", "yof", f().vim.copy_rel_path_line_to_buffer, { desc = "Yank file path with line" })
+        map("n", "yol", "<Cmd>set invrelativenumber<CR>", { desc = "Toggle relative number" })
+        map("n", "yof", function()
+            UtilVim().vim.copy_rel_path_line_to_buffer()
+        end, { desc = "Yank file path with line" })
         -- Prev action.
         map("n", "[b", "<C-^>", { desc = "Last buffer" })
         map("n", "[t", "<Cmd>tabprevious<CR>", { desc = "Prev tab" })
@@ -212,7 +222,8 @@ return {
             map("n", "<leader>gsb", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
         end,
         fugitive = function()
-            local f = require("functions")
+            local UtilVim = require("util.vim")
+
             return {
                 -- Git menu.
                 {
@@ -257,7 +268,7 @@ return {
                 },
                 {
                     "<leader>gcb",
-                    f.vim.input("Branch name", function(input)
+                    UtilVim.input("Branch name", function(input)
                         vim.cmd("G checkout -b " .. input)
                     end),
                     desc = "Git checkout new branch",
@@ -313,23 +324,59 @@ return {
             }
         end,
     },
-    oil = function()
-        return {
-            {
-                "<C-Space>",
-                function()
-                    local open = require("oil").open
-                    if vim.bo.filetype == "fugitive" then
-                        open(".")
-                    else
-                        open()
-                    end
-                end,
-                desc = "Open file explorer",
-                mode = { "t", "n" },
-            },
-        }
-    end,
+    oil = {
+        keys = function()
+            return {
+                {
+                    "<C-Space>",
+                    function()
+                        local open = require("oil").open
+                        if vim.bo.filetype == "fugitive" then
+                            open(".")
+                        else
+                            open()
+                        end
+                    end,
+                    desc = "Open file explorer",
+                    mode = { "t", "n" },
+                },
+            }
+        end,
+        explorer = function()
+            return {
+                ["~"] = false,
+                ["<C-l>"] = false,
+                ["<C-s>"] = false,
+                ["<C-h>"] = false,
+                ["gg"] = {
+                    desc = "Go to home",
+                    callback = function()
+                        vim.cmd("edit $HOME")
+                    end,
+                },
+                ["<C-Space>"] = "actions.close",
+                ["gr"] = "actions.refresh",
+                ["gv"] = "actions.select_vsplit",
+                ["gc"] = "actions.change_sort",
+                ["gs"] = "actions.select_split",
+                ["g."] = "actions.open_cmdline",
+                ["gh"] = "actions.toggle_hidden",
+                ["gx"] = "actions.open_external",
+                ["gd"] = {
+                    desc = "Toggle detail view",
+                    callback = function()
+                        local oil = require("oil")
+                        local config = require("oil.config")
+                        if #config.columns == 1 then
+                            oil.set_columns({ "icon", "permissions", "size", "mtime" })
+                        else
+                            oil.set_columns({ "icon" })
+                        end
+                    end,
+                },
+            }
+        end,
+    },
     neogen = function()
         return {
             { "<leader>ln", ":Neogen<CR>", desc = "Annotate" },
@@ -378,8 +425,8 @@ return {
         }
     end,
     telescope = function()
-        local f = function()
-            return require("functions")
+        local UtilVim = function()
+            return require("util.vim")
         end
         local t = function()
             return require("telescope.builtin")
@@ -395,7 +442,7 @@ return {
             {
                 "<C-/>",
                 function()
-                    t().current_buffer_fuzzy_find({ default_text = f().vim.get_visual_selection() })
+                    t().current_buffer_fuzzy_find({ default_text = UtilVim().get_visual_selection() })
                 end,
                 desc = "Search buffer",
                 mode = "v",
@@ -408,7 +455,7 @@ return {
             {
                 "<C-n>",
                 function()
-                    t().find_files({ default_text = f().vim.get_cur_buf_dir_rel_path() })
+                    t().find_files({ default_text = UtilVim().get_cur_buf_dir_rel_path() })
                 end,
                 desc = "Show current dir",
             },
@@ -425,7 +472,7 @@ return {
             {
                 "<C-f>",
                 function()
-                    t().find_files({ default_text = f().vim.get_visual_selection() })
+                    t().find_files({ default_text = UtilVim().get_visual_selection() })
                 end,
                 desc = "Find files",
                 mode = "v",
@@ -438,7 +485,7 @@ return {
             {
                 "<C-s>",
                 function()
-                    t().live_grep({ default_text = f().vim.get_visual_selection() })
+                    t().live_grep({ default_text = UtilVim().get_visual_selection() })
                 end,
                 desc = "Live grep",
                 mode = "v",
@@ -559,7 +606,7 @@ return {
             },
             {
                 "<leader>os",
-                f().vim.input("Grep string", function(input)
+                UtilVim().input("Grep string", function(input)
                     t().grep_string({ search = input })
                 end),
                 desc = "Grep string",
@@ -567,7 +614,7 @@ return {
             {
                 "<leader>os",
                 function()
-                    t().grep_string({ default_text = f().vim.get_visual_selection() })
+                    t().grep_string({ default_text = UtilVim().vim.get_visual_selection() })
                 end,
                 desc = "Grep string",
                 mode = "v",
@@ -598,8 +645,26 @@ return {
         map("n", "gy", "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition")
         map({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, "Code actions")
     end,
-    formatting = {},
-    linting = {},
+    formatting = function()
+        return {
+            {
+                "<leader>lf",
+                function()
+                    require("conform").format({ async = true, lsp_fallback = true })
+                end,
+                mode = { "n", "v" },
+                desc = "Format buffer",
+            },
+            {
+                "<leader>lF",
+                function()
+                    require("conform").format({ async = true, formatters = { "injected" } })
+                end,
+                mode = { "n", "v" },
+                desc = "Format Injected Langs",
+            },
+        }
+    end,
     sibling = function()
         return {
             {

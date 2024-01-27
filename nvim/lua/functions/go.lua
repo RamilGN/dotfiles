@@ -32,7 +32,7 @@ M.teststr = function(text)
 end
 
 M.go = function(opts)
-    local v = require("functions.vim")
+    local v = require("util.vim")
 
     local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
     if prefix then
@@ -45,7 +45,7 @@ M.go = function(opts)
 end
 
 M.yookassa_test = function(opts)
-    local v = require("functions.vim")
+    local v = require("util.vim")
     local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
 
     if prefix then

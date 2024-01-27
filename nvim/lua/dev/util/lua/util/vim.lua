@@ -75,7 +75,6 @@ M.vterm = function(command, opts)
     local expanded_command = full_command.gsub(full_command, "%%", curfile)
     M.save_last_command(expanded_command, command)
     vim.cmd(expanded_command)
-    vim.b.miniindentscope_disable = true
 end
 
 M.keys = function(keys)
