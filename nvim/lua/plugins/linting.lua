@@ -15,7 +15,7 @@ return {
                 go = { "golangcilint", "codespell" },
                 javascript = { "codespell" },
                 lua = { "codespell" },
-                markdown = { "markdownlint" },
+                -- markdown = { "markdownlint" },
                 ruby = { "rubocop", "codespell" },
                 vue = { "codespell" },
             },

@@ -114,7 +114,7 @@ return {
         map("n", "]<leader>", "<Cmd>norm i <CR>l", { desc = "Next buffer" })
         map("n", "[<leader>", "<Cmd>norm <CR> h", { desc = "Next tab" })
         -- Mind.
-        map("n", "<leader>mt", "<Cmd>e ~/mind/todo/todo.md<CR>", { desc = "Open todo in mind" })
+        map("n", "<leader>mt", "<Cmd>e ~/mind/todo/current.md<CR>", { desc = "Open todo in mind" })
         map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/mind<CR>", { desc = "Find files in mind" })
         map("n", "<leader>ms", "<Cmd>Telescope live_grep cwd=~/mind<CR>", { desc = "Live grep in mind" })
     end,
@@ -584,7 +584,6 @@ return {
             vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
         end
 
-        map("i", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
         map("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>", "LSP document symbols")
         map("n", "<leader>li", "<Cmd>LspInfo<CR>", "Lsp info")
         map("n", "<leader>lr", vim.lsp.buf.rename, "Rename")

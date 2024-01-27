@@ -63,7 +63,6 @@ M.setup = function(config)
             end
 
             local prefix = line:match("^%s*Gitx (%w*)") or ""
-            vim.notify(prefix)
             return vim.tbl_filter(function(key)
                 local start_idx, _ = key:find(prefix)
                 return start_idx == 1
