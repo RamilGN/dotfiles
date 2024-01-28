@@ -15,7 +15,7 @@ return {
             vim.cmd("set hls")
         end, { desc = "Search word without jumping", silent = true })
         map("v", "#", function()
-            local text = UtilVim().get_visual_selection()
+            local text = UtilVim().get_visual_selection_for_telescope()
             vim.fn.setreg("/", text)
             vim.cmd("set hls")
         end, { desc = "Search word without jumping" })
@@ -442,7 +442,7 @@ return {
             {
                 "<C-/>",
                 function()
-                    t().current_buffer_fuzzy_find({ default_text = UtilVim().get_visual_selection() })
+                    t().current_buffer_fuzzy_find({ default_text = UtilVim().get_visual_selection_for_telescope() })
                 end,
                 desc = "Search buffer",
                 mode = "v",
@@ -472,7 +472,7 @@ return {
             {
                 "<C-f>",
                 function()
-                    t().find_files({ default_text = UtilVim().get_visual_selection() })
+                    t().find_files({ default_text = UtilVim().get_visual_selection_for_telescope() })
                 end,
                 desc = "Find files",
                 mode = "v",
@@ -485,7 +485,7 @@ return {
             {
                 "<C-s>",
                 function()
-                    t().live_grep({ default_text = UtilVim().get_visual_selection() })
+                    t().live_grep({ default_text = UtilVim().get_visual_selection_for_telescope() })
                 end,
                 desc = "Live grep",
                 mode = "v",

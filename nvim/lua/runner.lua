@@ -63,7 +63,7 @@ Go.run = function(opts)
     local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
     if prefix then
         local curbufdirabspath = Util.cur_buf_dir_abs_path()
-        local teststr = M.teststr(opts.selected)
+        local teststr = Go.teststr(opts.selected)
         Util.vterm([[go test -v -race -cover -count=1 -benchmem -bench=.]] .. teststr .. curbufdirabspath)
     else
         Util.vterm("go run " .. opts.current_buffer)
@@ -106,7 +106,7 @@ Go.yookassa_test = function(opts)
 
     if prefix then
         local curbufrelpath = Util.get_cur_buf_dir_rel_path()
-        local teststr = M.teststr(opts.selected)
+        local teststr = Go.teststr(opts.selected)
         Util.vterm(
             [[docker exec -it yookassa sh -c 'ENV_PATH=/app/configs/.test.env go test -v -cover -count=1 -benchmem -bench=.]] .. teststr .. [[/app/]] .. curbufrelpath .. [[']]
         )
@@ -162,7 +162,7 @@ M.run = function(cmd_args)
 
     local text = nil
     if cmd_args.range > 0 then
-        text = Util.get_visual_selection_v2()
+        text = Util.get_visual_selection_text()
     end
 
     local opts = {

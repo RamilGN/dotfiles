@@ -87,9 +87,8 @@ return {
 
             vim.api.nvim_create_user_command("SendVisualSelectionToTerm", function(_)
                 if vim.o.columns == kitty_columns then
-                    local utils = require("toggleterm.utils")
-                    local res = utils.get_line_selection("visual")
-                    local lines = utils.get_visual_selection(res)
+                    local utils = require("util")
+                    local lines = utils.get_visual_selection_lines()
 
                     for _, line in ipairs(lines) do
                         local text = line:gsub("'", [['\'']])
@@ -114,6 +113,14 @@ return {
                     os.execute(kitty .. "'" .. " " .. "\n'")
                 else
                     toggleterm.exec_command("cmd= ", termid)
+                end
+            end, {})
+
+            vim.api.nvim_create_user_command("SendClearToTerm", function(_)
+                if vim.o.columns == kitty_columns then
+                    os.execute(kitty .. "'" .. "\x0C" .. "\n'")
+                else
+                    toggleterm.exec_command("cmd=q", termid)
                 end
             end, {})
         end,

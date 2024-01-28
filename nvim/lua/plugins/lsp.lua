@@ -77,21 +77,15 @@ return {
                     opts.settings = {
                         solargraph = {
                             diagnostics = false,
-                        }
+                        },
                     }
 
                     options.on_attach = function(client, bufnr)
                         opts.on_attach(client, bufnr)
                     end
                 end,
-                lua_ls = function(options, _)
-                    options.settings = {
-                        Lua = {
-                            completion = {
-                                callSnippet = "Replace",
-                            },
-                        },
-                    }
+                lua_ls = function(_, _)
+                    require("neodev").setup()
                 end,
                 gopls = function(options)
                     options.settings = {
@@ -138,8 +132,6 @@ return {
                 vim.fn.sign_define(sign, value)
             end
             vim.diagnostic.config(opts.diagnostics.config)
-
-            require("neodev").setup()
 
             local lspconfig = require("lspconfig")
             local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
