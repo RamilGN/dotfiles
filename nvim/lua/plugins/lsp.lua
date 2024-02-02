@@ -43,6 +43,9 @@ return {
                     update_in_insert = false,
                     underline = true,
                     severity_sort = true,
+                    float = {
+                        source = "always",
+                    },
                 },
                 signs = {
                     DiagnosticSignError = { text = " ", texthl = "DiagnosticSignError" },

@@ -78,7 +78,7 @@ return {
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
         map("n", "yol", "<Cmd>set invrelativenumber<CR>", { desc = "Toggle relative number" })
         map("n", "yof", function()
-            UtilVim().vim.copy_rel_path_line_to_buffer()
+            UtilVim().copy_rel_path_line_to_buffer()
         end, { desc = "Yank file path with line" })
         -- Prev action.
         map("n", "[b", "<C-^>", { desc = "Last buffer" })
@@ -687,31 +687,31 @@ return {
         return {
             {
                 "<leader>at",
-                "<Cmd>GptChatToggle new<CR>",
+                ":GptChatToggle new<CR>",
                 desc = "GPT chat toggle",
                 mode = { "n", "v" },
             },
             {
                 "<leader>aa",
-                "<Cmd>GptChatNew new<CR>",
+                ":GptChatNew new<CR>",
                 desc = "GPT chat new ",
                 mode = { "n", "v" },
             },
             {
                 "<leader>ae",
-                "<Cmd>GptEnew<CR>",
+                ":GptEnew<CR>",
                 desc = "GPT in buffer",
                 mode = { "n", "v" },
             },
             {
                 "<leader>ai",
-                "<Cmd>GptImplement<CR>",
+                ":GptImplement<CR>",
                 desc = "GPT implement in buffer",
                 mode = { "n", "v" },
             },
             {
                 "<leader>ar",
-                "<Cmd>GptRewrite<CR>",
+                ":GptRewrite<CR>",
                 desc = "GPT rewrite in buffer",
                 mode = { "n", "v" },
             },

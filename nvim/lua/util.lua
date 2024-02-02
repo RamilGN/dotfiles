@@ -30,7 +30,7 @@ end
 
 M.get_visual_selection_lines = function()
     local mode = vim.fn.visualmode()
-    vim.keys("<Esc>")
+    M.keys("<Esc>")
 
     -- Get the start and the end of the selection
     local start_line, start_col = unpack(vim.fn.getpos("'<"), 2, 3)
@@ -81,6 +81,12 @@ M.get_visual_selection_lines = function()
             return line:sub(start_col, end_col)
         end, res.selected_lines)
     end
+end
+
+---@return string lines
+M.get_visual_selection_text = function()
+    local lines = M.get_visual_selection_lines()
+    return table.concat(lines, "\n")
 end
 
 M.get_cur_buf_rel_path = function(should_append_line_num)
