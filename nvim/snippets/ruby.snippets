@@ -82,12 +82,31 @@ snippet !consclass
 		def some_private_method
 		end
 	end
-snippet frozen
-	# frozen_string_literal: true
 snippet #!
 	#!/usr/bin/env ruby
 snippet !factory
 	require "factory_bot"; include FactoryBot::Syntax::Methods; FactoryBot.find_definitions
+snippet frozen
+	# frozen_string_literal: true
+# YARD
+snippet yp
+	# @param ${0:name} [${0:Class}] ${1:description}
+snippet yph
+	# @param ${0:name} [Hash{String=>Integer}] ${1:description}
+snippet ypd
+	# @param ${0:name} [#read] ${1:description}
+snippet ypi
+	# @param ${0:name} [Integer] ${1:description}
+snippet yps
+	# @param ${0:name} [String] ${1:description}
+snippet yr
+	# @return [${0:Class}] ${1:description}
+snippet yar
+	# @!attribute [r] ${0:name}
+	#   @return [${1:Class}] ${2:description}
+snippet yarw
+	# @!attribute [rw] count
+	#   @return [Fixnum] the size of the list
 # New Block
 snippet =b
 	=begin rdoc

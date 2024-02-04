@@ -52,8 +52,8 @@ function trans() {
     just-translate-cli -l1=ru -l2=en -t="$*"
 }
 
-alias vpn="ruby ~/dotfiles/zshrc/scripts/vpn.rb"
-alias gpt="ruby ~/dotfiles/zshrc/scripts/gpt.rb"
+alias vpn="ruby ~/dotfiles/scripts/vpn/start.rb"
+alias gpt="ruby ~/dotfiles/scripts/gpt.rb"
 
 # postgres
 alias pg-sandbox='docker run --rm --name pg-sandbox -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres:14'

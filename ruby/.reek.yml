@@ -1,7 +1,11 @@
 ---
 detectors:
+  # Flog will handle this.
   TooManyStatements:
     enabled: false
+  TooManyConstants:
+    enabled: false
+  #
   UncommunicativeVariableName:
     accept:
       - e
