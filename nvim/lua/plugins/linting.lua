@@ -20,9 +20,12 @@ return {
                 vue = { "codespell" },
             },
             linters = {
+                rubocop = {
+                    args = { "--format", "json", "--force-exclusion", "-S" },
+                },
                 reek = {
                     cmd = "reek",
-                    args = { "%:p", "--format", "json" },
+                    args = { "%:p", "--format", "json", "--config", vim.g.home_dir .. "/" .. "dotfiles/ruby/.reek.yml" },
                     ignore_exitcode = true,
                     stdin = false,
                     parser = function(output)
@@ -88,7 +91,7 @@ return {
                         end
                         local scores = get_scores(output)
                         local source = "flog"
-                        local critical_total_score = 80
+                        local critical_total_score = 70
                         local critical_method_score = 20
                         local diagnostics = {}
 

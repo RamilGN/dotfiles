@@ -2,6 +2,7 @@ return {
     -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
+        tag = "v0.9.2",
         event = { "BufReadPost", "BufNewFile" },
         build = ":TSUpdate",
         dependencies = {
@@ -191,7 +192,7 @@ return {
     },
     {
         "windwp/nvim-ts-autotag",
-        event = "InsertEnter"
+        event = "InsertEnter",
     },
     {
         "Wansmer/sibling-swap.nvim",

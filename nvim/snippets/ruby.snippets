@@ -30,6 +30,15 @@ snippet !bench
     GC.enable
     h
   end
+snippet !bmbm
+	require 'benchmark'
+
+	n = 5000000
+	Benchmark.bm do |x|
+		x.report { n.times { } }
+		x.report { n.times { } }
+		x.report { n.times { } }
+	end
 snippet !consclass
 	class Person
 		# extend/include/prepend go first

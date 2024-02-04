@@ -1,0 +1,10 @@
+---
+detectors:
+  TooManyStatements:
+    enabled: false
+  UncommunicativeVariableName:
+    accept:
+      - e
+  IrresponsibleModule:
+    exclude:
+     - Error
