@@ -5,9 +5,10 @@ return {
         end
 
         -- Turn off input method outside insert mode.
-        vim.api.nvim_create_autocmd("InsertLeave", {
+        vim.api.nvim_create_autocmd("ModeChanged", {
             callback = function()
                 vim.opt.iminsert = 0
+                vim.opt.imsearch = 0
             end,
             pattern = "*",
             group = augroup("input_mode"),

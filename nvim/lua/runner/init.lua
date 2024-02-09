@@ -3,43 +3,8 @@ local M = {}
 
 local Util = require("util")
 
-local Ruby = {}
+local Ruby = require("runner.ruby")
 M.ruby = Ruby
-
-Ruby.run = function(opts)
-    Util.vterm("ruby " .. opts.current_buffer)
-end
-
-Ruby.get_cur_spec = function(opts)
-    local line = nil
-    if opts.range > 0 and opts.line1 == opts.line2 then
-        line = opts.line1
-    else
-        line = opts.fargs[1]
-    end
-
-    local spec = vim.fn.expand("%:p:.")
-    if line then
-        spec = spec .. [[:]] .. line
-    end
-
-    return spec
-end
-
-Ruby.insales_rspec = function(opts)
-    local spec = Ruby.get_cur_spec(opts.cmd_args)
-    Util.vterm([[docker exec -it -w /home/app/code insales-insales-1 bin/spring rspec ]] .. spec)
-end
-
-Ruby.sync1c_rspec = function(opts)
-    local spec = Ruby.get_cur_spec(opts.cmd_args)
-    Util.vterm([[docker exec -it -w /home/app/code 1c_synch-1c_sync-1 bundle exec rspec ]] .. spec)
-end
-
-Ruby.tickets_rspec = function(opts)
-    local spec = Ruby.get_cur_spec(opts.cmd_args)
-    Util.vterm([[docker exec -it -w /tickets tickets-backend-1 bin/spring rspec ]] .. spec)
-end
 
 local Lua = {}
 M.lua = Lua
@@ -152,6 +117,7 @@ local runners = {
         ["insales/insales/spec"] = Ruby.insales_rspec,
         ["insales/1c_synch/spec"] = Ruby.sync1c_rspec,
         ["insales/tickets/spec"] = Ruby.tickets_rspec,
+        ["insales/digital/spec"] = Ruby.digital_rspec,
         ["insales/yookassa"] = Go.yookassa_test,
     },
 }

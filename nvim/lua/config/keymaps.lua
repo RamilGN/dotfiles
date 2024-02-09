@@ -153,6 +153,14 @@ return {
                 end,
                 mode = { "i", "s" },
             },
+            {
+                "<BS>",
+                function()
+                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Del>", true, true, true), "x")
+                    require("luasnip").jump(1)
+                end,
+                mode = { "s" },
+            },
         }
     end,
     cmp = function()
@@ -217,6 +225,7 @@ return {
             map("n", "<leader>ghv", "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk")
             map("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk")
             map("n", "<leader>gu", "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk")
+            map("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>", "Diff")
             -- Buffers.
             map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer")
             map("n", "<leader>gsb", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
