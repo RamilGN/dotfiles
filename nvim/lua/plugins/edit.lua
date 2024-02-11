@@ -53,6 +53,8 @@ return {
         "echasnovski/mini.ai",
         event = "VeryLazy",
         opts = function()
+            local ai = require("mini.ai")
+
             return {
                 n_lines = 500,
                 mappings = {
@@ -60,6 +62,8 @@ return {
                     inside_last = "",
                 },
                 custom_textobjects = {
+                    f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
+                    c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
                     l = function(operator)
                         local from = nil
                         local to = nil
