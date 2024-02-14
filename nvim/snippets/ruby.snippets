@@ -86,6 +86,9 @@ snippet #!
 	#!/usr/bin/env ruby
 snippet !factory
 	require "factory_bot"; include FactoryBot::Syntax::Methods; FactoryBot.find_definitions
+snippet !request
+	request = Rack::MockRequest.env_for('http://localhost:3000')
+	Rails.application.call(request)
 snippet frozen
 	# frozen_string_literal: true
 # YARD

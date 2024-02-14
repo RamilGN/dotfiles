@@ -52,6 +52,12 @@ function trans() {
     just-translate-cli -l1=ru -l2=en -t="$*"
 }
 
+# function translate-and-notify() {
+#     SELECTION=$(xclip -out -selection primary)
+#     TRANSLATION=$(trans $SELECTION)
+#     notify-send --icon=info "$SELECTION" "$TRANSLATION"
+# }
+
 alias vpn="ruby ~/dotfiles/scripts/vpn/main.rb"
 alias gpt="ruby ~/dotfiles/scripts/gpt/main.rb"
 
