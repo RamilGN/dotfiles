@@ -3,6 +3,9 @@ export ZSH=$HOME/.oh-my-zsh
 # Theme
 ZSH_THEME='robbyrussell'
 
+# No lazy keymaps for zsh-vi-mode
+ZVM_INIT_MODE=sourcing
+
 # Plugins
 plugins=(
   asdf

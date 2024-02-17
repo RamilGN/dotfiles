@@ -1,7 +1,7 @@
 # Containers.
 
 ## Inspect with shell.
-alias dksh="docker run -it -rm --entrypoint=sh"
+alias dksh="docker run -it --entrypoint=sh"
 
 LS_CONTAINER_FORMAT='table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.RunningFor}}'
 

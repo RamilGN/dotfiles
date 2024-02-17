@@ -32,13 +32,6 @@ return {
 
             local lsp_source = { name = "nvim_lsp" }
 
-            local codeium_source = {
-                name = "codeium",
-                option = {
-                    keyword_pattern = [[\k\+]],
-                }
-            }
-
             local luasnip_source = { name = "luasnip" }
 
             local buffer_source = {
@@ -106,7 +99,6 @@ return {
                 mapping = cmp.mapping.preset.insert(k.cmp()),
                 sources = {
                     lsp_source,
-                    codeium_source,
                     luasnip_source,
                     buffer_source,
                     path_source,

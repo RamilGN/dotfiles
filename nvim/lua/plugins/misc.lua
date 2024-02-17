@@ -121,7 +121,7 @@ return {
                 if vim.o.columns == kitty_columns then
                     os.execute(kitty .. "'" .. "\x0C" .. "\n'")
                 else
-                    toggleterm.exec_command("cmd=q", termid)
+                    toggleterm.exec_command("cmd=\x0C", termid)
                 end
             end, {})
         end,
