@@ -6,14 +6,15 @@ return {
         opts = {
             max_file_length = 50000,
             attach_to_untracked = true,
+            _signs_staged_enable = true,
             sign_priority = 100,
             signs = {
-                add = { hl = "GitSignsAdd", text = "│" },
-                untracked = { hl = "GitSignsAdd", text = "┆" },
-                change = { hl = "GitSignsChange", text = "│" },
-                changedelete = { hl = "GitSignsChange", text = "│" },
-                delete = { hl = "GitSignsDelete", text = "│" },
-                topdelete = { hl = "GitSignsDelete", text = "│" },
+                add = { hl = "GitSignsAdd", text = "┃" },
+                untracked = { hl = "GitSignsAdd", text = "┃" },
+                change = { hl = "GitSignsChange", text = "┃" },
+                changedelete = { hl = "GitSignsChange", text = "┃" },
+                delete = { hl = "GitSignsDelete", text = "┃" },
+                topdelete = { hl = "GitSignsDelete", text = "┃" },
             },
             on_attach = function(buffer)
                 local k = require("config.keymaps")

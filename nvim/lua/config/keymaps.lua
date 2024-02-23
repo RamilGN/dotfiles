@@ -134,6 +134,13 @@ return {
         map("n", "<leader>mt", "<Cmd>e ~/mind/todo/current.md<CR>", { desc = "Open todo in mind" })
         map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/mind<CR>", { desc = "Find files in mind" })
         map("n", "<leader>ms", "<Cmd>Telescope live_grep cwd=~/mind<CR>", { desc = "Live grep in mind" })
+
+        -- Language specific
+
+        -- go
+        map("n", "<leader>ng", function()
+            vim.cmd("e ~/workspace/scratch/main.go")
+        end, { desc = "Scratch" })
     end,
     luasnip = function()
         return {
@@ -228,8 +235,7 @@ return {
                 prev_hunk_repeat({ preview = true })
             end, "Prev Hunk")
             map("n", "H", "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk")
-            map("n", "<leader>ghs", "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk")
-            map("n", "<leader>ghv", "<Cmd>Gitsigns select_hunk<CR>", "Git select hunk")
+            map("n", "<leader>gh", "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk")
             map("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk")
             map("n", "<leader>gu", "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk")
             map("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>", "Diff")

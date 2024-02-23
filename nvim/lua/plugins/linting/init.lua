@@ -23,6 +23,9 @@ return {
                 rubocop = {
                     args = { "--format", "json", "--force-exclusion", "-S" },
                 },
+                golangcilint = {
+                    args = { "run", "--out-format", "json", "-c", vim.g.home_dir .. "/" .. "dotfiles/go/.golangci.yml" },
+                },
                 reek = require("plugins.linting.reek"),
                 flog = require("plugins.linting.flog"),
             },
