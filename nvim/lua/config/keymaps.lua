@@ -77,7 +77,7 @@ return {
         map("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { desc = "Resize vert+" })
         -- Git.
         map({ "n", "v" }, "<leader>gll", ":Gitx log<CR>", { desc = "Git log" })
-        map("n", "<leader>glg", "<Cmd>Gitx logglobal<CR>", { desc = "Git log global" })
+        map("n", "<leader>glg", "<Cmd>Gitx log_global<CR>", { desc = "Git log global" })
         map("n", "<leader>gii", "<Cmd>Gitx show<CR>", { desc = "Git show" })
         map("n", "<leader>gip", "<Cmd>Gitx showprev<CR>", { desc = "Git show prev" })
         -- Set options and misc.
@@ -436,6 +436,11 @@ return {
             {
                 "<C-4>",
                 "<Cmd>SendQToTerm<CR>",
+                desc = "Send q to term",
+            },
+            {
+                "<C-5>",
+                "<Cmd>SendClearToTerm<CR>",
                 desc = "Send q to term",
             },
         }

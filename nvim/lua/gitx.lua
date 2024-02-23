@@ -10,7 +10,7 @@ end
 ---@param opts table
 local function execute_cmd(gitx, command, opts)
     local args = {}
-    for arg in command:gmatch("%w+") do
+    for arg in command:gmatch("[%w_]+") do
         table.insert(args, arg)
     end
 
