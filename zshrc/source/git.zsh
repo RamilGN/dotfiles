@@ -63,7 +63,6 @@ function _gstl {
 }
 unalias gstl
 alias gstl="_gstl $1# git stash list and show"
-alias gstl-np="_gstl --no-pager | delta --paging=never # git stash list and show"
 
 # Stash delete.
 unalias gstd; function gstd {

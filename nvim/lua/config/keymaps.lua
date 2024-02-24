@@ -1,6 +1,6 @@
 return {
     core = function()
-        local UtilVim = function()
+        local Util = function()
             return require("util")
         end
 
@@ -22,7 +22,7 @@ return {
             vim.cmd("set hls")
         end, { desc = "Search word without jumping", silent = true })
         map("v", "#", function()
-            local text = UtilVim().get_visual_selection_for_telescope()
+            local text = Util().get_visual_selection_for_telescope()
             vim.fn.setreg("/", text)
             vim.cmd("set hls")
         end, { desc = "Search word without jumping" })
@@ -64,6 +64,7 @@ return {
         map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal mode" })
         map("t", "<C-w>c", "<C-\\><C-n><C-w>c", { desc = "Close terminal" })
         map("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Scroll up" })
+        map("t", "<C-d>", "<C-\\><C-n><C-u>", { desc = "Scroll down" })
         map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Left window" })
         -- Windows.
         map("n", "<C-k>", "<C-w><Up>", { desc = "Go to upper window" })
@@ -85,7 +86,7 @@ return {
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
         map("n", "yol", "<Cmd>set invrelativenumber<CR>", { desc = "Toggle relative number" })
         map("n", "yof", function()
-            UtilVim().copy_rel_path_line_to_buffer()
+            Util().copy_rel_path_line_to_buffer()
         end, { desc = "Yank file path with line" })
         -- Prev action.
         map("n", "[b", "<C-^>", { desc = "Last buffer" })
@@ -112,8 +113,7 @@ return {
             local url = word:match(url_pattern)
 
             if url then
-                local command = "xdg-open " .. url
-                return vim.fn.jobstart(command)
+                return Util().sysopen(url)
             end
 
             if not url then
@@ -122,8 +122,7 @@ return {
 
                 if url then
                     url = "https://" .. url
-                    local command = "xdg-open " .. url
-                    return vim.fn.jobstart(command)
+                    return Util().sysopen(url)
                 end
             end
         end, { desc = "Open file with system app" })
@@ -134,9 +133,7 @@ return {
         map("n", "<leader>mt", "<Cmd>e ~/mind/todo/current.md<CR>", { desc = "Open todo in mind" })
         map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/mind<CR>", { desc = "Find files in mind" })
         map("n", "<leader>ms", "<Cmd>Telescope live_grep cwd=~/mind<CR>", { desc = "Live grep in mind" })
-
         -- Language specific
-
         -- go
         map("n", "<leader>ng", function()
             vim.cmd("e ~/workspace/scratch/main.go")
@@ -235,16 +232,15 @@ return {
                 prev_hunk_repeat({ preview = true })
             end, "Prev Hunk")
             map("n", "H", "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk")
-            map("n", "<leader>gh", "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk")
+            map("n", "<leader>gs", "<Cmd>Gitsigns stage_hunk<CR>", "Git stage hunk")
+            map("n", "<leader>gS", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
             map("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk")
+            map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer")
             map("n", "<leader>gu", "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk")
             map("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>", "Diff")
-            -- Buffers.
-            map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer")
-            map("n", "<leader>gsb", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
         end,
         fugitive = function()
-            local UtilVim = require("util")
+            local Util = require("util")
 
             return {
                 -- Git menu.
@@ -271,17 +267,6 @@ return {
                     "<Cmd>G log <cword><CR>",
                     desc = "Git log commit",
                 },
-                -- Git stash.
-                {
-                    "<leader>gstl",
-                    "<Cmd>V gstl-np<CR>",
-                    desc = "Git stash list",
-                },
-                {
-                    "<leader>gsti",
-                    "<Cmd>V gsti<CR>",
-                    desc = "Git stash apply",
-                },
                 -- Git commit/checkout.
                 {
                     "<leader>gca",
@@ -290,7 +275,7 @@ return {
                 },
                 {
                     "<leader>gcb",
-                    UtilVim.input("Branch name", function(input)
+                    Util.input("Branch name", function(input)
                         vim.cmd("G checkout -b " .. input)
                     end),
                     desc = "Git checkout new branch",
@@ -333,7 +318,11 @@ return {
                 },
                 {
                     "<leader>gyo",
-                    ":GBrowse<CR>",
+                    function()
+                        vim.cmd("GBrowse!")
+                        local link = vim.fn.getreg("+")
+                        Util.sysopen(link)
+                    end,
                     desc = "Git open link",
                     mode = { "n", "v" },
                 },
@@ -641,7 +630,7 @@ return {
             {
                 "<leader>os",
                 function()
-                    t().grep_string({ default_text = UtilVim().vim.get_visual_selection() })
+                   t().grep_string({ default_text = UtilVim().get_visual_selection() })
                 end,
                 desc = "Grep string",
                 mode = "v",

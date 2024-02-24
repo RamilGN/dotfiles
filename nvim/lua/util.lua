@@ -139,4 +139,9 @@ M.input = function(name, func)
     end
 end
 
+M.sysopen = function(filename)
+    local command = "xdg-open " .. filename
+    return vim.fn.jobstart(command)
+end
+
 return M

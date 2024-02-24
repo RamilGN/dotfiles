@@ -58,11 +58,11 @@ M.setup = function()
         range = true,
         desc = "Gitx",
         complete = function(_, line)
-            if line:match("^%s*Gitx %w+ ") then
-                return {}
+            local prefix = line:match("^%s*Gitx (%w*)") or ""
+            if M.cmds[prefix] ~= nil then
+                return { "-n", "100" }
             end
 
-            local prefix = line:match("^%s*Gitx (%w*)") or ""
             return vim.tbl_filter(function(key)
                 local start_idx, _ = key:find(prefix)
                 return start_idx == 1
