@@ -1,3 +1,5 @@
+local sev = vim.diagnostic.severity
+
 return {
     cmd = "reek",
     args = { "%:p", "--format", "json", "--config", vim.g.home_dir .. "/" .. "dotfiles/ruby/.reek.yml" },
@@ -18,7 +20,7 @@ return {
                 end_lnum = line,
                 col = 0,
                 end_col = 0,
-                severity = vim.diagnostic.severity.HINT,
+                severity = sev.HINT,
                 message = message,
                 code = code,
             })

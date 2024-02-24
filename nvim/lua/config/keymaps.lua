@@ -1,9 +1,9 @@
+local Util = function()
+    return require("util")
+end
+
 return {
     core = function()
-        local Util = function()
-            return require("util")
-        end
-
         local map = vim.keymap.set
         -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
         map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next search result" })
@@ -240,8 +240,6 @@ return {
             map("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>", "Diff")
         end,
         fugitive = function()
-            local Util = require("util")
-
             return {
                 -- Git menu.
                 {
@@ -264,8 +262,13 @@ return {
                 -- Git log.
                 {
                     "<leader>glc",
-                    "<Cmd>G log <cword><CR>",
-                    desc = "Git log commit",
+                    "<Cmd>Telescope git_bcommits<CR>",
+                    desc = "Git log branch commit",
+                },
+                {
+                    "<leader>glC",
+                    "<Cmd>Telescope git_commits<CR>",
+                    desc = "Git log all commits",
                 },
                 -- Git commit/checkout.
                 {
@@ -275,7 +278,7 @@ return {
                 },
                 {
                     "<leader>gcb",
-                    Util.input("Branch name", function(input)
+                    Util().input("Branch name", function(input)
                         vim.cmd("G checkout -b " .. input)
                     end),
                     desc = "Git checkout new branch",
@@ -289,11 +292,6 @@ return {
                     "<leader>gcm",
                     "<Cmd>V gcm<CR>",
                     desc = "Git checkout master",
-                },
-                {
-                    "<leader>gco",
-                    "<Cmd>V gco<CR>",
-                    desc = "Git checkout",
                 },
                 {
                     "<leader>gcn",
@@ -441,7 +439,7 @@ return {
         }
     end,
     telescope = function()
-        local UtilVim = function()
+        local Util = function()
             return require("util")
         end
         local t = function()
@@ -458,7 +456,7 @@ return {
             {
                 "<C-/>",
                 function()
-                    t().current_buffer_fuzzy_find({ default_text = UtilVim().get_visual_selection_for_telescope() })
+                    t().current_buffer_fuzzy_find({ default_text = Util().get_visual_selection_for_telescope() })
                 end,
                 desc = "Search buffer",
                 mode = "v",
@@ -471,7 +469,7 @@ return {
             {
                 "<C-n>",
                 function()
-                    t().find_files({ default_text = UtilVim().get_cur_buf_dir_rel_path() })
+                    t().find_files({ default_text = Util().get_cur_buf_dir_rel_path() })
                 end,
                 desc = "Show current dir",
             },
@@ -488,7 +486,7 @@ return {
             {
                 "<C-f>",
                 function()
-                    t().find_files({ default_text = UtilVim().get_visual_selection_for_telescope() })
+                    t().find_files({ default_text = Util().get_visual_selection_for_telescope() })
                 end,
                 desc = "Find files",
                 mode = "v",
@@ -501,7 +499,7 @@ return {
             {
                 "<C-s>",
                 function()
-                    t().live_grep({ default_text = UtilVim().get_visual_selection_for_telescope() })
+                    t().live_grep({ default_text = Util().get_visual_selection_for_telescope() })
                 end,
                 desc = "Live grep",
                 mode = "v",
@@ -516,6 +514,11 @@ return {
                 "<C-g>",
                 "<Cmd>silent! Telescope git_status<CR>",
                 desc = "Git status",
+            },
+            {
+                "<leader>gco",
+                "<Cmd>Telescope git_branches<CR>",
+                desc = "Git checkout",
             },
             {
                 "<leader>gos",
@@ -622,7 +625,7 @@ return {
             },
             {
                 "<leader>os",
-                UtilVim().input("Grep string", function(input)
+                Util().input("Grep string", function(input)
                     t().grep_string({ search = input })
                 end),
                 desc = "Grep string",
@@ -630,7 +633,7 @@ return {
             {
                 "<leader>os",
                 function()
-                   t().grep_string({ default_text = UtilVim().get_visual_selection() })
+                    t().grep_string({ default_text = Util().get_visual_selection() })
                 end,
                 desc = "Grep string",
                 mode = "v",
@@ -702,31 +705,31 @@ return {
     gpt = function()
         return {
             {
-                "<leader>at",
+                "<leader>cc",
                 ":GptChatToggle new<CR>",
                 desc = "GPT chat toggle",
                 mode = { "n", "v" },
             },
             {
-                "<leader>aa",
+                "<leader>ca",
                 ":GptChatNew new<CR>",
                 desc = "GPT chat new ",
                 mode = { "n", "v" },
             },
             {
-                "<leader>ae",
+                "<leader>ce",
                 ":GptEnew<CR>",
                 desc = "GPT in buffer",
                 mode = { "n", "v" },
             },
             {
-                "<leader>ai",
+                "<leader>ci",
                 ":GptImplement<CR>",
                 desc = "GPT implement in buffer",
                 mode = { "n", "v" },
             },
             {
-                "<leader>ar",
+                "<leader>cr",
                 ":GptRewrite<CR>",
                 desc = "GPT rewrite in buffer",
                 mode = { "n", "v" },

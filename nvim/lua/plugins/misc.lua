@@ -160,4 +160,15 @@ return {
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" },
     },
+    {
+        "robitx/gp.nvim",
+        cmd = { "GptChatToggle", "GptChatNew", "GptEnew", "GptRewrite", "GptImplement" },
+        keys = require("config.keymaps").gpt(),
+        opts = {
+            cmd_prefix = "Gpt",
+            chat_user_prefix = "==>",
+            chat_assistant_prefix = { "<==" },
+            chat_free_cursor = true,
+        },
+    },
 }

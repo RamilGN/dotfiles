@@ -25,6 +25,13 @@ return {
                 end)
             end
 
+            local previewers = require("telescope.previewers")
+            local delta_previewer = previewers.new_termopen_previewer({
+                get_command = function(entry)
+                    return "git diff HEAD -- '" .. entry.path .. "'"
+                end,
+            })
+
             telescope.setup({
                 defaults = {
                     vimgrep_arguments = vimgrep_arguments,
@@ -66,6 +73,9 @@ return {
                     git_branches = {
                         theme = "dropdown",
                         previewer = false,
+                    },
+                    git_status = {
+                        previewer = delta_previewer,
                     },
                     lsp_workspace_symbols = {
                         symbol_width = 65,
