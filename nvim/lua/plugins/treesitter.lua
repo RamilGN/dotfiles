@@ -56,7 +56,6 @@ return {
                         return require("util").get_buf_byte_size(bufnr) > vim.g.max_byte_size
                     end,
                 },
-                indent = { enable = true },
                 textobjects = {
                     select = {
                         enable = true,

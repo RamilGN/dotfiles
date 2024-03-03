@@ -357,7 +357,7 @@ return {
                 ["<C-l>"] = false,
                 ["<C-s>"] = false,
                 ["<C-h>"] = false,
-                ["gg"] = {
+                ["g~"] = {
                     desc = "Go to home",
                     callback = function()
                         vim.cmd("edit $HOME")

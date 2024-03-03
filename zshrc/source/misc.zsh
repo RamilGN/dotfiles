@@ -78,6 +78,7 @@ alias ngrok_host_header_rewrite='xclipsel "ngrok http --host-header=rewrite my.s
 alias ruby_load_gems_for_solargraph_to_nvim='GEM_HOME="$HOME/.local/share/nvim/mason/packages/solargraph" GEM_PATH="$HOME/.local/share/nvim/mason/packages/solargraph" bundle'
 
 # kubectl get all running pods
+alias kubectl="tsh kubectl"
 alias kgpar='kgpa --field-selector=status.phase=Running | fzf'
 alias kxcit='kubectl_exec_it'
 function kubectl_exec_it {

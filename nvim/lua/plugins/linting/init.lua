@@ -21,7 +21,15 @@ return {
             },
             linters = {
                 rubocop = {
-                    args = { "--format", "json", "--force-exclusion", "-S" },
+                    args = {
+                        "--format",
+                        "json",
+                        "-S",
+                        "--force-exclusion",
+                        "--server",
+                        "--stdin",
+                        function() return vim.api.nvim_buf_get_name(0) end,
+                    },
                 },
                 golangcilint = {
                     args = { "run", "--out-format", "json", "-c", vim.g.home_dir .. "/" .. "dotfiles/go/.golangci.yml" },

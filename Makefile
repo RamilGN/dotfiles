@@ -109,6 +109,10 @@ git:
 	ln -sf $(PWD)/git/.gitconfig ~/.gitconfig
 	git config --global core.excludesfile $(PWD)/git/.gitignore
 
+.PHONY: pg
+pg:
+	ln -sf $(PWD)/pg/.psqlrc ~/.psqlrc
+
 ASDF_PATH:=~/.asdf
 ASDFRC_PATH:=~/.asdfrc
 .PHONY: asdf

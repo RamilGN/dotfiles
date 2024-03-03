@@ -27,7 +27,19 @@ return {
 
             local previewers = require("telescope.previewers")
             local delta_previewer = previewers.new_termopen_previewer({
+                -- {
+                --   display = <function 1>,
+                --   index = 5,
+                --   ordinal = "?? foo.lua",
+                --   path = "/home/ramilg/dotfiles/foo.lua",
+                --   status = "??",
+                --   value = "foo.lua"
+                -- }
                 get_command = function(entry)
+                    if entry.status == "??" then
+                        return "git diff --no-index /dev/null " .. entry.path
+                    end
+
                     return "git diff HEAD -- '" .. entry.path .. "'"
                 end,
             })

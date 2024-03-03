@@ -50,6 +50,15 @@ function gcoa {
   fi
   [ ! -z "$BRANCH" ] && git checkout $(echo $BRANCH | sed 's/^\*\s*//')
 }
+## Tag all.
+unalias gta; function gta {
+  echo $(git tag | fzf)
+}
+# Checkout tag.
+function gto {
+  TAG=$(gta)
+  [ ! -z "$TAG" ] && git checkout $TAG
+}
 
 # Stash index.
 function _git_stash_index; {

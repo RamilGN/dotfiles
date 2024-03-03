@@ -80,13 +80,5 @@ return {
             group = augroup("checktime"),
             command = "checktime",
         })
-
-        vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-            group = augroup("ruby"),
-            pattern = { "*.slim", "*.html.slim" },
-            callback = function()
-                vim.bo.filetype = "ruby"
-            end,
-        })
     end,
 }
