@@ -61,7 +61,7 @@ return {
                 size = function(_)
                     return math.floor(vim.o.columns * 0.5)
                 end,
-                open_mapping = [[<C-\>]],
+                -- open_mapping = [[<C-\>]],
                 insert_mappings = true,
                 shade_terminals = false,
                 hide_numbers = false,

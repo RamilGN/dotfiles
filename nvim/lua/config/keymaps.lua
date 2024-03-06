@@ -64,7 +64,6 @@ return {
         map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal mode" })
         map("t", "<C-w>c", "<C-\\><C-n><C-w>c", { desc = "Close terminal" })
         map("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Scroll up" })
-        map("t", "<C-d>", "<C-\\><C-n><C-u>", { desc = "Scroll down" })
         map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Left window" })
         -- Windows.
         map("n", "<C-k>", "<C-w><Up>", { desc = "Go to upper window" })
@@ -138,6 +137,7 @@ return {
         map("n", "<leader>ng", function()
             vim.cmd("e ~/workspace/scratch/main.go")
         end, { desc = "Scratch" })
+        map({ "n", "t" }, [[<C-\>]], "<Cmd>Term<CR>")
     end,
     luasnip = function()
         return {
@@ -393,11 +393,11 @@ return {
     end,
     toggleterm = function()
         return {
-            {
-                "<C-\\>",
-                "<Cmd>ToggleTerm<CR>",
-                desc = "Toggle term",
-            },
+            -- {
+            --     "<C-\\>",
+            --     "<Cmd>ToggleTerm<CR>",
+            --     desc = "Toggle term",
+            -- },
             {
                 "<leader>o2",
                 "<Cmd>22ToggleTerm direction=vertical<CR>",

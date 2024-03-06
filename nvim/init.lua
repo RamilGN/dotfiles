@@ -24,6 +24,7 @@ local core = {
         })
 
         require("gitx").setup()
+        require("term").setup()
         require("runner").setup()
     end,
 }
