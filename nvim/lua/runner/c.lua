@@ -1,6 +1,6 @@
 local M = {}
 
-local Util = require("util")
+local Util = require("util.init")
 
 M.run = function(opts)
     local curb = opts.current_buffer

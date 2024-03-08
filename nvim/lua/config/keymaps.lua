@@ -1,5 +1,5 @@
 local Util = function()
-    return require("util")
+    return require("util.init")
 end
 
 return {
@@ -137,7 +137,9 @@ return {
         map("n", "<leader>ng", function()
             vim.cmd("e ~/workspace/scratch/main.go")
         end, { desc = "Scratch" })
-        map({ "n", "t" }, [[<C-\>]], "<Cmd>Term<CR>")
+
+        map({ "n", "t" }, [[<C-\>]], "<Cmd>Term toggle<CR>")
+        map({ "n", "v" }, "<C-2>", ":Term send<CR>", { desc = "Send text to term" })
     end,
     luasnip = function()
         return {
@@ -410,17 +412,17 @@ return {
                 end,
                 desc = "Last command in term",
             },
-            {
-                "<C-2>",
-                "<Cmd>SendCurrentLineToTerm<CR>",
-                desc = "Send line to term",
-            },
-            {
-                "<C-2>",
-                ":SendVisualSelectionToTerm<CR>",
-                desc = "Send visual selection to term",
-                mode = "v",
-            },
+            -- {
+            --     "<C-2>",
+            --     "<Cmd>SendCurrentLineToTerm<CR>",
+            --     desc = "Send line to term",
+            -- },
+            -- {
+            --     "<C-2>",
+            --     ":SendVisualSelectionToTerm<CR>",
+            --     desc = "Send visual selection to term",
+            --     mode = "v",
+            -- },
             {
                 "<C-3>",
                 "<Cmd>SendSpaceToTerm<CR>",
@@ -440,7 +442,7 @@ return {
     end,
     telescope = function()
         local Util = function()
-            return require("util")
+            return require("util.init")
         end
         local t = function()
             return require("telescope.builtin")

@@ -1,6 +1,6 @@
 local M = {}
 
-local Util = require("util")
+local Util = require("util.init")
 
 M.teststr = function(text)
     local teststr = " "

@@ -26,7 +26,7 @@ return {
             { "saadparwaiz1/cmp_luasnip" },
         },
         config = function()
-            local f = require("util")
+            local f = require("util.init")
             local k = require("config.keymaps")
             local cmp = require("cmp")
 

@@ -9,7 +9,7 @@ local M = {
     c = require("runner.c"),
 }
 
-local Util = require("util")
+local Util = require("util.init")
 
 local runners = {
     filetypes_to_runner = {

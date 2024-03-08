@@ -1,6 +1,6 @@
 local M = {}
 
-local Util = require("util")
+local Util = require("util.init")
 
 M.run = function(opts)
     local bin = opts.current_buffer:gsub(".rkt$", "")

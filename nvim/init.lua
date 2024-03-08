@@ -23,8 +23,8 @@ local core = {
             },
         })
 
-        require("gitx").setup()
-        require("term").setup()
+        require("gitx.init").setup()
+        require("term.init").setup()
         require("runner").setup()
     end,
 }

@@ -88,7 +88,7 @@ return {
 
             vim.api.nvim_create_user_command("SendVisualSelectionToTerm", function(_)
                 if vim.o.columns == kitty_columns then
-                    local utils = require("util")
+                    local utils = require("util.init")
                     local lines = utils.get_visual_selection_lines()
 
                     for _, line in ipairs(lines) do
