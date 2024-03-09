@@ -27,9 +27,9 @@ M.setup = function()
 
         if cmd == "send" then
             if opts.range > 0 then
-                term_opts.send_mode = TERM_SEND_MODE_LINE
-            else
                 term_opts.send_mode = TERM_SEND_MODE_LINES
+            else
+                term_opts.send_mode = TERM_SEND_MODE_LINE
             end
         end
 

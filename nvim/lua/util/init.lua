@@ -80,6 +80,8 @@ M.get_visual_selection_lines = function()
             return line:sub(start_col, end_col)
         end, res.selected_lines)
     end
+
+    return {}
 end
 
 ---@return string lines

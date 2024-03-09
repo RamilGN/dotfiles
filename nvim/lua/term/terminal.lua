@@ -116,9 +116,11 @@ P.start = function(term)
             local mode = vim.api.nvim_get_mode().mode
 
             -- Scroll to bottom.
-            if mode == "n" or mode == "nt" then
-                vim.cmd("normal! G")
-            end
+            vim.api.nvim_buf_call(term.buf_id, function()
+                if mode == "n" or mode == "nt" then
+                    vim.cmd("normal! G")
+                end
+            end)
         end,
         on_exit = function()
             M.terminals[term.id] = nil
@@ -143,9 +145,8 @@ end
 ---@return Term
 P.new_term = function(id)
     local term = { id = id }
-    term = UI.open_float(term)
+    term = UI.open_vsplit(term)
 
-    P.setup_highlighs(term)
     P.setup_buffer_autocommands(term)
     P.start(term)
     P.add(term)
@@ -164,12 +165,6 @@ end
 
 ---@param term Term
 P.setup_buffer_autocommands = function(term)
-    vim.api.nvim_create_autocmd("WinLeave", {
-        buffer = term.buf_id,
-        group = TERM_AUGROUP,
-        callback = term.closer,
-    })
-
     vim.api.nvim_create_autocmd("BufEnter", {
         buffer = term.buf_id,
         group = TERM_AUGROUP,
@@ -177,13 +172,6 @@ P.setup_buffer_autocommands = function(term)
             vim.cmd("startinsert")
         end,
     })
-end
-
----@param term Term
-P.setup_highlighs = function(term)
-    if term.type == TERM_TYPE_FLOAT then
-        vim.wo[term.win_id].winhighlight = "FloatBorder:TermBorder,NormalFloat:TermNormalFloat"
-    end
 end
 
 return M

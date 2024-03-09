@@ -1,5 +1,5 @@
 TERM_TYPE_FLOAT = "float"
-TERM_TYPE_HORIZONTAL = "horizontal"
+TERM_TYPE_VSPLIT = "vsplit"
 
 TERM_SEND_MODE_LINE = "line"
 TERM_SEND_MODE_LINES = "lines"
