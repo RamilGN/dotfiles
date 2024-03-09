@@ -7,6 +7,7 @@ M.open_vsplit = function(term)
     vim.cmd("vsplit")
 
     P.get_or_create_buf_for(term)
+    vim.api.nvim_set_current_buf(term.buf_id)
 
     term.win_id = vim.api.nvim_get_current_win()
     term.open = true
@@ -93,8 +94,6 @@ P.get_or_create_buf_for = function(term)
     if buf_id == nil or not vim.api.nvim_buf_is_valid(term.buf_id) then
         buf_id = vim.api.nvim_create_buf(false, false)
     end
-
-    vim.api.nvim_set_current_buf(buf_id)
 
     term.buf_id = buf_id
 end

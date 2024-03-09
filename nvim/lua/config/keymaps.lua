@@ -104,7 +104,7 @@ return {
         map("n", "<leader>rv", "<Cmd>@:<CR>", { desc = "Last command no expand" })
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Open smth.
-        map("n", "<leader>ot", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
+        map("n", "<leader>oT", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
         -- Open url with gx.
         map("n", "gx", function()
             local word = vim.fn.expand("<cWORD>")
@@ -139,7 +139,31 @@ return {
         end, { desc = "Scratch" })
 
         map({ "n", "t" }, [[<C-\>]], "<Cmd>Term toggle_float<CR>")
-        map({ "n", "v" }, "<C-2>", ":Term send<CR>", { desc = "Send text to last term" })
+        map("n", "<leader>ot", ":Term toggle_vsplit<CR>")
+        map({ "n", "v" }, "<C-2>", ":Term send_vsplit<CR>")
+
+        -- {
+        --     "<leader>rt",
+        --     function()
+        --         vim.cmd("22TermExec direction=vertical cmd='" .. vim.g.last_cmd .. "'")
+        --     end,
+        --     desc = "Last command in term",
+        -- },
+        -- {
+        --     "<C-3>",
+        --     "<Cmd>SendSpaceToTerm<CR>",
+        --     desc = "Send space to term",
+        -- },
+        -- {
+        --     "<C-4>",
+        --     "<Cmd>SendQToTerm<CR>",
+        --     desc = "Send q to term",
+        -- },
+        -- {
+        --     "<C-5>",
+        --     "<Cmd>SendClearToTerm<CR>",
+        --     desc = "Send q to term",
+        -- },
     end,
     luasnip = function()
         return {
@@ -394,51 +418,7 @@ return {
         }
     end,
     toggleterm = function()
-        return {
-            -- {
-            --     "<C-\\>",
-            --     "<Cmd>ToggleTerm<CR>",
-            --     desc = "Toggle term",
-            -- },
-            {
-                "<leader>o2",
-                "<Cmd>22ToggleTerm direction=vertical<CR>",
-                desc = "Open interactive terminal",
-            },
-            {
-                "<leader>rt",
-                function()
-                    vim.cmd("22TermExec direction=vertical cmd='" .. vim.g.last_cmd .. "'")
-                end,
-                desc = "Last command in term",
-            },
-            -- {
-            --     "<C-2>",
-            --     "<Cmd>SendCurrentLineToTerm<CR>",
-            --     desc = "Send line to term",
-            -- },
-            -- {
-            --     "<C-2>",
-            --     ":SendVisualSelectionToTerm<CR>",
-            --     desc = "Send visual selection to term",
-            --     mode = "v",
-            -- },
-            {
-                "<C-3>",
-                "<Cmd>SendSpaceToTerm<CR>",
-                desc = "Send space to term",
-            },
-            {
-                "<C-4>",
-                "<Cmd>SendQToTerm<CR>",
-                desc = "Send q to term",
-            },
-            {
-                "<C-5>",
-                "<Cmd>SendClearToTerm<CR>",
-                desc = "Send q to term",
-            },
-        }
+        return {}
     end,
     telescope = function()
         local Util = function()

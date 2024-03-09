@@ -22,30 +22,32 @@ local UI = require("term.ui")
 --- @field cmd string
 --- @field send_mode string
 
----@type Term[]
-local Terminals = {}
-
 ---@type Term|nil
 local LastTerminal = nil
 
 local M = {
     last_terminal = LastTerminal,
-    terminals = Terminals,
+    terminals = {
+        ---@type Term[]
+        [TERM_TYPE_VSPLIT] = {},
+        ---@type Term[]
+        [TERM_TYPE_FLOAT] = {},
+    },
 }
 local P = {}
 
 ---@param id integer
+---@param type string
 ---@return Term
-M.open = function(id)
-    id = P.get_id(id)
+M.open = function(id, type)
+    local term = P.get(id, type)
 
-    local term = M.terminals[id]
     if term and term.open then
         return term
     elseif term then
         term.opener()
     else
-        term = P.new_term(id)
+        term = P.new_term(id, type)
     end
 
     M.last_terminal = term
@@ -54,17 +56,17 @@ M.open = function(id)
 end
 
 ---@param id integer
+---@param type string
 ---@return Term
-M.toggle = function(id)
-    id = P.get_id(id)
+M.toggle = function(id, type)
+    local term = P.get(id, type)
 
-    local term = M.terminals[id]
     if term and term.open then
         term.closer()
     elseif term then
         term.opener()
     else
-        term = P.new_term(id)
+        term = P.new_term(id, type)
     end
 
     M.last_terminal = term
@@ -74,8 +76,9 @@ end
 
 ---@param id integer
 ---@param mode string
+---@param type string
 ---@return Term|nil
-M.send = function(id, mode)
+M.send = function(id, mode, type)
     local lines = {}
 
     if mode == TERM_SEND_MODE_LINE then
@@ -88,12 +91,19 @@ M.send = function(id, mode)
         return
     end
 
-    local term = M.open(id)
+    local term = nil
+    if M.last_terminal then
+        term = M.open(M.last_terminal.id, M.last_terminal.type)
+    else
+        term = M.open(id, type)
+    end
 
     for _, line in ipairs(lines) do
         line = string.format("%s\n", line)
         vim.fn.chansend(term.job_id, line)
     end
+
+    M.last_terminal = term
 
     return term
 end
@@ -123,29 +133,41 @@ P.start = function(term)
             end)
         end,
         on_exit = function()
-            M.terminals[term.id] = nil
+            P.delete(term)
             vim.api.nvim_buf_delete(term.buf_id, { force = true })
         end,
     })
 end
 
 ---@param id integer
----@return integer
-P.get_id = function(id)
+---@param type string
+---@return Term
+P.get = function(id, type)
     if id == 0 and M.last_terminal then
         id = M.last_terminal.id
     elseif id == 0 then
         id = 1
     end
 
-    return id
+    return M.terminals[type][id]
 end
 
 ---@param id integer
+---@param type string
+P.get_key = function(id, type)
+    return string.format("%d_%s", id, type)
+end
+
+---@param id integer
+---@param type string
 ---@return Term
-P.new_term = function(id)
+P.new_term = function(id, type)
     local term = { id = id }
-    term = UI.open_vsplit(term)
+    if type == TERM_TYPE_FLOAT then
+        term = UI.open_float(term)
+    elseif type == TERM_TYPE_VSPLIT then
+        term = UI.open_vsplit(term)
+    end
 
     P.setup_buffer_autocommands(term)
     P.start(term)
@@ -156,11 +178,12 @@ end
 
 ---@param term Term
 P.add = function(term)
-    vim.validate({
-        id = { term.id, "number" },
-    })
+    M.terminals[term.type][term.id] = term
+end
 
-    M.terminals[term.id] = term
+---@param term Term
+P.delete = function(term)
+    M.terminals[term.type][term.id] = nil
 end
 
 ---@param term Term
