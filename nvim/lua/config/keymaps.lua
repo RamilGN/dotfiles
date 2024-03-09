@@ -138,8 +138,8 @@ return {
             vim.cmd("e ~/workspace/scratch/main.go")
         end, { desc = "Scratch" })
 
-        map({ "n", "t" }, [[<C-\>]], "<Cmd>Term toggle<CR>")
-        map({ "n", "v" }, "<C-2>", ":Term send<CR>", { desc = "Send text to term" })
+        map({ "n", "t" }, [[<C-\>]], "<Cmd>Term toggle_float<CR>")
+        map({ "n", "v" }, "<C-2>", ":Term send<CR>", { desc = "Send text to last term" })
     end,
     luasnip = function()
         return {

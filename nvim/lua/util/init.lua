@@ -30,7 +30,6 @@ end
 
 M.get_visual_selection_lines = function()
     local mode = vim.fn.visualmode()
-    M.keys("<Esc>")
 
     -- Get the start and the end of the selection
     local start_line, start_col = unpack(vim.fn.getpos("'<"), 2, 3)
