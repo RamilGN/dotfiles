@@ -79,6 +79,25 @@ end
 ---@param type string
 ---@return Term|nil
 M.send = function(id, mode, type)
+    local term = nil
+
+    if vim.o.columns == TERM_KITTY_COLUMNS then
+        P.send_to_kitty(mode)
+        return
+    else
+        term = P.send_to_nvim(id, mode, type)
+    end
+
+    M.last_terminal = term
+
+    return term
+end
+
+---@param id integer
+---@param mode string
+---@param type string
+---@return Term|nil
+P.send_to_nvim = function(id, mode, type)
     local lines = {}
 
     if mode == TERM_SEND_MODE_LINE then
@@ -103,9 +122,28 @@ M.send = function(id, mode, type)
         vim.fn.chansend(term.job_id, line)
     end
 
-    M.last_terminal = term
-
     return term
+end
+
+---@param mode string
+P.send_to_kitty = function(mode)
+    local lines = {}
+
+    if mode == TERM_SEND_MODE_LINE then
+        lines = { vim.api.nvim_get_current_line() }
+    elseif mode == TERM_SEND_MODE_LINES then
+        lines = Util.get_visual_selection_lines()
+    end
+
+    if #lines == 0 then
+        return
+    end
+
+    for _, line in ipairs(lines) do
+        line = line:gsub("'", [['\'']])
+        local command = string.format("%s -- '%s\n'", TERM_KITTY_CMD, line)
+        vim.fn.jobstart(command)
+    end
 end
 
 ---@param term Term

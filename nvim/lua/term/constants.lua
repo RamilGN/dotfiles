@@ -8,3 +8,6 @@ TERM_AUGROUP = vim.api.nvim_create_augroup("Term", { clear = true })
 
 TERM_CMD_COMPLETE_REGEXP = "^%s*Term (.*) (.*)"
 TERM_CMD_COMPLETE_ARG = "id="
+
+TERM_KITTY_COLUMNS = 98
+TERM_KITTY_CMD = "kitty @ send-text --match neighbor:right"
