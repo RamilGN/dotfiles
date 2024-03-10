@@ -21,7 +21,13 @@ M.setup = function()
         end
     end
 
-    M.cmds = {}
+    M.cmds = {
+        diag = {
+            exec = function()
+                vim.print(Terminal.terminals)
+            end,
+        },
+    }
 
     for _, type in ipairs({ TERM_TYPE_FLOAT, TERM_TYPE_VSPLIT }) do
         local open_cmd = "open_" .. type
