@@ -1,10 +1,30 @@
 local M = {}
 local P = {}
 
+M.open_enew = function(term)
+    vim.cmd(TERM_TYPE_ENEW)
+
+    term.buf_id = vim.api.nvim_get_current_buf()
+    term.win_id = vim.api.nvim_get_current_win()
+    term.open = true
+    term.type = TERM_TYPE_ENEW
+
+    term.closer = function()
+        term.open = false
+    end
+    term.opener = function()
+        M.open_enew(term)
+    end
+
+    P.setup_bufwinleave_autocmd(term)
+
+    return term
+end
+
 ---@param term Term
 ---@return Term
 M.open_vsplit = function(term)
-    vim.cmd("vsplit")
+    vim.cmd(TERM_TYPE_VSPLIT)
 
     P.get_or_create_buf_for(term)
     vim.api.nvim_set_current_buf(term.buf_id)
@@ -21,13 +41,13 @@ M.open_vsplit = function(term)
         M.open_vsplit(term)
     end
 
-    P.setup_vsplit_autocmd(term)
+    P.setup_bufwinleave_autocmd(term)
 
     return term
 end
 
 ---@param term Term
-P.setup_vsplit_autocmd = function(term)
+P.setup_bufwinleave_autocmd = function(term)
     vim.api.nvim_create_autocmd("BufWinLeave", {
         buffer = term.buf_id,
         group = TERM_AUGROUP,

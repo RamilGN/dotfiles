@@ -32,9 +32,38 @@ local M = {
         [TERM_TYPE_VSPLIT] = {},
         ---@type Term[]
         [TERM_TYPE_FLOAT] = {},
+        ---@type Term[]
+        [TERM_TYPE_ENEW] = {},
     },
 }
 local P = {}
+
+---@param type TermType
+---@return Term
+M.new = function(type)
+    local next_term_id = P.get_next_id(type)
+    local term = { id = next_term_id }
+
+    if type == TERM_TYPE_FLOAT then
+        term = UI.open_float(term)
+    elseif type == TERM_TYPE_VSPLIT then
+        term = UI.open_vsplit(term)
+    elseif type == TERM_TYPE_ENEW then
+        term = UI.open_enew(term)
+    else
+        error(string.format("invalid terminal type `%s`", type))
+    end
+
+    if type ~= TERM_TYPE_ENEW then
+        P.setup_buffer_autocommands(term)
+    end
+
+    P.start(term)
+    P.add(term)
+
+    return term
+end
+
 
 ---@param id integer
 ---@param type string
@@ -47,7 +76,7 @@ M.open = function(id, type)
     elseif term then
         term.opener()
     else
-        term = P.new_term(id, type)
+        term = M.new(type)
     end
 
     M.last_terminal = term
@@ -66,10 +95,8 @@ M.toggle = function(id, type)
     elseif term then
         term.opener()
     else
-        term = P.new_term(id, type)
+        term = M.new(type)
     end
-
-    M.last_terminal = term
 
     return term
 end
@@ -89,7 +116,6 @@ M.send = function(id, mode, type)
     end
 
     M.last_terminal = term
-
     return term
 end
 
@@ -98,13 +124,7 @@ end
 ---@param type string
 ---@return Term|nil
 P.send_to_nvim = function(id, mode, type)
-    local lines = {}
-
-    if mode == TERM_SEND_MODE_LINE then
-        lines = { vim.api.nvim_get_current_line() }
-    elseif mode == TERM_SEND_MODE_LINES then
-        lines = Util.get_visual_selection_lines()
-    end
+    local lines = P.get_lines_for_send(mode)
 
     if #lines == 0 then
         return
@@ -127,13 +147,7 @@ end
 
 ---@param mode string
 P.send_to_kitty = function(mode)
-    local lines = {}
-
-    if mode == TERM_SEND_MODE_LINE then
-        lines = { vim.api.nvim_get_current_line() }
-    elseif mode == TERM_SEND_MODE_LINES then
-        lines = Util.get_visual_selection_lines()
-    end
+    local lines = P.get_lines_for_send(mode)
 
     if #lines == 0 then
         return
@@ -144,6 +158,22 @@ P.send_to_kitty = function(mode)
         local command = string.format("%s -- '%s\n'", TERM_KITTY_CMD, line)
         vim.fn.jobstart(command)
     end
+end
+
+---@param mode TermSendMode
+---@return table
+P.get_lines_for_send = function(mode)
+    local lines = {}
+
+    if mode == TERM_SEND_MODE_LINE then
+        lines = { vim.api.nvim_get_current_line() }
+    elseif mode == TERM_SEND_MODE_LINES then
+        lines = Util.get_visual_selection_lines()
+    else
+        error(string.format("there is no such mode `%s`"), mode)
+    end
+
+    return lines
 end
 
 ---@param term Term
@@ -172,7 +202,6 @@ P.start = function(term)
         end,
         on_exit = function()
             P.delete(term)
-            vim.api.nvim_buf_delete(term.buf_id, { force = true })
         end,
     })
 end
@@ -183,11 +212,26 @@ end
 P.get = function(id, type)
     if id == 0 and M.last_terminal then
         id = M.last_terminal.id
-    elseif id == 0 then
-        id = 1
     end
 
     return M.terminals[type][id]
+end
+
+---@param type TermType
+---@return integer
+P.get_next_id = function(type)
+    local next_id = nil
+
+    local terminals = M.terminals[type]
+    for _, terminal in pairs(terminals) do
+        next_id = terminal.id + 1
+
+        if terminals[next_id] == nil then
+            return next_id
+        end
+    end
+
+    return 1
 end
 
 ---@param id integer
@@ -196,32 +240,20 @@ P.get_key = function(id, type)
     return string.format("%d_%s", id, type)
 end
 
----@param id integer
----@param type string
----@return Term
-P.new_term = function(id, type)
-    local term = { id = id }
-    if type == TERM_TYPE_FLOAT then
-        term = UI.open_float(term)
-    elseif type == TERM_TYPE_VSPLIT then
-        term = UI.open_vsplit(term)
-    end
-
-    P.setup_buffer_autocommands(term)
-    P.start(term)
-    P.add(term)
-
-    return term
-end
-
 ---@param term Term
 P.add = function(term)
     M.terminals[term.type][term.id] = term
+    M.last_terminal = term
+    return term
 end
 
 ---@param term Term
 P.delete = function(term)
     M.terminals[term.type][term.id] = nil
+
+    if vim.api.nvim_buf_is_loaded(term.buf_id) then
+        vim.api.nvim_buf_delete(term.buf_id, { force = true })
+    end
 end
 
 ---@param term Term

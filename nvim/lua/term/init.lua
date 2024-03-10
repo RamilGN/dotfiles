@@ -7,9 +7,8 @@ M.setup = function()
 
     ---@param opts TermOpts
     local function execute_cmd(opts)
-        -- TODO: special command for term.
         if opts.cmd == "" then
-            vim.print("foo")
+            Terminal.new(TERM_TYPE_ENEW)
             return
         end
 
