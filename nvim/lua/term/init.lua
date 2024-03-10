@@ -8,7 +8,7 @@ M.setup = function()
     ---@param opts TermOpts
     local function execute_cmd(opts)
         if opts.cmd == "" then
-            Terminal.new(TERM_TYPE_ENEW)
+            Terminal.new(nil, TERM_TYPE_ENEW)
             return
         end
 
@@ -31,7 +31,6 @@ M.setup = function()
             exec = function(opts)
                 Terminal.send(opts.send_mode)
             end,
-            arg = TERM_CMD_CMD_ARG,
         },
     }
 

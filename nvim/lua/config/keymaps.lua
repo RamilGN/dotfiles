@@ -345,7 +345,7 @@ return {
                     function()
                         vim.cmd("GBrowse!")
                         local link = vim.fn.getreg("+")
-                        Util.sysopen(link)
+                        Util().sysopen(link)
                     end,
                     desc = "Git open link",
                     mode = { "n", "v" },
@@ -417,13 +417,7 @@ return {
             { "<leader>ln", ":Neogen<CR>", desc = "Annotate" },
         }
     end,
-    toggleterm = function()
-        return {}
-    end,
     telescope = function()
-        local Util = function()
-            return require("util.init")
-        end
         local t = function()
             return require("telescope.builtin")
         end
@@ -615,7 +609,7 @@ return {
             {
                 "<leader>os",
                 function()
-                    t().grep_string({ default_text = Util().get_visual_selection() })
+                    t().grep_string({ default_text = Util().get_visual_selection_for_telescope() })
                 end,
                 desc = "Grep string",
                 mode = "v",

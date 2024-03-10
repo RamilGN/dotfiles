@@ -40,7 +40,7 @@ local P = {}
 
 ---@param type TermType
 ---@return Term
-M.new = function(type, id)
+M.new = function(id, type)
     if id == 0 or id == nil then
         id = P.get_next_id(type)
     end
@@ -77,7 +77,7 @@ M.open = function(id, type)
     elseif term then
         term.opener()
     else
-        term = M.new(type)
+        term = M.new(id, type)
     end
 
     M.last_terminal = term
@@ -96,23 +96,22 @@ M.toggle = function(id, type)
     elseif term then
         term.opener()
     else
-        term = M.new(type, id)
+        term = M.new(id, type)
     end
 
     return term
 end
 
 ---@param mode string
----@param cmd string|nil
 ---@return Term|nil
-M.send = function(mode, cmd)
+M.send = function(mode)
     local term = nil
 
     if vim.o.columns == TERM_KITTY_COLUMNS then
-        P.send_to_kitty(mode, cmd)
+        P.send_to_kitty(mode)
         return
     else
-        term = P.send_to_nvim(mode, cmd)
+        term = P.send_to_nvim(mode)
     end
 
     return term
