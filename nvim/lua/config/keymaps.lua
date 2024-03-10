@@ -140,7 +140,7 @@ return {
 
         map({ "n", "t" }, [[<C-\>]], "<Cmd>Term toggle_float<CR>")
         map("n", "<leader>ot", ":Term toggle_vsplit<CR>")
-        map({ "n", "v" }, "<C-2>", ":Term send_vsplit<CR>")
+        map({ "n", "v" }, "<C-2>", ":Term send<CR>")
 
         -- {
         --     "<leader>rt",

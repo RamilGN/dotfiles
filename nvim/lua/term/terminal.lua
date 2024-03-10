@@ -40,9 +40,11 @@ local P = {}
 
 ---@param type TermType
 ---@return Term
-M.new = function(type)
-    local next_term_id = P.get_next_id(type)
-    local term = { id = next_term_id }
+M.new = function(type, id)
+    if id == 0 or id == nil then
+        id = P.get_next_id(type)
+    end
+    local term = { id = id }
 
     if type == TERM_TYPE_FLOAT then
         term = UI.open_float(term)
@@ -63,7 +65,6 @@ M.new = function(type)
 
     return term
 end
-
 
 ---@param id integer
 ---@param type string
@@ -95,36 +96,37 @@ M.toggle = function(id, type)
     elseif term then
         term.opener()
     else
-        term = M.new(type)
+        term = M.new(type, id)
     end
 
     return term
 end
 
----@param id integer
 ---@param mode string
----@param type string
+---@param cmd string|nil
 ---@return Term|nil
-M.send = function(id, mode, type)
+M.send = function(mode, cmd)
     local term = nil
 
     if vim.o.columns == TERM_KITTY_COLUMNS then
-        P.send_to_kitty(mode)
+        P.send_to_kitty(mode, cmd)
         return
     else
-        term = P.send_to_nvim(id, mode, type)
+        term = P.send_to_nvim(mode, cmd)
     end
 
-    M.last_terminal = term
     return term
 end
 
----@param id integer
+M.error = function(text)
+    vim.notify(string.format("[term]: %s", text), vim.log.levels.ERROR)
+end
+
 ---@param mode string
----@param type string
+---@param cmd string|nil
 ---@return Term|nil
-P.send_to_nvim = function(id, mode, type)
-    local lines = P.get_lines_for_send(mode)
+P.send_to_nvim = function(mode, cmd)
+    local lines = P.get_lines_for_send(mode, cmd)
 
     if #lines == 0 then
         return
@@ -134,7 +136,8 @@ P.send_to_nvim = function(id, mode, type)
     if M.last_terminal then
         term = M.open(M.last_terminal.id, M.last_terminal.type)
     else
-        term = M.open(id, type)
+        M.error("there is no last terminal")
+        return
     end
 
     for _, line in ipairs(lines) do
@@ -146,8 +149,9 @@ P.send_to_nvim = function(id, mode, type)
 end
 
 ---@param mode string
-P.send_to_kitty = function(mode)
-    local lines = P.get_lines_for_send(mode)
+---@param cmd string|nil
+P.send_to_kitty = function(mode, cmd)
+    local lines = P.get_lines_for_send(mode, cmd)
 
     if #lines == 0 then
         return
@@ -161,8 +165,13 @@ P.send_to_kitty = function(mode)
 end
 
 ---@param mode TermSendMode
+---@param cmd string|nil
 ---@return table
-P.get_lines_for_send = function(mode)
+P.get_lines_for_send = function(mode, cmd)
+    if cmd then
+        return { cmd }
+    end
+
     local lines = {}
 
     if mode == TERM_SEND_MODE_LINE then
@@ -170,7 +179,7 @@ P.get_lines_for_send = function(mode)
     elseif mode == TERM_SEND_MODE_LINES then
         lines = Util.get_visual_selection_lines()
     else
-        error(string.format("there is no such mode `%s`"), mode)
+        error(string.format("there is no such mode `%s`", mode))
     end
 
     return lines

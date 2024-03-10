@@ -35,7 +35,10 @@ M.open_vsplit = function(term)
 
     term.closer = function()
         term.open = false
-        vim.api.nvim_win_close(term.win_id, true)
+
+        if vim.api.nvim_win_is_valid(term.win_id) then
+            vim.api.nvim_win_close(term.win_id, true)
+        end
     end
     term.opener = function()
         M.open_vsplit(term)
@@ -66,7 +69,10 @@ M.open_float = function(term)
 
     term.closer = function()
         term.open = false
-        vim.api.nvim_win_close(term.win_id, true)
+
+        if vim.api.nvim_win_is_valid(term.win_id) then
+            vim.api.nvim_win_close(term.win_id, true)
+        end
     end
     term.opener = function()
         M.open_float(term)

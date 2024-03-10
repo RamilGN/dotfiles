@@ -17,15 +17,21 @@ M.setup = function()
         if cmd then
             cmd.exec(opts)
         else
-            vim.notify("[term]: unknown command " .. "`" .. opts.cmd .. "`", vim.log.levels.ERROR)
+            Terminal.error(string.format("unknown command `%s`", opts.cmd))
         end
     end
 
     M.cmds = {
         diag = {
-            exec = function()
-                vim.print(Terminal.terminals)
+            exec = function(_)
+                vim.print(Terminal)
             end,
+        },
+        [TERM_CMD_SEND] = {
+            exec = function(opts)
+                Terminal.send(opts.send_mode)
+            end,
+            arg = TERM_CMD_CMD_ARG,
         },
     }
 
@@ -35,7 +41,7 @@ M.setup = function()
             exec = function(opts)
                 Terminal.open(opts.id, type)
             end,
-            arg = TERM_CMD_COMPLETE_ARG,
+            arg = TERM_CMD_ID_ARG,
         }
 
         local toggle_cmd = "toggle_" .. type
@@ -43,15 +49,7 @@ M.setup = function()
             exec = function(opts)
                 Terminal.toggle(opts.id, type)
             end,
-            arg = TERM_CMD_COMPLETE_ARG,
-        }
-
-        local send_cmd = "send_" .. type
-        M.cmds[send_cmd] = {
-            exec = function(opts)
-                Terminal.send(opts.id, opts.send_mode, type)
-            end,
-            arg = TERM_CMD_COMPLETE_ARG,
+            arg = TERM_CMD_ID_ARG,
         }
     end
 
@@ -71,7 +69,7 @@ M.setup = function()
             cmd = cmd,
         }
 
-        if cmd:match("send_") then
+        if cmd:match(TERM_CMD_SEND) then
             if opts.range > 0 then
                 term_opts.send_mode = TERM_SEND_MODE_LINES
             else
@@ -89,7 +87,7 @@ M.setup = function()
             local cmd = M.cmds[subcmd]
 
             if cmd ~= nil then
-                if cmd.arg == arg then
+                if cmd.arg == nil or cmd.arg == arg then
                     return
                 end
 
