@@ -4,23 +4,21 @@ local UI = require("term.ui")
 --- @class Term
 --- @field id integer
 --- @field type string
+--- @field cmd string
+--- @field close_on_exit boolean
 --- @field open boolean
 --- @field opener fun()
 --- @field closer fun()
 --- @field job_id integer
 --- @field buf_id integer
 --- @field win_id integer
+local Term = {}
 
---- @class TermSendModesLine
---- @field value string
-
---- @class TermSendModesLines
---- @field value string
-
---- @class TermOpts
---- @field id integer
---- @field cmd string
---- @field send_mode string
+--- @class TermNew
+--- @field id? integer
+--- @field type? string
+--- @field cmd? string
+--- @field close_on_exit? boolean
 
 ---@type Term|nil
 local LastTerminal = nil
@@ -38,25 +36,49 @@ local M = {
 }
 local P = {}
 
----@param type TermType
+---@param termopts TermNew
 ---@return Term
-M.new = function(id, type)
-    if id == 0 or id == nil then
-        id = P.get_next_id(type)
-    end
-    local term = { id = id }
+function Term:new(termopts)
+    local term = {
+        id = termopts.id,
+        type = termopts.type,
+        cmd = termopts.cmd,
+        close_on_exit = termopts.close_on_exit,
+    }
 
-    if type == TERM_TYPE_FLOAT then
+    if term.type == nil then
+        term.type = TERM_TYPE_FLOAT
+    end
+
+    if term.id == 0 or term.id == nil then
+        term.id = P.get_next_id(termopts.type)
+    end
+
+    if term.cmd == nil then
+        term.cmd = vim.o.shell
+    end
+
+    if term.close_on_exit == nil then
+        term.close_on_exit = true
+    end
+
+    return term
+end
+
+---@param term Term
+---@return Term
+M.new = function(term)
+    if term.type == TERM_TYPE_FLOAT then
         term = UI.open_float(term)
-    elseif type == TERM_TYPE_VSPLIT then
+    elseif term.type == TERM_TYPE_VSPLIT then
         term = UI.open_vsplit(term)
-    elseif type == TERM_TYPE_ENEW then
+    elseif term.type == TERM_TYPE_ENEW then
         term = UI.open_enew(term)
     else
         error(string.format("invalid terminal type `%s`", type))
     end
 
-    if type ~= TERM_TYPE_ENEW then
+    if term.type ~= TERM_TYPE_ENEW then
         P.setup_buffer_autocommands(term)
     end
 
@@ -77,7 +99,8 @@ M.open = function(id, type)
     elseif term then
         term.opener()
     else
-        term = M.new(id, type)
+        term = Term:new({ id = id, type = type })
+        term = M.new(term)
     end
 
     M.last_terminal = term
@@ -96,8 +119,11 @@ M.toggle = function(id, type)
     elseif term then
         term.opener()
     else
-        term = M.new(id, type)
+        term = Term:new({ id = id, type = type })
+        term = M.new(term)
     end
+
+    M.last_terminal = term
 
     return term
 end
@@ -115,6 +141,12 @@ M.send = function(mode)
     end
 
     return term
+end
+
+---@param cmd string?
+M.exec = function(cmd)
+    local term = Term:new({ id = 0, type = TERM_TYPE_ENEW, close_on_exit = false, cmd = cmd })
+    M.new(term)
 end
 
 M.error = function(text)
@@ -191,8 +223,7 @@ P.start = function(term)
         buf_id = { term.buf_id, "number" },
     })
 
-    local shell = vim.o.shell
-    local cmd = string.format("%s;#term%s", shell, term.id)
+    local cmd = string.format("%s;#term%s", term.cmd, term.id)
 
     vim.cmd("startinsert")
 
@@ -259,7 +290,7 @@ end
 P.delete = function(term)
     M.terminals[term.type][term.id] = nil
 
-    if vim.api.nvim_buf_is_loaded(term.buf_id) then
+    if term.close_on_exit and vim.api.nvim_buf_is_loaded(term.buf_id) then
         vim.api.nvim_buf_delete(term.buf_id, { force = true })
     end
 end

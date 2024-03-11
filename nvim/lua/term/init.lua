@@ -1,39 +1,43 @@
+require("term.constants")
+local Terminal = require("term.terminal")
+
 local M = {}
 
-M.setup = function()
-    require("term.constants")
-
-    local Terminal = require("term.terminal")
-
-    ---@param opts TermOpts
-    local function execute_cmd(opts)
-        if opts.cmd == "" then
-            Terminal.new(nil, TERM_TYPE_ENEW)
-            return
-        end
-
-        local cmd = M.cmds[opts.cmd]
-
-        if cmd then
-            cmd.exec(opts)
-        else
-            Terminal.error(string.format("unknown command `%s`", opts.cmd))
-        end
+local function execute_cmd(opts)
+    if opts.cmd == "" then
+        Terminal.exec()
+        return
     end
 
-    M.cmds = {
-        diag = {
-            exec = function(_)
-                vim.print(Terminal)
-            end,
-        },
-        [TERM_CMD_SEND] = {
-            exec = function(opts)
-                Terminal.send(opts.send_mode)
-            end,
-        },
-    }
+    local cmd = M.cmds[opts.cmd]
 
+    if cmd then
+        cmd.exec(opts)
+    else
+        Terminal.error(string.format("unknown command `%s`", opts.cmd))
+    end
+end
+
+M.cmds = {
+    diag = {
+        exec = function(_)
+            vim.print(Terminal)
+        end,
+    },
+    [TERM_CMD_SEND] = {
+        exec = function(opts)
+            Terminal.send(opts.send_mode)
+        end,
+    },
+    [TERM_CMD_EXEC] = {
+        exec = function(opts)
+            Terminal.exec(opts.exec_cmd)
+        end,
+        arg = TERM_CMD_CMD_ARG,
+    },
+}
+
+M.setup = function()
     for _, type in ipairs({ TERM_TYPE_FLOAT, TERM_TYPE_VSPLIT }) do
         local open_cmd = "open_" .. type
         M.cmds[open_cmd] = {
@@ -56,16 +60,26 @@ M.setup = function()
         local args = vim.split(opts.args, " ")
 
         local id = vim.v.count
+        local exec_cmd = nil
         if args[2] then
-            id = tonumber(vim.split(args[2], "=")[2]) or 0
+            local match_id = args[2]:match(TERM_CMD_ID_ARG .. "(.*)")
+            if match_id then
+                id = tonumber(match_id)
+            end
+
+            -- TODO:
+            local match_cmd = args[2]:match(TERM_CMD_CMD_ARG .. "(.*)")
+            if match_cmd then
+                exec_cmd = match_cmd
+            end
         end
 
         local cmd = args[1]
 
-        --- @class TermOpts
         local term_opts = {
             id = id,
             cmd = cmd,
+            exec_cmd = exec_cmd,
         }
 
         if cmd:match(TERM_CMD_SEND) then

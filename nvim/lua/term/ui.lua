@@ -2,6 +2,11 @@ local M = {}
 local P = {}
 
 M.open_enew = function(term)
+    -- TODO: It's awful...
+    if term.open == false then
+        return
+    end
+
     vim.cmd(TERM_TYPE_ENEW)
 
     term.buf_id = vim.api.nvim_get_current_buf()
