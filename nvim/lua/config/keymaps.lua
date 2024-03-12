@@ -138,9 +138,9 @@ return {
             vim.cmd("e ~/workspace/scratch/main.go")
         end, { desc = "Scratch" })
 
-        map({ "n", "t" }, [[<C-\>]], "<Cmd>Term toggle_float<CR>")
-        map("n", "<leader>ot", ":Term toggle_vsplit<CR>")
-        map({ "n", "v" }, "<C-2>", ":Term send<CR>")
+        map({ "n", "t" }, [[<C-\>]], "<Cmd>TermToggleFloat<CR>")
+        map("n", "<leader>ot", "<Cmd>TermToggleVsplit<CR>")
+        map({ "n", "v" }, "<C-2>", ":TermSend<CR>")
 
         -- {
         --     "<leader>rt",

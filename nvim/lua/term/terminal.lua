@@ -69,11 +69,11 @@ end
 ---@return Term
 M.new = function(term)
     if term.type == TERM_TYPE_FLOAT then
-        term = UI.open_float(term)
+        UI.open_float(term)
     elseif term.type == TERM_TYPE_VSPLIT then
-        term = UI.open_vsplit(term)
+        UI.open_vsplit(term)
     elseif term.type == TERM_TYPE_ENEW then
-        term = UI.open_enew(term)
+        UI.open_enew(term)
     else
         error(string.format("invalid terminal type `%s`", type))
     end
