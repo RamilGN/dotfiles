@@ -2,6 +2,10 @@ local Util = function()
     return require("util.init")
 end
 
+local UtilVisual = function()
+    return require("util.visual")
+end
+
 return {
     core = function()
         local map = vim.keymap.set
@@ -22,7 +26,7 @@ return {
             vim.cmd("set hls")
         end, { desc = "Search word without jumping", silent = true })
         map("v", "#", function()
-            local text = Util().get_visual_selection_for_telescope()
+            local text = UtilVisual().get_visual_selection_for_telescope()
             vim.fn.setreg("/", text)
             vim.cmd("set hls")
         end, { desc = "Search word without jumping" })
@@ -101,7 +105,6 @@ return {
         map("n", "<leader>re", function()
             vim.cmd(vim.g.last_command)
         end, { desc = "Last command" })
-        map("n", "<leader>rv", "<Cmd>@:<CR>", { desc = "Last command no expand" })
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Open smth.
         map("n", "<leader>oT", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
@@ -432,7 +435,7 @@ return {
             {
                 "<C-/>",
                 function()
-                    t().current_buffer_fuzzy_find({ default_text = Util().get_visual_selection_for_telescope() })
+                    t().current_buffer_fuzzy_find({ default_text = UtilVisual().get_visual_selection_for_telescope() })
                 end,
                 desc = "Search buffer",
                 mode = "v",
@@ -462,7 +465,7 @@ return {
             {
                 "<C-f>",
                 function()
-                    t().find_files({ default_text = Util().get_visual_selection_for_telescope() })
+                    t().find_files({ default_text = UtilVisual().get_visual_selection_for_telescope() })
                 end,
                 desc = "Find files",
                 mode = "v",
@@ -475,7 +478,7 @@ return {
             {
                 "<C-s>",
                 function()
-                    t().live_grep({ default_text = Util().get_visual_selection_for_telescope() })
+                    t().live_grep({ default_text = UtilVisual().get_visual_selection_for_telescope() })
                 end,
                 desc = "Live grep",
                 mode = "v",
@@ -609,7 +612,7 @@ return {
             {
                 "<leader>os",
                 function()
-                    t().grep_string({ default_text = Util().get_visual_selection_for_telescope() })
+                    t().grep_string({ default_text = UtilVisual().get_visual_selection_for_telescope() })
                 end,
                 desc = "Grep string",
                 mode = "v",

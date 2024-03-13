@@ -9,7 +9,7 @@ local M = {
     c = require("runner.c"),
 }
 
-local Util = require("util.init")
+local UtilVisual = require("util.visual")
 
 local runners = {
     filetypes_to_runner = {
@@ -36,7 +36,7 @@ M.run = function(cmd_args)
 
     local text = nil
     if cmd_args.range > 0 then
-        text = Util.get_visual_selection_text()
+        text = UtilVisual.get_visual_selection_text()
     end
 
     local opts = {

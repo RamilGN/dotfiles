@@ -1,4 +1,4 @@
-local Util = require("util.init")
+local UtilVisual = require("util.visual")
 local UI = require("term.ui")
 
 --- @class Term
@@ -208,7 +208,7 @@ P.get_lines_for_send = function(mode, cmd)
     if mode == TERM_SEND_MODE_LINE then
         lines = { vim.api.nvim_get_current_line() }
     elseif mode == TERM_SEND_MODE_LINES then
-        lines = Util.get_visual_selection_lines()
+        lines = UtilVisual.get_visual_selection_lines()
     else
         error(string.format("there is no such mode `%s`", mode))
     end

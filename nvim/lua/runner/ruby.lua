@@ -1,9 +1,9 @@
 local M = {}
 
-local Util = require("util.init")
+local Term = require("term")
 
 M.run = function(opts)
-    Util.vterm("ruby " .. opts.current_buffer)
+    Term.exec("ruby " .. opts.current_buffer)
 end
 
 M.get_cur_spec = function(opts)
@@ -24,22 +24,22 @@ end
 
 M.insales_rspec = function(opts)
     local spec = M.get_cur_spec(opts.cmd_args)
-    Util.vterm([[docker exec -it -w /home/app/code insales-insales-1 bin/spring rspec ]] .. spec)
+    Term.exec([[docker exec -it -w /home/app/code insales-insales-1 bin/spring rspec ]] .. spec)
 end
 
 M.sync1c_rspec = function(opts)
     local spec = M.get_cur_spec(opts.cmd_args)
-    Util.vterm([[docker exec -it -w /home/app/code 1c_synch-1c_sync-1 bundle exec rspec ]] .. spec)
+    Term.exec([[docker exec -it -w /home/app/code 1c_synch-1c_sync-1 bundle exec rspec ]] .. spec)
 end
 
 M.tickets_rspec = function(opts)
     local spec = M.get_cur_spec(opts.cmd_args)
-    Util.vterm([[docker exec -it -w /tickets tickets-backend-1 bin/spring rspec ]] .. spec)
+    Term.exec([[docker exec -it -w /tickets tickets-backend-1 bin/spring rspec ]] .. spec)
 end
 
 M.digital_rspec = function(opts)
     local spec = M.get_cur_spec(opts.cmd_args)
-    Util.vterm([[docker exec -it -w /app digital-backend-1 bundle exec rspec ]] .. spec)
+    Term.exec([[docker exec -it -w /app digital-backend-1 bundle exec rspec ]] .. spec)
 end
 
 return M
