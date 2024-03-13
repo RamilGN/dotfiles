@@ -1,9 +1,9 @@
+local Term = require("term")
+
 local M = {}
 
-local Util = require("util.init")
-
 M.run = function(opts)
-    Util.vterm("node " .. opts.current_buffer)
+    Term.exec("node " .. opts.current_buffer)
 end
 
 return M

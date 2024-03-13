@@ -1,10 +1,10 @@
-local M = {}
+local Term = require("term")
 
-local Util = require("util.init")
+local M = {}
 
 M.run = function(opts)
     local bin = opts.current_buffer:gsub(".rkt$", "")
-    Util.vterm("raco exe " .. opts.current_buffer .. " && " .. bin)
+    Term.exec("raco exe " .. opts.current_buffer .. " && " .. bin)
 end
 
 return M

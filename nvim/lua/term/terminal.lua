@@ -2,10 +2,12 @@ local UtilVisual = require("util.visual")
 local UI = require("term.ui")
 
 --- @class Term
---- @field id integer
 --- @field type string
+--- @field id integer
 --- @field cmd string
 --- @field close_on_exit boolean
+--- @field scroll_to_bottom boolean
+--- @field startinsert boolean
 --- @field open boolean
 --- @field opener fun()
 --- @field closer fun()
@@ -15,10 +17,12 @@ local UI = require("term.ui")
 local Term = {}
 
 --- @class TermNew
---- @field id? integer
 --- @field type? string
+--- @field id? integer
 --- @field cmd? string
 --- @field close_on_exit? boolean
+--- @field scroll_to_bottom? boolean
+--- @field startinsert? boolean
 
 ---@type Term|nil
 local LastTerminal = nil
@@ -39,11 +43,15 @@ local P = {}
 ---@param termopts TermNew
 ---@return Term
 function Term:new(termopts)
+    ---@type Term
+    --- @diagnostic disable-next-line: missing-fields
     local term = {
-        id = termopts.id,
         type = termopts.type,
+        id = termopts.id,
         cmd = termopts.cmd,
         close_on_exit = termopts.close_on_exit,
+        scroll_to_bottom = termopts.scroll_to_bottom,
+        startinsert = termopts.startinsert,
     }
 
     if term.type == nil then
@@ -60,6 +68,14 @@ function Term:new(termopts)
 
     if term.close_on_exit == nil then
         term.close_on_exit = true
+    end
+
+    if term.scroll_to_bottom == nil then
+        term.scroll_to_bottom = true
+    end
+
+    if term.startinsert == nil then
+        term.startinsert = true
     end
 
     return term
@@ -145,11 +161,19 @@ end
 
 ---@param cmd string?
 M.exec = function(cmd)
-    local term = Term:new({ id = 0, type = TERM_TYPE_ENEW, close_on_exit = false, cmd = cmd })
+    local term = Term:new({
+        id = 0,
+        type = TERM_TYPE_ENEW,
+        close_on_exit = false,
+        cmd = cmd,
+        startinsert = false,
+        scroll_to_bottom = false,
+    })
+
     M.new(term)
 end
 
-M.error = function(text)
+P.error = function(text)
     vim.notify(string.format("[term]: %s", text), vim.log.levels.ERROR)
 end
 
@@ -167,7 +191,7 @@ P.send_to_nvim = function(mode, cmd)
     if M.last_terminal then
         term = M.open(M.last_terminal.id, M.last_terminal.type)
     else
-        M.error("there is no last terminal")
+        P.error("there is no last terminal")
         return
     end
 
@@ -225,15 +249,19 @@ P.start = function(term)
 
     local cmd = string.format("%s;#term%s", term.cmd, term.id)
 
-    vim.cmd("startinsert")
+    P.startinstert(term)
 
     term.job_id = vim.fn.termopen(cmd, {
         cwd = vim.loop.cwd(),
         on_stdout = function()
-            local mode = vim.api.nvim_get_mode().mode
+            if term.scroll_to_bottom ~= true then
+                return
+            end
 
             -- Scroll to bottom.
             vim.api.nvim_buf_call(term.buf_id, function()
+                local mode = vim.api.nvim_get_mode().mode
+
                 if mode == "n" or mode == "nt" then
                     vim.cmd("normal! G")
                 end
@@ -301,9 +329,16 @@ P.setup_buffer_autocommands = function(term)
         buffer = term.buf_id,
         group = TERM_AUGROUP,
         callback = function()
-            vim.cmd("startinsert")
+            P.startinstert(term)
         end,
     })
+end
+
+---@param term Term
+P.startinstert = function(term)
+    if term.startinsert then
+        vim.cmd("startinsert")
+    end
 end
 
 return M

@@ -34,7 +34,8 @@ M.setup = function()
 
     vim.api.nvim_create_user_command("TermExec", function(opts)
         local command = table.concat(opts.fargs, " ")
-        Terminal.exec(command)
+        local full_command = string.format("%s && sleep 0.1", command)
+        Terminal.exec(full_command)
     end, {
         nargs = "?",
         range = true,
@@ -42,14 +43,14 @@ M.setup = function()
 
     vim.api.nvim_create_user_command("T", function(opts)
         local command = table.concat(opts.fargs, " ")
-        M.exec(string.format("%s '%s'", "/bin/zsh -i -c", command))
+        local full_command = string.format("%s '%s'", "/bin/zsh -i -c", command)
+        M.exec(full_command)
     end, {
         nargs = "?",
         range = true,
     })
 end
 
--- TODO: naming
 M.exec = function(command)
     local curfile = vim.fn.expand("%")
     local full_command = ("TermExec " .. command)

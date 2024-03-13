@@ -1,6 +1,6 @@
-local M = {}
-
 local Term = require("term")
+
+local M = {}
 
 M.run = function(opts)
     Term.exec("ruby " .. opts.current_buffer)
