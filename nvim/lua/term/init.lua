@@ -1,9 +1,8 @@
 require("term.constants")
 local Terminal = require("term.terminal")
 
-local Util = require("util")
-
 local M = {}
+local P = {}
 
 M.setup = function()
     vim.api.nvim_create_user_command("TermDiag", function(_)
@@ -29,10 +28,23 @@ M.setup = function()
             mode = TERM_SEND_MODE_LINES
         end
 
-        Terminal.send(mode)
-    end, { range = true })
+        local cmd = nil
+        if #opts.fargs > 0 then
+            cmd = table.concat(opts.fargs, " ")
+        end
+
+        Terminal.send(mode, cmd)
+    end, {
+        nargs = "?",
+        range = true,
+    })
 
     vim.api.nvim_create_user_command("TermExec", function(opts)
+        if #opts.fargs == 0 then
+            Terminal.error("pass the command ex. `TermExec git log`")
+            return
+        end
+
         local command = table.concat(opts.fargs, " ")
         local full_command = string.format("%s && sleep 0.1", command)
         Terminal.exec(full_command)
@@ -55,8 +67,15 @@ M.exec = function(command)
     local curfile = vim.fn.expand("%")
     local full_command = ("TermExec " .. command)
     local expanded_command = full_command.gsub(full_command, "%%", curfile)
-    Util.save_last_command(expanded_command, command)
+
+    P.save_last_command(expanded_command, command)
+
     vim.cmd(expanded_command)
+end
+
+P.save_last_command = function(command, cmd)
+    vim.g.last_command = command
+    vim.g.last_cmd = cmd
 end
 
 return M

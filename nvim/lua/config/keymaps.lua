@@ -64,11 +64,18 @@ return {
         map("v", "p", [["_dP]], { desc = "Replace without yanking" })
         map({ "n", "v" }, "c", [["_c]], { desc = "Change without yanking" })
         map({ "n", "v" }, "C", [["_C]], { desc = "Change without yanking" })
-        -- Normal mode in terminal.
+        -- Terminal
         map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal mode" })
         map("t", "<C-w>c", "<C-\\><C-n><C-w>c", { desc = "Close terminal" })
         map("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Scroll up" })
         map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Left window" })
+        map({ "n", "t" }, [[<C-\>]], "<Cmd>TermToggleFloat<CR>")
+        map("n", "<leader>ot", "<Cmd>TermToggleVsplit<CR>")
+        map({ "n", "v" }, "<C-2>", ":TermSend<CR>")
+        map("n", "<C-3>", "<Cmd>TermSend q<CR>")
+        map("n", "<C-->", "<Cmd>TermSend <Up><CR>")
+        map("n", "<C-=>", "<Cmd>TermSend <Down><CR>")
+        map("n", "<C-0>", "<Cmd>TermSend <CR>")
         -- Windows.
         map("n", "<C-k>", "<C-w><Up>", { desc = "Go to upper window" })
         map("n", "<C-j>", "<C-w><down>", { desc = "Go to bottom window" })
@@ -140,33 +147,6 @@ return {
         map("n", "<leader>ng", function()
             vim.cmd("e ~/workspace/scratch/main.go")
         end, { desc = "Scratch" })
-
-        map({ "n", "t" }, [[<C-\>]], "<Cmd>TermToggleFloat<CR>")
-        map("n", "<leader>ot", "<Cmd>TermToggleVsplit<CR>")
-        map({ "n", "v" }, "<C-2>", ":TermSend<CR>")
-
-        -- {
-        --     "<leader>rt",
-        --     function()
-        --         vim.cmd("22TermExec direction=vertical cmd='" .. vim.g.last_cmd .. "'")
-        --     end,
-        --     desc = "Last command in term",
-        -- },
-        -- {
-        --     "<C-3>",
-        --     "<Cmd>SendSpaceToTerm<CR>",
-        --     desc = "Send space to term",
-        -- },
-        -- {
-        --     "<C-4>",
-        --     "<Cmd>SendQToTerm<CR>",
-        --     desc = "Send q to term",
-        -- },
-        -- {
-        --     "<C-5>",
-        --     "<Cmd>SendClearToTerm<CR>",
-        --     desc = "Send q to term",
-        -- },
     end,
     luasnip = function()
         return {

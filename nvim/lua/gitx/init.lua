@@ -1,8 +1,10 @@
+local Term = require("term")
+
 ---@class Gitx
 local M = {}
 
 local function delta(command)
-    vim.cmd("term " .. "git --no-pager " .. command .. " | delta --paging=never")
+    Term.exec("git --no-pager " .. command .. " | delta --paging=never")
 end
 
 ---@param gitx Gitx

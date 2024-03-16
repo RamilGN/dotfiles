@@ -39,20 +39,6 @@ M.cur_buf_dir_abs_path = function()
     return vim.fn.expand("%:p:h")
 end
 
-M.save_last_command = function(command, cmd)
-    vim.g.last_command = command
-    vim.g.last_cmd = cmd
-end
-
-M.vterm = function(command, opts)
-    opts = opts or {}
-    local curfile = vim.fn.expand("%")
-    local full_command = ([[term ]] .. command .. [[ && sleep 0.1]])
-    local expanded_command = full_command.gsub(full_command, "%%", curfile)
-    M.save_last_command(expanded_command, command)
-    vim.cmd(expanded_command)
-end
-
 M.input = function(name, func)
     return function()
         vim.ui.input(name, function(input)

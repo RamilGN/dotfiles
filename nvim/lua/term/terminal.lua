@@ -145,15 +145,16 @@ M.toggle = function(id, type)
 end
 
 ---@param mode string
+---@param cmd string?
 ---@return Term|nil
-M.send = function(mode)
+M.send = function(mode, cmd)
     local term = nil
 
     if vim.o.columns == TERM_KITTY_COLUMNS then
-        P.send_to_kitty(mode)
+        P.send_to_kitty(mode, cmd)
         return
     else
-        term = P.send_to_nvim(mode)
+        term = P.send_to_nvim(mode, cmd)
     end
 
     return term
@@ -173,7 +174,7 @@ M.exec = function(cmd)
     M.new(term)
 end
 
-P.error = function(text)
+M.error = function(text)
     vim.notify(string.format("[term]: %s", text), vim.log.levels.ERROR)
 end
 
@@ -191,7 +192,7 @@ P.send_to_nvim = function(mode, cmd)
     if M.last_terminal then
         term = M.open(M.last_terminal.id, M.last_terminal.type)
     else
-        P.error("there is no last terminal")
+        M.error("there is no last terminal")
         return
     end
 
