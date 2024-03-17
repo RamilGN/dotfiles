@@ -53,7 +53,7 @@ return {
                 highlight = {
                     enable = true,
                     disable = function(_, bufnr)
-                        return require("util.init").get_buf_byte_size(bufnr) > vim.g.max_byte_size
+                        return require("util.buf").get_buf_byte_size(bufnr) > vim.g.max_byte_size
                     end,
                 },
                 textobjects = {
