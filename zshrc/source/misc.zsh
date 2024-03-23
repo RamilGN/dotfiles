@@ -1,12 +1,6 @@
 # vim bindings
 bindkey -v
 
-# vim as default editor
-export EDITOR=nvim
-export SUDO_EDITOR=nvim
-export VISUAL=nvim
-export ASDF_GOLANG_MOD_VERSION_ENABLED=true
-
 # power of a
 function a {
     ALIAS_STR=$(alias | fzf)
