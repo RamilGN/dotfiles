@@ -141,15 +141,20 @@ asdf-lua:
 	asdf install lua latest
 	asdf global lua latest
 
+# sudo udevadm control --reload-rules && sudo udevadm trigger
+QMK_PATH:=/home/${USER}/qmk_firmware/keyboards/keychron/q11/ansi_encoder
 .PHONY: qmk
 qmk:
 	python3 -m pip install --user qmk
 	qmk setup
 	qmk config user.keyboard=keychron/q11/ansi_encoder
-	qmk config user.keymap=keymap
 
 .PHONY: qmk-keymap
 qmk-keymap:
-	ln -sf $(PWD)/keymap "/home/${USER}/qmk_firmware/keyboards/keychron/q11/ansi_encoder/keymaps"
+	qmk config user.keymap=keymap
+	rm rf "${QMK_PATH}/keymaps/keymap"
+	ln -sf $(PWD)/qmk/keymap "${QMK_PATH}/keymaps"
 
-# sudo udevadm control --reload-rules && sudo udevadm trigger
+.PHONY: qmk-config
+qmk-config:
+	ln -sf $(PWD)/qmk/config.h "${QMK_PATH}/config.h"
