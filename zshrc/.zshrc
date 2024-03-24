@@ -15,7 +15,6 @@ export GO111MODULE=auto
 sources=(
   'oh-my-zsh'
   'misc'
-  'languages'
   'docker'
   'git'
   'curl'
