@@ -38,6 +38,9 @@ return {
         map({ "i", "c" }, "<C-h>", "<Left>", { desc = "Go to left window" })
         map({ "i", "c" }, "<C-l>", "<Right>", { desc = "Go to right window" })
         map("n", "<C-h>", "<C-w><Left>", { desc = "Go to left window" })
+        -- Better start/end
+        map({ "n", "v" }, ")", "$", { desc = "To the end line" })
+        map({ "n", "v" }, "(", "^", { desc = "To the start of line" })
         -- Move Lines
         map("n", "<A-j>", "<Cmd>m .+1<CR>==", { desc = "Move down" })
         map("n", "<A-k>", "<Cmd>m .-2<CR>==", { desc = "Move up" })
