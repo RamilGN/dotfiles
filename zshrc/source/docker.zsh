@@ -30,6 +30,13 @@ function docker_container_exec_it {
       [ ! -z "$CONTAINER_ID" ] && (docker container start $CONTAINER_ID && docker container exec -it $CONTAINER_ID $PROG)
 }
 
+## Attach to container
+alias dca="docker_container_attach"
+function docker_container_attach {
+  PROG=${@:-sh}
+  CONTAINER_ID=$(dcls)
+  [ ! -z "$CONTAINER_ID" ] && docker container attach $CONTAINER_ID
+}
 ## Start.
 unalias dst; alias dst="docker_container_start"
 function docker_container_start {

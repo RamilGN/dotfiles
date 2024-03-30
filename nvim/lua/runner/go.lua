@@ -1,5 +1,5 @@
 local Term = require("term")
-local Util = require("util")
+local Util = require("util.buf")
 
 local M = {}
 
@@ -50,6 +50,7 @@ M.yookassa_test = function(opts)
 
     if prefix then
         local curbufrelpath = Util.get_cur_buf_dir_rel_path()
+
         local teststr = M.teststr(opts.selected)
         Term.exec(
             [[docker exec -it yookassa sh -c 'ENV_PATH=/app/configs/.test.env go test -v -cover -count=1 -benchmem -bench=.]] .. teststr .. [[/app/]] .. curbufrelpath .. [[']]

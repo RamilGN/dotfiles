@@ -2,6 +2,10 @@ local Util = function()
     return require("util.init")
 end
 
+local UtilBuf = function()
+    return require("util.buf")
+end
+
 local UtilVisual = function()
     return require("util.visual")
 end
@@ -99,7 +103,7 @@ return {
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
         map("n", "yol", "<Cmd>set invrelativenumber<CR>", { desc = "Toggle relative number" })
         map("n", "yof", function()
-            Util().copy_rel_path_line_to_buffer()
+            UtilBuf().copy_rel_path_line_to_buffer()
         end, { desc = "Yank file path with line" })
         -- Prev action.
         map("n", "[b", "<C-^>", { desc = "Last buffer" })
@@ -431,7 +435,7 @@ return {
             {
                 "<C-n>",
                 function()
-                    t().find_files({ default_text = Util().get_cur_buf_dir_rel_path() })
+                    t().find_files({ default_text = UtilBuf().get_cur_buf_dir_rel_path() })
                 end,
                 desc = "Show current dir",
             },

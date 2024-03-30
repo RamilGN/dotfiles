@@ -5,6 +5,10 @@ detectors:
     enabled: false
   TooManyConstants:
     enabled: false
+  DuplicateMethodCall:
+    enabled: false
+  InstanceVariableAssumption:
+    enabled: false
   #
   UncommunicativeVariableName:
     accept:
