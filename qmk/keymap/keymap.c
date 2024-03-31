@@ -10,6 +10,7 @@ enum layers {
 // Linux
 #define KC_CTESC  MT(MOD_LCTL, KC_ESC)
 #define FN_LINUX  LT(LINUX_FN, KC_SPACE)
+#define SUSPC     LT(0, KC_NO)
 
 // Windows
 #define KC_TASK   LGUI(KC_TAB)
@@ -22,7 +23,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         /*M2*/ _______,  /*TAB  */ KC_TAB,   /*Q  */ KC_Q,         KC_W,      KC_E,     KC_R,     KC_T,     /*Y */ KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,      KC_RBRC,  KC_BSLS,             KC_PGDN,
         /*M3*/ _______,  /*CAPS */ KC_CTESC, /*A  */ KC_A,         KC_S,      KC_D,     KC_F,     KC_G,     /*H */ KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,                KC_ENT,              KC_HOME,
         /*M4*/ _______,  /*SHIFT*/ SC_LSPO,                        KC_Z,      KC_X,     KC_C,     KC_V,     /*B */ KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,                SC_RSPC,  KC_UP,
-        /*M5*/ _______,  /*CTL  */ KC_LCTL,  /*SPC*/ MO(LINUX_FN), KC_LWIN,   KC_LALT,            FN_LINUX,                            KC_SPC,             KC_RALT,  MO(LINUX_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,   KC_RGHT),
+        /*M5*/ _______,  /*CTL  */ KC_LCTL,  /*SPC*/ MO(LINUX_FN), KC_LGUI,   KC_LALT,            FN_LINUX,                            SUSPC,             KC_RALT,  MO(LINUX_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,   KC_RGHT),
 
     [LINUX_FN] = LAYOUT_91_ansi(
         /*KN*/ KC_MUTE,  /*ESC  */ KC_ESC,   /*F1 */ KC_BRID,      KC_BRIU,   KC_MCTL,  KC_LPAD,  RGB_VAD,  /*F6*/ RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,      KC_VOLU,  KC_INS,   KC_DEL,    KC_MUTE,
@@ -38,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         /*M2*/ _______,  /*TAB  */ KC_TAB,   /*Q  */ KC_Q,         KC_W,      KC_E,     KC_R,     KC_T,     /*Y */ KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,      KC_RBRC,  KC_BSLS,             KC_PGDN,
         /*M3*/ _______,  /*CAPS */ KC_CAPS,  /*A  */ KC_A,         KC_S,      KC_D,     KC_F,     KC_G,     /*H */ KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,                KC_ENT,              KC_HOME,
         /*M4*/ _______,  /*SHIFT*/ KC_LSFT,                        KC_Z,      KC_X,     KC_C,     KC_V,     /*B */ KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,                KC_RSFT,  KC_UP,
-        /*M5*/ _______,  /*CTL  */ KC_LCTL,  /*SPC*/ MO(WIN_FN),   KC_LWIN,   KC_LALT,            KC_SPC,   /*  */                     KC_SPC,             KC_RALT,  MO(WIN_FN),   KC_RCTL,  KC_LEFT,  KC_DOWN,   KC_RGHT),
+        /*M5*/ _______,  /*CTL  */ KC_LCTL,  /*SPC*/ MO(WIN_FN),   KC_LGUI,   KC_LALT,            KC_SPC,   /*  */                     KC_SPC,             KC_RALT,  MO(WIN_FN),   KC_RCTL,  KC_LEFT,  KC_DOWN,   KC_RGHT),
 
     [WIN_FN] = LAYOUT_91_ansi(
         /*KN*/ RGB_TOG,  /*ESC  */ _______,  /*F1 */ KC_BRID,      KC_BRIU,   KC_TASK,  KC_FLXP,  RGB_VAD,  /*F6*/ RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,      KC_VOLU,  _______,  _______,   RGB_TOG,
@@ -72,4 +73,38 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         default:
             return false;
     }
+}
+
+const uint16_t PROGMEM lang_combo[] = {KC_Q, KC_W, KC_E, COMBO_END};
+
+combo_t key_combos[] = {
+    COMBO(lang_combo, LGUI(KC_SPC)),
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case SUSPC:
+            static bool suspc_realse;
+
+            if (record->tap.count && record->event.pressed) {
+                suspc_realse = false;
+                tap_code16(KC_SPC);
+                return false;
+            }
+
+            if (record->event.pressed) {
+                suspc_realse = true;
+                tap_code16(LGUI(KC_SPC));
+                return false;
+            }
+
+            if (suspc_realse) {
+                tap_code16(LGUI(KC_SPC));
+                return false;
+            }
+
+            return false;
+    }
+
+    return true;
 }
