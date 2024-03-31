@@ -1,9 +1,5 @@
 return {
     setup = function()
-        vim.opt.keymap = "russian-jcukenwin" -- RU keyboard layout
-        vim.opt.iminsert = 0 -- EN layout default in insert
-        vim.opt.imsearch = 0 -- EN layout default in search
-
         -- Standard
         vim.opt.autoindent = true -- Copy indent from current line to next
         vim.opt.autowriteall = true -- Autowrite all

@@ -4,16 +4,6 @@ return {
             return vim.api.nvim_create_augroup(name, { clear = true })
         end
 
-        -- Turn off input method outside insert mode.
-        vim.api.nvim_create_autocmd("ModeChanged", {
-            callback = function()
-                vim.opt.iminsert = 0
-                vim.opt.imsearch = 0
-            end,
-            pattern = "*",
-            group = augroup("input_mode"),
-        })
-
         -- Turn off comments auto-insert.
         vim.api.nvim_create_autocmd("BufWinEnter", {
             callback = function()

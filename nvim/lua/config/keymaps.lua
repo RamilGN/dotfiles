@@ -86,7 +86,6 @@ return {
         -- Windows.
         map("n", "<C-k>", "<C-w><Up>", { desc = "Go to upper window" })
         map("n", "<C-j>", "<C-w><down>", { desc = "Go to bottom window" })
-        map({ "i", "c", "t" }, "<C-j>", "<C-^>", { desc = "Switch layout" })
         map("n", "<C-l>", "<C-w><right>", { desc = "Go to right window" })
         map("n", "<C-h>", "<C-w><Left>", { desc = "Go to left window" })
         map("n", "<C-Up>", "<Cmd>resize -2<CR>", { desc = "Resize horiz-" })
