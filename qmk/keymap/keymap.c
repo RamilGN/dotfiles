@@ -61,6 +61,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case FN_LINUX:
             return 250;
+        case SUSPC:
+            return 150;
         default:
             return TAPPING_TERM;
     }
@@ -70,16 +72,12 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case KC_CTESC:
             return true;
+        case SUSPC:
+            return true;
         default:
             return false;
     }
 }
-
-const uint16_t PROGMEM lang_combo[] = {KC_Q, KC_W, KC_E, COMBO_END};
-
-combo_t key_combos[] = {
-    COMBO(lang_combo, LGUI(KC_SPC)),
-};
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
