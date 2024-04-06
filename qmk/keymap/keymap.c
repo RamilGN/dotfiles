@@ -8,6 +8,7 @@ enum layers {
 };
 
 // Linux
+// Tap & hold
 #define KC_CTESC  MT(MOD_LCTL, KC_ESC)
 #define FN_LINUX  LT(LINUX_FN, KC_SPACE)
 #define SUSPC     LT(0, KC_NO)
@@ -61,8 +62,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case FN_LINUX:
             return 250;
-        case SUSPC:
-            return 150;
         default:
             return TAPPING_TERM;
     }
@@ -71,8 +70,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case KC_CTESC:
-            return true;
-        case SUSPC:
             return true;
         default:
             return false;

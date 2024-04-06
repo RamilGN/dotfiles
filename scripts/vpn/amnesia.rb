@@ -8,6 +8,8 @@ require_relative './secrets'
 amensia_ips = []
 
 VPN::Secrets::HOSTS.each do |host|
+  puts host
+
   ips = Resolv.getaddresses(host)
 
   ips.each do |ip|
