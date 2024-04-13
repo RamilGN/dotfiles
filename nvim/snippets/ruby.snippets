@@ -89,6 +89,11 @@ snippet !factory
 snippet !request
 	request = Rack::MockRequest.env_for('http://localhost:3000')
 	Rails.application.call(request)
+snippet !profile
+	profile = StackProf.run(mode: :wall, raw: true) do
+	puts "Working..."
+	end
+	File.write('tmp/stackprof.json', JSON.generate(profile))
 snippet cla
 	class `substitute(substitute(substitute(substitute(expand('%:.:r'), '.\{-}/.\{-}/', '', 'g'), '\<\(\w\)\(\w*\)', '\u\1\l\2', 'g'), '_\(\w\)', '\u\1', 'g'), '/', '::', 'g')`
 		${0}

@@ -7,11 +7,14 @@ enum layers {
     WIN_FN,
 };
 
-// Linux
 // Tap & hold
+
 #define KC_CTESC  MT(MOD_LCTL, KC_ESC)
-#define FN_LINUX  LT(LINUX_FN, KC_SPACE)
 #define SUSPC     LT(0, KC_NO)
+
+#define FN_HOME   MT(MOD_LSFT, KC_HOME)
+#define FN_END    MT(MOD_LSFT, KC_END)
+#define FN_LINUX  LT(LINUX_FN, KC_SPACE)
 
 // Windows
 #define KC_TASK   LGUI(KC_TAB)
@@ -31,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         /*M1*/ _______,  /*~    */ _______,  /*1  */ _______,      _______,   _______,  _______,  _______,  /*6 */ _______,  _______,  _______,  _______,  _______,   _______,       _______, /**/      _______,             _______,
         /*M2*/ _______,  /*TAB  */ RGB_TOG,  /*Q  */ RGB_MOD,      RGB_VAI,   RGB_HUI,  RGB_SAI,  RGB_SPI,  /*Y */ _______,  _______,  _______,  _______,  _______,   _______,       _______, /**/      _______,             _______,
         /*M3*/ _______,  /*CAPS */ _______,  /*A  */ RGB_RMOD,     RGB_VAD,   RGB_HUD,  RGB_SAD,  RGB_SPD,  /*H */ KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  _______,   _______,                /**/      _______,             _______,
-        /*M4*/ _______,  /*SHIFT*/ KC_HOME,                        _______,   _______,  _______,  _______,  /*B */ _______,  NK_TOGG,  _______,  _______,  _______,   _______,                /*SHIFT*/ KC_END,   _______,
+        /*M4*/ _______,  /*SHIFT*/ FN_HOME,                        _______,   _______,  _______,  _______,  /*B */ _______,  NK_TOGG,  _______,  _______,  _______,   _______,                /*SHIFT*/ FN_END,   _______,
         /*M5*/ _______,  /*CTL  */ _______,  /*SPC*/ _______,      _______,   _______,            _______,  /*  */                     _______,            _______,   _______,       _______, /**/      _______,  _______,   _______),
                                                                                                                                                                                               /**/
 
