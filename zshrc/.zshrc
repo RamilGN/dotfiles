@@ -23,6 +23,8 @@ sources=(
   'fzf'
 )
 
+zstyle ':omz:alpha:lib:git' async-prompt no
+
 for s in "${sources[@]}"; do
   source $HOME/dotfiles/zshrc/source/${s}.zsh
 done
