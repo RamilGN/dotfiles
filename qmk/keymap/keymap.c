@@ -79,6 +79,8 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case KC_CTESC:
             return true;
+        case FN_LINUX:
+            return true;
         default:
             return false;
     }
