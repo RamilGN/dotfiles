@@ -21,7 +21,7 @@ enum my_keycodes {
 #define FN_LINUX  LT(LINUX_FN, KC_SPACE)
 #define FN_HOME   MT(MOD_LSFT, KC_HOME)
 #define FN_END    MT(MOD_LSFT, KC_END)
-#define MS_TAB     LT(LINUX_MS, KC_TAB)
+#define MS_TAB    LT(LINUX_MS, KC_TAB)
 
 // Windows
 #define KC_TASK   LGUI(KC_TAB)
@@ -34,14 +34,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         /*M2*/ DF(WIN_BASE),    /*TAB  */ MS_TAB,    /*Q  */ KC_Q,         KC_W,      KC_E,           KC_R,     KC_T,       /*Y */ KC_Y,     KC_U,     KC_I,     KC_O,         /*P*/   KC_P,      KC_LBRC,       KC_RBRC, /**/      KC_BSLS,             KC_PGDN,
         /*M3*/ _______,         /*CAPS */ KC_CTESC,  /*A  */ KC_A,         KC_S,      KC_D,           KC_F,     KC_G,       /*H */ KC_H,     KC_J,     KC_K,     KC_L,         /*;*/   KC_SCLN,   KC_QUOT,                /**/      KC_ENT,              KC_HOME,
         /*M4*/ _______,         /*SHIFT*/ SC_LSPO,                         KC_Z,      KC_X,           KC_C,     KC_V,       /*B */ KC_B,     KC_N,     KC_M,     KC_COMM,      /*.*/   KC_DOT,    KC_SLSH,                /**/      SC_RSPC,  KC_MS_U,
-        /*M5*/ _______,         /*CTL  */ KC_LCTL,   /*SPC*/ MO(LINUX_FN), KC_LGUI,   KC_LALT,                  FN_LINUX,                              SUSPC,                  /*ALT*/ KC_RALT,   MO(LINUX_FN),  KC_RCTL, /**/      KC_MS_L,  KC_MS_D,   KC_MS_R),
+        /*M5*/ _______,         /*CTL  */ KC_LCTL,   /*SPC*/ MO(LINUX_FN), KC_LGUI,    KC_LALT,                 FN_LINUX,                              SUSPC,                  /*ALT*/ KC_RALT,   MO(LINUX_FN),  KC_RCTL, /**/      KC_MS_L,  KC_MS_D,   KC_MS_R),
 
     [LINUX_MS]   = LAYOUT_91_ansi(
-        /*KN*/ KC_MUTE,         /*ESC  */ KC_ESC,    /*F1 */ KC_BRID,      KC_BRIU,   KC_MCTL,        KC_LPAD,  RGB_VAD,    /*F6*/ RGB_VAI,  KC_MPRV,      KC_MPLY,  KC_MNXT,  /*F10*/ KC_MUTE,   KC_VOLD,       KC_VOLU, /**/      KC_INS,   KC_DEL,    KC_MUTE,
+        /*KN*/ _______,         /*ESC  */ _______,   /*F1 */ _______,      _______,   _______,        _______,  _______,    /*F6*/ _______,  _______,      _______,  _______,  /*F10*/ _______,   _______,       _______, /**/      _______,  _______,   _______,
         /*M1*/ _______,         /*~    */ _______,   /*1  */ _______,      _______,   _______,        _______,  _______,    /*6 */ _______,  _______,      _______,  _______,  /*0*/   _______,   _______,       _______, /**/      _______,             _______,
-        /*M2*/ _______,         /*TAB  */ RGB_TOG,   /*Q  */ RGB_MOD,      RGB_VAI,   _______,  RGB_SAI,  RGB_SPI,    /*Y */ _______,  KC_MS_WH_UP,  _______,  NEWLINE,  /*P*/   _______,   _______,       _______, /**/      _______,             _______,
-        /*M3*/ _______,         /*CAPS */ _______,   /*A  */ RGB_RMOD,     RGB_VAD,   KC_MS_WH_DOWN,        RGB_SAD,  RGB_SPD,    /*H */ KC_MS_L,  KC_MS_D,      KC_MS_U,  KC_MS_R,  /*;*/   _______,   _______,                /**/      _______,             _______,
-        /*M4*/ _______,         /*SHIFT*/ FN_HOME,                         _______,   _______,        _______,  _______,    /*B */ _______,  NK_TOGG,      _______,  _______,  /*.*/   _______,   _______,                /*SHIFT*/ FN_END,   _______,
+        /*M2*/ _______,         /*TAB  */ _______,   /*Q  */ _______,      _______,   _______,        _______,  _______,    /*Y */ _______,  KC_MS_WH_UP,  _______,  _______,  /*P*/   _______,   _______,       _______, /**/      _______,             _______,
+        /*M3*/ _______,         /*CAPS */ _______,   /*A  */ _______,      _______,   KC_MS_WH_DOWN,  _______,  _______,    /*H */ KC_MS_L,  KC_MS_D,      KC_MS_U,  KC_MS_R,  /*;*/   _______,   _______,                /**/      _______,             _______,
+        /*M4*/ _______,         /*SHIFT*/ _______,                         _______,   _______,        _______,  _______,    /*B */ _______,  _______,      _______,  _______,  /*.*/   _______,   _______,                /*SHIFT*/ _______,  _______,
         /*M5*/ _______,         /*CTL  */ _______,   /*SPC*/ _______,      _______,   _______,                  KC_MS_BTN1, /*  */                         KC_MS_BTN2,         /*ALT*/ _______,   _______,       _______, /**/      _______,  _______,   _______),
 
     [LINUX_FN]   = LAYOUT_91_ansi(
