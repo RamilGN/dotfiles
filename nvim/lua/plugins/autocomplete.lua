@@ -30,6 +30,13 @@ return {
             local k = require("config.keymaps")
             local cmp = require("cmp")
 
+            local codeium_source = {
+                name = "codeium",
+                option = {
+                    keyword_pattern = [[\k\+]],
+                }
+            }
+
             local lsp_source = { name = "nvim_lsp" }
 
             local luasnip_source = { name = "luasnip" }
@@ -98,6 +105,7 @@ return {
                 },
                 mapping = cmp.mapping.preset.insert(k.cmp()),
                 sources = {
+                    codeium_source,
                     lsp_source,
                     luasnip_source,
                     buffer_source,
@@ -113,6 +121,7 @@ return {
                         mode = "symbol",
                         maxwidth = 50,
                         ellipsis_char = "...",
+                        symbol_map = { Codeium = "" },
                     }),
                 },
             })

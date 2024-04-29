@@ -146,16 +146,16 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             rgb_matrix_set_color(M1_LED_INDEX, RGB_WHITE);
             break;
         case LINUX_MS:
-            rgb_matrix_set_color(M1_LED_INDEX, RGB_WHITE);
+            rgb_matrix_set_color(M1_LED_INDEX, RGB_CYAN);
             break;
         case LINUX_FN:
-            rgb_matrix_set_color(M1_LED_INDEX, RGB_WHITE);
+            rgb_matrix_set_color(M1_LED_INDEX, RGB_GOLD);
             break;
         case WIN_BASE:
             rgb_matrix_set_color(M2_LED_INDEX, RGB_WHITE);
             break;
         case WIN_FN:
-            rgb_matrix_set_color(M2_LED_INDEX, RGB_WHITE);
+            rgb_matrix_set_color(M2_LED_INDEX, RGB_GOLD);
             break;
     }
 

@@ -82,15 +82,34 @@ return {
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" },
     },
+    -- AI.
     {
         "robitx/gp.nvim",
-        cmd = { "GptChatToggle", "GptChatNew", "GptEnew", "GptRewrite", "GptImplement" },
         keys = require("config.keymaps").gpt(),
         opts = {
             cmd_prefix = "Gpt",
-            chat_user_prefix = "==>",
-            chat_assistant_prefix = { "<==" },
             chat_free_cursor = true,
         },
+        config = true,
+    },
+    {
+        "Exafunction/codeium.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "hrsh7th/nvim-cmp",
+        },
+        config = true,
+    },
+    -- Flat nvim sessions.
+    {
+        "willothy/flatten.nvim",
+        opts = {
+            window = {
+                open = "alternate",
+            },
+        },
+        lazy = false,
+        priority = 1001,
     },
 }

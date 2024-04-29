@@ -94,6 +94,22 @@ snippet !profile
 	puts "Working..."
 	end
 	File.write('tmp/stackprof.json', JSON.generate(profile))
+
+snippet !controller_filters
+	prepend_before_action
+	prepend_around_action do
+		around_action do
+			append_around_action do
+				before_action
+				append_before_action
+			end
+		end
+
+		append_after_action
+		after_action
+		prepend_after_action
+	end
+
 snippet cla
 	class `substitute(substitute(substitute(substitute(expand('%:.:r'), '.\{-}/.\{-}/', '', 'g'), '\<\(\w\)\(\w*\)', '\u\1\l\2', 'g'), '_\(\w\)', '\u\1', 'g'), '/', '::', 'g')`
 		${0}
