@@ -82,22 +82,13 @@ return {
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" },
     },
-    -- AI.
+    -- Gpt.
     {
         "robitx/gp.nvim",
         keys = require("config.keymaps").gpt(),
         opts = {
             cmd_prefix = "Gpt",
             chat_free_cursor = true,
-        },
-        config = true,
-    },
-    {
-        "Exafunction/codeium.nvim",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "hrsh7th/nvim-cmp",
         },
         config = true,
     },

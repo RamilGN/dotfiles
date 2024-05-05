@@ -34,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         /*M2*/ DF(WIN_BASE),    /*TAB  */ MS_TAB,    /*Q  */ KC_Q,         KC_W,      KC_E,           KC_R,     KC_T,       /*Y */ KC_Y,     KC_U,     KC_I,     KC_O,         /*P*/   KC_P,      KC_LBRC,       KC_RBRC, /**/      KC_BSLS,             KC_PGDN,
         /*M3*/ _______,         /*CAPS */ KC_CTESC,  /*A  */ KC_A,         KC_S,      KC_D,           KC_F,     KC_G,       /*H */ KC_H,     KC_J,     KC_K,     KC_L,         /*;*/   KC_SCLN,   KC_QUOT,                /**/      KC_ENT,              KC_HOME,
         /*M4*/ _______,         /*SHIFT*/ SC_LSPO,                         KC_Z,      KC_X,           KC_C,     KC_V,       /*B */ KC_B,     KC_N,     KC_M,     KC_COMM,      /*.*/   KC_DOT,    KC_SLSH,                /**/      SC_RSPC,  KC_MS_U,
-        /*M5*/ _______,         /*CTL  */ KC_LCTL,   /*SPC*/ MO(LINUX_FN), KC_LGUI,    KC_LALT,                 FN_LINUX,                              SUSPC,                  /*ALT*/ KC_RALT,   MO(LINUX_FN),  KC_RCTL, /**/      KC_MS_L,  KC_MS_D,   KC_MS_R),
+        /*M5*/ _______,         /*CTL  */ KC_LCTL,   /*SPC*/ MO(LINUX_FN), KC_LGUI,   KC_LALT,                 FN_LINUX,                              SUSPC,                  /*ALT*/ KC_RALT,   MO(LINUX_FN),  KC_RCTL, /**/      KC_MS_L,  KC_MS_D,   KC_MS_R),
 
     [LINUX_MS]   = LAYOUT_91_ansi(
         /*KN*/ _______,         /*ESC  */ _______,   /*F1 */ _______,      _______,   _______,        _______,  _______,    /*F6*/ _______,  _______,      _______,  _______,  /*F10*/ _______,   _______,       _______, /**/      _______,  _______,   _______,

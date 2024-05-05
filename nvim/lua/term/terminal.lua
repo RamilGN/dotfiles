@@ -8,6 +8,7 @@ local UI = require("term.ui")
 --- @field close_on_exit boolean
 --- @field scroll_to_bottom boolean
 --- @field startinsert boolean
+--- @field hidden boolean
 --- @field open boolean
 --- @field opener fun()
 --- @field closer fun()
@@ -23,6 +24,7 @@ local Term = {}
 --- @field close_on_exit? boolean
 --- @field scroll_to_bottom? boolean
 --- @field startinsert? boolean
+--- @field hidden? boolean
 
 ---@type Term|nil
 local LastTerminal = nil
@@ -76,6 +78,10 @@ function Term:new(termopts)
 
     if term.startinsert == nil then
         term.startinsert = true
+    end
+
+    if term.hidden == nil then
+        term.hidden = true
     end
 
     return term
@@ -169,6 +175,7 @@ M.exec = function(cmd)
         cmd = cmd,
         startinsert = false,
         scroll_to_bottom = false,
+        hidden = true,
     })
 
     M.new(term)

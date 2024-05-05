@@ -7,7 +7,8 @@ M.open_enew = function(term)
         return
     end
 
-    vim.cmd(TERM_TYPE_ENEW)
+    P.get_or_create_buf_for(term)
+    vim.api.nvim_set_current_buf(term.buf_id)
 
     term.buf_id = vim.api.nvim_get_current_buf()
     term.win_id = vim.api.nvim_get_current_win()
@@ -123,7 +124,7 @@ P.get_or_create_buf_for = function(term)
     local buf_id = term.buf_id
 
     if buf_id == nil or not vim.api.nvim_buf_is_valid(term.buf_id) then
-        buf_id = vim.api.nvim_create_buf(false, false)
+        buf_id = vim.api.nvim_create_buf(not term.hidden, false)
     end
 
     term.buf_id = buf_id
