@@ -135,10 +135,10 @@ return {
             vim.keymap.set({ "n", "x", "o" }, ";", tsrm.repeat_last_move)
             vim.keymap.set({ "n", "x", "o" }, ",", tsrm.repeat_last_move_opposite)
 
-            -- vim.keymap.set({ "n", "x", "o" }, "f", tsrm.builtin_f)
-            -- vim.keymap.set({ "n", "x", "o" }, "F", tsrm.builtin_F)
-            -- vim.keymap.set({ "n", "x", "o" }, "t", tsrm.builtin_t)
-            -- vim.keymap.set({ "n", "x", "o" }, "T", tsrm.builtin_T)
+            vim.keymap.set({ "n", "x", "o" }, "f", tsrm.builtin_f)
+            vim.keymap.set({ "n", "x", "o" }, "F", tsrm.builtin_F)
+            vim.keymap.set({ "n", "x", "o" }, "t", tsrm.builtin_t)
+            vim.keymap.set({ "n", "x", "o" }, "T", tsrm.builtin_T)
 
             local next_spell_repeat, prev_spell_repeat = tsrm.make_repeatable_move_pair(function()
                 f.keys("]s")

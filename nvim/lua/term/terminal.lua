@@ -175,7 +175,7 @@ M.exec = function(cmd)
         cmd = cmd,
         startinsert = false,
         scroll_to_bottom = false,
-        hidden = true,
+        hidden = false,
     })
 
     M.new(term)
