@@ -46,6 +46,7 @@ return {
 
             telescope.setup({
                 defaults = {
+                    wrap_results = true,
                     vimgrep_arguments = vimgrep_arguments,
                     mappings = {
                         i = {
@@ -93,6 +94,7 @@ return {
                         symbol_width = 65,
                     },
                     lsp_document_symbols = {
+                        symbol_width = 45,
                         theme = "dropdown",
                     },
                 },
@@ -101,6 +103,15 @@ return {
                         use_delta = true,
                     },
                 },
+            })
+
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "TelescopePreviewerLoaded",
+                callback = function(args)
+                    if args.data.filetype ~= "help" then
+                        vim.wo.wrap = true
+                    end
+                end,
             })
         end,
         dependencies = { { "nvim-lua/plenary.nvim" } },

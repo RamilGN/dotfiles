@@ -39,7 +39,6 @@ return {
         vim.opt.updatetime = 200 -- Faster auto-completion and etc...
         vim.opt.virtualedit = "block" -- Allow going past the end of line in visual block mode
         vim.opt.wrap = true -- Wrap lines
-
         -- Globals
         vim.g.max_byte_size = 1024 * 512 -- Using for plugin and other constraints
         vim.g.home_dir = vim.fn.getenv("HOME") -- Home directory

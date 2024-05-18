@@ -7,8 +7,7 @@ M.open_enew = function(term)
         return
     end
 
-    P.get_or_create_buf_for(term)
-    vim.api.nvim_set_current_buf(term.buf_id)
+    vim.cmd(TERM_TYPE_ENEW)
 
     term.buf_id = vim.api.nvim_get_current_buf()
     term.win_id = vim.api.nvim_get_current_win()
@@ -115,6 +114,16 @@ P.get_float_config = function()
         height = height,
         border = "single",
     }
+
+    -- local float_config = {
+    --     row = 0, -- 0
+    --     col = 0, -- 00
+    --     relative = "editor",
+    --     -- style = "minimal",
+    --     width = vim.o.columns,
+    --     height = vim.o.lines - 2,
+    --     border = "none",
+    -- }
 
     return float_config
 end

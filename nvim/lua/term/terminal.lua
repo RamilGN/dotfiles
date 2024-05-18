@@ -255,7 +255,7 @@ P.start = function(term)
         buf_id = { term.buf_id, "number" },
     })
 
-    local cmd = string.format("%s;#term%s", term.cmd, term.id)
+    local cmd = string.format("%s;#term%s;#%s", term.cmd, term.id, term.type)
 
     P.startinstert(term)
 

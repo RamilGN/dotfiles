@@ -1,10 +1,15 @@
 local Term = require("term")
+local UtilJob = require("util.job")
 
 ---@class Gitx
 local M = {}
 
 local function delta(command)
     Term.exec("git --no-pager " .. command .. " | delta --paging=never")
+end
+
+local function error(msg)
+    vim.notify(string.format("[gitx]: %s", msg, vim.log.levels.ERROR))
 end
 
 ---@param gitx Gitx
@@ -20,7 +25,7 @@ local function execute_cmd(gitx, command, opts)
     if cmd then
         cmd(opts, args)
     else
-        vim.notify("[gitx]: unknown command " .. "`" .. command .. "`", vim.log.levels.ERROR)
+        error(vim.notify("unknown command " .. "`" .. command .. "`"))
     end
 end
 
@@ -30,7 +35,7 @@ M.cmds = {
             local range = opts.line1 .. [[,]] .. opts.line2
             delta("log -p -L" .. range .. ":%")
         else
-            delta("log -p --stat --follow " .. "%")
+            delta("log -p --stat " .. "%")
         end
     end,
     log_global = function(_, args)
@@ -48,6 +53,19 @@ M.cmds = {
     end,
     showprev = function(_, _)
         delta("show -p --stat")
+    end,
+    url = function()
+        UtilJob.system("git -v", { on_stdout = vim.print, on_stderr = error })
+
+        -- local remote_and_branch = vim.split(vim.fn.system("git rev-parse --abbrev-ref HEAD@{push}"), "/")
+        -- local remote, branch = vim.trim(remote_and_branch[1]), vim.trim(remote_and_branch[2])
+        -- local remote_url = vim.fn.system(string.format("git remote get-url %s", remote))
+        -- remote_url = string.gsub(remote_url, "%.git\n$", "")
+        -- local remote_url = vim.split(remote_url, "git@", { trimempty = true })[1]
+
+        -- https://github.com/RamilGN/dotfiles/blob/main/nvim/lua/gitx/init.lua
+        -- local relative_file_path = vim.fn.system(string.format("git ls-files --full-name %s", UtilBuf.cur_buf_dir_abs_path()))
+        -- vim.print(relative_file_path)
     end,
 }
 

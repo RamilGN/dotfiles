@@ -121,26 +121,6 @@ return {
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Open smth.
         map("n", "<leader>oT", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
-        -- Open url with gx.
-        map("n", "gx", function()
-            local word = vim.fn.expand("<cWORD>")
-            local url_pattern = "https?://[a-zA-Z%d_/%%%-%.~@\\+#=?&:]+"
-            local url = word:match(url_pattern)
-
-            if url then
-                return Util().sysopen(url)
-            end
-
-            if not url then
-                url_pattern = "([a-zA-Z%d_/%-%.~@\\+#]+%.[a-zA-Z%d_/%%%-%.~@\\+#=?&:]+)"
-                url = word:match(url_pattern)
-
-                if url then
-                    url = "https://" .. url
-                    return Util().sysopen(url)
-                end
-            end
-        end, { desc = "Open file with system app" })
         -- Spacing.
         map("n", "]<leader>", "<Cmd>norm i <CR>l", { desc = "Next buffer" })
         map("n", "[<leader>", "<Cmd>norm <CR> h", { desc = "Next tab" })

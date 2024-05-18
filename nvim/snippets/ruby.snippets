@@ -110,6 +110,15 @@ snippet !controller_filters
 		prepend_after_action
 	end
 
+snippet !jobs_enable
+	Sidekiq::Testing.disable!
+	Delayed::Worker.delay_jobs = false
+
+snippet !jobs_disable
+	require 'sidekiq/testing'
+	Sidekiq::Testing.inline!
+	Delayed::Worker.delay_jobs = true
+
 snippet cla
 	class `substitute(substitute(substitute(substitute(expand('%:.:r'), '.\{-}/.\{-}/', '', 'g'), '\<\(\w\)\(\w*\)', '\u\1\l\2', 'g'), '_\(\w\)', '\u\1', 'g'), '/', '::', 'g')`
 		${0}
