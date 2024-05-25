@@ -58,6 +58,9 @@ return {
             on_attach = function(client, bufnr)
                 local k = require("config.keymaps")
                 k.lsp(bufnr, client)
+                -- if not vim.lsp.inlay_hint.is_enabled() then
+                --     vim.lsp.inlay_hint.enable()
+                -- end
             end,
             servers = {
                 jsonls = function(options, _)
@@ -120,7 +123,7 @@ return {
                                 unusedwrite = true,
                                 useany = true,
                             },
-                            usePlaceholders = true,
+                            -- usePlaceholders = true,
                             completeUnimported = true,
                             staticcheck = true,
                             directoryFilters = { "-.git", "-node_modules" },

@@ -14,7 +14,7 @@ return {
         vim.opt.laststatus = 3 -- Global statusline
         vim.opt.list = true -- Show trailing whitespaces, tabs etc...
         vim.opt.modeline = false
-        vim.opt.mouse = nil -- Mouse off
+        vim.opt.mouse = ""
         vim.opt.number = true -- Line numbers
         vim.opt.pumblend = 17
         vim.opt.pumheight = 12 -- Set maximum number of items in the pop-up menu
@@ -22,13 +22,14 @@ return {
         vim.opt.scrollback = 100000 -- Scrollback lines for terminal buffer
         vim.opt.scrolloff = 10 -- Show some lines after cursor
         vim.opt.shiftround = true -- Round to shiftwidth
-        vim.opt.shiftwidth = 4 -- Tabs width
+        vim.opt.shiftwidth = 2 -- Tabs width
         vim.opt.showmode = false -- Statusline line dup
         vim.opt.signcolumn = "yes:2" -- Sign column
         vim.opt.smartcase = true -- Ignore case when searching if there is no capital letter
         vim.opt.smartindent = true -- Smart indent
         vim.opt.spelllang = { "en", "ru" } -- Spell dictionaries
         vim.opt.splitbelow = true -- Horizontal split below
+        vim.opt.inccommand = 'split'
         vim.opt.splitright = true -- Vertical split right
         vim.opt.swapfile = false -- Swap file off
         vim.opt.tabstop = 4 -- Number of spaces that tab counts for
@@ -39,6 +40,7 @@ return {
         vim.opt.updatetime = 200 -- Faster auto-completion and etc...
         vim.opt.virtualedit = "block" -- Allow going past the end of line in visual block mode
         vim.opt.wrap = true -- Wrap lines
+
         -- Globals
         vim.g.max_byte_size = 1024 * 512 -- Using for plugin and other constraints
         vim.g.home_dir = vim.fn.getenv("HOME") -- Home directory

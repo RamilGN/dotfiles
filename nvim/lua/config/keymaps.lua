@@ -598,7 +598,7 @@ return {
         map("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>", "LSP document symbols")
         map("n", "<leader>li", "<Cmd>LspInfo<CR>", "Lsp info")
         map("n", "<leader>lr", vim.lsp.buf.rename, "Rename")
-        map("n", "<leader>lw", "<Cmd>Telescope lsp_workspace_symbols<CR>", "Workspace symbols")
+        map("n", "<leader>lw", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", "Workspace symbols")
         map("n", "<leader>lx", "<Cmd>LspRestart<CR>", "Lsp restart")
         map("n", "K", vim.lsp.buf.hover, "Hover")
         map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")

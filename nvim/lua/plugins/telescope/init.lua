@@ -57,11 +57,6 @@ return {
                         },
                     },
                     dynamic_preview_title = true,
-                    preview = {
-                        treesitter = {
-                            disable = { "eruby" }, -- 100% memory WTF 0_0
-                        },
-                    },
                 },
                 pickers = {
                     find_files = {

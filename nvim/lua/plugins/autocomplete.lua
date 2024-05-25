@@ -111,11 +111,6 @@ return {
                     buffer_source,
                     path_source,
                 },
-                experimental = {
-                    ghost_text = {
-                        hl_group = "LspCodeLens",
-                    },
-                },
                 formatting = {
                     format = require("lspkind").cmp_format({
                         mode = "symbol",
