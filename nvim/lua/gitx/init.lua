@@ -1,3 +1,4 @@
+local Gitxlog = require("gitx.log")
 local Term = require("term")
 local UtilJob = require("util.job")
 
@@ -30,14 +31,6 @@ local function execute_cmd(gitx, command, opts)
 end
 
 M.cmds = {
-    log = function(opts, _)
-        if opts.range > 0 then
-            local range = opts.line1 .. [[,]] .. opts.line2
-            delta("log -p -L" .. range .. ":%")
-        else
-            delta("log -p --stat " .. "%")
-        end
-    end,
     log_global = function(_, args)
         local number_of_lines = args[2] or "500"
         delta("log -n " .. number_of_lines .. " -p --stat")
@@ -90,6 +83,16 @@ M.setup = function()
             end, vim.tbl_keys(M.cmds))
         end,
     })
+
+    vim.api.nvim_create_user_command("GitLogCurrentFile", function(opts)
+        local filename = vim.api.nvim_buf_get_name(0)
+
+        if opts.range > 0 then
+            Gitxlog.log_range(filename, opts.line1, opts.line2)
+        else
+            Gitxlog.log(filename)
+        end
+    end, { range = true })
 end
 
 return M

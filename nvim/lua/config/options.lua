@@ -15,9 +15,9 @@ return {
         vim.opt.list = true -- Show trailing whitespaces, tabs etc...
         vim.opt.modeline = false
         vim.opt.mouse = ""
-        vim.opt.number = true -- Line numbers
         vim.opt.pumblend = 17
         vim.opt.pumheight = 12 -- Set maximum number of items in the pop-up menu
+        vim.opt.number = true -- Line numbers
         vim.opt.relativenumber = true -- Relative numbers
         vim.opt.scrollback = 100000 -- Scrollback lines for terminal buffer
         vim.opt.scrolloff = 10 -- Show some lines after cursor

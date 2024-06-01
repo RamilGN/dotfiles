@@ -93,7 +93,7 @@ return {
         map("n", "<C-Left>", "<Cmd>vertical resize -2<CR>", { desc = "Resize vert-" })
         map("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { desc = "Resize vert+" })
         -- Git.
-        map({ "n", "v" }, "<leader>gll", ":Gitx log<CR>", { desc = "Git log" })
+        map({ "n", "v" }, "<leader>gll", ":GitLogCurrentFile<CR>", { desc = "Git log currrent file" })
         map("n", "<leader>glg", "<Cmd>Gitx log_global<CR>", { desc = "Git log global" })
         map("n", "<leader>gii", "<Cmd>Gitx show<CR>", { desc = "Git show" })
         map("n", "<leader>gip", "<Cmd>Gitx showprev<CR>", { desc = "Git show prev" })

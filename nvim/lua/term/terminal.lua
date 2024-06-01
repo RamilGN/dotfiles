@@ -89,7 +89,7 @@ end
 
 ---@param term Term
 ---@return Term
-M.new = function(term)
+M.create = function(term)
     if term.type == TERM_TYPE_FLOAT then
         UI.open_float(term)
     elseif term.type == TERM_TYPE_VSPLIT then
@@ -122,7 +122,7 @@ M.open = function(id, type)
         term.opener()
     else
         term = Term:new({ id = id, type = type })
-        term = M.new(term)
+        term = M.create(term)
     end
 
     M.last_terminal = term
@@ -142,7 +142,7 @@ M.toggle = function(id, type)
         term.opener()
     else
         term = Term:new({ id = id, type = type })
-        term = M.new(term)
+        term = M.create(term)
     end
 
     M.last_terminal = term
@@ -178,7 +178,7 @@ M.exec = function(cmd)
         hidden = false,
     })
 
-    M.new(term)
+    M.create(term)
 end
 
 M.error = function(text)

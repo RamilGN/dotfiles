@@ -24,6 +24,7 @@ return {
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-cmdline" },
             { "saadparwaiz1/cmp_luasnip" },
+            { "hrsh7th/cmp-calc" }
         },
         config = function()
             local buf = require("util.buf")
@@ -71,6 +72,8 @@ return {
 
             local path_source = { name = "path" }
 
+            local calc_source = { name = "calc" }
+
             local function border(hl_name)
                 return {
                     { "╭", hl_name },
@@ -110,6 +113,7 @@ return {
                     luasnip_source,
                     buffer_source,
                     path_source,
+                    calc_source
                 },
                 formatting = {
                     format = require("lspkind").cmp_format({
