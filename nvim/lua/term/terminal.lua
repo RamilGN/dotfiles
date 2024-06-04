@@ -29,15 +29,20 @@ local Term = {}
 ---@type Term|nil
 local LastTerminal = nil
 
+local T = require("term.constants")
+
 local M = {
+    types = T.types,
+    line_modes = T.line_modes,
+    augroup = T.AUGROUP,
     last_terminal = LastTerminal,
     terminals = {
         ---@type Term[]
-        [TERM_TYPE_VSPLIT] = {},
+        [T.types.FLOAT] = {},
         ---@type Term[]
-        [TERM_TYPE_FLOAT] = {},
+        [T.types.VSPLIT] = {},
         ---@type Term[]
-        [TERM_TYPE_ENEW] = {},
+        [T.types.ENEW] = {},
     },
 }
 local P = {}
@@ -57,7 +62,7 @@ function Term:new(termopts)
     }
 
     if term.type == nil then
-        term.type = TERM_TYPE_FLOAT
+        term.type = T.types.FLOAT
     end
 
     if term.id == 0 or term.id == nil then
@@ -90,17 +95,17 @@ end
 ---@param term Term
 ---@return Term
 M.create = function(term)
-    if term.type == TERM_TYPE_FLOAT then
+    if term.type == T.types.FLOAT then
         UI.open_float(term)
-    elseif term.type == TERM_TYPE_VSPLIT then
+    elseif term.type == T.types.VSPLIT then
         UI.open_vsplit(term)
-    elseif term.type == TERM_TYPE_ENEW then
+    elseif term.type == T.types.ENEW then
         UI.open_enew(term)
     else
         error(string.format("invalid terminal type `%s`", type))
     end
 
-    if term.type ~= TERM_TYPE_ENEW then
+    if term.type ~= T.types.ENEW then
         P.setup_buffer_autocommands(term)
     end
 
@@ -156,7 +161,7 @@ end
 M.send = function(mode, cmd)
     local term = nil
 
-    if vim.o.columns == TERM_KITTY_COLUMNS then
+    if vim.o.columns == T.kitty.columns then
         P.send_to_kitty(mode, cmd)
         return
     else
@@ -170,7 +175,7 @@ end
 M.exec = function(cmd)
     local term = Term:new({
         id = 0,
-        type = TERM_TYPE_ENEW,
+        type = T.types.ENEW,
         close_on_exit = false,
         cmd = cmd,
         startinsert = false,
@@ -222,12 +227,12 @@ P.send_to_kitty = function(mode, cmd)
 
     for _, line in ipairs(lines) do
         line = line:gsub("'", [['\'']])
-        local command = string.format("%s -- '%s\n'", TERM_KITTY_CMD, line)
+        local command = string.format("%s -- '%s\n'", T.kitty.cmd, line)
         vim.fn.jobstart(command)
     end
 end
 
----@param mode TermSendMode
+---@param mode string
 ---@param cmd string|nil
 ---@return table
 P.get_lines_for_send = function(mode, cmd)
@@ -237,9 +242,9 @@ P.get_lines_for_send = function(mode, cmd)
 
     local lines = {}
 
-    if mode == TERM_SEND_MODE_LINE then
+    if mode == T.line_modes.LINE then
         lines = { vim.api.nvim_get_current_line() }
-    elseif mode == TERM_SEND_MODE_LINES then
+    elseif mode == T.line_modes.LINES then
         lines = UtilVisual.get_visual_selection_lines()
     else
         error(string.format("there is no such mode `%s`", mode))
@@ -292,7 +297,7 @@ P.get = function(id, type)
     return M.terminals[type][id]
 end
 
----@param type TermType
+---@param type string
 ---@return integer
 P.get_next_id = function(type)
     local next_id = nil
@@ -335,7 +340,7 @@ end
 P.setup_buffer_autocommands = function(term)
     vim.api.nvim_create_autocmd("BufEnter", {
         buffer = term.buf_id,
-        group = TERM_AUGROUP,
+        group = T.AUGROUP,
         callback = function()
             P.startinstert(term)
         end,

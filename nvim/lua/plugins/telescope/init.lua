@@ -26,7 +26,8 @@ return {
             end
 
             local previewers = require("telescope.previewers")
-            local delta_previewer = previewers.new_termopen_previewer({
+
+            local git_status_previewer = previewers.new_termopen_previewer({
                 -- {
                 --   display = <function 1>,
                 --   index = 5,
@@ -35,12 +36,19 @@ return {
                 --   status = "??",
                 --   value = "foo.lua"
                 -- }
+
                 get_command = function(entry)
                     if entry.status == "??" then
                         return "git diff --no-index /dev/null " .. entry.path
                     end
 
                     return "git diff HEAD -- '" .. entry.path .. "'"
+                end,
+            })
+
+            local git_stash_previewer = previewers.new_termopen_previewer({
+                get_command = function(entry)
+                    return "git stash show -p " .. entry.value
                 end,
             })
 
@@ -83,7 +91,10 @@ return {
                         previewer = false,
                     },
                     git_status = {
-                        previewer = delta_previewer,
+                        previewer = git_status_previewer,
+                    },
+                    git_stash = {
+                        previewer = git_stash_previewer,
                     },
                     lsp_workspace_symbols = {
                         symbol_width = 65,

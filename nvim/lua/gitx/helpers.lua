@@ -1,19 +1,10 @@
 local M = {}
 
--- local Terminal = require("term.terminal")
+local Term = require("term")
 
 M.delta = function(command)
     local cmd = "git --no-pager " .. command .. " | delta --paging=never"
-
-    Terminal.create(Term:new({
-        id = 0,
-        type = TERM_TYPE_ENEW,
-        close_on_exit = false,
-        cmd = cmd,
-        startinsert = false,
-        scroll_to_bottom = false,
-        hidden = true,
-    }))
+    Term.exec(cmd)
 end
 
 M.error = function(msg)

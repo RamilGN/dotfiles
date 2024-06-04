@@ -1,4 +1,3 @@
-require("term.constants")
 local Terminal = require("term.terminal")
 
 local M = {}
@@ -14,18 +13,18 @@ M.setup = function()
     end, {})
 
     vim.api.nvim_create_user_command("TermToggleFloat", function(_)
-        Terminal.toggle(vim.v.count, TERM_TYPE_FLOAT)
+        Terminal.toggle(vim.v.count, Terminal.types.FLOAT)
     end, {})
 
     vim.api.nvim_create_user_command("TermToggleVsplit", function(_)
-        Terminal.toggle(vim.v.count, TERM_TYPE_VSPLIT)
+        Terminal.toggle(vim.v.count, Terminal.types.VSPLIT)
     end, {})
 
     vim.api.nvim_create_user_command("TermSend", function(opts)
-        local mode = TERM_SEND_MODE_LINE
+        local mode = Terminal.line_modes.LINE
 
         if opts.range > 0 then
-            mode = TERM_SEND_MODE_LINES
+            mode = Terminal.line_modes.LINES
         end
 
         local cmd = nil
@@ -63,6 +62,7 @@ M.setup = function()
     })
 end
 
+---@param command string
 M.exec = function(command)
     local curfile = vim.fn.expand("%")
     local full_command = ("TermExec " .. command)

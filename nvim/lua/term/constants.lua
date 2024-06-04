@@ -1,18 +1,18 @@
---- @alias TermType string
---- @type TermType
-TERM_TYPE_FLOAT = "float"
---- @type TermType
-TERM_TYPE_VSPLIT = "vsplit"
---- @type TermType
-TERM_TYPE_ENEW = "enew"
+local M = {
+    types = {
+        FLOAT = "float",
+        VSPLIT = "vsplit",
+        ENEW = "enew",
+    },
+    line_modes = {
+        LINE = "line",
+        LINES = "lines",
+    },
+    kitty = {
+        columns = 98,
+        cmd = "kitty @ send-text --match neighbor:right",
+    },
+    AUGROUP = vim.api.nvim_create_augroup("Term", { clear = true }),
+}
 
----@alias TermSendMode string
----@type TermSendMode
-TERM_SEND_MODE_LINE = "line"
----@type TermSendMode
-TERM_SEND_MODE_LINES = "lines"
-
-TERM_AUGROUP = vim.api.nvim_create_augroup("Term", { clear = true })
-
-TERM_KITTY_COLUMNS = 98
-TERM_KITTY_CMD = "kitty @ send-text --match neighbor:right"
+return M

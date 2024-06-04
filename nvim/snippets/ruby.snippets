@@ -119,6 +119,12 @@ snippet !jobs_disable
 	Sidekiq::Testing.inline!
 	Delayed::Worker.delay_jobs = true
 
+snippet !render_outside_controller
+  ApplicationController.render(
+    template: 'users/show',
+    assigns: { user: @user }
+  )
+
 snippet cla
 	class `substitute(substitute(substitute(substitute(expand('%:.:r'), '.\{-}/.\{-}/', '', 'g'), '\<\(\w\)\(\w*\)', '\u\1\l\2', 'g'), '_\(\w\)', '\u\1', 'g'), '/', '::', 'g')`
 		${0}
