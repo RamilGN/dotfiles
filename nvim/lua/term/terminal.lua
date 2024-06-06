@@ -9,6 +9,7 @@ local UI = require("term.ui")
 --- @field scroll_to_bottom boolean
 --- @field startinsert boolean
 --- @field hidden boolean
+--- @field bufname string
 --- @field open boolean
 --- @field opener fun()
 --- @field closer fun()
@@ -25,6 +26,7 @@ local Term = {}
 --- @field scroll_to_bottom? boolean
 --- @field startinsert? boolean
 --- @field hidden? boolean
+--- @field bufname? string
 
 ---@type Term|nil
 local LastTerminal = nil
@@ -32,6 +34,7 @@ local LastTerminal = nil
 local T = require("term.constants")
 
 local M = {
+    term = Term,
     types = T.types,
     line_modes = T.line_modes,
     augroup = T.AUGROUP,
@@ -59,6 +62,7 @@ function Term:new(termopts)
         close_on_exit = termopts.close_on_exit,
         scroll_to_bottom = termopts.scroll_to_bottom,
         startinsert = termopts.startinsert,
+        bufname = termopts.bufname,
     }
 
     if term.type == nil then
@@ -89,6 +93,10 @@ function Term:new(termopts)
         term.hidden = true
     end
 
+    if term.bufname == nil then
+        term.bufname = string.format("Term:%s:%s", term.type, term.id)
+    end
+
     return term
 end
 
@@ -111,6 +119,7 @@ M.create = function(term)
 
     P.start(term)
     P.add(term)
+    P.add_time_to_bufname(term)
 
     return term
 end
@@ -345,6 +354,11 @@ P.setup_buffer_autocommands = function(term)
             P.startinstert(term)
         end,
     })
+end
+
+---@param term Term
+P.add_time_to_bufname = function(term)
+    vim.cmd("file " .. term.bufname .. os.date(" %H:%M:%S"))
 end
 
 ---@param term Term

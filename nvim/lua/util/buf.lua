@@ -34,5 +34,8 @@ M.copy_rel_path_line_to_buffer = function()
     vim.fn.setreg("+", M.get_cur_buf_rel_path(true))
 end
 
+M.copy_rel_path_to_buffer = function()
+    vim.fn.setreg("+", M.get_cur_buf_rel_path(false))
+end
 
 return M

@@ -94,14 +94,16 @@ return {
         map("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { desc = "Resize vert+" })
         -- Git.
         map({ "n", "v" }, "<leader>gll", ":GitLogCurrentFile<CR>", { desc = "Git log currrent file" })
-        map("n", "<leader>glg", "<Cmd>Gitx log_global<CR>", { desc = "Git log global" })
-        map("n", "<leader>gii", "<Cmd>Gitx show<CR>", { desc = "Git show" })
-        map("n", "<leader>gip", "<Cmd>Gitx showprev<CR>", { desc = "Git show prev" })
+        map("n", "<leader>glg", "<Cmd>GitLogGlobalP<CR>", { desc = "Git log global" })
+        map("n", "<leader>gii", "<Cmd>GitShow<CR>", { desc = "Git show" })
         -- Set options and misc.
         map("n", "yos", "<Cmd>setlocal invspell<CR>", { desc = "Set spelling" })
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
         map("n", "yol", "<Cmd>set invrelativenumber<CR>", { desc = "Toggle relative number" })
         map("n", "yof", function()
+            UtilBuf().copy_rel_path_to_buffer()
+        end, { desc = "Yank file path" })
+        map("n", "yoF", function()
             UtilBuf().copy_rel_path_line_to_buffer()
         end, { desc = "Yank file path with line" })
         -- Prev action.
