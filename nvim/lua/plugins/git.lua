@@ -56,7 +56,7 @@ return {
             },
         },
         keys = require("config.keymaps").git.fugitive,
-        cmd = "G",
+        cmd = { "G", "Git" },
     },
     {
         "akinsho/git-conflict.nvim",

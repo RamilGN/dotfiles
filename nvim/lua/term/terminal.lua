@@ -63,6 +63,7 @@ function Term:new(termopts)
         scroll_to_bottom = termopts.scroll_to_bottom,
         startinsert = termopts.startinsert,
         bufname = termopts.bufname,
+        hidden = termopts.hidden
     }
 
     if term.type == nil then

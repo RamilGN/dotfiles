@@ -253,7 +253,7 @@ return {
                 -- Git log.
                 {
                     "<leader>glo",
-                    "<Cmd>G ++curwin log -n 100<CR>",
+                    "<Cmd>G ++curwin log -n 200<CR>",
                     desc = "Git log 100",
                 },
                 -- Git log.

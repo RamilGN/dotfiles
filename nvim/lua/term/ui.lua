@@ -10,6 +10,7 @@ M.open_enew = function(term)
     end
 
     vim.cmd(term.type)
+    vim.bo.buflisted = not term.hidden
 
     term.buf_id = vim.api.nvim_get_current_buf()
     term.win_id = vim.api.nvim_get_current_win()
