@@ -82,16 +82,6 @@ return {
         keys = require("config.keymaps").yaml,
         cmd = { "YAMLTelescope" },
     },
-    -- Gpt.
-    {
-        "robitx/gp.nvim",
-        keys = require("config.keymaps").gpt(),
-        opts = {
-            cmd_prefix = "Gpt",
-            chat_free_cursor = true,
-        },
-        config = true,
-    },
     -- Flat nvim sessions.
     {
         "willothy/flatten.nvim",

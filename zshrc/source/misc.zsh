@@ -55,7 +55,7 @@ alias vpn="ruby ~/dotfiles/scripts/vpn/main.rb"
 alias gpt="ruby ~/dotfiles/scripts/gpt/main.rb"
 
 # postgres
-alias pg-sandbox='docker run --rm --name pg-sandbox -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres:14'
+alias pg-sandbox='docker run --rm --name pg-sandbox -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres:16 -c log_statement=all'
 alias pg-console='psql postgresql://postgres:postgres@localhost:5432'
 
 # cd with fzf
