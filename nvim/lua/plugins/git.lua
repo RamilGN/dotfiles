@@ -7,14 +7,6 @@ return {
             max_file_length = 50000,
             attach_to_untracked = true,
             sign_priority = 100,
-            -- _signs_staged_enable = true,
-            -- _signs_staged = {
-            --     add = { text = "┃" },
-            --     change = { text = "┃" },
-            --     delete = { text = "┃" },
-            --     topdelete = { text = "┃" },
-            --     changedelete = { text = "┃" },
-            -- },
             signs = {
                 add = { hl = "GitSignsAdd", text = "┃" },
                 untracked = { hl = "GitSignsAdd", text = "┃" },
@@ -41,7 +33,6 @@ return {
             })
         end,
     },
-    -- Git aliases.
     {
         "tpope/vim-fugitive",
         keys = require("config.keymaps").git.fugitive,
