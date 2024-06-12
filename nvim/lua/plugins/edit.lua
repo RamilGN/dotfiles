@@ -2,28 +2,13 @@ return {
     -- Surroundings
     {
         "kylechui/nvim-surround",
-        version = "*",
         event = "VeryLazy",
         opts = {},
-    },
-    -- Search and replace
-    {
-        "nvim-pack/nvim-spectre",
-        cmd = "Spectre",
-        keys = require("config.keymaps").spectre,
-        opts = {
-            highlight = {
-                ui = "String",
-                search = "DiffAdd",
-                replace = "DiffDelete",
-            },
-        },
     },
     -- Auto pairs
     {
         "echasnovski/mini.pairs",
         event = { "BufReadPre", "BufNewFile" },
-        version = false,
         config = function(_, opts)
             require("mini.pairs").setup(opts)
         end,

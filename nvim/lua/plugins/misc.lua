@@ -49,20 +49,6 @@ return {
             keymaps = require("config.keymaps").oil.explorer(),
         },
     },
-    -- Better quickfix-list.
-    {
-        "kevinhwang91/nvim-bqf",
-        ft = { "qf" },
-        config = function()
-            require("bqf").setup({
-                preview = {
-                    winblend = 0,
-                    border = "none",
-                    win_height = 999,
-                },
-            })
-        end,
-    },
     -- Markdown.
     {
         "iamcco/markdown-preview.nvim",
@@ -92,5 +78,10 @@ return {
         },
         lazy = false,
         priority = 1001,
+    },
+    -- Modifiable qf.
+    {
+        "stefandtw/quickfix-reflector.vim",
+        ft = "qf",
     },
 }

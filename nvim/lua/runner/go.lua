@@ -39,9 +39,9 @@ M.run = function(opts)
     if prefix then
         local curbufdirabspath = Util.cur_buf_dir_abs_path()
         local teststr = M.teststr(opts.selected)
-        Term.exec([[go test -v -race -cover -count=1 -benchmem -bench=.]] .. teststr .. curbufdirabspath)
+        Term.spawn({ cmd = [[go test -v -race -cover -count=1 -benchmem -bench=.]] .. teststr .. curbufdirabspath })
     else
-        Term.exec("go run " .. opts.current_buffer)
+        Term.spawn({ cmd = "go run " .. opts.current_buffer })
     end
 end
 
@@ -52,9 +52,13 @@ M.yookassa_test = function(opts)
         local curbufrelpath = Util.get_cur_buf_dir_rel_path()
 
         local teststr = M.teststr(opts.selected)
-        Term.exec(
-            [[docker exec -it yookassa sh -c 'ENV_PATH=/app/configs/.test.env go test -v -cover -count=1 -benchmem -bench=.]] .. teststr .. [[/app/]] .. curbufrelpath .. [[']]
-        )
+        Term.spawn({
+            cmd = [[docker exec -it yookassa sh -c 'ENV_PATH=/app/configs/.test.env go test -v -cover -count=1 -benchmem -bench=.]]
+                .. teststr
+                .. [[/app/]]
+                .. curbufrelpath
+                .. [[']],
+        })
     else
         print("Can't run file")
     end

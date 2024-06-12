@@ -38,14 +38,14 @@ function docker_container_attach {
   [ ! -z "$CONTAINER_ID" ] && docker container attach $CONTAINER_ID
 }
 ## Start.
-unalias dst; alias dst="docker_container_start"
+alias dstart="docker_container_start"
 function docker_container_start {
   CONTAINER_ID=$(dclsa)
   [ ! -z "$CONTAINER_ID" ] && docker container start $CONTAINER_ID
 }
 
 ## Stop
-unalias dstp; alias dstp="docker_container_stop"
+alias dstop="docker_container_stop"
 function docker_container_stop {
   CONTAINER_ID=$(dcls)
   [ ! -z "$CONTAINER_ID" ] && docker container stop $CONTAINER_ID

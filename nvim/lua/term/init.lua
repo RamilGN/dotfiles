@@ -38,44 +38,37 @@ M.setup = function()
         range = true,
     })
 
-    vim.api.nvim_create_user_command("TermExec", function(opts)
-        if #opts.fargs == 0 then
-            Terminal.error("pass the command ex. `TermExec git log`")
-            return
-        end
-
-        local command = table.concat(opts.fargs, " ")
-        local full_command = string.format("%s && sleep 0.1", command)
-        Terminal.exec(full_command)
-    end, {
-        nargs = "?",
-        range = true,
-    })
-
     vim.api.nvim_create_user_command("T", function(opts)
         local command = table.concat(opts.fargs, " ")
         local full_command = string.format("%s '%s'", "/bin/zsh -i -c", command)
-        M.exec(full_command)
+        M.spawn({ cmd = full_command })
     end, {
         nargs = "?",
         range = true,
     })
 end
 
----@param command string
-M.exec = function(command)
-    local curfile = vim.fn.expand("%")
-    local full_command = ("TermExec " .. command)
-    local expanded_command = full_command.gsub(full_command, "%%", curfile)
+LastSpawnedTerm = nil
 
-    P.save_last_command(expanded_command, command)
-
-    vim.cmd(expanded_command)
+---@param opts TermNew
+M.spawn = function(opts)
+    local term = Terminal.term:new(opts)
+    P.save_last_spawned_term(term)
+    Terminal.create(term)
 end
 
-P.save_last_command = function(command, cmd)
-    vim.g.last_command = command
-    vim.g.last_cmd = cmd
+M.respawn = function()
+    if LastSpawnedTerm == nil then
+        Terminal.error("no term to respawn")
+        return
+    end
+
+    M.spawn(LastSpawnedTerm)
+end
+
+---@param term Term
+P.save_last_spawned_term = function(term)
+    LastSpawnedTerm = term
 end
 
 return M

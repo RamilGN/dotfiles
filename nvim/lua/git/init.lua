@@ -1,4 +1,6 @@
-local T = require("term.terminal")
+local U = require("util")
+local UB = require("util.buf")
+local T = require("term.init")
 
 ---@class Gitx
 local M = {}
@@ -15,18 +17,21 @@ local function exec(opts)
     end
     cmd = cmd .. " && sleep 0.1"
 
-    local term = T.term:new({
-        id = 0,
-        type = T.types.ENEW,
-        close_on_exit = false,
-        cmd = cmd,
-        startinsert = false,
-        scroll_to_bottom = false,
-        hidden = false,
-        bufname = string.format("git %s", opts.cmd),
-    })
+    T.spawn({ cmd = cmd, bufname = string.format("git %s", opts.cmd) })
+end
 
-    T.create(term)
+local function get_url(opts)
+    local url = ""
+
+    if opts.range > 0 then
+        url = M.url(opts.line1, opts.line2)
+    else
+        url = M.url()
+    end
+
+    vim.print(url)
+
+    return url
 end
 
 M.log = function(filename)
@@ -55,6 +60,35 @@ end
 
 M.show_cur_commit = function()
     exec({ cmd = "show -p --stat HEAD", delta = true })
+end
+
+M.url = function(line1, line2)
+    local remote_and_branch = vim.split(vim.fn.system("git rev-parse --abbrev-ref HEAD@{push}"), "/")
+    local remote, branch = vim.trim(remote_and_branch[1]), vim.trim(remote_and_branch[2])
+
+    local remote_url = vim.fn.system(string.format("git remote get-url %s", remote))
+    remote_url = string.gsub(remote_url, "%.git\n$", "")
+
+    local host = vim.trim(vim.split(remote_url, "@", { trimempty = true })[2])
+    local repo_filepath = vim.trim(vim.fn.system(string.format("git ls-files --full-name %s", UB.cur_buf_abs_path())))
+
+    local url = ""
+    if string.match(host, "github") then
+        url = string.format("https://%s/blob/%s/%s", host, branch, repo_filepath)
+    elseif string.match(host, "gitlab") then
+        host = string.gsub(host, ":", "/")
+        url = string.format("https://%s/-/blob/%s/%s", host, branch, repo_filepath)
+    end
+
+    if line1 then
+        url = string.format("%s#L%s", url, line1)
+    end
+
+    if line2 then
+        url = string.format("%s-L%s", url, line2)
+    end
+
+    return url
 end
 
 M.setup = function()
@@ -94,6 +128,14 @@ M.setup = function()
     vim.api.nvim_create_user_command("GitShowCurCommit", function()
         M.show_cur_commit()
     end, { nargs = 0 })
+
+    vim.api.nvim_create_user_command("GitUrlCopy", function(opts)
+        U.copy_to_clipboard(get_url(opts))
+    end, { range = true })
+
+    vim.api.nvim_create_user_command("GitUrlOpen", function(opts)
+        U.sysopen(get_url(opts))
+    end, { range = true })
 end
 
 return M

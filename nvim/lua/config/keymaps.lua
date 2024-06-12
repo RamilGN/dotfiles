@@ -117,9 +117,7 @@ return {
         map("n", "<leader>q", "<Cmd>copen<CR>", { desc = "Open quick fix list" })
         -- Run commands.
         map({ "n", "v" }, "<leader>ru", ":Run<CR>", { desc = "Run current file" })
-        map("n", "<leader>re", function()
-            vim.cmd(vim.g.last_command)
-        end, { desc = "Last command" })
+        map("n", "<leader>re", "TermRespawn", { desc = "Respawn last term" })
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Open smth.
         map("n", "<leader>oT", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
@@ -184,24 +182,6 @@ return {
     mason = function()
         return {
             { "<leader>pm", "<Cmd>Mason<CR>", desc = "Mason" },
-        }
-    end,
-    spectre = function()
-        return {
-            {
-                "<leader>s",
-                function()
-                    require("spectre").toggle()
-                end,
-                desc = "Search and replace",
-            },
-            {
-                "<leader>S",
-                function()
-                    require("spectre").open_file_search({})
-                end,
-                desc = "Search and replace current file",
-            },
         }
     end,
     markdown_preview = function()
@@ -313,17 +293,13 @@ return {
                 },
                 {
                     "<leader>gyo",
-                    function()
-                        vim.cmd("GBrowse!")
-                        local link = vim.fn.getreg("+")
-                        Util().sysopen(link)
-                    end,
+                    ":GitUrlOpen<CR>",
                     desc = "Git open link",
                     mode = { "n", "v" },
                 },
                 {
                     "<leader>gyy",
-                    ":GBrowse!<CR>",
+                    ":GitUrlCopy<CR>",
                     desc = "Git copy link",
                     mode = { "n", "v" },
                 },
@@ -380,6 +356,7 @@ return {
                         end
                     end,
                 },
+                ["gq"] = "actions.send_to_qflist",
             }
         end,
     },
@@ -646,40 +623,6 @@ return {
                     require("sibling-swap").swap_with_right()
                 end,
                 desc = "Swap node with right",
-            },
-        }
-    end,
-    gpt = function()
-        return {
-            {
-                "<leader>cc",
-                ":GptChatToggle new<CR>",
-                desc = "GPT chat toggle",
-                mode = { "n", "v" },
-            },
-            {
-                "<leader>ca",
-                ":GptChatNew new<CR>",
-                desc = "GPT chat new ",
-                mode = { "n", "v" },
-            },
-            {
-                "<leader>ce",
-                ":GptEnew<CR>",
-                desc = "GPT in buffer",
-                mode = { "n", "v" },
-            },
-            {
-                "<leader>ci",
-                ":GptImplement<CR>",
-                desc = "GPT implement in buffer",
-                mode = { "n", "v" },
-            },
-            {
-                "<leader>cr",
-                ":GptRewrite<CR>",
-                desc = "GPT rewrite in buffer",
-                mode = { "n", "v" },
             },
         }
     end,

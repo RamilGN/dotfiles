@@ -141,6 +141,13 @@ return {
         end,
     },
 
+    -- Highlight word under cursor.
+    {
+        "echasnovski/mini.cursorword",
+        event = { "BufReadPre", "BufNewFile" },
+        opts = {},
+    },
+
     -- Better select UI
     {
         "stevearc/dressing.nvim",

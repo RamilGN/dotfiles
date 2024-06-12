@@ -21,4 +21,8 @@ M.sysopen = function(filename)
     return vim.fn.jobstart(command)
 end
 
+M.copy_to_clipboard = function(text)
+    vim.fn.setreg("+", text)
+end
+
 return M

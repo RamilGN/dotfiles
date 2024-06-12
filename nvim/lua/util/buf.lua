@@ -10,6 +10,10 @@ M.get_buf_byte_size = function(bufnr)
     end
 end
 
+M.cur_buf_abs_path = function()
+    return vim.fn.expand("%")
+end
+
 M.cur_buf_dir_abs_path = function()
     return vim.fn.expand("%:p:h")
 end

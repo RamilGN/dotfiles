@@ -44,23 +44,11 @@ return {
     -- Git aliases.
     {
         "tpope/vim-fugitive",
-        dependencies = {
-            -- Github.
-            { "tpope/vim-rhubarb" },
-            -- Gitlab.
-            {
-                "shumphrey/fugitive-gitlab.vim",
-                config = function()
-                    vim.g.fugitive_gitlab_domains = { "https://gitlab.insalesteam.ru" }
-                end,
-            },
-        },
         keys = require("config.keymaps").git.fugitive,
         cmd = { "G", "Git" },
     },
     {
         "akinsho/git-conflict.nvim",
-        version = "*",
         lazy = true,
     },
 }

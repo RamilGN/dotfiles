@@ -2,31 +2,31 @@ local UtilVisual = require("util.visual")
 local UI = require("term.ui")
 
 --- @class Term
---- @field type string
---- @field id integer
---- @field cmd string
---- @field close_on_exit boolean
---- @field scroll_to_bottom boolean
---- @field startinsert boolean
---- @field hidden boolean
+--- @field buf_id integer
 --- @field bufname string
+--- @field close_on_exit boolean
+--- @field closer fun()
+--- @field cmd string
+--- @field hidden boolean
+--- @field id integer
+--- @field job_id integer
 --- @field open boolean
 --- @field opener fun()
---- @field closer fun()
---- @field job_id integer
---- @field buf_id integer
+--- @field scroll_to_bottom boolean
+--- @field startinsert boolean
+--- @field type string
 --- @field win_id integer
 local Term = {}
 
 --- @class TermNew
---- @field type? string
---- @field id? integer
---- @field cmd? string
+--- @field bufname? string
 --- @field close_on_exit? boolean
+--- @field cmd? string
+--- @field hidden? boolean
+--- @field id? integer
 --- @field scroll_to_bottom? boolean
 --- @field startinsert? boolean
---- @field hidden? boolean
---- @field bufname? string
+--- @field type? string
 
 ---@type Term|nil
 local LastTerminal = nil
@@ -56,42 +56,25 @@ function Term:new(termopts)
     ---@type Term
     --- @diagnostic disable-next-line: missing-fields
     local term = {
-        type = termopts.type,
-        id = termopts.id,
-        cmd = termopts.cmd,
-        close_on_exit = termopts.close_on_exit,
-        scroll_to_bottom = termopts.scroll_to_bottom,
-        startinsert = termopts.startinsert,
+        type = termopts.type or T.types.ENEW,
+        id = termopts.id or 0,
+        cmd = termopts.cmd or vim.o.shell,
+        close_on_exit = termopts.close_on_exit or false,
+        scroll_to_bottom = termopts.scroll_to_bottom or false,
+        startinsert = termopts.startinsert or false,
         bufname = termopts.bufname,
-        hidden = termopts.hidden
+        hidden = termopts.hidden or false,
     }
 
-    if term.type == nil then
-        term.type = T.types.FLOAT
-    end
-
-    if term.id == 0 or term.id == nil then
-        term.id = P.get_next_id(termopts.type)
-    end
-
-    if term.cmd == nil then
-        term.cmd = vim.o.shell
-    end
-
-    if term.close_on_exit == nil then
+    if term.type ~= T.types.ENEW then
         term.close_on_exit = true
-    end
-
-    if term.scroll_to_bottom == nil then
         term.scroll_to_bottom = true
-    end
-
-    if term.startinsert == nil then
         term.startinsert = true
+        term.hidden = true
     end
 
-    if term.hidden == nil then
-        term.hidden = true
+    if term.id == 0 then
+        term.id = P.get_next_id(term.type)
     end
 
     if term.bufname == nil then
