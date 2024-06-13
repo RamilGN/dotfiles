@@ -27,8 +27,13 @@ return {
                     inside_last = "",
                 },
                 custom_textobjects = {
-                    f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-                    c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
+                    f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+                    c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+                    e = { -- word with case
+                        { "%u[%l%d]+%f[^%l%d]", "%f[%S][%l%d]+%f[^%l%d]", "%f[%P][%l%d]+%f[^%l%d]", "^[%l%d]+%f[^%l%d]" },
+                        "^().*()$",
+                    },
+                    d = { "%f[%d]%d+" }, -- digits
                     l = function(operator)
                         local from = nil
                         local to = nil

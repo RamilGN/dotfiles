@@ -117,7 +117,7 @@ return {
         map("n", "<leader>q", "<Cmd>copen<CR>", { desc = "Open quick fix list" })
         -- Run commands.
         map({ "n", "v" }, "<leader>ru", ":Run<CR>", { desc = "Run current file" })
-        map("n", "<leader>re", "TermRespawn", { desc = "Respawn last term" })
+        map("n", "<leader>re", ":TermRespawn<CR>", { desc = "Respawn last term" })
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Open smth.
         map("n", "<leader>oT", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
@@ -193,6 +193,7 @@ return {
         signs = function(buffer)
             local function map(mode, l, r, desc)
                 vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+
             end
             local gs = package.loaded.gitsigns
             -- Blame.
@@ -201,7 +202,24 @@ return {
             end, "Git blame_line")
             -- Hunks.
             local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
-            local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(gs.next_hunk, gs.prev_hunk)
+
+            local next_hunk = function()
+                if vim.wo.diff then
+                    vim.cmd.normal({ "]c", bang = true })
+                else
+                    gs.nav_hunk("next")
+                end
+            end
+
+            local prev_hunk = function()
+                if vim.wo.diff then
+                    vim.cmd.normal({ "[c", bang = true })
+                else
+                    gs.nav_hunk("prev")
+                end
+            end
+
+            local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(next_hunk, prev_hunk)
             map("n", "]g", function()
                 next_hunk_repeat({ preview = true })
             end, "Next Hunk")
@@ -267,7 +285,7 @@ return {
                 },
                 {
                     "<leader>gcm",
-                    "<Cmd>V gcm<CR>",
+                    "<Cmd>T gcm<CR>",
                     desc = "Git checkout master",
                 },
                 {

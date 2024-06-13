@@ -46,6 +46,10 @@ M.setup = function()
         nargs = "?",
         range = true,
     })
+
+    vim.api.nvim_create_user_command("TermRespawn", function(opts)
+        M.respawn()
+    end, { nargs = "?", range = true })
 end
 
 LastSpawnedTerm = nil
