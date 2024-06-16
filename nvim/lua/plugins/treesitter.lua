@@ -168,7 +168,7 @@ return {
             snippet_engine = "luasnip",
             placeholders_hl = "None",
         },
-        keys = require("config.keymaps").neogen(),
+        keys = { "<leader>ln", ":Neogen<CR>", desc = "Annotate" },
     },
     {
         "windwp/nvim-ts-autotag",
@@ -177,7 +177,22 @@ return {
     {
         "Wansmer/sibling-swap.nvim",
         lazy = true,
-        keys = require("config.keymaps").sibling,
+        keys = {
+            {
+                "[a",
+                function()
+                    require("sibling-swap").swap_with_left()
+                end,
+                desc = "Swap node with left",
+            },
+            {
+                "]a",
+                function()
+                    require("sibling-swap").swap_with_right()
+                end,
+                desc = "Swap node with right",
+            },
+        },
         opts = {
             use_default_keymaps = false,
         },

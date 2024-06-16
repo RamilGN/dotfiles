@@ -3,7 +3,24 @@ return {
         "stevearc/conform.nvim",
         event = { "BufWritePre" },
         cmd = "ConformInfo",
-        keys = require("config.keymaps").formatting(),
+        keys = {
+            {
+                "<leader>lf",
+                function()
+                    require("conform").format({ async = true, lsp_fallback = true })
+                end,
+                mode = { "n", "v" },
+                desc = "Format buffer",
+            },
+            {
+                "<leader>lF",
+                function()
+                    require("conform").format({ async = true, formatters = { "injected" } })
+                end,
+                mode = { "n", "v" },
+                desc = "Format Injected Langs",
+            },
+        },
         init = function()
             vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
         end,

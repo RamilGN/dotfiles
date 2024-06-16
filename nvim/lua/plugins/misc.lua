@@ -55,7 +55,7 @@ return {
         build = vim.fn["mkdp#util#install"],
         cmd = "MarkdownPreviewToggle",
         event = { "BufReadPost", "BufNewFile" },
-        keys = require("config.keymaps").markdown_preview,
+        ft = "markdown",
     },
     -- YAML.
     {

@@ -6,7 +6,39 @@ return {
             history = true,
             delete_check_events = "TextChanged",
         },
-        keys = require("config.keymaps").luasnip,
+        keys = {
+            {
+                "<C-f>",
+                function()
+                    return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
+                end,
+                expr = true,
+                silent = true,
+                mode = "i",
+            },
+            {
+                "<C-f>",
+                function()
+                    require("luasnip").jump(1)
+                end,
+                mode = { "s" },
+            },
+            {
+                "<C-d>",
+                function()
+                    require("luasnip").jump(-1)
+                end,
+                mode = { "i", "s" },
+            },
+            {
+                "<BS>",
+                function()
+                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Del>", true, true, true), "x")
+                    require("luasnip").jump(1)
+                end,
+                mode = { "s" },
+            },
+        },
         config = function(_, opts)
             require("luasnip").config.set_config(opts)
             require("luasnip.loaders.from_snipmate").lazy_load()
@@ -23,7 +55,7 @@ return {
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-cmdline" },
             { "saadparwaiz1/cmp_luasnip" },
-            { "hrsh7th/cmp-calc" }
+            { "hrsh7th/cmp-calc" },
         },
         config = function()
             local buf = require("util.buf")
@@ -34,7 +66,7 @@ return {
                 name = "codeium",
                 option = {
                     keyword_pattern = [[\k\+]],
-                }
+                },
             }
 
             local lsp_source = { name = "nvim_lsp" }
@@ -105,14 +137,20 @@ return {
                         require("luasnip").lsp_expand(args.body)
                     end,
                 },
-                mapping = cmp.mapping.preset.insert(k.cmp()),
+                mapping = cmp.mapping.preset.insert({
+                    ["<C-u>"] = cmp.mapping.scroll_docs(-2),
+                    ["<C-d>"] = cmp.mapping.scroll_docs(2),
+                    ["<C-e>"] = cmp.mapping.abort(),
+                    ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+                    ["<S-CR>"] = cmp.mapping.confirm({ select = true }),
+                }),
                 sources = {
                     codeium_source,
                     lsp_source,
                     luasnip_source,
                     buffer_source,
                     path_source,
-                    calc_source
+                    calc_source,
                 },
                 formatting = {
                     format = require("lspkind").cmp_format({

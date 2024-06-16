@@ -2,6 +2,7 @@ local M = { group = nil }
 local P = {}
 
 M.setup = function()
+    P.set_global_keymaps()
     P.create_group()
     P.create_init_autocmd()
 end
@@ -16,7 +17,7 @@ P.create_init_autocmd = function()
         nested = true,
         pattern = "quickfix",
         callback = function(initopts)
-            P.set_keymaps(initopts)
+            P.set_buf_keymaps(initopts)
             -- P.create_write_autocmd(initopts)
             -- P.trigger_write_for_autocmd(initopts)
             -- P.prepare_buffer(initopts)
@@ -24,7 +25,12 @@ P.create_init_autocmd = function()
     })
 end
 
-P.set_keymaps = function(initopts)
+P.set_global_keymaps = function(initopts)
+    vim.keymap.set("n", "<leader>q", "<Cmd>copen<CR>", { desc = "Open quick fix list" })
+end
+
+P.set_buf_keymaps = function(initopts)
+    -- Quickifx list.
     vim.keymap.set("n", "<CR>", "<CR>", { buffer = initopts.buf })
     vim.keymap.set("n", "j", "j<CR><C-W>p", { desc = "Move cursor down and preview entry", buffer = initopts.buf })
     vim.keymap.set("n", "k", "k<CR><C-W>p", { desc = "Move cursor up and preview entry", buffer = initopts.buf })

@@ -30,11 +30,6 @@ return {
             vim.fn.setreg("/", text)
             vim.cmd("set hls")
         end, { desc = "Search word without jumping", silent = true })
-        map("v", "#", function()
-            local text = UtilVisual().get_visual_selection_for_telescope()
-            vim.fn.setreg("/", text)
-            vim.cmd("set hls")
-        end, { desc = "Search word without jumping" })
         -- Turn off highlight.
         map("n", "//", ":nohlsearch<CR>", { desc = "Turn off highlight" })
         -- Better up/down.
@@ -76,7 +71,10 @@ return {
         map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal mode" })
         map("t", "<C-w>c", "<C-\\><C-n><C-w>c", { desc = "Close terminal" })
         map("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Scroll up" })
-        map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Left window" })
+        map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
+        map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
+        map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
+        map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
         map({ "n", "t" }, [[<C-\>]], "<Cmd>TermToggleFloat<CR>")
         map("n", "<leader>ot", "<Cmd>TermToggleVsplit<CR>")
         map({ "n", "v" }, "<C-2>", ":TermSend<CR>")
@@ -101,100 +99,31 @@ return {
         map("n", "yos", "<Cmd>setlocal invspell<CR>", { desc = "Set spelling" })
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
         map("n", "yol", "<Cmd>set invrelativenumber<CR>", { desc = "Toggle relative number" })
-        map("n", "yof", function()
-            UtilBuf().copy_rel_path_to_buffer()
-        end, { desc = "Yank file path" })
-        map("n", "yoF", function()
-            UtilBuf().copy_rel_path_line_to_buffer()
-        end, { desc = "Yank file path with line" })
+        map("n", "yof", UtilBuf().copy_rel_path_to_buffer, { desc = "Yank file path" })
+        map("n", "yoF", UtilBuf().copy_rel_path_line_to_buffer, { desc = "Yank file path with line" })
         -- Prev action.
-        map("n", "[b", "<C-^>", { desc = "Last buffer" })
-        map("n", "[t", "<Cmd>tabprevious<CR>", { desc = "Prev tab" })
-        map("n", "[q", "<Cmd>cprev<CR>", { desc = "Prev item in qf" })
-        -- Next action.
-        map("n", "]b", "<Cmd>bnext<CR>", { desc = "Next buffer" })
-        map("n", "]t", "<Cmd>tabnext<CR>", { desc = "Next tab" })
-        -- Quickifx list.
-        map("n", "<leader>q", "<Cmd>copen<CR>", { desc = "Open quick fix list" })
+        map("n", "[b", ":bprev<CR>", { desc = "Prev buffer" })
+        map("n", "]b", ":bnext<CR>", { desc = "Next buffer" })
         -- Run commands.
         map({ "n", "v" }, "<leader>ru", ":Run<CR>", { desc = "Run current file" })
         map("n", "<leader>re", ":TermRespawn<CR>", { desc = "Respawn last term" })
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
-        -- Open smth.
-        map("n", "<leader>oT", "<Cmd>$tabnew %<CR>", { desc = "Open tab for current buffer" })
         -- Spacing.
         map("n", "]<leader>", "<Cmd>norm i <CR>l", { desc = "Next buffer" })
-        map("n", "[<leader>", "<Cmd>norm <CR> h", { desc = "Next tab" })
+        map("n", "[<leader>", "<Cmd>norm x <CR>hvp", { desc = "Next tab" })
         -- Mind.
         map("n", "<leader>mt", "<Cmd>e ~/mind/todo/current.md<CR>", { desc = "Open todo in mind" })
         map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/mind<CR>", { desc = "Find files in mind" })
         map("n", "<leader>ms", "<Cmd>Telescope live_grep cwd=~/mind<CR>", { desc = "Live grep in mind" })
         -- Language specific
-        -- go
         map("n", "<leader>ng", function()
             vim.cmd("e ~/workspace/scratch/main.go")
         end, { desc = "Scratch" })
-    end,
-    luasnip = function()
-        return {
-            {
-                "<C-f>",
-                function()
-                    return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-                end,
-                expr = true,
-                silent = true,
-                mode = "i",
-            },
-            {
-                "<C-f>",
-                function()
-                    require("luasnip").jump(1)
-                end,
-                mode = { "s" },
-            },
-            {
-                "<C-d>",
-                function()
-                    require("luasnip").jump(-1)
-                end,
-                mode = { "i", "s" },
-            },
-            {
-                "<BS>",
-                function()
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Del>", true, true, true), "x")
-                    require("luasnip").jump(1)
-                end,
-                mode = { "s" },
-            },
-        }
-    end,
-    cmp = function()
-        local cmp = require("cmp")
-        return {
-            ["<C-u>"] = cmp.mapping.scroll_docs(-2),
-            ["<C-d>"] = cmp.mapping.scroll_docs(2),
-            ["<C-e>"] = cmp.mapping.abort(),
-            ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-            ["<S-CR>"] = cmp.mapping.confirm({ select = true }),
-        }
-    end,
-    mason = function()
-        return {
-            { "<leader>pm", "<Cmd>Mason<CR>", desc = "Mason" },
-        }
-    end,
-    markdown_preview = function()
-        return {
-            { "<leader>om", "<Cmd>MarkdownPreviewToggle<CR>", desc = "Toggle markdown preview" },
-        }
     end,
     git = {
         signs = function(buffer)
             local function map(mode, l, r, desc)
                 vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-
             end
             local gs = package.loaded.gitsigns
             -- Blame.
@@ -379,11 +308,6 @@ return {
             }
         end,
     },
-    neogen = function()
-        return {
-            { "<leader>ln", ":Neogen<CR>", desc = "Annotate" },
-        }
-    end,
     telescope = function()
         local t = function()
             return require("telescope.builtin")
@@ -585,63 +509,6 @@ return {
                 "<leader>ou",
                 "<Cmd>Telescope undo<CR>",
                 desc = "Undo history",
-            },
-        }
-    end,
-    lsp = function(buffer, _)
-        local function map(mode, l, r, desc)
-            vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-        end
-
-        map("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>", "LSP document symbols")
-        map("n", "<leader>li", "<Cmd>LspInfo<CR>", "Lsp info")
-        map("n", "<leader>lr", vim.lsp.buf.rename, "Rename")
-        map("n", "<leader>lw", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", "Workspace symbols")
-        map("n", "<leader>lx", "<Cmd>LspRestart<CR>", "Lsp restart")
-        map("n", "K", vim.lsp.buf.hover, "Hover")
-        map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
-        map("n", "gI", "<Cmd>Telescope lsp_implementations<CR>", "Go to Implementation")
-        map("n", "gK", vim.lsp.buf.signature_help, "Signature Help")
-        map("n", "gd", "<Cmd>Telescope lsp_definitions<CR>", "Go to definition")
-        map("n", "gr", "<Cmd>Telescope lsp_references<CR>", "Show references")
-        map("n", "gy", "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition")
-        map({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, "Code actions")
-    end,
-    formatting = function()
-        return {
-            {
-                "<leader>lf",
-                function()
-                    require("conform").format({ async = true, lsp_fallback = true })
-                end,
-                mode = { "n", "v" },
-                desc = "Format buffer",
-            },
-            {
-                "<leader>lF",
-                function()
-                    require("conform").format({ async = true, formatters = { "injected" } })
-                end,
-                mode = { "n", "v" },
-                desc = "Format Injected Langs",
-            },
-        }
-    end,
-    sibling = function()
-        return {
-            {
-                "[a",
-                function()
-                    require("sibling-swap").swap_with_left()
-                end,
-                desc = "Swap node with left",
-            },
-            {
-                "]a",
-                function()
-                    require("sibling-swap").swap_with_right()
-                end,
-                desc = "Swap node with right",
             },
         }
     end,

@@ -29,7 +29,6 @@ return {
                     })
                 end,
                 cmd = "Mason",
-                keys = require("config.keymaps").mason(),
             },
             { "williamboman/mason-lspconfig.nvim" },
             -- JSON schemas
@@ -55,8 +54,24 @@ return {
             },
 
             on_attach = function(client, bufnr)
-                local k = require("config.keymaps")
-                k.lsp(bufnr, client)
+                local function map(mode, l, r, desc)
+                    vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
+                end
+
+                map("n", "<C-q>", "<Cmd>Telescope lsp_document_symbols<CR>", "LSP document symbols")
+                map("n", "<leader>li", "<Cmd>LspInfo<CR>", "Lsp info")
+                map("n", "<leader>lr", vim.lsp.buf.rename, "Rename")
+                map("n", "<leader>lw", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", "Workspace symbols")
+                map("n", "<leader>lx", "<Cmd>LspRestart<CR>", "Lsp restart")
+                map("n", "K", vim.lsp.buf.hover, "Hover")
+                map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
+                map("n", "gI", "<Cmd>Telescope lsp_implementations<CR>", "Go to Implementation")
+                map("n", "gK", vim.lsp.buf.signature_help, "Signature Help")
+                map("n", "gd", "<Cmd>Telescope lsp_definitions<CR>", "Go to definition")
+                map("n", "gr", "<Cmd>Telescope lsp_references<CR>", "Show references")
+                map("n", "gy", "<Cmd>Telescope lsp_type_definitions<CR>", "Go to Type Definition")
+                map({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, "Code actions")
+
                 -- if not vim.lsp.inlay_hint.is_enabled() then
                 --     vim.lsp.inlay_hint.enable()
                 -- end
