@@ -80,8 +80,7 @@ return {
         priority = 1001,
     },
     -- Modifiable qf.
-    {
-        "stefandtw/quickfix-reflector.vim",
-        ft = "qf",
-    },
+    { "stefandtw/quickfix-reflector.vim", ft = "qf" },
+    -- Neovim dev.
+    { "folke/lazydev.nvim", ft = "lua", opts = {} },
 }

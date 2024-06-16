@@ -15,6 +15,7 @@ return {
                 delete = { hl = "GitSignsDelete", text = "┃" },
                 topdelete = { hl = "GitSignsDelete", text = "┃" },
             },
+            signs_staged_enable = false,
             on_attach = function(buffer)
                 local k = require("config.keymaps")
                 k.git.signs(buffer)

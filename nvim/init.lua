@@ -26,7 +26,7 @@ local core = {
         require("git").setup()
         require("term").setup()
         require("runner").setup()
-        -- require("qf").setup()
+        require("qf").setup()
     end,
 }
 

@@ -13,6 +13,7 @@ end
 return {
     core = function()
         local map = vim.keymap.set
+        map("n", "<leader>w", "<CMD>w!<CR>", { desc = "Move up" })
         -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
         map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next search result" })
         map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })

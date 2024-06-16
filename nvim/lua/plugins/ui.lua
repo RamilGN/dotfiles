@@ -236,6 +236,4 @@ return {
     { "onsails/lspkind.nvim", lazy = true },
     -- Displaying icons.
     { "nvim-tree/nvim-web-devicons", lazy = true },
-    -- UI components.
-    { "MunifTanjim/nui.nvim", lazy = true },
 }

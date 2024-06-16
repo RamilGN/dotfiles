@@ -3,7 +3,6 @@ return {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
-            { "folke/neodev.nvim", opts = {} },
             -- Package manager
             {
                 "williamboman/mason.nvim",
@@ -89,9 +88,6 @@ return {
                     options.on_attach = function(client, bufnr)
                         opts.on_attach(client, bufnr)
                     end
-                end,
-                lua_ls = function(_, _)
-                    require("neodev").setup()
                 end,
                 gopls = function(options)
                     options.settings = {
