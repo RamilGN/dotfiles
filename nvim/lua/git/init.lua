@@ -136,6 +136,10 @@ M.setup = function()
     vim.api.nvim_create_user_command("GitUrlOpen", function(opts)
         U.sysopen(get_url(opts))
     end, { range = true })
+
+    vim.keymap.set({ "n", "v" }, "<leader>gll", ":GitLogCurrentFile<CR>", { desc = "Git log currrent file" })
+    vim.keymap.set("n", "<leader>glg", "<Cmd>GitLogGlobalP<CR>", { desc = "Git log global" })
+    vim.keymap.set("n", "<leader>gii", "<Cmd>GitShow<CR>", { desc = "Git show" })
 end
 
 return M

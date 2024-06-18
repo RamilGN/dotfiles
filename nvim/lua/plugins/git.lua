@@ -7,6 +7,7 @@ return {
             max_file_length = 50000,
             attach_to_untracked = true,
             sign_priority = 100,
+            signs_staged_enable = false,
             signs = {
                 add = { hl = "GitSignsAdd", text = "┃" },
                 untracked = { hl = "GitSignsAdd", text = "┃" },

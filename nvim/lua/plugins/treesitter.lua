@@ -168,7 +168,8 @@ return {
             snippet_engine = "luasnip",
             placeholders_hl = "None",
         },
-        keys = { "<leader>ln", ":Neogen<CR>", desc = "Annotate" },
+        cmd = "Neogen",
+        keys = { { "<leader>ln", ":Neogen<CR>", desc = "Annotate" } },
     },
     {
         "windwp/nvim-ts-autotag",

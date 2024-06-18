@@ -71,10 +71,6 @@ return {
         map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal mode" })
         map("t", "<C-w>c", "<C-\\><C-n><C-w>c", { desc = "Close terminal" })
         map("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Scroll up" })
-        map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
-        map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
-        map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
-        map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
         map({ "n", "t" }, [[<C-\>]], "<Cmd>TermToggleFloat<CR>")
         map("n", "<leader>ot", "<Cmd>TermToggleVsplit<CR>")
         map({ "n", "v" }, "<C-2>", ":TermSend<CR>")
@@ -91,10 +87,6 @@ return {
         map("n", "<C-Down>", "<Cmd>resize +2<CR>", { desc = "Resize horiz+" })
         map("n", "<C-Left>", "<Cmd>vertical resize -2<CR>", { desc = "Resize vert-" })
         map("n", "<C-Right>", "<Cmd>vertical resize +2<CR>", { desc = "Resize vert+" })
-        -- Git.
-        map({ "n", "v" }, "<leader>gll", ":GitLogCurrentFile<CR>", { desc = "Git log currrent file" })
-        map("n", "<leader>glg", "<Cmd>GitLogGlobalP<CR>", { desc = "Git log global" })
-        map("n", "<leader>gii", "<Cmd>GitShow<CR>", { desc = "Git show" })
         -- Set options and misc.
         map("n", "yos", "<Cmd>setlocal invspell<CR>", { desc = "Set spelling" })
         map("n", "yoc", "<Cmd>SetColorColumn<CR>", { desc = "Set vert limit bar" })
@@ -112,9 +104,9 @@ return {
         map("n", "]<leader>", "<Cmd>norm i <CR>l", { desc = "Next buffer" })
         map("n", "[<leader>", "<Cmd>norm x <CR>hvp", { desc = "Next tab" })
         -- Mind.
-        map("n", "<leader>mt", "<Cmd>e ~/mind/todo/current.md<CR>", { desc = "Open todo in mind" })
-        map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/mind<CR>", { desc = "Find files in mind" })
-        map("n", "<leader>ms", "<Cmd>Telescope live_grep cwd=~/mind<CR>", { desc = "Live grep in mind" })
+        -- map("n", "<leader>mt", "<Cmd>e ~/mind/todo/current.md<CR>", { desc = "Open todo in mind" })
+        -- map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/mind<CR>", { desc = "Find files in mind" })
+        -- map("n", "<leader>ms", "<Cmd>Telescope live_grep cwd=~/mind<CR>", { desc = "Live grep in mind" })
         -- Language specific
         map("n", "<leader>ng", function()
             vim.cmd("e ~/workspace/scratch/main.go")
