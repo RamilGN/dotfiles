@@ -31,11 +31,26 @@ end
 
 P.set_buf_keymaps = function(initopts)
     -- Quickifx list.
-    vim.keymap.set("n", "<CR>", "<CR>", { buffer = initopts.buf })
-    vim.keymap.set("n", "j", "j<CR><C-W>p", { desc = "Move cursor down and preview entry", buffer = initopts.buf })
-    vim.keymap.set("n", "k", "k<CR><C-W>p", { desc = "Move cursor up and preview entry", buffer = initopts.buf })
-    vim.keymap.set("n", "<C-u>", "<C-u><CR><C-W>p", { desc = "Move cursor up and preview entry", buffer = initopts.buf })
-    vim.keymap.set("n", "<C-d>", "<C-d><CR><C-W>p", { desc = "Move cursor down and preview entry", buffer = initopts.buf })
+    local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
+    local next_qf_repeat, prev_qf_repeat = tsrm.make_repeatable_move_pair(function()
+        local ok, _, _ = pcall(vim.cmd.cnext)
+
+        if ok then
+            return
+        else
+            pcall(vim.cmd.cfirst)
+        end
+    end, function()
+        local ok, _, _ = pcall(vim.cmd.cprevious)
+        if ok then
+            return
+        else
+            pcall(vim.cmd.clast)
+        end
+    end)
+    vim.keymap.set("n", "]q", next_qf_repeat, { desc = "Next qf" })
+    vim.keymap.set("n", "[q", prev_qf_repeat, { desc = "Prev qf" })
+    vim.keymap.set("n", "<CR>", "<CR><C-W>p", { buffer = initopts.buf })
 end
 
 P.create_write_autocmd = function(initopts)

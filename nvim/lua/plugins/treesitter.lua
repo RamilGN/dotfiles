@@ -132,24 +132,6 @@ return {
             vim.keymap.set("n", "]d", next_diag_repeat, { desc = "Next diag error" })
             vim.keymap.set("n", "[d", prev_diag_repeat, { desc = "Prev diag error" })
 
-            local next_qf_repeat, prev_qf_repeat = tsrm.make_repeatable_move_pair(function()
-                local ok, _, _ = pcall(vim.cmd.cnext)
-
-                if ok then
-                    return
-                else
-                    pcall(vim.cmd.cfirst)
-                end
-            end, function()
-                local ok, _, _ = pcall(vim.cmd.cprevious)
-                if ok then
-                    return
-                else
-                    pcall(vim.cmd.clast)
-                end
-            end)
-            vim.keymap.set("n", "]q", next_qf_repeat, { desc = "Next qf" })
-            vim.keymap.set("n", "[q", prev_qf_repeat, { desc = "Prev qf" })
 
             vim.api.nvim_create_autocmd("BufReadPost", {
                 callback = function(event)

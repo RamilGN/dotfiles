@@ -37,7 +37,21 @@ return {
     {
         "stevearc/oil.nvim",
         lazy = false,
-        keys = require("config.keymaps").oil.keys(),
+        keys = {
+            {
+                "<C-Space>",
+                function()
+                    local open = require("oil").open
+                    if vim.bo.filetype == "fugitive" then
+                        open(".")
+                    else
+                        open()
+                    end
+                end,
+                desc = "Open file explorer",
+                mode = { "t", "n" },
+            },
+        },
         dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {
             delete_to_trash = true,
@@ -46,7 +60,39 @@ return {
             view_options = {
                 show_hidden = true,
             },
-            keymaps = require("config.keymaps").oil.explorer(),
+            keymaps = {
+                ["~"] = false,
+                ["<C-l>"] = false,
+                ["<C-s>"] = false,
+                ["<C-h>"] = false,
+                ["g~"] = {
+                    desc = "Go to home",
+                    callback = function()
+                        vim.cmd("edit $HOME")
+                    end,
+                },
+                ["<C-Space>"] = "actions.close",
+                ["gr"] = "actions.refresh",
+                ["gv"] = "actions.select_vsplit",
+                ["gc"] = "actions.change_sort",
+                ["gs"] = "actions.select_split",
+                ["g."] = "actions.open_cmdline",
+                ["gh"] = "actions.toggle_hidden",
+                ["gx"] = "actions.open_external",
+                ["gd"] = {
+                    desc = "Toggle detail view",
+                    callback = function()
+                        local oil = require("oil")
+                        local config = require("oil.config")
+                        if #config.columns == 1 then
+                            oil.set_columns({ "icon", "permissions", "size", "mtime" })
+                        else
+                            oil.set_columns({ "icon" })
+                        end
+                    end,
+                },
+                ["gq"] = "actions.send_to_qflist",
+            },
         },
     },
     -- Markdown.
