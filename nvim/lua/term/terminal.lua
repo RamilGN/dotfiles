@@ -236,7 +236,13 @@ P.get_lines_for_send = function(mode, cmd)
     local lines = {}
 
     if mode == T.line_modes.LINE then
-        lines = { vim.api.nvim_get_current_line() }
+        local line = vim.api.nvim_get_current_line()
+
+        if vim.bo.filetype == "ruby" then
+            line = line:gsub("^%s*#", "", 1)
+        end
+
+        lines = { line }
     elseif mode == T.line_modes.LINES then
         lines = UtilVisual.get_visual_selection_lines()
     else

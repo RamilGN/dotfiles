@@ -50,6 +50,22 @@ M.setup = function()
     vim.api.nvim_create_user_command("TermRespawn", function(opts)
         M.respawn()
     end, { nargs = "?", range = true })
+
+    vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Normal mode" })
+    vim.keymap.set("t", "<C-w>c", "<C-\\><C-n><C-w>c", { desc = "Close terminal" })
+    vim.keymap.set("t", "<C-u>", "<C-\\><C-n><C-u>", { desc = "Scroll up" })
+    vim.keymap.set({ "n", "t" }, [[<C-\>]], "<Cmd>TermToggleFloat<CR>")
+    vim.keymap.set("n", "<leader>ot", "<Cmd>TermToggleVsplit<CR>")
+    vim.keymap.set({ "n", "v" }, "<C-2>", ":TermSend<CR>")
+    vim.keymap.set("n", "<C-3>", "<Cmd>TermSend q<CR>")
+    vim.keymap.set("n", "<C-->", "<Cmd>TermSend <Up><CR>")
+    vim.keymap.set("n", "<C-=>", "<Cmd>TermSend <Down><CR>")
+    vim.keymap.set("n", "<C-0>", "<Cmd>TermSend <CR>")
+    vim.keymap.set("n", "<leader>re", ":TermRespawn<CR>", { desc = "Respawn last term" })
+    vim.keymap.set("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
+    vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
+    -- vim.keymap.set("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
+    -- vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
 end
 
 LastSpawnedTerm = nil

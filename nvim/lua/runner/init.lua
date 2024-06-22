@@ -62,10 +62,10 @@ M.run = function(cmd_args)
 end
 
 M.setup = function()
-    -- Run current file
     vim.api.nvim_create_user_command("Run", function(opts)
         M.run(opts)
     end, { nargs = "*", range = true })
+    vim.keymap.set({ "n", "v" }, "<leader>ru", ":Run<CR>", { desc = "Run current file" })
 end
 
 return M

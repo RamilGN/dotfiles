@@ -132,7 +132,6 @@ return {
             vim.keymap.set("n", "]d", next_diag_repeat, { desc = "Next diag error" })
             vim.keymap.set("n", "[d", prev_diag_repeat, { desc = "Prev diag error" })
 
-
             vim.api.nvim_create_autocmd("BufReadPost", {
                 callback = function(event)
                     if vim.wo.diff then

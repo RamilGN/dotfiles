@@ -9,16 +9,52 @@ return {
             sign_priority = 100,
             signs_staged_enable = false,
             signs = {
-                add = { hl = "GitSignsAdd", text = "┃" },
-                untracked = { hl = "GitSignsAdd", text = "┃" },
-                change = { hl = "GitSignsChange", text = "┃" },
-                changedelete = { hl = "GitSignsChange", text = "┃" },
-                delete = { hl = "GitSignsDelete", text = "┃" },
-                topdelete = { hl = "GitSignsDelete", text = "┃" },
+                add = { text = "┃" },
+                untracked = { text = "┃" },
+                change = { text = "┃" },
+                changedelete = { text = "┃" },
+                delete = { text = "┃" },
+                topdelete = { text = "┃" },
             },
             on_attach = function(buffer)
-                local k = require("config.keymaps")
-                k.git.signs(buffer)
+                local function map(mode, l, r, desc)
+                    vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+                end
+
+                local gs = package.loaded.gitsigns
+                local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
+                local next_hunk = function()
+                    if vim.wo.diff then
+                        vim.cmd.normal({ "]c", bang = true })
+                    else
+                        gs.nav_hunk("next")
+                    end
+                end
+                local prev_hunk = function()
+                    if vim.wo.diff then
+                        vim.cmd.normal({ "[c", bang = true })
+                    else
+                        gs.nav_hunk("prev")
+                    end
+                end
+                local next_hunk_repeat, prev_hunk_repeat = tsrm.make_repeatable_move_pair(next_hunk, prev_hunk)
+
+                map("n", "]g", function()
+                    next_hunk_repeat({ preview = true })
+                end, "Next Hunk")
+                map("n", "[g", function()
+                    prev_hunk_repeat({ preview = true })
+                end, "Prev Hunk")
+                map("n", "H", "<Cmd>Gitsigns preview_hunk<CR>", "Git preview hunk")
+                map({ "n", "v" }, "<leader>gs", ":Gitsigns stage_hunk<CR>", "Git stage hunk")
+                map("n", "<leader>gS", "<Cmd>Gitsigns stage_buffer<CR>", "Git stage buffer")
+                map({ "n", "v" }, "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", "Git reset hunk")
+                map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", "Git reset buffer")
+                map({ "n", "v" }, "<leader>gu", "<Cmd>Gitsigns undo_stage_hunk<CR>", "Git undo stage hunk")
+                map("n", "<leader>gd", "<Cmd>Gitsigns diffthis<CR>", "Diff")
+                map("n", "<leader>gb", function()
+                    gs.blame_line({ full = true })
+                end, "Git blame_line")
             end,
         },
         config = function(_, opts)
