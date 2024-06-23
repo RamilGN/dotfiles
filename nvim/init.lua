@@ -1,4 +1,4 @@
-local core = {
+require("config").setup({
     bootstrap_package_manager = function()
         local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
         if not vim.loop.fs_stat(lazypath) then
@@ -28,6 +28,4 @@ local core = {
         require("runner").setup()
         require("qf").setup()
     end,
-}
-
-require("config").setup(core)
+})
