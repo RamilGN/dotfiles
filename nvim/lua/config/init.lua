@@ -4,7 +4,6 @@ return {
         require("config.options").setup()
         require("config.keymaps").core()
         require("config.autocommands").setup()
-        require("config.commands").setup()
         core.setup()
     end,
 }

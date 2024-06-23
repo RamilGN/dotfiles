@@ -74,6 +74,22 @@ return {
                     desc = "Live grep",
                     mode = "v",
                 },
+                {
+                    "gw",
+                    function()
+                        t().live_grep({ default_text = vim.fn.expand("<cword>") })
+                    end,
+                    desc = "Live grep",
+                    mode = "n",
+                },
+                {
+                    "gW",
+                    function()
+                        t().live_grep({ default_text = vim.fn.expand("<cWORD>") })
+                    end,
+                    desc = "Live grep",
+                    mode = "n",
+                },
                 { "<C-;>", "<Cmd>Telescope command_history<CR>", desc = "Command history" },
                 -- Git
                 { "<C-g>", "<Cmd>silent! Telescope git_status<CR>", desc = "Git status" },
@@ -185,6 +201,17 @@ return {
 
             telescope.setup({
                 defaults = {
+                    layout_strategy = "vertical",
+                    layout_config = {
+                        vertical = {
+                            width = function()
+                                return vim.o.columns
+                            end,
+                            height = function()
+                                return vim.o.lines
+                            end,
+                        },
+                    },
                     wrap_results = true,
                     vimgrep_arguments = vimgrep_arguments,
                     mappings = {
@@ -206,7 +233,6 @@ return {
                         glob_pattern = { "!vendor" },
                     },
                     buffers = {
-                        theme = "dropdown",
                         sorting_strategy = "ascending",
                         ignore_current_buffer = true,
                         sort_mru = true,
@@ -218,7 +244,6 @@ return {
                         },
                     },
                     git_branches = {
-                        theme = "dropdown",
                         previewer = false,
                     },
                     git_status = {
@@ -227,12 +252,21 @@ return {
                     git_stash = {
                         previewer = git_stash_previewer,
                     },
+                    lsp_dynamic_workspace_symbols = {
+                        fname_width = 0.4,
+                        symbol_width = 0.4,
+                        symbol_type_width = 0.2
+                    },
+
                     lsp_workspace_symbols = {
-                        symbol_width = 65,
+                        fname_width = 0.4,
+                        symbol_width = 0.4,
+                        symbol_type_width = 0.2
                     },
                     lsp_document_symbols = {
-                        symbol_width = 45,
-                        theme = "dropdown",
+                        fname_width = 0.4,
+                        symbol_width = 0.4,
+                        symbol_type_width = 0.2
                     },
                 },
                 extensions = {

@@ -63,7 +63,7 @@ M.setup = function()
     vim.keymap.set("n", "<C-0>", "<Cmd>TermSend <CR>")
     vim.keymap.set("n", "<leader>re", ":TermRespawn<CR>", { desc = "Respawn last term" })
     vim.keymap.set("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
-    vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
+    -- vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
     -- vim.keymap.set("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
     -- vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
 end

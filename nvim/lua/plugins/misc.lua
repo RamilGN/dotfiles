@@ -112,7 +112,7 @@ return {
             "nvim-telescope/telescope.nvim",
         },
         keys = require("config.keymaps").yaml,
-        cmd = { "YAMLTelescope" },
+        cmd = { "YAMLTelescope", "YAMLView", "YAMLYank", "YAMLYankKey", "YAMLYankValue", "YAMLQuickfix" },
     },
     -- Flat nvim sessions.
     {

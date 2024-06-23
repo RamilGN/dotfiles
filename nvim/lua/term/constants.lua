@@ -9,7 +9,7 @@ local M = {
         LINES = "lines",
     },
     kitty = {
-        columns = 91,
+        columns = 85,
         cmd = "kitty @ send-text --match neighbor:right",
     },
     AUGROUP = vim.api.nvim_create_augroup("Term", { clear = true }),

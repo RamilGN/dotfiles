@@ -29,7 +29,7 @@ return {
         vim.opt.smartindent = true -- Smart indent
         vim.opt.spelllang = { "en", "ru" } -- Spell dictionaries
         vim.opt.splitbelow = true -- Horizontal split below
-        vim.opt.inccommand = 'split'
+        vim.opt.inccommand = "split"
         vim.opt.splitright = true -- Vertical split right
         vim.opt.swapfile = false -- Swap file off
         vim.opt.tabstop = 4 -- Number of spaces that tab counts for
