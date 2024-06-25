@@ -6,10 +6,7 @@ return {
         build = ":TSUpdate",
         dependencies = {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
-            {
-                "nvim-treesitter/nvim-treesitter-context",
-                opts = { mode = "cursor" },
-            },
+            { "nvim-treesitter/nvim-treesitter-context", opts = { mode = "cursor" } },
             { "RRethy/nvim-treesitter-endwise" },
         },
         config = function()
@@ -113,6 +110,7 @@ return {
                 require("treesitter-context").go_to_context()
             end, function() end)
             vim.keymap.set("n", "[z", go_to_context, { desc = "Go to context" })
+
             vim.keymap.set({ "n", "x", "o" }, ";", tsrm.repeat_last_move)
             vim.keymap.set({ "n", "x", "o" }, ",", tsrm.repeat_last_move_opposite)
             vim.keymap.set({ "n", "x", "o" }, "f", tsrm.builtin_f_expr, { expr = true })
@@ -131,16 +129,6 @@ return {
             local next_diag_repeat, prev_diag_repeat = tsrm.make_repeatable_move_pair(vim.diagnostic.goto_next, vim.diagnostic.goto_prev)
             vim.keymap.set("n", "]d", next_diag_repeat, { desc = "Next diag error" })
             vim.keymap.set("n", "[d", prev_diag_repeat, { desc = "Prev diag error" })
-
-            vim.api.nvim_create_autocmd("BufReadPost", {
-                callback = function(event)
-                    if vim.wo.diff then
-                        for _, key in ipairs({ "[c", "]c", "[C", "]C" }) do
-                            pcall(vim.keymap.del, "n", key, { buffer = event.buf })
-                        end
-                    end
-                end,
-            })
         end,
     },
     {
