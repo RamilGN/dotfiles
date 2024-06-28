@@ -7,6 +7,7 @@ local UI = require("term.ui")
 --- @field close_on_exit boolean
 --- @field closer fun()
 --- @field cmd string
+--- @field cwd string
 --- @field hidden boolean
 --- @field id integer
 --- @field job_id integer
@@ -22,6 +23,7 @@ local Term = {}
 --- @field bufname? string
 --- @field close_on_exit? boolean
 --- @field cmd? string
+--- @field cwd? string
 --- @field hidden? boolean
 --- @field id? integer
 --- @field scroll_to_bottom? boolean
@@ -59,6 +61,7 @@ function Term:new(termopts)
         type = termopts.type or T.types.ENEW,
         id = termopts.id or 0,
         cmd = termopts.cmd or vim.o.shell,
+        cwd = termopts.cwd or vim.uv.cwd(),
         close_on_exit = termopts.close_on_exit or false,
         scroll_to_bottom = termopts.scroll_to_bottom or false,
         startinsert = termopts.startinsert or false,
@@ -264,7 +267,7 @@ P.start = function(term)
     P.startinstert(term)
 
     term.job_id = vim.fn.termopen(cmd, {
-        cwd = vim.loop.cwd(),
+        cwd = term.cwd,
         on_stdout = function()
             if term.scroll_to_bottom ~= true then
                 return

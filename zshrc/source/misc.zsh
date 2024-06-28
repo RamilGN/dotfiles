@@ -45,13 +45,6 @@ function trans() {
     just-translate-cli -l1=ru -l2=en -t="$*"
 }
 
-# function translate-and-notify() {
-#     SELECTION=$(xclip -out -selection primary)
-#     TRANSLATION=$(trans $SELECTION)
-#     notify-send --icon=info "$SELECTION" "$TRANSLATION"
-# }
-
-alias vpn="ruby ~/dotfiles/scripts/vpn/main.rb"
 alias gpt="ruby ~/dotfiles/scripts/gpt/main.rb"
 
 # postgres
@@ -62,14 +55,8 @@ alias pg-console='psql postgresql://postgres:postgres@localhost:5432'
 alias cdfc='cd $(find * -type d | fzf)'
 alias cdfh='cd $(find ~ -type d | fzf)'
 
-# rails
-alias rails_load_fixtures='xclipsel "RAILS_ENV=test FIXTURES_PATH="spec/fixtures" bin/rails db:fixtures:load"'
-
 # ngrok
 alias ngrok_host_header_rewrite='xclipsel "ngrok http --host-header=rewrite my.site.io:80"'
-
-# nvim/ruby/solargraph
-alias ruby_load_gems_for_solargraph_to_nvim='GEM_HOME="$HOME/.local/share/nvim/mason/packages/solargraph" GEM_PATH="$HOME/.local/share/nvim/mason/packages/solargraph" bundle'
 
 # kubectl get all running pods
 alias kubectl="tsh kubectl"
@@ -81,3 +68,11 @@ function kubectl_exec_it {
     POD=$(echo "$KUBE_LINE" | awk '{print $2}')
     [ ! -z "$POD" ] && kubectl exec --stdin --tty -n $NAMESPACE $POD -- $@
 }
+
+alias cert_read="openssl x509 -noout -text -in cert.cer"
+
+# rails
+alias rails_load_fixtures='xclipsel "RAILS_ENV=test FIXTURES_PATH="spec/fixtures" bin/rails db:fixtures:load"'
+
+# nvim/ruby/solargraph
+alias ruby_load_gems_for_solargraph_to_nvim='GEM_HOME="$HOME/.local/share/nvim/mason/packages/solargraph" GEM_PATH="$HOME/.local/share/nvim/mason/packages/solargraph" bundle'

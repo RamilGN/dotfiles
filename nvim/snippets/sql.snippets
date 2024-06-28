@@ -27,3 +27,12 @@ snippet !pg_show_tr_iso_def
 
 snippet !pg_copy
   \COPY (${0:sql}) TO '~/data.csv' WITH DELIMITER ',' CSV HEADER;
+
+snippet last
+  SELECT ${0:*} FROM ${1:tablename} ORDER BY ${2:id} DESC LIMIT 1;
+
+snippet first
+  SELECT ${0:*} FROM ${1:tablename} ORDER BY ${2:id} ASC LIMIT 1;
+
+snippet all
+  SELECT ${0:*} FROM ${1:tablename};

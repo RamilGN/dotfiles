@@ -35,14 +35,18 @@ M.ts_funcdecl = function()
 end
 
 M.run = function(opts)
+    local cmd = ""
+    local curbufdirabspath = Util.cur_buf_dir_abs_path()
+
     local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
     if prefix then
-        local curbufdirabspath = Util.cur_buf_dir_abs_path()
         local teststr = M.teststr(opts.selected)
-        Term.spawn({ cmd = [[go test -v -race -cover -count=1 -benchmem -bench=.]] .. teststr .. curbufdirabspath })
+        cmd = [[go test -v -race -cover -count=1 -benchmem -bench=.]] .. teststr .. curbufdirabspath
     else
-        Term.spawn({ cmd = "go run " .. opts.current_buffer })
+        cmd = "go run " .. opts.current_buffer
     end
+
+    Term.spawn({ cmd = cmd, cwd = curbufdirabspath, bufname = cmd })
 end
 
 M.yookassa_test = function(opts)
@@ -52,13 +56,13 @@ M.yookassa_test = function(opts)
         local curbufrelpath = Util.get_cur_buf_dir_rel_path()
 
         local teststr = M.teststr(opts.selected)
-        Term.spawn({
-            cmd = [[docker exec -it yookassa sh -c 'ENV_PATH=/app/configs/.test.env go test -v -cover -count=1 -benchmem -bench=.]]
-                .. teststr
-                .. [[/app/]]
-                .. curbufrelpath
-                .. [[']],
-        })
+        local cmd = [[docker exec -it yookassa sh -c 'ENV_PATH=/app/configs/.test.env go test -v -cover -count=1 -benchmem -bench=.]]
+            .. teststr
+            .. [[/app/]]
+            .. curbufrelpath
+            .. [[']]
+
+        Term.spawn({ cmd = cmd, bufname = cmd })
     else
         print("Can't run file")
     end

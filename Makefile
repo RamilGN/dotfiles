@@ -141,6 +141,8 @@ asdf-lua:
 	asdf install lua latest
 	asdf global lua latest
 
+## QMK ##
+
 # sudo udevadm control --reload-rules && sudo udevadm trigger
 QMK_PATH:=/home/${USER}/qmk_firmware/keyboards/keychron/q11/ansi_encoder
 .PHONY: qmk
@@ -158,3 +160,15 @@ qmk-keymap:
 .PHONY: qmk-config
 qmk-config:
 	ln -sf $(PWD)/qmk/config.h "${QMK_PATH}/config.h"
+
+## Workspace ##
+
+gopls-dev:
+	rm -rf ~/workspace/gopls
+	git clone git@github.com:RamilGN/tools.git ~/workspace/gopls
+	cd ~/workspace/gopls && git remote add upstream git@github.com:golang/tools.git && git fetch upstream
+
+gopls-update:
+	cd ~/workspace/gopls && git fetch upstream && git rebase upstream/master && git push
+	cd ~/workspace/gopls/gopls && go build -o ~/dotfiles
+	mv gopls ~/go/bin

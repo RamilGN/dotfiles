@@ -27,5 +27,6 @@ require("config").setup({
         require("term").setup()
         require("runner").setup()
         require("qf").setup()
+        require("go.init").setup()
     end,
 })

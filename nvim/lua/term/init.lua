@@ -5,7 +5,7 @@ local P = {}
 
 M.setup = function()
     vim.api.nvim_create_user_command("TermDiag", function(_)
-        vim.print(Terminal)
+        vim.print({ terminal = Terminal, respawn = LastSpawnedTerm })
     end, {})
 
     vim.api.nvim_create_user_command("Term", function(_)

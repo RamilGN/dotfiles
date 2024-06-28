@@ -16,7 +16,8 @@ return {
                             "dockerls",
                             "emmet_ls",
                             "eslint",
-                            "gopls",
+                            -- Go
+                            -- "gopls", manual build see Makefile
                             "html",
                             "jsonls",
                             "lua_ls",
@@ -150,9 +151,14 @@ return {
             end
             vim.diagnostic.config(opts.diagnostics.config)
 
-            local lspconfig = require("lspconfig")
+            local installed_servers = require("mason-lspconfig").get_installed_servers()
+            if vim.fn.executable("gopls") == 1 then
+                table.insert(installed_servers, "gopls")
+            end
+
             local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-            for _, server_name in ipairs(require("mason-lspconfig").get_installed_servers()) do
+            local lspconfig = require("lspconfig")
+            for _, server_name in ipairs(installed_servers) do
                 local lsp_opts = {
                     on_attach = opts.on_attach,
                     capabilities = capabilities,

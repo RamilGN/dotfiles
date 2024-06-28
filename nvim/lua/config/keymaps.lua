@@ -85,9 +85,5 @@ return {
         map("n", "<leader>mt", "<Cmd>e ~/mind/todo/current.md<CR>", { desc = "Open todo in mind" })
         map("n", "<leader>mf", "<Cmd>Telescope find_files cwd=~/mind<CR>", { desc = "Find files in mind" })
         map("n", "<leader>ms", "<Cmd>Telescope live_grep cwd=~/mind<CR>", { desc = "Live grep in mind" })
-        -- Language specific
-        map("n", "<leader>ng", function()
-            vim.cmd("e ~/workspace/scratch/main.go")
-        end, { desc = "Scratch" })
     end,
 }
