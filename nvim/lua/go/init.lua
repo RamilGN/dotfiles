@@ -69,13 +69,13 @@ P.set_buf_commands = function(initopts)
 end
 
 P.set_buf_autocommands = function(initopts)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-        group = vim.api.nvim_create_augroup("GoFormatOnSave_" .. initopts.buf, { clear = true }),
-        buffer = initopts.buf,
-        callback = function(_)
-            require("conform").format({ lsp_fallback = true })
-        end,
-    })
+    -- vim.api.nvim_create_autocmd("BufWritePre", {
+    --     group = vim.api.nvim_create_augroup("GoFormatOnSave_" .. initopts.buf, { clear = true }),
+    --     buffer = initopts.buf,
+    --     callback = function(_)
+    --         require("conform").format({ lsp_fallback = true })
+    --     end,
+    -- })
 end
 
 P.gomodifytags_default_tag = function(opts)
