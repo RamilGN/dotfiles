@@ -161,6 +161,17 @@ qmk-keymap:
 qmk-config:
 	ln -sf $(PWD)/qmk/config.h "${QMK_PATH}/config.h"
 
+# Keymap for laptop
+.PHONY: keyd
+keyd:
+	git clone https://github.com/rvaiya/keyd
+	cd keyd
+	make && sudo make install
+	sudo systemctl enable keyd && sudo systemctl start keyd
+
+keyd-config:
+	ln -sf $(PWD)/keyd/default.conf /etc/keyd/default.conf
+
 ## Workspace ##
 
 gopls-dev:
