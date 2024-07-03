@@ -39,9 +39,9 @@ M.setup = function()
     })
 
     vim.api.nvim_create_user_command("T", function(opts)
-        local command = table.concat(opts.fargs, " ")
+        local command = table.concat(opts.fargs, " ") .. " && sleep 0.1"
         local full_command = string.format("%s '%s'", "/bin/zsh -i -c", command)
-        M.spawn({ cmd = full_command })
+        M.spawn({ cmd = full_command, bufname = command })
     end, {
         nargs = "?",
         range = true,

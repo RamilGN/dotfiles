@@ -1,9 +1,20 @@
+local gomodifytags = require("go.gomodifytags")
+local gotests = require("go.gotests")
+local gosrc = require("go.gosrc")
+-- gofumpt
+-- goimports
+-- golines
+-- gomodifytags
+-- gopls
+-- gotests
+
 local M = { group = nil }
 local P = {}
 
 M.setup = function()
     P.create_group()
     P.create_init_autocmd()
+    P.set_commands()
 end
 
 P.create_group = function()
@@ -15,57 +26,15 @@ P.create_init_autocmd = function()
         group = M.group,
         pattern = "*.go",
         callback = function(initopts)
-            P.set_buf_keymaps(initopts)
-            P.set_buf_commands(initopts)
             P.set_buf_autocommands(initopts)
+            P.set_buf_commands(initopts)
+            P.set_buf_keymaps(initopts)
         end,
     })
 end
 
-P.set_buf_keymaps = function(initopts)
-    vim.keymap.set("n", "<leader>ng", function()
-        vim.cmd("e ~/workspace/scratch/main.go")
-    end, { buffer = initopts.buf, desc = "Scratch" })
-end
-
-P.set_buf_commands = function(initopts)
-    vim.api.nvim_buf_create_user_command(initopts.buf, "GoSrcGrep", function(opts)
-        vim.cmd("Telescope live_grep cwd=" .. P.gopath())
-    end, { nargs = "*", range = true })
-
-    vim.api.nvim_buf_create_user_command(initopts.buf, "GoSrcFiles", function(opts)
-        vim.cmd("Telescope find_files cwd=" .. P.gopath())
-    end, { nargs = "*", range = true })
-
-    vim.api.nvim_buf_create_user_command(initopts.buf, "GoTagsAdd", function(opts)
-        local args = { "-add-tags", P.gomodifytags_default_tag(opts) }
-        P.gomodifytags(initopts.buf, opts.line1, opts.line2, args)
-    end, { nargs = "*", range = true })
-
-    vim.api.nvim_buf_create_user_command(initopts.buf, "GoTagsRemove", function(opts)
-        local args = { "-remove-tags", P.gomodifytags_default_tag(opts) }
-        P.gomodifytags(initopts.buf, opts.line1, opts.line2, args)
-    end, { nargs = "*", range = true })
-
-    vim.api.nvim_buf_create_user_command(initopts.buf, "GoTagsClear", function(opts)
-        local args = { "-clear-tags" }
-        P.gomodifytags(initopts.buf, opts.line1, opts.line2, args)
-    end, { nargs = "*", range = true })
-
-    vim.api.nvim_buf_create_user_command(initopts.buf, "GoTagsOptionsAdd", function(opts)
-        local args = { "-add-options", P.gomodifytags_default_tag_and_option(opts) }
-        P.gomodifytags(initopts.buf, opts.line1, opts.line2, args)
-    end, { nargs = "*", range = true })
-
-    vim.api.nvim_buf_create_user_command(initopts.buf, "GoTagsOptionsRemove", function(opts)
-        local args = { "-remove-options", P.gomodifytags_default_tag_and_option(opts) }
-        P.gomodifytags(initopts.buf, opts.line1, opts.line2, args)
-    end, { nargs = "*", range = true })
-
-    vim.api.nvim_buf_create_user_command(initopts.buf, "GoTagsOptionsClear", function(opts)
-        local args = { "-clear-options" }
-        P.gomodifytags(initopts.buf, opts.line1, opts.line2, args)
-    end, { nargs = "*", range = true })
+P.set_commands = function(_)
+    gosrc.set_commands()
 end
 
 P.set_buf_autocommands = function(initopts)
@@ -78,57 +47,15 @@ P.set_buf_autocommands = function(initopts)
     -- })
 end
 
-P.gomodifytags_default_tag = function(opts)
-    local tag = opts.args
-
-    if opts.args == "" then
-        tag = "json"
-    end
-
-    return tag
+P.set_buf_commands = function(initopts)
+    gomodifytags.set_buf_commands(initopts.buf)
+    gotests.set_buf_commands(initopts.buf)
 end
 
-P.gomodifytags_default_tag_and_option = function(opts)
-    local tag_and_option = opts.args
-
-    if tag_and_option == "" then
-        local tag = P.gomodifytags_default_tag(opts)
-        tag_and_option = string.format("%s=%s", tag, "omitempty")
-    end
-
-    return tag_and_option
-end
-
-P.gomodifytags = function(buf, line1, line2, args)
-    local bufname = vim.api.nvim_buf_get_name(buf)
-
-    local cmd = {
-        "gomodifytags",
-        "-format",
-        "json",
-        "-file",
-        bufname,
-        "-line",
-        string.format("%s,%s", line1, line2),
-    }
-
-    for _, value in ipairs(args) do
-        table.insert(cmd, value)
-    end
-
-    local out = vim.fn.system(cmd)
-    if vim.v.shell_error == 0 then
-        local jsonout = vim.json.decode(out)
-        vim.api.nvim_buf_set_lines(buf, jsonout["start"] - 1, jsonout["end"], true, jsonout["lines"])
-        vim.cmd("w!")
-    else
-        vim.notify(out, vim.log.levels.ERROR)
-    end
-end
-
-P.gopath = function()
-    local out = vim.fn.system("asdf which go")
-    return out:gsub("/bin/go", "", 1)
+P.set_buf_keymaps = function(initopts)
+    vim.keymap.set("n", "<leader>ng", function()
+        vim.cmd("e ~/workspace/scratch/main.go")
+    end, { buffer = initopts.buf, desc = "Scratch" })
 end
 
 return M

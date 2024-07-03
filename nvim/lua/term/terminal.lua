@@ -351,7 +351,7 @@ end
 
 ---@param term Term
 P.add_time_to_bufname = function(term)
-    vim.cmd("file " .. term.bufname .. os.date(" %H:%M:%S"))
+    vim.api.nvim_buf_set_name(term.buf_id, term.bufname .. os.date(" %H:%M:%S"))
 end
 
 ---@param term Term
