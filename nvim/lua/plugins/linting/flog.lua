@@ -37,8 +37,8 @@ return {
         end
         local scores = get_scores(output)
         local source = "flog"
-        local critical_total_score = 70
-        local critical_method_score = 20
+        local critical_total_score = 80
+        local critical_method_score = 30
         local diagnostics = {}
 
         local message = "consider to refactor"

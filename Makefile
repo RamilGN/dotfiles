@@ -180,6 +180,10 @@ gopls-dev:
 	cd ~/workspace/gopls && git remote add upstream git@github.com:golang/tools.git && git fetch upstream
 
 gopls-update:
-	cd ~/workspace/gopls && git fetch upstream && git rebase upstream/master && git push
+	cd ~/workspace/gopls && git fetch upstream && git rebase upstream/master && git push --force
+	cd ~/workspace/gopls/gopls && go build -o ~/dotfiles
+	mv gopls ~/go/bin
+
+gopls-build:
 	cd ~/workspace/gopls/gopls && go build -o ~/dotfiles
 	mv gopls ~/go/bin
