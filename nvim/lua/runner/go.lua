@@ -53,16 +53,7 @@ M.yookassa_test = function(opts)
     local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
 
     if prefix then
-        local curbufrelpath = Util.get_cur_buf_dir_rel_path()
-
-        local teststr = M.teststr(opts.selected)
-        local cmd = [[docker exec -it yookassa sh -c 'ENV_PATH=/app/configs/.test.env go test -v -cover -count=1 -benchmem -bench=.]]
-            .. teststr
-            .. [[/app/]]
-            .. curbufrelpath
-            .. [[']]
-
-        Term.spawn({ cmd = cmd, bufname = cmd })
+        require("go.gotests").run_file(opts.bufnr)
     else
         print("Can't run file")
     end

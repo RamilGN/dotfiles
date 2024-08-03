@@ -40,6 +40,7 @@ M.run = function(cmd_args)
     end
 
     local opts = {
+        bufnr = vim.api.nvim_get_current_buf(),
         current_buffer = cur_buf_abs_path,
         cmd_args = cmd_args,
         selected = text,
