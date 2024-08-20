@@ -1,4 +1,4 @@
-local Term = require("term")
+local Term = require("myplugins.term.init")
 
 local M = {}
 

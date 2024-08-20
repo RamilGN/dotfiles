@@ -1,6 +1,6 @@
-local U = require("util")
-local UB = require("util.buf")
-local T = require("term.init")
+local U = require("myplugins.util")
+local UB = require("myplugins.util.buf")
+local T = require("myplugins.term.init")
 
 ---@class Gitx
 local M = {}

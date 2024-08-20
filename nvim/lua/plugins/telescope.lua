@@ -9,15 +9,15 @@ return {
             end
 
             local Util = function()
-                return require("util.init")
+                return require("myplugins.util.init")
             end
 
             local UtilVisual = function()
-                return require("util.visual")
+                return require("myplugins.util.visual")
             end
 
             local UtilBuf = function()
-                return require("util.buf")
+                return require("myplugins.util.buf")
             end
 
             return {

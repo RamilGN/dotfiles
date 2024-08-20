@@ -1,5 +1,5 @@
-local Term = require("term")
-local Util = require("util.buf")
+local Term = require("myplugins.term.init")
+local Util = require("myplugins.util.buf")
 
 local M = {}
 
@@ -53,7 +53,7 @@ M.yookassa_test = function(opts)
     local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
 
     if prefix then
-        require("go.gotests").run_file(opts.bufnr)
+        require("myplugins.goo.gotests").run_file(opts.bufnr)
     else
         print("Can't run file")
     end

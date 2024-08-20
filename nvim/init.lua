@@ -23,10 +23,6 @@ require("config").setup({
             },
         })
 
-        require("git").setup()
-        require("term").setup()
-        require("runner").setup()
-        require("qf").setup()
-        require("go.init").setup()
+        require("myplugins.").setup()
     end,
 })

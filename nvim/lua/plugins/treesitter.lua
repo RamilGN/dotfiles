@@ -45,7 +45,7 @@ return {
                 highlight = {
                     enable = true,
                     disable = function(_, bufnr)
-                        return require("util.buf").get_buf_byte_size(bufnr) > vim.g.max_byte_size
+                        return require("myplugins.util.buf").get_buf_byte_size(bufnr) > vim.g.max_byte_size
                     end,
                 },
                 textobjects = {
@@ -103,7 +103,7 @@ return {
                 },
             })
 
-            local f = require("util.init")
+            local f = require("myplugins.util.init")
             local tsrm = require("nvim-treesitter.textobjects.repeatable_move")
 
             local go_to_context, _ = tsrm.make_repeatable_move_pair(function()

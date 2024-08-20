@@ -57,16 +57,8 @@ return {
             { "saadparwaiz1/cmp_luasnip" },
         },
         config = function()
-            local buf = require("util.buf")
-            local k = require("config.keymaps")
+            local buf = require("myplugins.util.buf")
             local cmp = require("cmp")
-
-            local codeium_source = {
-                name = "codeium",
-                option = {
-                    keyword_pattern = [[\k\+]],
-                },
-            }
 
             local lsp_source = { name = "nvim_lsp" }
 
@@ -142,19 +134,13 @@ return {
                     ["<S-CR>"] = cmp.mapping.confirm({ select = true }),
                 }),
                 sources = {
-                    codeium_source,
                     lsp_source,
                     luasnip_source,
                     buffer_source,
                     path_source,
                 },
                 formatting = {
-                    format = require("lspkind").cmp_format({
-                        mode = "symbol",
-                        maxwidth = 50,
-                        ellipsis_char = "...",
-                        symbol_map = { Codeium = "" },
-                    }),
+                    format = require("lspkind").cmp_format({}),
                 },
             })
 

@@ -1,4 +1,4 @@
-local Terminal = require("term.terminal")
+local Terminal = require("myplugins.term.terminal")
 
 local M = {}
 local P = {}

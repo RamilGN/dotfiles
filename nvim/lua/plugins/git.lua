@@ -110,7 +110,7 @@ return {
             },
             {
                 "<leader>gcb",
-                require("util.init").input("Branch name", function(input)
+                require("myplugins.util.init").input("Branch name", function(input)
                     vim.cmd("G checkout -b " .. input)
                 end),
                 desc = "Git checkout new branch",

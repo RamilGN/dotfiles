@@ -1,15 +1,15 @@
 ---@class Runner
 local M = {
-    ruby = require("runner.ruby"),
-    go = require("runner.go"),
-    lua = require("runner.lua"),
-    racket = require("runner.racket"),
-    python = require("runner.python"),
-    javascript = require("runner.javascript"),
-    c = require("runner.c"),
+    ruby = require("myplugins.runner.ruby"),
+    go = require("myplugins.runner.go"),
+    lua = require("myplugins.runner.lua"),
+    racket = require("myplugins.runner.racket"),
+    python = require("myplugins.runner.python"),
+    javascript = require("myplugins.runner.javascript"),
+    c = require("myplugins.runner.c"),
 }
 
-local UtilVisual = require("util.visual")
+local UtilVisual = require("myplugins.util.visual")
 
 local runners = {
     filetypes_to_runner = {

@@ -1,4 +1,4 @@
-local T = require("term.constants")
+local T = require("myplugins.term.constants")
 
 local M = {}
 local P = {}

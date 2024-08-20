@@ -1,5 +1,5 @@
 local UtilBuf = function()
-    return require("util.buf")
+    return require("myplugins.util.buf")
 end
 
 return {

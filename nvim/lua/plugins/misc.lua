@@ -56,6 +56,7 @@ return {
         },
         dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {
+            watch_for_changes = true,
             delete_to_trash = true,
             default_file_explorer = true,
             skip_confirm_for_simple_edits = true,

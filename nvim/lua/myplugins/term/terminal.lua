@@ -1,5 +1,5 @@
-local UtilVisual = require("util.visual")
-local UI = require("term.ui")
+local UtilVisual = require("myplugins.util.visual")
+local UI = require("myplugins.term.ui")
 
 --- @class Term
 --- @field buf_id integer
@@ -33,7 +33,7 @@ local Term = {}
 ---@type Term|nil
 local LastTerminal = nil
 
-local T = require("term.constants")
+local T = require("myplugins.term.constants")
 
 local M = {
     term = Term,
