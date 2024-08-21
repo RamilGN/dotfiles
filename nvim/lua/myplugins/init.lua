@@ -5,5 +5,6 @@ return {
         require("myplugins.runner.init").setup()
         require("myplugins.qf.init").setup()
         require("myplugins.go.init").setup()
+        require("myplugins.gpt.init").setup()
     end,
 }
