@@ -6,9 +6,18 @@ local M = {}
 local P = {
     user = "# User",
     assistant = "# Assistant",
+    last_chat = config.chats_path .. "/last.md",
 }
 P.user_regex = "^" .. P.user .. "$"
 P.assistant_regex = "^" .. P.assistant .. "$"
+
+M.open_last_chat = function()
+    if vim.fn.filereadable(P.last_chat) == 1 then
+        vim.cmd("e " .. P.last_chat)
+    else
+        M.open_chat()
+    end
+end
 
 M.open_chat = function()
     local chat_buffer = P.open_chat_with_text(string.format("%s\n", P.user))
@@ -61,16 +70,28 @@ P.send_message = function(bufnr)
     api.get_chatgpt_completion(config, messages, on_delta, on_complete)
 end
 
+P.get_chat_name = function()
+    return config.chats_path .. os.date("/%y%m%d%H%M%S.md")
+end
+
 P.open_chat_with_text = function(text)
     local bufnr = vim.api.nvim_create_buf(true, false)
-    vim.api.nvim_buf_set_name(bufnr, config.chats_path .. os.date("/%y%m%d%H%M%S.md"))
+    local chatname = P.get_chat_name()
+    vim.api.nvim_buf_set_name(bufnr, chatname)
     vim.api.nvim_buf_set_option(bufnr, "filetype", "markdown")
     vim.api.nvim_set_current_buf(bufnr)
 
     local lines = vim.split(text, "\n")
     vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, lines)
 
-    vim.cmd("normal G")
+    vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(bufnr), 0 })
+    vim.cmd("w!" .. chatname)
+
+    if vim.fn.filereadable(P.last_chat) == 1 then
+        os.remove(P.last_chat)
+    end
+    vim.uv.fs_symlink(chatname, P.last_chat)
+
     return bufnr
 end
 
@@ -96,7 +117,6 @@ P.parse_markdown = function()
             if current_entry then
                 table.insert(messages, current_entry)
             end
-
             current_entry = { role = role, content = "" }
         elseif current_entry then
             if line ~= "" then

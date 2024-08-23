@@ -5,7 +5,7 @@ local M = {
         temperature = 1,
         url = "https://api.openai.com/v1/chat/completions",
         headers = {
-            Authorization = "Bearer " .. vim.env.OPENAI_API_KEY,
+            Authorization = "Bearer " .. (vim.env.OPENAI_API_KEY or ""),
             Content_Type = "application/json",
         },
     },

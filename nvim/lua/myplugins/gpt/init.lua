@@ -11,12 +11,17 @@ function M.setup()
         end
     end, { range = true, nargs = "?" })
 
+    vim.api.nvim_create_user_command("GptOpenLastChat", function(_)
+        require("myplugins.gpt.chat").open_last_chat()
+    end, { range = true, nargs = "?" })
+
     vim.api.nvim_create_user_command("GptSendMessage", function(_)
         require("myplugins.gpt.chat").send_message_for_cur_buf()
     end, { range = true, nargs = "?" })
 
-    vim.keymap.set({ "n", "v" }, "<leader>x", ":GptOpen<CR>")
-    vim.keymap.set({ "n", "v" }, "<leader>X", ":GptSendMessage<CR>")
+    vim.keymap.set({ "n", "v" }, "<leader>xo", ":GptOpen<CR>")
+    vim.keymap.set({ "n", "v" }, "<leader>xl", ":GptOpenLastChat<CR>")
+    vim.keymap.set({ "n", "v" }, "<leader>xm", ":GptSendMessage<CR>")
 end
 
 return M

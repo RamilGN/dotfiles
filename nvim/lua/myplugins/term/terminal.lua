@@ -157,7 +157,7 @@ end
 M.send = function(mode, cmd)
     local term = nil
 
-    if vim.o.columns == T.kitty.columns then
+    if (vim.o.columns >= T.kitty.columns_start) or (vim.o.columns >= T.kitty.columns_end) then
         P.send_to_kitty(mode, cmd)
         return
     else
@@ -278,7 +278,7 @@ P.start = function(term)
                 local mode = vim.api.nvim_get_mode().mode
 
                 if mode == "n" or mode == "nt" then
-                    vim.cmd("normal! G")
+                    vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(term.buf_id), 0 })
                 end
             end)
         end,
