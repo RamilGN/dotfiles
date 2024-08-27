@@ -59,6 +59,7 @@ M.setup = function()
     vim.keymap.set({ "n", "v" }, "<C-2>", ":TermSend<CR>")
     vim.keymap.set("n", "<C-3>", "<Cmd>TermSend q<CR>")
     vim.keymap.set("n", "<C-->", "<Cmd>TermSend <Up><CR>")
+    vim.keymap.set("n", "<C-9>", "<Cmd>TermSend <CR>")
     vim.keymap.set("n", "<C-=>", "<Cmd>TermSend <Down><CR>")
     vim.keymap.set("n", "<C-0>", "<Cmd>TermSend <CR>")
     vim.keymap.set("n", "<leader>re", ":TermRespawn<CR>", { desc = "Respawn last term" })

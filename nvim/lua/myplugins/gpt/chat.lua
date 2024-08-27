@@ -1,4 +1,3 @@
-local visual = require("myplugins.util.visual")
 local api = require("myplugins.gpt.api")
 local config = require("myplugins.gpt.config")
 
@@ -21,12 +20,6 @@ end
 
 M.open_chat = function()
     local chat_buffer = P.open_chat_with_text(string.format("%s\n", P.user))
-    return chat_buffer
-end
-
-M.open_chat_with_visual_selection = function()
-    local text = string.format("%s\n\n```%s\n%s\n```", P.user, vim.bo.filetype, visual.get_visual_selection_text())
-    local chat_buffer = P.open_chat_with_text(text)
     return chat_buffer
 end
 

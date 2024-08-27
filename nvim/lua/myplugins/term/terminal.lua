@@ -157,7 +157,7 @@ end
 M.send = function(mode, cmd)
     local term = nil
 
-    if (vim.o.columns >= T.kitty.columns_start) or (vim.o.columns >= T.kitty.columns_end) then
+    if (vim.o.columns >= T.kitty.columns_start) and (vim.o.columns <= T.kitty.columns_end) then
         P.send_to_kitty(mode, cmd)
         return
     else
@@ -240,6 +240,13 @@ P.get_lines_for_send = function(mode, cmd)
 
     if mode == T.line_modes.LINE then
         local line = vim.api.nvim_get_current_line()
+
+        local filetype = vim.bo.filetype
+        if filetype == "ruby" then
+            line = line:gsub("^%s*#", "", 1)
+        elseif filetype == "go" then
+            line = line:gsub("^%s*//", "", 1)
+        end
 
         if vim.bo.filetype == "ruby" then
             line = line:gsub("^%s*#", "", 1)
