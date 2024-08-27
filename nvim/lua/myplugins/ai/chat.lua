@@ -80,9 +80,7 @@ P.open_chat_with_text = function(text)
     vim.api.nvim_win_set_cursor(0, { vim.api.nvim_buf_line_count(bufnr), 0 })
     vim.cmd("w!" .. chatname)
 
-    if vim.fn.filereadable(P.last_chat) == 1 then
-        os.remove(P.last_chat)
-    end
+    os.remove(P.last_chat)
     vim.uv.fs_symlink(chatname, P.last_chat)
 
     return bufnr
