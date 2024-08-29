@@ -4,7 +4,7 @@ local M = {
         api = {
             url = "https://api.openai.com/v1/chat/completions",
             body = {
-                model = "gpt-4o-mini",
+                model = "gpt-4-turbo",
                 temperature = 1,
                 max_tokens = 2048,
             },

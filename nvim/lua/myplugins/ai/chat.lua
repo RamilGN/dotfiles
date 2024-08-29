@@ -6,6 +6,7 @@ local P = {
     user = "# User",
     assistant = "# Assistant",
     last_chat = config.chats_path .. "/last.md",
+    loading = "...",
 }
 P.user_regex = "^" .. P.user .. "$"
 P.assistant_regex = "^" .. P.assistant .. "$"
@@ -23,44 +24,57 @@ M.open_chat = function()
     return chat_buffer
 end
 
+M.open_with_visual_selection = function()
+    local text = require("myplugins.util.visual").get_visual_selection_text()
+    local chat_buffer = P.open_chat_with_text(string.format("%s\n\n```%s\n%s\n```\n", P.user, vim.bo.filetype, text))
+    return chat_buffer
+end
+
 M.send_message_for_cur_buf = function()
     local bufnr = vim.api.nvim_get_current_buf()
     P.send_message(bufnr)
 end
 
-P.send_message = function(bufnr)
-    local current_line = vim.api.nvim_buf_line_count(bufnr)
-    vim.api.nvim_buf_set_lines(bufnr, current_line, current_line, false, { "", P.assistant, "", "..." })
+M.search = function()
+    local telescope = require("telescope.builtin")
+    telescope.live_grep({ cwd = config.chats_path })
+end
 
-    current_line = vim.api.nvim_buf_line_count(bufnr) - 1
-    local current_line_contents = ""
-    local on_delta = function(response)
-        if response and response.choices and response.choices[1] and response.choices[1].delta and response.choices[1].delta.content then
-            local delta = response.choices[1].delta.content
-            if delta == "\n" then
-                vim.api.nvim_buf_set_lines(bufnr, current_line, current_line, false, { current_line_contents })
-                current_line = current_line + 1
-                current_line_contents = ""
-            elseif delta:match("\n") then
-                for line in delta:gmatch("[^\n]+") do
-                    vim.api.nvim_buf_set_lines(bufnr, current_line, current_line, false, { current_line_contents .. line })
-                    current_line = current_line + 1
-                    current_line_contents = ""
+P.process_stdout = function(bufnr)
+    return function(data)
+        local message = string.match(data, "^data: (.*)")
+
+        if message == nil then
+            return
+        elseif message == "[DONE]" then
+            local current_line = vim.api.nvim_buf_line_count(bufnr)
+            local bufname = vim.api.nvim_buf_get_name(bufnr)
+            vim.api.nvim_buf_set_lines(bufnr, current_line, current_line + 1, false, { "", P.user, "" })
+            vim.cmd("silent! w! " .. bufname)
+        else
+            message = vim.fn.json_decode(message)
+            if message and message.choices and message.choices[1] and message.choices[1].delta and message.choices[1].delta.content then
+                local current_line = vim.api.nvim_buf_line_count(bufnr)
+                local current_line_content = vim.api.nvim_buf_get_lines(bufnr, current_line - 1, current_line, false)[1]
+                if current_line_content == P.loading then
+                    current_line_content = ""
                 end
-            elseif delta ~= nil then
-                current_line_contents = current_line_contents .. delta
+
+                local content = message.choices[1].delta.content
+                local lines = vim.split(content, "\n")
+                lines[1] = current_line_content .. lines[1]
+
+                vim.api.nvim_buf_set_lines(bufnr, current_line - 1, (current_line - 1 + #lines), false, lines)
             end
         end
     end
+end
 
-    local on_complete = function()
-        vim.api.nvim_buf_set_lines(bufnr, current_line, current_line + 1, false, { current_line_contents, "", P.user, "" })
-        local bufname = vim.api.nvim_buf_get_name(bufnr)
-        vim.cmd("w! " .. bufname)
-    end
-
+P.send_message = function(bufnr)
     local messages = P.parse_markdown()
-    api.get_chatgpt_completion(config, messages, on_delta, on_complete)
+    local current_line = vim.api.nvim_buf_line_count(bufnr)
+    vim.api.nvim_buf_set_lines(bufnr, current_line, current_line, false, { "", P.assistant, "", P.loading })
+    api.get_chatgpt_completion(config, messages, P.process_stdout(bufnr))
 end
 
 P.get_chat_name = function()
