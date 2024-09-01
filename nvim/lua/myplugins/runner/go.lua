@@ -53,7 +53,7 @@ M.yookassa_test = function(opts)
     local prefix, _ = string.match(opts.current_buffer, "(.*)(_test.go)")
 
     if prefix then
-        require("myplugins.goo.gotests").run_file(opts.bufnr)
+        require("myplugins.go.gotests").run_file(opts.bufnr)
     else
         print("Can't run file")
     end
