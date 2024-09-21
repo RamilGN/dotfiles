@@ -24,7 +24,7 @@ return {
                             "pylsp",
                             "pyright",
                             "solargraph",
-                            "tsserver",
+                            "ts_ls",
                             "yamlls",
                         },
                     })

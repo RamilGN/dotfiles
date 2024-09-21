@@ -69,9 +69,17 @@ M.url = function(line1, line2)
     local remote_url = vim.fn.system(string.format("git remote get-url %s", remote))
     remote_url = string.gsub(remote_url, "%.git\n$", "")
 
-    local host = vim.trim(vim.split(remote_url, "@", { trimempty = true })[2])
     local repo_filepath = vim.trim(vim.fn.system(string.format("git ls-files --full-name %s", UB.cur_buf_abs_path())))
 
+    if remote_url:match("http[s]?://") then
+        if remote_url:match("gitlab") then
+            return string.format("%s/-/blob/%s/%s", remote_url, branch, repo_filepath)
+        elseif remote_url:match("github") then
+            return string.format("%s/blob/%s/%s", remote_url, branch, repo_filepath)
+        end
+    end
+
+    local host = vim.trim(vim.split(remote_url, "@", { trimempty = true })[2])
     local url = ""
     if string.match(host, "github") then
         url = string.format("https://%s/blob/%s/%s", host, branch, repo_filepath)

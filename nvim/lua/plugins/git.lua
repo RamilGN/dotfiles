@@ -59,15 +59,6 @@ return {
         },
         config = function(_, opts)
             require("gitsigns").setup(opts)
-            require("git-conflict").setup({
-                highlights = {
-                    ancestor = "DiffChange",
-                },
-                default_mappings = {
-                    next = "]x",
-                    prev = "[x",
-                },
-            })
         end,
     },
     {

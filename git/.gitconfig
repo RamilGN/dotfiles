@@ -37,3 +37,6 @@
 
 [includeIf "gitdir:~/insales/"]
   path = ~/insales/.gitconfig
+
+[credential]
+	helper = store

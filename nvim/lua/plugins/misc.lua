@@ -141,9 +141,4 @@ return {
         },
     },
     { "Bilal2453/luvit-meta", lazy = true },
-    -- Lua
-    {
-        "folke/zen-mode.nvim",
-        opts = {},
-    },
 }
