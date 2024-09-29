@@ -52,8 +52,6 @@ return {
         event = "VeryLazy",
         config = function(_, opts)
             require("lualine").setup(opts)
-            -- local my_extension = { sections = { lualine_a = { "mode" } }, filetypes = { "lua" } }
-            -- require("lualine").setup({ extensions = { my_extension } })
         end,
         opts = function()
             local function diff_source()

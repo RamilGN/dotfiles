@@ -89,11 +89,13 @@ snippet !factory
 snippet !request
 	request = Rack::MockRequest.env_for('http://localhost:3000')
 	Rails.application.call(request)
+
 snippet !profile
 	profile = StackProf.run(mode: :wall, raw: true) do
 	puts "Working..."
 	end
 	File.write('tmp/stackprof.json', JSON.generate(profile))
+	# speedscope tmp/stackprof.json
 
 snippet !controller_filters
 	prepend_before_action
