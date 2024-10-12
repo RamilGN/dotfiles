@@ -36,3 +36,6 @@ snippet first
 
 snippet all
   SELECT ${0:*} FROM ${1:tablename};
+
+snippet !pg_count
+  SELECT reltuples AS approximate_row_count FROM pg_class WHERE oid = '${0:tablename}'::regclass;
