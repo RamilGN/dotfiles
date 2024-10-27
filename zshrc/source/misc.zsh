@@ -60,6 +60,7 @@ alias ngrok_host_header_rewrite='xclipsel "ngrok http --host-header=rewrite my.s
 
 # kubectl get all running pods
 alias kubectl="tsh kubectl"
+alias kgpa='kubectl get pods -A'
 alias kgpar='kgpa --field-selector=status.phase=Running | fzf'
 alias kxcit='kubectl_exec_it'
 function kubectl_exec_it {
