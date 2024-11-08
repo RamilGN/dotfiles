@@ -150,10 +150,6 @@ return {
                 mode = { "n", "v" },
             },
         },
-        cmd = { "G", "Git" },
-    },
-    {
-        "akinsho/git-conflict.nvim",
-        lazy = true,
+        cmd = { "G", "Git", "Gvdiffsplit" },
     },
 }

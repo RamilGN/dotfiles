@@ -22,7 +22,7 @@ return {
             vim.cmd("set hls")
         end, { desc = "Search word without jumping", silent = true })
         -- Turn off highlight.
-        map("n", "//", ":nohlsearch<CR>", { desc = "Turn off highlight" })
+        map("n", "//", ":nohlsearch<CR>", { desc = "Turn off highlight", silent = true })
         -- Better up/down.
         map("n", "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Up with line wrap", expr = true, silent = true })
         map("n", "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Down with line wrap", expr = true, silent = true })
@@ -74,8 +74,8 @@ return {
         map("n", "yof", UtilBuf().copy_rel_path_to_buffer, { desc = "Yank file path" })
         map("n", "yoF", UtilBuf().copy_rel_path_line_to_buffer, { desc = "Yank file path with line" })
         -- Prev action.
-        map("n", "[b", ":bprev<CR>", { desc = "Prev buffer" })
-        map("n", "]b", ":bnext<CR>", { desc = "Next buffer" })
+        map("n", "[b", ":bprev<CR>", { desc = "Prev buffer", silent = true })
+        map("n", "]b", ":bnext<CR>", { desc = "Next buffer", silent = true })
         -- Diagnostic
         map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Open diagnostic float window" })
         -- Spacing.
