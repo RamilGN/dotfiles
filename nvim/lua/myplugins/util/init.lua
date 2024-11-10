@@ -25,4 +25,16 @@ M.copy_to_clipboard = function(text)
     vim.fn.setreg("+", text)
 end
 
+M.quickfix_files = function()
+    local qflist = vim.fn.getqflist()
+    local files = {}
+
+    for _, v in pairs(qflist) do
+        local path = vim.fn.bufname(v.bufnr)
+        files[path] = true
+    end
+
+    return vim.tbl_keys(files)
+end
+
 return M

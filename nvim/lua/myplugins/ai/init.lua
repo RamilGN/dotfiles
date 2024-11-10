@@ -24,10 +24,10 @@ function M.setup()
         require("myplugins.ai.chat").search()
     end, { range = false, nargs = "?" })
 
-    vim.keymap.set({ "n", "v" }, "<leader>xo", ":GptOpen<CR>")
-    vim.keymap.set({ "n", "v" }, "<leader>xl", ":GptOpenLastChat<CR>")
-    vim.keymap.set({ "n", "v" }, "<leader>xm", ":GptSendMessage<CR>")
-    vim.keymap.set({ "n", "v" }, "<leader>xs", ":GptSearch<CR>")
+    vim.keymap.set({ "n", "v" }, "<leader>xo", ":GptOpen<CR>", { desc = "Open new chat" })
+    vim.keymap.set({ "n", "v" }, "<leader>xl", ":GptOpenLastChat<CR>", { desc = "Open last chat" })
+    vim.keymap.set({ "n", "v" }, "<leader>xm", ":GptSendMessage<CR>", { desc = "Send messages for current chat" })
+    vim.keymap.set({ "n", "v" }, "<leader>xs", ":GptSearch<CR>", { desc = "Grep chats" })
 end
 
 return M

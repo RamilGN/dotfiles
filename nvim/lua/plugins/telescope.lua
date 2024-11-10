@@ -161,7 +161,7 @@ return {
 
             local vimgrep_arguments = { unpack(telescope_config.values.vimgrep_arguments) }
             table.insert(vimgrep_arguments, "--hidden")
-            table.insert(vimgrep_arguments, "--glob")
+            table.insert(vimgrep_arguments, "-g")
             table.insert(vimgrep_arguments, "!**/.git/*")
 
             local force_delete_buffer = function(prompt_bufnr)
@@ -220,6 +220,7 @@ return {
                             ["<C-\\>"] = actions.close,
                             ["<C-j>"] = { "<C-^>", type = "command" },
                             ["<C-s>"] = actions.file_split,
+                            ["<C-Space>"] = require("telescope.actions").to_fuzzy_refine,
                         },
                     },
                     dynamic_preview_title = true,
@@ -255,18 +256,18 @@ return {
                     lsp_dynamic_workspace_symbols = {
                         fname_width = 0.4,
                         symbol_width = 0.4,
-                        symbol_type_width = 0.2
+                        symbol_type_width = 0.2,
                     },
 
                     lsp_workspace_symbols = {
                         fname_width = 0.4,
                         symbol_width = 0.4,
-                        symbol_type_width = 0.2
+                        symbol_type_width = 0.2,
                     },
                     lsp_document_symbols = {
                         fname_width = 0.4,
                         symbol_width = 0.4,
-                        symbol_type_width = 0.2
+                        symbol_type_width = 0.2,
                     },
                 },
                 extensions = {

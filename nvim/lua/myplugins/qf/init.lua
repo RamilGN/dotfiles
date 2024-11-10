@@ -26,7 +26,10 @@ P.create_init_autocmd = function()
 end
 
 P.set_global_keymaps = function(initopts)
-    vim.keymap.set("n", "<leader>q", "<Cmd>copen<CR>", { desc = "Open quick fix list" })
+    vim.keymap.set("n", "<leader>qq", "<Cmd>copen<CR>", { desc = "Open qf" })
+    vim.keymap.set("n", "<leader>qs", P.grep_on_quickfix, { desc = "Grep qf" })
+    vim.keymap.set("n", "<leader>qf", P.find_files_on_quickfix, { desc = "Find files qf" })
+    vim.keymap.set("n", "<leader>qh", "<Cmd>Telescope quickfixhistory<CR>", { desc = "History qf" })
 end
 
 P.set_buf_keymaps = function(initopts)
@@ -80,6 +83,14 @@ P.save_qf = function(writeopts)
 
     vim.print("writing...")
     vim.bo[buf].modified = false
+end
+
+P.grep_on_quickfix = function()
+    require("telescope.builtin").live_grep({ search_dirs = require("myplugins.util.init").quickfix_files() })
+end
+
+P.find_files_on_quickfix = function()
+    require("telescope.builtin").find_files({ search_dirs = require("myplugins.util.init").quickfix_files() })
 end
 
 return M
