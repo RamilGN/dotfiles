@@ -7,7 +7,6 @@ return {
         dependencies = {
             { "nvim-treesitter/nvim-treesitter-textobjects" },
             { "nvim-treesitter/nvim-treesitter-context", opts = { mode = "cursor" } },
-            { "RRethy/nvim-treesitter-endwise" },
         },
         config = function()
             require("nvim-treesitter.configs").setup({

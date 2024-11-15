@@ -89,7 +89,14 @@ return {
                         },
                         { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
                     },
-                    lualine_x = {},
+                    lualine_x = {
+                        -- stylua: ignore
+                        {
+                            function() return require("noice").api.status.mode.get() end,
+                            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+                            color = { gui = "bold", fg = "#ff9e3b" },
+                        },
+                    },
                     lualine_y = {},
                     lualine_z = {
                         { "progress", separator = " ", padding = { left = 1, right = 0 } },
@@ -219,4 +226,26 @@ return {
     { "onsails/lspkind.nvim", lazy = true },
     -- Displaying icons.
     { "nvim-tree/nvim-web-devicons", lazy = true },
+    -- Cmdline
+    {
+
+        "folke/noice.nvim",
+        event = "VeryLazy",
+        opts = {
+            cmdline = {
+                view = "cmdline",
+            },
+            presets = {
+                bottom_search = true,
+                command_palette = true,
+            },
+        },
+        -- stylua: ignore
+        keys = {
+            { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline", },
+            { "<C-'>", function() require("noice").cmd("all") end, desc = "All messages" },
+
+        },
+        dependencies = { "MunifTanjim/nui.nvim" },
+    },
 }
