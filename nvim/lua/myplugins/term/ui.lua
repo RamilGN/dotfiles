@@ -97,6 +97,14 @@ P.setup_float_autocmd = function(term)
         group = T.AUGROUP,
         callback = term.closer,
     })
+
+    vim.api.nvim_create_autocmd("VimResized", {
+        buffer = term.buf_id,
+        group = T.AUGROUP,
+        callback = function()
+            vim.api.nvim_win_set_config(term.win_id, P.get_float_config())
+        end,
+    })
 end
 
 P.get_float_config = function()
