@@ -1,0 +1,9 @@
+{
+  "language": "sql",
+  "tabWidth": 2,
+  "expressionWidth": 120,
+  "logicalOperatorNewline": "before",
+  "keywordCase": "upper",
+  "functionCase": "upper",
+  "linesBetweenQueries": 1
+}
