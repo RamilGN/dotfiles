@@ -29,6 +29,7 @@ return {
                 injected = { options = { ignore_errors = false } },
                 gofumpt = { prepend_args = { "-extra" } },
                 pg_format = { prepend_args = { "-L" } },
+                sql_formatter = { prepend_args = { "-c", vim.g.home_dir .. "/" .. "dotfiles/sql/.sql-formatter.json" } },
             },
             formatters_by_ft = {
                 go = { "goimports", "gofumpt", "golines" },
@@ -36,7 +37,7 @@ return {
                 lua = { "stylua" },
                 markdown = { "markdownlint" },
                 ruby = { "rubocop" },
-                sql = { "pg_format" },
+                sql = { "pg_format", "sql_formatter" },
                 vue = {},
             },
         },
