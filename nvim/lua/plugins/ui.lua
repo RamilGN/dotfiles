@@ -54,6 +54,9 @@ return {
             require("lualine").setup(opts)
         end,
         opts = function()
+            local lualine_require = require("lualine_require")
+            lualine_require.require = require
+
             local function diff_source()
                 ---@diagnostic disable-next-line: undefined-field
                 local gitsigns = vim.b.gitsigns_status_dict
@@ -90,6 +93,12 @@ return {
                         { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
                     },
                     lualine_x = {
+                        -- stylua: ignore
+                        {
+                            function() return require("noice").api.status.command.get() end,
+                            cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+                            color = { gui = "bold", fg = "#ff9e3b" },
+                        },
                         -- stylua: ignore
                         {
                             function() return require("noice").api.status.mode.get() end,

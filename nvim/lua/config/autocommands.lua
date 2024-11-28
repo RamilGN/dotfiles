@@ -27,6 +27,13 @@ return {
             group = augroup("trimspaces"),
             pattern = "*",
             callback = function()
+                -- Wipeout buffers.
+                for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                    if not vim.api.nvim_buf_is_loaded(buf) then
+                        vim.cmd(string.format("bwipeout %d", buf))
+                    end
+                end
+
                 local buf = vim.api.nvim_get_current_buf()
                 if vim.fn.getbufvar(buf, "&modifiable") == 0 then
                     return
