@@ -141,4 +141,20 @@ return {
         },
     },
     { "Bilal2453/luvit-meta", lazy = true },
+    -- Lua
+    {
+        "folke/zen-mode.nvim",
+        cmd = "ZenMode",
+        opts = {
+            plugins = {
+                options = {
+                    laststatus = 0,
+                },
+                kitty = {
+                    enabled = true,
+                    font = "+4",
+                },
+            },
+        },
+    },
 }
