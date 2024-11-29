@@ -78,6 +78,10 @@ M.spawn = function(opts)
     Terminal.create(term)
 end
 
+M.last_terminal = function()
+    return Terminal.last_terminal
+end
+
 M.respawn = function()
     if LastSpawnedTerm == nil then
         Terminal.error("no term to respawn")
