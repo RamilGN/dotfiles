@@ -85,6 +85,7 @@ return {
                         if prev_buf_byte_size < vim.g.max_byte_size then
                             bufs[prev_buf] = true
                         end
+
                         return vim.tbl_keys(bufs)
                     end,
                     keyword_pattern = [[\k\+]],
