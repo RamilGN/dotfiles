@@ -18,15 +18,13 @@ P.create_init_autocmd = function()
         pattern = "quickfix",
         callback = function(initopts)
             P.set_buf_keymaps(initopts)
-            -- P.create_write_autocmd(initopts)
-            -- P.trigger_write_for_autocmd(initopts)
-            -- P.prepare_buffer(initopts)
         end,
     })
 end
 
-P.set_global_keymaps = function(initopts)
-    vim.keymap.set("n", "<leader>qq", "<Cmd>copen<CR>", { desc = "Open qf" })
+-- stylua: ignore
+P.set_global_keymaps = function()
+    vim.keymap.set("n", "<leader>qq", function() require("quicker").toggle() end, { desc = "Toggle quickfix" })
     vim.keymap.set("n", "<leader>qs", P.grep_on_quickfix, { desc = "Grep qf" })
     vim.keymap.set("n", "<leader>qf", P.find_files_on_quickfix, { desc = "Find files qf" })
     vim.keymap.set("n", "<leader>qh", "<Cmd>Telescope quickfixhistory<CR>", { desc = "History qf" })
@@ -54,35 +52,6 @@ P.set_buf_keymaps = function(initopts)
     vim.keymap.set("n", "]q", next_qf_repeat, { desc = "Next qf" })
     vim.keymap.set("n", "[q", prev_qf_repeat, { desc = "Prev qf" })
     vim.keymap.set("n", "<CR>", "<CR><C-W>p", { buffer = initopts.buf })
-end
-
-P.create_write_autocmd = function(initopts)
-    vim.api.nvim_create_autocmd("BufWriteCmd", {
-        group = vim.api.nvim_create_augroup("QFedit_" .. initopts.buf, { clear = true }),
-        pattern = "quickfix-" .. initopts.buf,
-        callback = function(writeopts)
-            P.save_qf(writeopts)
-        end,
-    })
-end
-
-P.trigger_write_for_autocmd = function(initopts)
-    vim.cmd("write! quickfix-" .. initopts.buf)
-end
-
-P.prepare_buffer = function(initopts)
-    vim.bo[initopts.buf].modifiable = true
-end
-
-P.save_qf = function(writeopts)
-    local buf = writeopts.buf
-    if not vim.bo[buf].modified then
-        vim.print("not writing...")
-        return
-    end
-
-    vim.print("writing...")
-    vim.bo[buf].modified = false
 end
 
 P.grep_on_quickfix = function()
