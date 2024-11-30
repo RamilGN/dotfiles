@@ -95,14 +95,15 @@ return {
                     lualine_x = {
                         -- stylua: ignore
                         {
-                            function() return require("noice").api.status.command.get() end,
-                            cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+                            function() return require("noice").api.status.mode.get() end,
+                            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+                            separator = "",
                             color = { gui = "bold", fg = "#ff9e3b" },
                         },
                         -- stylua: ignore
                         {
-                            function() return require("noice").api.status.mode.get() end,
-                            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+                            function() return require("noice").api.status.command.get() end,
+                            cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
                             color = { gui = "bold", fg = "#ff9e3b" },
                         },
                     },
@@ -255,6 +256,6 @@ return {
             { "<C-'>", function() require("noice").cmd("all") end, desc = "All messages" },
 
         },
-        dependencies = { "MunifTanjim/nui.nvim" },
+        dependencies = { "MunifTanjim/nui.nvim", },
     },
 }

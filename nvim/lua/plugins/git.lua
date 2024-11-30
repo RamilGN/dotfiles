@@ -152,4 +152,5 @@ return {
         },
         cmd = { "G", "Git", "Gvdiffsplit" },
     },
+    { "akinsho/git-conflict.nvim", opts = {} },
 }
