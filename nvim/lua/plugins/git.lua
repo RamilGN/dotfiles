@@ -152,5 +152,14 @@ return {
         },
         cmd = { "G", "Git", "Gvdiffsplit" },
     },
-    { "akinsho/git-conflict.nvim", opts = {} },
+    {
+        "akinsho/git-conflict.nvim",
+        opts = {
+            highlights = {
+                current = "DiffText",
+                incoming = "DiffAdd",
+                ancestor = "DiffChange",
+            },
+        },
+    },
 }
