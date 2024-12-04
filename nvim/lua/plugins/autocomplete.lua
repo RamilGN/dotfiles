@@ -131,6 +131,8 @@ return {
                     ["<C-u>"] = cmp.mapping.scroll_docs(-2),
                     ["<C-d>"] = cmp.mapping.scroll_docs(2),
                     ["<C-e>"] = cmp.mapping.abort(),
+                    ["<Down>"] = cmp.mapping.select_next_item(),
+                    ["<Up>"] = cmp.mapping.select_prev_item(),
                     ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
                     ["<S-CR>"] = cmp.mapping.confirm({ select = true }),
                 }),

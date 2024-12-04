@@ -1,5 +1,5 @@
 {
-  "language": "sql",
+  "language": "postgresql",
   "tabWidth": 2,
   "expressionWidth": 120,
   "logicalOperatorNewline": "before",
