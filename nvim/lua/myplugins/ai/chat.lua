@@ -84,9 +84,13 @@ end
 P.open_chat_with_text = function(text)
     local bufnr = vim.api.nvim_create_buf(true, false)
     local chatname = P.get_chat_name()
+
     vim.api.nvim_buf_set_name(bufnr, chatname)
     vim.api.nvim_buf_set_option(bufnr, "filetype", "markdown")
     vim.api.nvim_set_current_buf(bufnr)
+    vim.api.nvim_set_current_buf(bufnr)
+
+    P.set_buf_keymaps(bufnr)
 
     local lines = vim.split(text, "\n")
     vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, lines)
@@ -139,6 +143,10 @@ P.parse_markdown = function()
     end
 
     return messages
+end
+
+P.set_buf_keymaps = function(bufnr)
+    vim.keymap.set({ "n", "v" }, "<leader>xm", ":GptSendMessage<CR>", { buffer = bufnr, desc = "Send messages for current chat" })
 end
 
 return M

@@ -26,7 +26,6 @@ function M.setup()
 
     vim.keymap.set({ "n", "v" }, "<leader>xo", ":GptOpen<CR>", { desc = "Open new chat" })
     vim.keymap.set({ "n", "v" }, "<leader>xl", ":GptOpenLastChat<CR>", { desc = "Open last chat" })
-    vim.keymap.set({ "n", "v" }, "<leader>xm", ":GptSendMessage<CR>", { desc = "Send messages for current chat" })
     vim.keymap.set({ "n", "v" }, "<leader>xs", ":GptSearch<CR>", { desc = "Grep chats" })
 end
 
